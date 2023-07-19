@@ -7,9 +7,20 @@ Bring your blog to Fediverse. [WIP]
 Hatsu is in the early stages of development, PR welcome.
 
 ```bash
+# clone project
 git clone https://github.com/importantimport/hatsu.git
+# change directory
 cd hatsu
+# run
 cargo run
+# build (debug)
+cargo build
+# build (release)
+cargo build --release
+# docker build
+docker build .
+# docker compose up
+docker-compose up -d
 ```
 
 The current goal is to refine the database and implement the basic functionality of the Fediverse server.
