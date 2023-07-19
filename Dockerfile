@@ -10,6 +10,6 @@ RUN cargo build --release
 
 FROM debian:bookworm-slim
 
-COPY --from=builder /app/target/release/hatsu /usr/bin/
+COPY --from=builder /app/target/release/hatsu /app/
 
-CMD [ "hatsu" ]
+CMD [ "./app/hatsu" ]
