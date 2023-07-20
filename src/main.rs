@@ -46,6 +46,7 @@ async fn main() -> Result<(), Error> {
         // .route("/users", post(create_user))
         .layer(FederationMiddleware::new(config));
 
+    // axum 0.6
     // run our app with hyper
     let addr = SocketAddr::from(([0, 0, 0, 0], 3939));
     tracing::debug!("listening on {}", addr);
