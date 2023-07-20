@@ -155,6 +155,28 @@ impl Object for DbUser {
         _object_id: Url,
         _data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
+        // let conn = data.pool.get().await?;
+
+        // let user = conn
+        //     .interact(|conn| {
+        //         let mut stmt = conn.prepare("SELECT * FROM users WHERE id = ?")?;
+        //         let users = stmt.query_map((), |row| {
+        //             Ok(Self {
+        //                 id: row.get(0) as ObjectId<DbUser>,
+        //                 name: row.get(1) as String,
+        //                 preferred_username: row.get(2) as Option<String>,
+        //                 inbox: row.get(3) as Url,
+        //                 outbox: row.get(4) as Url,
+        //                 local: row.get(5) as bool,
+        //                 public_key: row.get(6) as String,
+        //                 private_key: row.get(7) as Option<String>,
+        //                 last_refreshed_at: row.get(8) as NaiveDateTime
+        //             })
+        //         })?;
+
+        //         Ok(users)
+        //     }).await?;
+
         // let users = data.users.lock().unwrap();
         // let res = users
         //     .clone()
