@@ -3,8 +3,6 @@ use axum::{routing::get, Router};
 use dotenvy::dotenv;
 use std::net::SocketAddr;
 
-mod activities;
-
 mod error;
 use error::Error;
 
@@ -14,8 +12,6 @@ use database::Database;
 mod objects;
 
 mod routes;
-
-mod utils;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
