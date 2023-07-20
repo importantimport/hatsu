@@ -33,6 +33,12 @@ It will crawl the feed ([JSON Feed](https://jsonfeed.org/version/1.1) / [Atom](h
 
 I'm learning Rust through this project, so I need some Chinese comments to help me understand it. However, I usually add English comments as well, so if you haven't seen them, feel free to open a PR!
 
+### Environments
+
+| Environment    | Default   | Remarks |
+| -------------- | --------- | ------- |
+| `HATSU_DOMAIN` | undefined |         |
+
 ## License
 
 Licensed under [AGPLv3](/LICENSE).
