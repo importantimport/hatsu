@@ -1,7 +1,10 @@
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use axum::{routing::get, Router};
 use dotenvy::dotenv;
-use std::net::SocketAddr;
+use std::{
+    env,
+    net::SocketAddr
+};
 
 mod error;
 use error::Error;
@@ -27,7 +30,7 @@ async fn main() -> Result<(), Error> {
 
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
-        .domain("example.com")
+        .domain(env::var("HATSU_DOMAIN").expect("domain is required to run Hatsu."))
         .app_data(Database::new("db.sqlite3").await?)
         .build()
         .await?;
