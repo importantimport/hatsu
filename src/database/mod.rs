@@ -5,7 +5,7 @@ use crate::error::Error;
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct Database {
-    pool: Pool,
+    pub pool: Pool,
 }
 
 impl Database {
