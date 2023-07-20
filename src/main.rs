@@ -47,7 +47,7 @@ async fn main() -> Result<(), Error> {
         .layer(FederationMiddleware::new(config));
 
     // run our app with hyper
-    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 3939));
     tracing::debug!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
