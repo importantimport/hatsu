@@ -48,8 +48,7 @@ async fn main() -> Result<(), Error> {
     tracing::debug!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
-        .await
-        .unwrap();
+        .await?;
 
     // axum 0.7
     // run our app with hyper
