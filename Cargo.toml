@@ -6,10 +6,13 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [workspace]
-members = [".", "migration"]
+members = [".", "entity", "migration"]
 
 # TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
+
+[dependencies.entity]
+path = "entity"
 
 [dependencies.migration]
 path = "migration"
