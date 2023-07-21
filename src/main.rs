@@ -1,10 +1,12 @@
-use activitypub_federation::config::{FederationConfig, FederationMiddleware};
-use axum::{routing::get, Router};
-use dotenvy::dotenv;
 use std::{
     env,
     net::SocketAddr
 };
+
+use activitypub_federation::config::{FederationConfig, FederationMiddleware};
+use axum::{routing::get, Router};
+use dotenvy::dotenv;
+use sea_orm::Database;
 
 mod error;
 use error::Error;
@@ -25,10 +27,14 @@ async fn main() -> Result<(), Error> {
     tracing::info!("loading environment variables");
     dotenv()?;
 
+    let conn = Database::connect(env::var("HATSU_DATABASE_URL").expect("HATSU_DATABASE_URL must be set"))
+        .await
+        .expect("Database connection failed");
+
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
-        .domain(env::var("HATSU_DOMAIN").expect("domain is required to run Hatsu."))
-        .app_data("None".to_string())
+        .domain(env::var("HATSU_DOMAIN").expect("HATSU_DOMAIN must be set"))
+        .app_data(conn)
         .build()
         .await?;
 

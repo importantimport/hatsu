@@ -35,9 +35,10 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 
 ### Environments
 
-| Environment    | Default   | Remarks |
-| -------------- | --------- | ------- |
-| `HATSU_DOMAIN` | undefined |         |
+| Environment          | Default   | Remarks |
+| -------------------- | --------- | ------- |
+| `HATSU_DOMAIN`       | undefined |         |
+| `HATSU_DATABASE_URL` | undefined |         |
 
 ## License
 
