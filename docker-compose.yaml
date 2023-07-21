@@ -3,5 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: hatsu
     ports:
       - 3939:3939
