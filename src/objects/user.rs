@@ -10,7 +10,7 @@ use chrono::{Local, NaiveDateTime};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{database::Database, error::Error};
+use crate::error::Error;
 
 // ActivityPub 用户
 // ActivityPub Person
@@ -143,7 +143,7 @@ impl DbUser {
 
 #[async_trait::async_trait]
 impl Object for DbUser {
-    type DataType = Database;
+    type DataType = String;
     type Kind = Person;
     type Error = Error;
 
