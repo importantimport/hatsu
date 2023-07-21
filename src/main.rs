@@ -27,7 +27,7 @@ async fn main() -> Result<(), Error> {
     tracing::info!("loading environment variables");
     dotenv()?;
 
-    let conn = Database::connect(env::var("HATSU_DATABASE_URL").expect("HATSU_DATABASE_URL must be set"))
+    let conn = Database::connect(env::var("DATABASE_URL").expect("DATABASE_URL must be set"))
         .await
         .expect("Database connection failed");
 
