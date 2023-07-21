@@ -1,11 +1,9 @@
-use std::{
-    env,
-    net::SocketAddr
-};
+use std::{env, net::SocketAddr};
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use axum::{routing::get, Router};
 use dotenvy::dotenv;
+use migration::{Migrator, MigratorTrait};
 use sea_orm::Database;
 
 mod error;
@@ -30,6 +28,8 @@ async fn main() -> Result<(), Error> {
     let conn = Database::connect(env::var("DATABASE_URL").expect("DATABASE_URL must be set"))
         .await
         .expect("Database connection failed");
+
+    Migrator::up(&conn, None).await?;
 
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()

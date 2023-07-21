@@ -23,6 +23,15 @@ docker build .
 docker-compose up -d
 ```
 
+```bash
+# install sea-orm-cli
+cargo install sea-orm-cli
+# migrate
+sea-orm-cli migrate up
+# generate entity
+sea-orm-cli generate entity -o entity/src
+```
+
 The current goal is to refine the database and implement the basic functionality of the Fediverse server.
 
 The ultimate goal of this project is to provide a self-hosted and easy-to-use alternative to [Bridgy Fed](https://github.com/snarfed/bridgy-fed).

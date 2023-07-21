@@ -11,6 +11,9 @@ members = [".", "migration"]
 # TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
 
+[dependencies.migration]
+path = "migration"
+
 [dependencies]
 activitypub_federation = { version = "0.4" }
 activitystreams-kinds = "0.3"
@@ -20,7 +23,7 @@ axum = { version = "0.6", features = ["tokio", "macros"] }
 chrono = "0.4"
 dotenvy = "0.15"
 futures = "0.3"
-sea-orm = { version = "0.11", features = [ "sqlx-postgres", "sqlx-sqlite", "runtime-tokio-native-tls", "macros", "with-chrono", "with-json" ] }
+sea-orm = { version = "^0", features = [ "sqlx-postgres", "sqlx-sqlite", "runtime-tokio-native-tls", "macros", "with-chrono", "with-json" ] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tokio = { version = "1.0", features = ["full"] }
