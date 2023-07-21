@@ -9,7 +9,7 @@ pub struct Database {
 }
 
 impl Database {
-    pub async fn new(path: &str) -> Result<Self, Error> {
+    pub async fn open(path: &str) -> Result<Self, Error> {
         let config = Config::new(path);
         let pool = config.create_pool(Runtime::Tokio1)?;
 
