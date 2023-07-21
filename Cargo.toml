@@ -12,7 +12,6 @@ anyhow = "1.0"
 async-trait = "0.1"
 axum = { version = "0.6", features = ["tokio", "macros"] }
 chrono = "0.4"
-deadpool-sqlite = { version = "0.5", features = ["rt_tokio_1", "serde"] }
 dotenvy = "0.15"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
