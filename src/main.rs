@@ -29,7 +29,9 @@ async fn main() -> Result<(), Error> {
         .await
         .expect("Database connection failed");
 
-    Migrator::up(&conn, None).await?;
+    Migrator::up(&conn, None)
+        .await
+        .expect("Migration failed");
 
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
