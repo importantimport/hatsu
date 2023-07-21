@@ -6,7 +6,6 @@ use axum::{extract::Query, Json};
 use serde::Deserialize;
 use url::Url;
 
-use crate::database::Database;
 use crate::error::Error;
 
 #[derive(Deserialize)]
@@ -16,7 +15,7 @@ pub struct WebfingerQuery {
 
 pub async fn webfinger(
     Query(query): Query<WebfingerQuery>,
-    data: Data<Database>, // ) -> impl IntoResponse {
+    data: Data<String>, // ) -> impl IntoResponse {
 ) -> Result<Json<Webfinger>, Error> {
     tracing::info!("{}", &query.resource);
 
