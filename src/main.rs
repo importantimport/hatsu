@@ -9,9 +9,6 @@ use std::{
 mod error;
 use error::Error;
 
-mod database;
-use database::Database;
-
 mod objects;
 
 mod routes;
@@ -31,7 +28,7 @@ async fn main() -> Result<(), Error> {
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
         .domain(env::var("HATSU_DOMAIN").expect("domain is required to run Hatsu."))
-        .app_data(Database::open("db.sqlite3").await?)
+        .app_data("None".to_string())
         .build()
         .await?;
 
