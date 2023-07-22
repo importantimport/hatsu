@@ -1,7 +1,7 @@
 use std::{env, net::SocketAddr};
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
-use axum::{routing::get, Router};
+use axum::Router;
 use dotenvy::dotenv;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::{Database, DatabaseConnection};
@@ -51,8 +51,6 @@ async fn main() -> Result<(), Error> {
     tracing::info!("creating app");
     let app = Router::new()
         .merge(routes::init())
-        // `GET /` goes to `root`
-        .route("/", get(root))
         // `POST /users` goes to `create_user`
         // .route("/users", post(create_user))
         .layer(FederationMiddleware::new(config));
@@ -75,11 +73,6 @@ async fn main() -> Result<(), Error> {
     // axum::serve(listener, app).await.unwrap();
 
     Ok(())
-}
-
-// basic handler that responds with a static string
-async fn root() -> &'static str {
-    "Hello, World!"
 }
 
 // async fn create_user(

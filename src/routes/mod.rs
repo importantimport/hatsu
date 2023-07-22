@@ -1,15 +1,29 @@
+use std::{format, option_env};
+
 use axum::{
   body::Body,
-  Router
+  routing::get,
+  Router,
+  response::IntoResponse,
+  http::Response
 };
 
 mod user;
 mod well_known;
 
+// Hatsu & Version
+async fn root() -> impl IntoResponse {
+  let version = option_env!("CARGO_PKG_VERSION").unwrap();
+  let message = format!("Hatsu\nVersion {}", version);
+
+  Response::new(Body::from(message))
+}
+
 pub fn init() -> Router<(), Body> {
   let routes = Router::new()
     .merge(user::init())
-    .merge(well_known::init());
+    .merge(well_known::init())
+    .route("/", get(root));
 
   routes
 }
