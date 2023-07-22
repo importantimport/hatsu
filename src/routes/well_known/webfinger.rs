@@ -29,8 +29,8 @@ pub async fn webfinger(
     let _user: Option<user::Model> = User::find()
         .filter(
             Condition::all()
-                .add(user::Column::Name.eq(name))
                 .add(user::Column::Local.eq(true))
+                .add(user::Column::Name.eq(name))
         )
         .one(&data.conn)
         .await?;
