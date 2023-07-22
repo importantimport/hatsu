@@ -7,13 +7,10 @@ publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [workspace]
-members = [".", "entity", "migration"]
+members = [".", "migration"]
 
 # TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
-
-[dependencies.entity]
-path = "entity"
 
 [dependencies.migration]
 path = "migration"

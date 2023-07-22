@@ -6,6 +6,8 @@ use dotenvy::dotenv;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::Database;
 
+mod entities;
+
 mod error;
 use error::Error;
 
