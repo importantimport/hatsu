@@ -13,7 +13,7 @@ pub struct Model {
     pub outbox: String,
     pub local: bool,
     pub public_key: String,
-    pub private_key: String,
+    pub private_key: Option<String>,
     pub last_refreshed_at: String,
 }
 
