@@ -6,6 +6,8 @@ Bring your blog to Fediverse. [WIP]
 
 Hatsu is in the early stages of development, PR welcome.
 
+###### Setup
+
 ```bash
 # clone project
 git clone https://github.com/importantimport/hatsu.git
@@ -13,23 +15,35 @@ git clone https://github.com/importantimport/hatsu.git
 cd hatsu
 # copy env example
 cp .env.example .env
+# create database
+touch db.sqlite3
+```
+
+###### Cargo
+
+```bash
 # run
 cargo run
 # build (debug)
 cargo build
 # build (release)
 cargo build --release
+```
+
+###### Docker (possibly broken)
+
+```bash
 # docker build
 docker build .
 # docker compose up
 docker-compose up -d
 ```
 
+###### ORM (optional)
+
 ```bash
 # install sea-orm-cli
 cargo install sea-orm-cli
-# create database
-touch db.sqlite3
 # migrate
 sea-orm-cli migrate up
 # generate entity
