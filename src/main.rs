@@ -6,6 +6,8 @@ use dotenvy::dotenv;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
 
+mod activities;
+
 mod entities;
 use entities::{prelude::*, *};
 

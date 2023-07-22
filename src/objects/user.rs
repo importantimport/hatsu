@@ -6,7 +6,7 @@ use activitypub_federation::{
     http_signatures::generate_actor_keypair,
     kinds::actor::PersonType,
     protocol::{public_key::PublicKey, verification::verify_domains_match},
-    traits::{Actor, Object},
+    traits::{ActivityHandler, Actor, Object},
 };
 use chrono::{Local, NaiveDateTime};
 use serde::{Deserialize, Serialize};
@@ -14,6 +14,7 @@ use url::Url;
 
 use crate::{
     AppData,
+    activities::create_post::CreatePost,
     entities::user::Model as DbUser,
     error::Error,
 };
@@ -81,6 +82,13 @@ pub struct Person {
 //     name: String,
 //     value: String,
 // }
+
+#[derive(Deserialize, Serialize, Debug)]
+#[serde(untagged)]
+#[enum_delegate::implement(ActivityHandler)]
+pub enum PersonAcceptedActivities {
+    CreateNote(CreatePost)
+}
 
 // 数据库用户 Feed
 // Database User Feed

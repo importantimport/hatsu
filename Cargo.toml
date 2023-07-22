@@ -23,6 +23,7 @@ async-trait = "0.1"
 axum = { version = "0.6", features = ["tokio", "macros"] }
 chrono = "0.4"
 dotenvy = "0.15"
+enum_delegate = "0.2"
 futures = "0.3"
 sea-orm = { version = "^0", features = [ "sqlx-postgres", "sqlx-sqlite", "runtime-tokio-native-tls", "macros", "with-chrono", "with-json" ] }
 serde = { version = "1.0", features = ["derive"] }

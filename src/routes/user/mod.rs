@@ -2,7 +2,7 @@ use axum::{
   body::Body,
   routing::{
     get,
-    // post,
+    post,
   },
   Router,
 };
@@ -10,10 +10,13 @@ use axum::{
 mod user;
 pub use user::user;
 
+mod inbox;
+pub use inbox::user_inbox;
+
 pub fn init() -> Router<(), Body> {
   let router = Router::new()
-    .route("/:user", get(user));
-    // .route("/:user/inbox", post(inbox));
+    .route("/:user", get(user))
+    .route("/:user/inbox", post(user_inbox));
 
   router
 }
