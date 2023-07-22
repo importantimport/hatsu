@@ -65,6 +65,7 @@ async fn main() -> Result<(), Error> {
         .serve(app.into_make_service())
         .await?;
 
+    // ENV TODO: HATSU_LISTEN `127.0.0.1:3939`
     // axum 0.7
     // run our app with hyper
     // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
