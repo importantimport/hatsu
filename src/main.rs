@@ -7,11 +7,7 @@ use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
 
 mod entities;
-use entities::{
-    prelude::*,
-    *,
-    user::Model as DbUser
-};
+use entities::{prelude::*, *};
 
 mod error;
 use error::Error;
@@ -47,7 +43,7 @@ async fn main() -> Result<(), Error> {
 
     tracing::info!("creating test account");
     let test_account = user::ActiveModel {
-        ..DbUser::new(
+        ..user::Model::new(
             env::var("HATSU_TEST_ACCOUNT").expect("DATABASE_URL must be set").as_str()
         ).unwrap().into_active_model()
     };
