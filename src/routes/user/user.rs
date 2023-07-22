@@ -1,29 +1,33 @@
-// use activitypub_federation::{
-//   axum::{
-//       json::FederationJson,
-//   },
-//   config::Data,
-//   protocol::context::WithContext,
-// };
-// use axum::{
-//   extract::Path,
-//   // response
-// };
-// use axum_macros::debug_handler;
+use std::env;
 
-// use crate::database::Database;
-// use crate::error::Error;
+use activitypub_federation::{
+  axum::json::FederationJson,
+  config::Data,
+  protocol::context::WithContext,
+  traits::Object,
+};
+use axum::{
+  debug_handler,
+  extract::Path,
+};
+use sea_orm::*;
 
-// #[debug_handler]
-// pub async fn user(
-//     Path(name): Path<String>,
-//     data: Data<Database>,
-// ) -> Result<FederationJson<WithContext<Person>>, Error> {
-//     let db_user = data.read_user(&name)?;
-//     let json_user = db_user.into_json(&data).await?;
-//     Ok(FederationJson(WithContext::new_default(json_user)))
-// }
+use crate::{
+  AppData,
+  entities::{prelude::*, *},
+  error::Error,
+  objects::user::Person
+};
 
-pub async fn user() -> &'static str {
-  "Hello, World!"
+#[debug_handler]
+pub async fn user(
+    Path(name): Path<String>,
+    data: Data<AppData>,
+) -> Result<FederationJson<WithContext<Person>>, Error> {
+    let id = format!("https://{}/{}", env::var("HATSU_DOMAIN").unwrap(), &name);
+    let db_user: Option<user::Model> = User::find_by_id(&id)
+        .one(&data.conn)
+        .await?;
+    let json_user = db_user.unwrap().into_json(&data).await?;
+    Ok(FederationJson(WithContext::new_default(json_user)))
 }
