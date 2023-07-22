@@ -1,8 +1,14 @@
+use std::env;
+
 use activitypub_federation::{
     config::Data,
     fetch::webfinger::{build_webfinger_response, extract_webfinger_name, Webfinger},
 };
-use axum::{extract::Query, Json};
+use axum::{
+    debug_handler,
+    extract::Query,
+    Json
+};
 use sea_orm::*;
 use serde::Deserialize;
 use url::Url;
@@ -18,6 +24,7 @@ pub struct WebfingerQuery {
     resource: String,
 }
 
+#[debug_handler]
 pub async fn webfinger(
     Query(query): Query<WebfingerQuery>,
     data: Data<AppData>,
@@ -25,15 +32,23 @@ pub async fn webfinger(
     tracing::info!("{}", &query.resource);
 
     let name = extract_webfinger_name(&query.resource, &data)?;
+    let id = format!("https://{}/{}", env::var("HATSU_DOMAIN").unwrap(), &name);
 
-    let _user: Option<user::Model> = User::find()
-        .filter(
-            Condition::all()
-                .add(user::Column::Local.eq(true))
-                .add(user::Column::Name.eq(name))
-        )
+    // let user: Option<user::Model> = User::find()
+    //     .filter(
+    //         Condition::all()
+    //             .add(user::Column::Local.eq(true))
+    //             .add(user::Column::Name.eq(name))
+    //     )
+    //     .one(&data.conn)
+    //     .await?;
+
+    let user: Option<user::Model> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;
 
-    Ok(Json(build_webfinger_response(query.resource, Url::parse("https://www.google.com").unwrap())))
+    Ok(Json(build_webfinger_response(
+        query.resource,
+        Url::parse(&user.unwrap().id).unwrap()
+    )))
 }
