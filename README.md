@@ -62,10 +62,11 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 
 ### Environments
 
-| Environment    | Default   | Remarks |
-| -------------- | --------- | ------- |
-| `HATSU_DOMAIN` | undefined |         |
-| `DATABASE_URL` | undefined |         |
+| Environment          | Default   | Remarks |
+| -------------------- | --------- | ------- |
+| `DATABASE_URL`       | undefined |         |
+| `HATSU_DOMAIN`       | undefined |         |
+| `HATSU_TEST_ACCOUNT` | undefined |         |
 
 ## License
 

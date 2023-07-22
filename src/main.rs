@@ -4,9 +4,14 @@ use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use axum::Router;
 use dotenvy::dotenv;
 use migration::{Migrator, MigratorTrait};
-use sea_orm::{Database, DatabaseConnection};
+use sea_orm::*;
 
 mod entities;
+use entities::{
+    prelude::*,
+    *,
+    user::Model as DbUser
+};
 
 mod error;
 use error::Error;
@@ -39,6 +44,14 @@ async fn main() -> Result<(), Error> {
     Migrator::up(&conn, None)
         .await
         .expect("Migration failed");
+
+    tracing::info!("creating test account");
+    let test_account = user::ActiveModel {
+        ..DbUser::new(
+            env::var("HATSU_TEST_ACCOUNT").expect("DATABASE_URL must be set").as_str()
+        ).unwrap().into_active_model()
+    };
+    let _insert_account = User::insert(test_account).exec(&conn).await?;
 
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()

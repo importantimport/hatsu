@@ -1,3 +1,5 @@
+use std::env;
+
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
@@ -93,8 +95,8 @@ impl DbUser {
     // Create a new user
     // TODO: 从网站获取数据
     // TODO: Getting data from websites
-    pub fn new(hostname: &str, name: &str) -> Result<Self, Error> {
-        // let ap_id = Url::parse(&format!("https://{}/{}", hostname, &name))?.into();
+    pub fn new(name: &str) -> Result<Self, Error> {
+        let hostname = env::var("HATSU_DOMAIN").unwrap();
         let id = Url::parse(&format!("https://{}/{}", hostname, &name))?.into();
         let inbox = Url::parse(&format!("https://{}/{}/inbox", hostname, &name))?;
         let outbox = Url::parse(&format!("https://{}/{}/outbox", hostname, &name))?;
