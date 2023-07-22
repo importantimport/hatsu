@@ -10,7 +10,10 @@ use chrono::{Local, NaiveDateTime};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::error::Error;
+use crate::{
+    entities::user::Model as DbUser,
+    error::Error
+};
 
 // ActivityPub 用户
 // ActivityPub Person
@@ -28,7 +31,7 @@ pub struct Person {
     name: String,
     // 首选用户名（应为网站标题）
     // `Example Domain`
-    preferred_username: Option<String>,
+    preferred_username: String,
     // 用户描述
     // summary: Option<String>,
     // 用户头像
@@ -76,35 +79,6 @@ pub struct Person {
 //     value: String,
 // }
 
-// 数据库用户
-// Database User
-// https://github.com/LemmyNet/activitypub-federation-rust/blob/main/docs/03_federating_users.md
-#[derive(Debug, Clone)]
-pub struct DbUser {
-    // 用户 ID，应为域名 + 用户名
-    pub id: ObjectId<DbUser>,
-    // 用户名
-    pub name: String,
-    // 首选用户名（应为网站标题）
-    // `Example Domain`
-    pub preferred_username: Option<String>,
-    // 用户收件箱
-    pub inbox: Url,
-    // 用户发件箱
-    pub outbox: Url,
-    // 是否为本地用户
-    pub local: bool,
-    // 用户公钥，存在于所有用户（验证 HTTP 签名所必需）
-    // user public key, exists for all users (necessary to verify http signatures)
-    pub public_key: String,
-    // 用户私钥，仅存在于本地用户
-    // user private key, exists only for local users
-    pub private_key: Option<String>,
-    // 最后更新时间
-    last_refreshed_at: NaiveDateTime,
-    // pub followers: Vec<Url>,
-}
-
 // 数据库用户 Feed
 // Database User Feed
 // #[derive(Clone, Debug)]
@@ -129,13 +103,13 @@ impl DbUser {
         Ok(Self {
             id,
             name: name.to_string(),
-            preferred_username: Some("Hatsu".to_string()),
-            inbox,
-            outbox,
+            preferred_username: "Hatsu".to_string(),
+            inbox: inbox.to_string(),
+            outbox: outbox.to_string(),
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
-            last_refreshed_at: Local::now().naive_local(),
+            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
             // followers: vec![],
         })
     }
@@ -148,35 +122,13 @@ impl Object for DbUser {
     type Error = Error;
 
     fn last_refreshed_at(&self) -> Option<NaiveDateTime> {
-        Some(self.last_refreshed_at)
+        Some(NaiveDateTime::parse_from_str(&self.last_refreshed_at, "%Y-%m-%d %H:%M:%S").unwrap())
     }
 
     async fn read_from_id(
         _object_id: Url,
         _data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
-        // let conn = data.pool.get().await?;
-
-        // let user = conn
-        //     .interact(|conn| {
-        //         let mut stmt = conn.prepare("SELECT * FROM users WHERE id = ?")?;
-        //         let users = stmt.query_map((), |row| {
-        //             Ok(Self {
-        //                 id: row.get(0) as ObjectId<DbUser>,
-        //                 name: row.get(1) as String,
-        //                 preferred_username: row.get(2) as Option<String>,
-        //                 inbox: row.get(3) as Url,
-        //                 outbox: row.get(4) as Url,
-        //                 local: row.get(5) as bool,
-        //                 public_key: row.get(6) as String,
-        //                 private_key: row.get(7) as Option<String>,
-        //                 last_refreshed_at: row.get(8) as NaiveDateTime
-        //             })
-        //         })?;
-
-        //         Ok(users)
-        //     }).await?;
-
         // let users = data.users.lock().unwrap();
         // let res = users
         //     .clone()
@@ -193,9 +145,9 @@ impl Object for DbUser {
             name: self.name.clone(),
             preferred_username: self.preferred_username.clone(),
             kind: Default::default(),
-            id: self.id.clone(),
-            inbox: self.inbox.clone(),
-            outbox: self.outbox.clone(),
+            id: Url::parse(&self.id).unwrap().into(),
+            inbox: Url::parse(&self.inbox).unwrap(),
+            outbox: Url::parse(&self.outbox).unwrap(),
             public_key: self.public_key(),
         })
     }
@@ -214,14 +166,14 @@ impl Object for DbUser {
         _data: &Data<Self::DataType>,
     ) -> Result<Self, Self::Error> {
         Ok(Self {
-            id: json.id,
+            id: json.id.to_string(),
             name: json.name,
             preferred_username: json.preferred_username,
-            inbox: json.inbox,
-            outbox: json.outbox,
+            inbox: json.inbox.to_string(),
+            outbox: json.outbox.to_string(),
             public_key: json.public_key.public_key_pem,
             private_key: None,
-            last_refreshed_at: Local::now().naive_local(),
+            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
             // followers: vec![],
             local: false,
         })
@@ -234,7 +186,7 @@ impl Object for DbUser {
 
 impl Actor for DbUser {
     fn id(&self) -> Url {
-        self.id.inner().clone()
+        Url::parse(&self.id).unwrap()
     }
 
     fn public_key_pem(&self) -> &str {
@@ -246,6 +198,6 @@ impl Actor for DbUser {
     }
 
     fn inbox(&self) -> Url {
-        self.inbox.clone()
+        Url::parse(&self.inbox).unwrap()
     }
 }
