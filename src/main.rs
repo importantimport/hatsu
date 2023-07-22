@@ -4,7 +4,7 @@ use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use axum::{routing::get, Router};
 use dotenvy::dotenv;
 use migration::{Migrator, MigratorTrait};
-use sea_orm::Database;
+use sea_orm::{Database, DatabaseConnection};
 
 mod entities;
 
@@ -14,6 +14,11 @@ use error::Error;
 mod objects;
 
 mod routes;
+
+#[derive(Clone, Debug)]
+pub struct AppData {
+    conn: DatabaseConnection,
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -38,7 +43,7 @@ async fn main() -> Result<(), Error> {
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
         .domain(env::var("HATSU_DOMAIN").expect("HATSU_DOMAIN must be set"))
-        .app_data(conn)
+        .app_data(AppData {conn})
         .build()
         .await?;
 
