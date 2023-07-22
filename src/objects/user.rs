@@ -13,8 +13,9 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
+    AppData,
     entities::user::Model as DbUser,
-    error::Error
+    error::Error,
 };
 
 // ActivityPub 用户
@@ -119,7 +120,7 @@ impl DbUser {
 
 #[async_trait::async_trait]
 impl Object for DbUser {
-    type DataType = String;
+    type DataType = AppData;
     type Kind = Person;
     type Error = Error;
 
