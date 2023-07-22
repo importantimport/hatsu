@@ -6,9 +6,9 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Replace the sample below with your own migration scripts
-        // todo!();
 
+        // DbPost
+        // https://github.com/LemmyNet/activitypub-federation-rust/blob/61085a643f05dbb70502b3c519fd666214b7e308/examples/live_federation/objects/post.rs#L20C4-L25
         manager
             .create_table(
                 Table::create()
@@ -16,17 +16,20 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Post::Id)
-                            .integer()
+                            .string()
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Post::Title).string().not_null())
+                    // .col(ColumnDef::new(Post::Title).string().not_null())
+                    .col(ColumnDef::new(Post::Creator).string().not_null())
                     .col(ColumnDef::new(Post::Text).string().not_null())
+                    .col(ColumnDef::new(Post::Local).boolean().not_null())
                     .to_owned(),
             )
             .await?;
 
+        // DbUser
+        // https://github.com/LemmyNet/activitypub-federation-rust/blob/61085a643f05dbb70502b3c519fd666214b7e308/examples/live_federation/objects/person.rs#L16-L27C41
         manager
             .create_table(
                 Table::create()
@@ -74,8 +77,9 @@ impl MigrationTrait for Migration {
 enum Post {
     Table,
     Id,
-    Title,
+    Creator,
     Text,
+    Local,
 }
 
 #[derive(Iden)]
