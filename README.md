@@ -11,6 +11,8 @@ Hatsu is in the early stages of development, PR welcome.
 git clone https://github.com/importantimport/hatsu.git
 # change directory
 cd hatsu
+# copy env example
+cp .env.example .env
 # run
 cargo run
 # build (debug)
@@ -26,6 +28,8 @@ docker-compose up -d
 ```bash
 # install sea-orm-cli
 cargo install sea-orm-cli
+# create database
+touch db.sqlite3
 # migrate
 sea-orm-cli migrate up
 # generate entity
