@@ -32,12 +32,12 @@ pub async fn webfinger(
     let name = extract_webfinger_name(&query.resource, &data)?;
     let id = format!("https://{}/u/{}", data.domain(), &name);
 
-    let user: Option<user::Model> = User::find_by_id(&id)
+    let db_user: Option<user::Model> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;
 
     Ok(Json(build_webfinger_response(
         query.resource,
-        Url::parse(&user.unwrap().id).unwrap()
+        Url::parse(&db_user.unwrap().id).unwrap()
     )))
 }

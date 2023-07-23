@@ -27,5 +27,6 @@ pub async fn user(
         .one(&data.conn)
         .await?;
     let json_user = db_user.unwrap().into_json(&data).await?;
+
     Ok(FederationJson(WithContext::new_default(json_user)))
 }
