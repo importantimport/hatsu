@@ -28,6 +28,8 @@ cargo run
 cargo build
 # build (release)
 cargo build --release
+# install
+cargo install
 ```
 
 ###### Docker (possibly broken)
