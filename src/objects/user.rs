@@ -9,13 +9,17 @@ use activitypub_federation::{
     traits::{ActivityHandler, Actor, Object},
 };
 use chrono::{Local, NaiveDateTime};
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
     AppData,
     activities::create_post::CreatePost,
-    entities::user::Model as DbUser,
+    entities::{
+        prelude::*,
+        user::Model as DbUser
+    },
     error::Error,
 };
 
@@ -137,16 +141,14 @@ impl Object for DbUser {
     }
 
     async fn read_from_id(
-        _object_id: Url,
-        _data: &Data<Self::DataType>,
+        object_id: Url,
+        data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
-        // let users = data.users.lock().unwrap();
-        // let res = users
-        //     .clone()
-        //     .into_iter()
-        //     .find(|u| u.ap_id.inner() == &object_id);
-        // Ok(res)
-        Ok(None)
+        let db_post: Option<DbUser> = User::find_by_id(&object_id.to_string())
+            .one(&data.conn)
+            .await?;
+
+        Ok(db_post)
     }
 
     // 转换为 ActivityStreams JSON
