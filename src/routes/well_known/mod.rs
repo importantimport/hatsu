@@ -4,6 +4,9 @@ use axum::{
   Router,
 };
 
+mod host_meta;
+pub use host_meta::{host_meta, host_meta_json};
+
 mod nodeinfo;
 pub use nodeinfo::nodeinfo;
 
@@ -11,9 +14,11 @@ mod webfinger;
 pub use webfinger::webfinger;
 
 pub fn init() -> Router<(), Body> {
-  let well_known = Router::new()
-    .route("/.well-known/nodeinfo", get(nodeinfo))
-    .route("/.well-known/webfinger", get(webfinger));
+    let well_known = Router::new()
+        .route("/.well-known/host-meta", get(host_meta))
+        .route("/.well-known/host-meta.json", get(host_meta_json))
+        .route("/.well-known/nodeinfo", get(nodeinfo))
+        .route("/.well-known/webfinger", get(webfinger));
 
-  well_known
+    well_known
 }
