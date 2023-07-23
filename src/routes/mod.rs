@@ -1,5 +1,3 @@
-use std::{format, option_env};
-
 use axum::{
   body::Body,
   routing::get,
