@@ -9,14 +9,16 @@ use activitypub_federation::{
     traits::Object,
 };
 use activitystreams_kinds::link::MentionType;
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
     AppData,
     entities::{
-      post::Model as DbPost,
-      user::Model as DbUser,
+        prelude::*,
+        post::Model as DbPost,
+        user::Model as DbUser,
     },
     error::Error,
 };
@@ -49,10 +51,14 @@ impl Object for DbPost {
     type Error = Error;
 
     async fn read_from_id(
-        _object_id: Url,
-        _data: &Data<Self::DataType>
+        object_id: Url,
+        data: &Data<Self::DataType>
     ) -> Result<Option<Self>, Self::Error> {
-        todo!()
+        let db_post: Option<DbPost> = Post::find_by_id(&object_id.to_string())
+            .one(&data.conn)
+            .await?;
+
+        Ok(db_post)
     }
 
     async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
