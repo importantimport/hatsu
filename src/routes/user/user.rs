@@ -1,5 +1,3 @@
-use std::env;
-
 use activitypub_federation::{
   axum::json::FederationJson,
   config::Data,
@@ -24,7 +22,7 @@ pub async fn user(
     Path(name): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Person>>, Error> {
-    let id = format!("https://{}/{}", env::var("HATSU_DOMAIN").unwrap(), &name);
+    let id = format!("https://{}/{}", data.domain(), &name);
     let db_user: Option<user::Model> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;

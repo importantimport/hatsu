@@ -1,5 +1,3 @@
-use std::env;
-
 use activitypub_federation::{
     config::Data,
     fetch::webfinger::{build_webfinger_response, extract_webfinger_name, Webfinger},
@@ -32,16 +30,7 @@ pub async fn webfinger(
     tracing::info!("{}", &query.resource);
 
     let name = extract_webfinger_name(&query.resource, &data)?;
-    let id = format!("https://{}/{}", env::var("HATSU_DOMAIN").unwrap(), &name);
-
-    // let user: Option<user::Model> = User::find()
-    //     .filter(
-    //         Condition::all()
-    //             .add(user::Column::Local.eq(true))
-    //             .add(user::Column::Name.eq(name))
-    //     )
-    //     .one(&data.conn)
-    //     .await?;
+    let id = format!("https://{}/{}", data.domain(), &name);
 
     let user: Option<user::Model> = User::find_by_id(&id)
         .one(&data.conn)
