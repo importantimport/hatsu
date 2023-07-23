@@ -22,6 +22,7 @@ struct Link {
 
 use crate::AppData;
 
+/// TODO: detect 'Accept' header
 pub async fn host_meta(
     data: Data<AppData>,
 ) -> impl IntoResponse {
