@@ -44,11 +44,9 @@ async fn main() -> Result<(), Error> {
         .expect("Migration failed");
 
     tracing::info!("creating test account");
-    let test_account = user::ActiveModel {
-        ..user::Model::new(
-            env::var("HATSU_TEST_ACCOUNT").expect("DATABASE_URL must be set").as_str()
-        ).unwrap().into_active_model()
-    };
+    let test_account = user::Model::new(
+        env::var("HATSU_TEST_ACCOUNT").expect("DATABASE_URL must be set").as_str()
+    ).unwrap().into_active_model();
     let _insert_account = User::insert(test_account)
         .on_conflict(
             sea_query::OnConflict::column(user::Column::Id)
