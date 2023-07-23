@@ -1,4 +1,5 @@
 // https://github.com/LemmyNet/activitypub-federation-rust/blob/61085a643f05dbb70502b3c519fd666214b7e308/examples/live_federation/objects/post.rs
+// https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
 use activitypub_federation::{
     config::Data,
