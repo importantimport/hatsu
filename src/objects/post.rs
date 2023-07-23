@@ -74,7 +74,9 @@ impl Object for DbPost {
         Ok(())
     }
 
-    async fn from_json(_json: Self::Kind, _data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
+    async fn from_json(json: Self::Kind, _data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
+        tracing::info!("Received post with content {} and id {}", &json.content, &json.id);
+
         todo!()
     }
 
