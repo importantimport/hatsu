@@ -6,7 +6,7 @@ use axum::{
   http::Response
 };
 
-mod user;
+mod users;
 mod well_known;
 
 // Hatsu & Version
@@ -19,7 +19,7 @@ async fn root() -> impl IntoResponse {
 
 pub fn init() -> Router<(), Body> {
   let routes = Router::new()
-    .merge(user::init())
+    .merge(users::init())
     .merge(well_known::init())
     .route("/", get(root));
 

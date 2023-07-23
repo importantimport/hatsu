@@ -15,8 +15,10 @@ pub use inbox::user_inbox;
 
 pub fn init() -> Router<(), Body> {
   let router = Router::new()
-    .route("/:user", get(user))
-    .route("/:user/inbox", post(user_inbox));
+    .route("/u/:user", get(user))
+    .route("/users/:user", get(user))
+    .route("/u/:user/inbox", post(user_inbox))
+    .route("/users/:user/inbox", post(user_inbox));
 
   router
 }

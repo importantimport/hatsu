@@ -30,7 +30,7 @@ pub async fn webfinger(
     tracing::info!("{}", &query.resource);
 
     let name = extract_webfinger_name(&query.resource, &data)?;
-    let id = format!("https://{}/{}", data.domain(), &name);
+    let id = format!("https://{}/u/{}", data.domain(), &name);
 
     let user: Option<user::Model> = User::find_by_id(&id)
         .one(&data.conn)
