@@ -50,7 +50,7 @@ impl CreatePost {
       to: note.to.clone(),
       object: note,
       kind: CreateType::Create,
-      // I Don't Know
+      // TODO: I Don't Know
       id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
     };
     let create_with_context = WithContext::new_default(create);

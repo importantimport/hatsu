@@ -77,6 +77,7 @@ impl Object for DbPost {
             kind: Default::default(),
             id: Url::parse(&self.id)?.into(),
             attributed_to: Url::parse(&self.creator)?.into(),
+            // TODO:
             // to: vec![public(), creator.followers_url()?],
             to: vec![public()],
             content: self.text,
