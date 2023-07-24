@@ -1,4 +1,4 @@
-# 🎶 Hatsu
+# 🩵 Hatsu
 
 Bring your blog to Fediverse. [WIP]
 
