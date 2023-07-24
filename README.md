@@ -64,13 +64,13 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 
 ### Environments
 
-| Environment          | Default                  | Remarks |
+| Environment          | Default (.env.example)   | Remarks |
 | -------------------- | ------------------------ | ------- |
 | `DATABASE_URL`       | `sqlite://hatsu.sqlite3` |         |
 | `HATSU_DOMAIN`       | `hatsu.local`            |         |
 | `HATSU_TEST_ACCOUNT` | `example.com`            |         |
 
-### Useful Links
+### Useful links
 
 - https://github.com/LemmyNet/activitypub-federation-rust/tree/main/examples/
 - https://github.com/LemmyNet/lemmy/tree/main/crates/apub/
