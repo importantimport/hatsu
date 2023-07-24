@@ -70,6 +70,13 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 | `HATSU_DOMAIN`       | `hatsu.local`            |         |
 | `HATSU_TEST_ACCOUNT` | `example.com`            |         |
 
+### Useful Links
+
+- https://github.com/LemmyNet/activitypub-federation-rust/tree/main/examples/
+- https://github.com/LemmyNet/lemmy/tree/main/crates/apub/
+- https://github.com/SeaQL/sea-orm/tree/master/examples/axum_example/
+- https://blog.joinmastodon.org/2018/06/how-to-implement-a-basic-activitypub-server/
+
 ## License
 
 Licensed under [AGPLv3](/LICENSE).
