@@ -31,10 +31,18 @@ chrono = "0.4"
 dotenvy = "0.15"
 enum_delegate = "0.2"
 futures = "0.3"
-sea-orm = { version = "^0", features = [ "sqlx-postgres", "sqlx-sqlite", "runtime-tokio-native-tls", "macros", "with-chrono", "with-json" ] }
+sea-orm = { version = "^0", features = [
+  "sqlx-postgres",
+  "sqlx-sqlite",
+  "runtime-tokio-native-tls",
+  "macros",
+  "with-chrono",
+  "with-json",
+] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tokio = { version = "1.0", features = ["full"] }
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = { version = "2.4", features = ["serde"] }
+uuid = { version = "1.4", features = ["v4", "fast-rng", "macro-diagnostics"] }

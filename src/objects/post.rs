@@ -1,20 +1,24 @@
 // https://github.com/LemmyNet/activitypub-federation-rust/blob/61085a643f05dbb70502b3c519fd666214b7e308/examples/live_federation/objects/post.rs
 // https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
+use std::env;
+
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
-    kinds::object::NoteType,
+    kinds::{object::NoteType, public},
     protocol::{helpers::deserialize_one_or_many, verification::verify_domains_match},
-    traits::Object,
+    traits::{Actor, Object},
 };
 use activitystreams_kinds::link::MentionType;
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
+use uuid::Uuid;
 
 use crate::{
     AppData,
+    activities::create_post::CreatePost,
     entities::{
         prelude::*,
         post::Model as DbPost,
@@ -74,10 +78,35 @@ impl Object for DbPost {
         Ok(())
     }
 
-    async fn from_json(json: Self::Kind, _data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
+    async fn from_json(json: Self::Kind, data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
         tracing::info!("Received post with content {} and id {}", &json.content, &json.id);
 
-        todo!()
+        let creator = json.attributed_to.dereference(data).await?;
+        let post = DbPost {
+            id: json.id.to_string(),
+            creator: json.attributed_to.to_string(),
+            text: json.content,
+            local: false,
+        };
+
+        let mention = Mention {
+            href: Url::parse(&creator.id).unwrap(),
+            kind: Default::default()
+        };
+        let note = Note {
+            kind: Default::default(),
+            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
+            // TODO: multiple user
+            attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT").unwrap()))?.into(),
+            to: vec![public()],
+            content: format!("Hello {}", creator.name),
+            in_reply_to: Some(json.id.clone()),
+            tag: vec![mention]
+        };
+
+        CreatePost::send(note, creator.shared_inbox_or_inbox(), data).await?;
+
+        Ok(post)
     }
 
 }
