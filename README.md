@@ -16,7 +16,7 @@ cd hatsu
 # copy env example
 cp .env.example .env
 # create database
-touch db.sqlite3
+touch hatsu.sqlite3
 ```
 
 ###### Cargo
