@@ -64,11 +64,11 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 
 ### Environments
 
-| Environment          | Default   | Remarks |
-| -------------------- | --------- | ------- |
-| `DATABASE_URL`       | undefined |         |
-| `HATSU_DOMAIN`       | undefined |         |
-| `HATSU_TEST_ACCOUNT` | undefined |         |
+| Environment          | Default                  | Remarks |
+| -------------------- | ------------------------ | ------- |
+| `DATABASE_URL`       | `sqlite://hatsu.sqlite3` |         |
+| `HATSU_DOMAIN`       | `hatsu.local`            |         |
+| `HATSU_TEST_ACCOUNT` | `example.com`            |         |
 
 ## License
 
