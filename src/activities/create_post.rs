@@ -1,22 +1,27 @@
 // https://github.com/LemmyNet/activitypub-federation-rust/blob/61085a643f05dbb70502b3c519fd666214b7e308/examples/live_federation/activities/create_post.rs
 
+use std::env;
+
 use activitypub_federation::{
-  // activity_queue::send_activity,
+  activity_queue::send_activity,
   config::Data,
   fetch::object_id::ObjectId,
   kinds::activity::CreateType,
   protocol::{
     helpers::deserialize_one_or_many,
-    // context::WithContext
+    context::WithContext
   },
   traits::{ActivityHandler, Object},
 };
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
+use uuid::Uuid;
 
 use crate::{
   AppData,
   entities::{
+    prelude::*,
     post::Model as DbPost,
     user::Model as DbUser,
   },
@@ -37,21 +42,26 @@ pub struct CreatePost {
 }
 
 impl CreatePost {
-  pub async fn send(note: Note, _inbox: Url, _data: &Data<AppData>) -> Result<(), Error> {
+  pub async fn send(note: Note, inbox: Url, data: &Data<AppData>) -> Result<(), Error> {
     tracing::info!("Sending reply to {}", &note.attributed_to);
 
-    // let create = CreatePost {
-    //   actor: note.attributed_to.clone(),
-    //   to: note.to.clone(),
-    //   object: note,
-    //   kind: CreateType::Create,
-    //   // TODO: Domain / Pathname `https://hatsu.local/objects/example.com/hello-world`
-    //   id: Url::parse(&format!("https://{}/objects/{}", data.domain(), "object"))?
-    // };
+    let create = CreatePost {
+      actor: note.attributed_to.clone(),
+      to: note.to.clone(),
+      object: note,
+      kind: CreateType::Create,
+      // I Don't Know
+      id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
+    };
+    let create_with_context = WithContext::new_default(create);
 
-    // let create_with_context = WithContext::new_default(create);
+    // TODO: multiple user
+    let db_user: DbUser = User::find_by_id(env::var("HATSU_TEST_ACCOUNT").unwrap())
+        .one(&data.conn)
+        .await?
+        .unwrap();
 
-    // send_activity(create_with_context, &data.local_user(), vec![inbox], data).await?;
+    send_activity(create_with_context, &db_user, vec![inbox], data).await?;
 
     Ok(())
   }
