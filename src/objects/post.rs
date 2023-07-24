@@ -65,8 +65,26 @@ impl Object for DbPost {
         Ok(db_post)
     }
 
-    async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
-        todo!()
+    async fn into_json(self, data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
+        // TODO: 不确定是否可用
+        let object_id: ObjectId<DbUser> = Url::parse(&self.creator)?.into();
+        let creator = object_id.dereference_local(data).await?;
+        let mention = Mention {
+            href: Url::parse(&creator.id).unwrap(),
+            kind: Default::default()
+        };
+        let note = Note {
+            kind: Default::default(),
+            id: Url::parse(&self.id)?.into(),
+            attributed_to: Url::parse(&self.creator)?.into(),
+            // to: vec![public(), creator.followers_url()?],
+            to: vec![public()],
+            content: self.text,
+            in_reply_to: None,
+            tag: vec![mention]
+        };
+
+        Ok(note)
     }
 
     async fn verify(
