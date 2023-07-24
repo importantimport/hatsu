@@ -110,9 +110,9 @@ impl DbUser {
     // TODO: Getting data from websites
     pub fn new(name: &str) -> Result<Self, Error> {
         let hostname = env::var("HATSU_DOMAIN").unwrap();
-        let id = Url::parse(&format!("https://{}/{}", hostname, &name))?.into();
-        let inbox = Url::parse(&format!("https://{}/{}/inbox", hostname, &name))?;
-        let outbox = Url::parse(&format!("https://{}/{}/outbox", hostname, &name))?;
+        let id = Url::parse(&format!("https://{}/u/{}", hostname, &name))?.into();
+        let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &name))?;
+        let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &name))?;
         let keypair = generate_actor_keypair()?;
 
         Ok(Self {
