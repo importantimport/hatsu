@@ -1,16 +1,16 @@
 FROM rust:slim-bookworm AS builder
 
-RUN USER=root cargo new --bin app
+ARG TARGET = "release"
 
 WORKDIR /app
 
 COPY . .
 
-RUN cargo build --release
+RUN cargo build --${TARGET}
 
 FROM debian:bookworm-slim
 
-COPY --from=builder /app/target/release/hatsu /app/
+COPY --from=builder /app/target/${TARGET}/hatsu /app/
 
 EXPOSE 3939/tcp
 
