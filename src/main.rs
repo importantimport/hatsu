@@ -18,6 +18,8 @@ mod objects;
 
 mod routes;
 
+mod utilities;
+
 #[derive(Clone, Debug)]
 pub struct AppData {
     conn: DatabaseConnection,
