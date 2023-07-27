@@ -1,2 +1,8 @@
-pub mod feed;
-pub mod user;
+mod feed;
+pub use feed::*;
+
+mod url_path;
+pub use url_path::*;
+
+mod user;
+pub use user::*;
