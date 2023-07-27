@@ -9,7 +9,11 @@ use sea_orm::*;
 mod activities;
 
 mod entities;
-use entities::{prelude::*, *};
+use entities::{
+    prelude::*,
+    user,
+    user::Model as DbUser
+};
 
 mod error;
 use error::Error;
@@ -46,7 +50,7 @@ async fn main() -> Result<(), Error> {
         .expect("Migration failed");
 
     tracing::info!("creating test account");
-    let test_account = user::Model::new(
+    let test_account = DbUser::new(
         env::var("HATSU_TEST_ACCOUNT").expect("DATABASE_URL must be set").as_str()
     ).await?.into_active_model();
     let _insert_account = User::insert(test_account)

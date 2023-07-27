@@ -12,7 +12,10 @@ use serde::Deserialize;
 use url::Url;
 
 use crate::{
-    entities::{prelude::*, *},
+    entities::{
+        prelude::*,
+        user::Model as DbUser,
+    },
     error::Error,
     AppData
 };
@@ -32,7 +35,7 @@ pub async fn webfinger(
     let name = extract_webfinger_name(&query.resource, &data)?;
     let id = format!("https://{}/u/{}", data.domain(), &name);
 
-    let db_user: Option<user::Model> = User::find_by_id(&id)
+    let db_user: Option<DbUser> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;
 

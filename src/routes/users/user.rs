@@ -12,7 +12,10 @@ use sea_orm::*;
 
 use crate::{
   AppData,
-  entities::{prelude::*, *},
+  entities::{
+    prelude::*,
+    user::Model as DbUser,
+  },
   error::Error,
   objects::user::Person
 };
@@ -23,7 +26,7 @@ pub async fn user(
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Person>>, Error> {
     let id = format!("https://{}/{}", data.domain(), &name);
-    let db_user: Option<user::Model> = User::find_by_id(&id)
+    let db_user: Option<DbUser> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;
     let json_user = db_user.unwrap().into_json(&data).await?;

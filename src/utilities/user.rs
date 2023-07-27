@@ -22,7 +22,7 @@ pub async fn get_site_feed(domain: String) -> Result<Feed, Error> {
     let text = response.text().await?;
     let document = Html::parse_document(&text);
 
-    fn feed_auto_discovery(document: &Html, domain: &str, kind: &str) -> Result<Option<String>, Error> {
+    fn feed_auto_discovery(document: &Html, _domain: &str, kind: &str) -> Result<Option<String>, Error> {
         let selector = Selector::parse(&format!("link[rel=\"alternate\"][type=\"{}\"]", kind)).unwrap();
         let link = document.select(&selector)
             .next()
