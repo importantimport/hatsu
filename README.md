@@ -86,3 +86,12 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 ## License
 
 Licensed under [AGPLv3](/LICENSE).
+
+### Third Party Licenses
+
+This project partially copies code from the following projects:
+
+| Project                                                                                         | License                                                                               |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [LemmyNet/activitypub-federation-rust](https://github.com/LemmyNet/activitypub-federation-rust) | [AGPL-3.0](https://github.com/LemmyNet/activitypub-federation-rust/blob/main/LICENSE) |
+| [LemmyNet/lemmy](https://github.com/LemmyNet/lemmy)                                             | [AGPL-3.0](https://github.com/LemmyNet/lemmy/blob/main/LICENSE)                       |
