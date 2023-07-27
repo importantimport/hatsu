@@ -21,6 +21,7 @@ use crate::{
         user::Model as DbUser
     },
     error::Error,
+    utilities::get_site_feed,
 };
 
 // ActivityPub 用户
@@ -108,12 +109,16 @@ impl DbUser {
     // Create a new user
     // TODO: 从网站获取数据
     // TODO: Getting data from websites
-    pub fn new(name: &str) -> Result<Self, Error> {
+    pub async fn new(name: &str) -> Result<Self, Error> {
         let hostname = env::var("HATSU_DOMAIN").unwrap();
         let id = Url::parse(&format!("https://{}/u/{}", hostname, &name))?.into();
         let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &name))?;
         let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &name))?;
         let keypair = generate_actor_keypair()?;
+
+        let feed = get_site_feed(name.to_string()).await?;
+
+        tracing::info!("USER FEED: {}", feed.json.unwrap());
 
         Ok(Self {
             id,
