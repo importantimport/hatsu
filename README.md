@@ -1,4 +1,4 @@
-# 🩵 Hatsu「初」
+# Hatsu「初」
 
 Bring your blog to Fediverse. [WIP]
 
