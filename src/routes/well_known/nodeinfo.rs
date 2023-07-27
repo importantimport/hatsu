@@ -1,27 +1,36 @@
+use activitypub_federation::config::Data;
 use axum::{
     response::IntoResponse,
     http::StatusCode,
     Json
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize)]
-pub struct Nodeinfo {
-    links: Vec<Link>,
+use crate::AppData;
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct NodeInfoWellKnown {
+    links: Vec<NodeInfoWellKnownLink>,
 }
 
-#[derive(Serialize)]
-struct Link {
+#[derive(Debug, Deserialize, Serialize)]
+struct NodeInfoWellKnownLink {
     rel: String,
     href: String,
 }
 
-pub async fn nodeinfo() -> impl IntoResponse {
-    let nodeinfo = Nodeinfo {
+pub async fn nodeinfo(
+    data: Data<AppData>
+) -> impl IntoResponse {
+    let nodeinfo = NodeInfoWellKnown {
         links: vec![
-            Link {
+            NodeInfoWellKnownLink {
+                rel: "http://nodeinfo.diaspora.software/ns/schema/2.0".to_string(),
+                href: format!("https://{}/nodeinfo/2.0.json", data.domain()),
+            },
+            NodeInfoWellKnownLink {
                 rel: "http://nodeinfo.diaspora.software/ns/schema/2.1".to_string(),
-                href: "https://hatsu.local/nodeinfo/2.1.json".to_string(),
+                href: format!("https://{}/nodeinfo/2.1.json", data.domain()),
             }
         ]
     };
