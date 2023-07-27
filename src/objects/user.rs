@@ -118,7 +118,12 @@ impl DbUser {
 
         let feed = get_site_feed(name.to_string()).await?;
 
-        tracing::info!("USER FEED: {}", feed.json.unwrap());
+        tracing::info!(
+            "User Feed: {}, {}, {}",
+            feed.json.unwrap_or_else(|| "null".to_string()),
+            feed.atom.unwrap_or_else(|| "null".to_string()),
+            feed.rss.unwrap_or_else(|| "null".to_string()),
+        );
 
         Ok(Self {
             id,

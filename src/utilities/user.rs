@@ -12,8 +12,8 @@ use crate::{
 #[derive(Deserialize, Serialize)]
 pub struct Feed {
     pub json: Option<String>,
-    // pub atom: Option<String>,
-    // pub rss: Option<String>,
+    pub atom: Option<String>,
+    pub rss: Option<String>,
 }
 
 /// 从网站获取 Feed 链接
@@ -24,23 +24,20 @@ pub async fn get_site_feed(domain: String) -> Result<Feed, Error> {
 
     fn feed_auto_discovery(document: &Html, _domain: &str, kind: &str) -> Result<Option<String>, Error> {
         let selector = Selector::parse(&format!("link[rel=\"alternate\"][type=\"{}\"]", kind)).unwrap();
-        let link = document.select(&selector)
+        let link_href = document.select(&selector)
             .next()
-            .unwrap()
-            .value()
-            .attr("href")
-            .unwrap()
-            .to_string();
+            .and_then(|link| link.value().attr("href"))
+            .and_then(|href| Some(href.to_string()));
         // let absolute_link = absolutize_relative_url(Url::parse(&link)?, domain.to_string())?.to_string();
 
         // Ok(absolute_link)
-        Ok(Some(link))
+        Ok(link_href)
     }
 
     let feed = Feed {
         json: feed_auto_discovery(&document, &domain, "application/feed+json")?,
-        // atom: feed_auto_discovery(&document, &domain,"application/atom+xml")?,
-        // rss: feed_auto_discovery(&document, &domain, "application/rss+xml")?,
+        atom: feed_auto_discovery(&document, &domain,"application/atom+xml")?,
+        rss: feed_auto_discovery(&document, &domain, "application/rss+xml")?,
     };
 
     Ok(feed)
