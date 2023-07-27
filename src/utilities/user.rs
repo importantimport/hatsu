@@ -7,7 +7,6 @@ use crate::{
 };
 
 /// User Site Feed
-/// TODO: Option<String> => Option<Url>
 #[derive(Deserialize, Serialize)]
 pub struct Feed {
     pub json: Option<String>,
