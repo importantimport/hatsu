@@ -1,10 +1,10 @@
 use scraper::{Html, Selector};
 use serde::{Deserialize, Serialize};
-// use url::Url;
+use url::Url;
 
 use crate::{
     error::Error,
-    // utilities::absolutize_relative_url,
+    utilities::absolutize_relative_url,
 };
 
 /// User Site Feed
@@ -22,12 +22,12 @@ pub async fn get_site_feed(domain: String) -> Result<Feed, Error> {
     let text = response.text().await?;
     let document = Html::parse_document(&text);
 
-    fn feed_auto_discovery(document: &Html, _domain: &str, kind: &str) -> Result<Option<String>, Error> {
+    fn feed_auto_discovery(document: &Html, domain: &str, kind: &str) -> Result<Option<String>, Error> {
         let selector = Selector::parse(&format!("link[rel=\"alternate\"][type=\"{}\"]", kind)).unwrap();
         let link_href = document.select(&selector)
             .next()
             .and_then(|link| link.value().attr("href"))
-            .and_then(|href| Some(href.to_string()));
+            .and_then(|href| Some(absolutize_relative_url(href.to_string(), domain.to_string()).unwrap().to_string()));
         // let absolute_link = absolutize_relative_url(Url::parse(&link)?, domain.to_string())?.to_string();
 
         // Ok(absolute_link)
