@@ -9,18 +9,39 @@ use axum::{
   Json,
   Router,
 };
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 
 use crate::{
   AppData,
+  entities::{prelude::*, *},
   error::Error,
 };
 
+async fn nodeinfo_usage(
+  data: Data<AppData>,
+) -> Result<NodeInfoUsage, Error> {
+  Ok(NodeInfoUsage {
+    users: Some(NodeInfoUsers {
+      total: User::find()
+        .filter(user::Column::Local.eq(true))
+        .count(&data.conn)
+        .await?,
+      /// TODO
+      active_halfyear: None,
+      active_month: None
+    }),
+    /// TODO
+    local_posts: None,
+    local_comments: None
+  })
+}
+
 #[debug_handler]
 pub async fn nodeinfo_2_0(
-  _data: Data<AppData>,
+  data: Data<AppData>,
 ) -> Result<Json<NodeInfo>, Error> {
-  let nodeinfo = NodeInfo {
+  Ok(Json(NodeInfo {
     version: "2.1".to_string(),
     software: NodeInfoSoftware {
       name: "Hatsu".to_string(),
@@ -29,28 +50,17 @@ pub async fn nodeinfo_2_0(
       homepage: None,
     },
     protocols: vec!["activitypub".to_string()],
-    usage: NodeInfoUsage {
-      /// TODO
-      users: Some(NodeInfoUsers {
-        total: None,
-        active_halfyear: None,
-        active_month: None
-      }),
-      local_posts: None,
-      local_comments: None
-    },
+    usage: nodeinfo_usage(data).await?,
     open_registrations: false
-  };
-
-  Ok(Json(nodeinfo))
+  }))
 }
 
 
 #[debug_handler]
 pub async fn nodeinfo_2_1(
-  _data: Data<AppData>,
+  data: Data<AppData>,
 ) -> Result<Json<NodeInfo>, Error> {
-  let nodeinfo = NodeInfo {
+  Ok(Json(NodeInfo {
     version: "2.1".to_string(),
     software: NodeInfoSoftware {
       name: "Hatsu".to_string(),
@@ -59,20 +69,9 @@ pub async fn nodeinfo_2_1(
       homepage: Some("https://github.com/importantimport/hatsu".to_string()),
     },
     protocols: vec!["activitypub".to_string()],
-    usage: NodeInfoUsage {
-      /// TODO
-      users: Some(NodeInfoUsers {
-        total: None,
-        active_halfyear: None,
-        active_month: None
-      }),
-      local_posts: None,
-      local_comments: None
-    },
+    usage: nodeinfo_usage(data).await?,
     open_registrations: false
-  };
-
-  Ok(Json(nodeinfo))
+  }))
 }
 
 pub fn init() -> Router<(), Body> {
@@ -110,14 +109,18 @@ pub struct NodeInfoSoftware {
 #[serde(rename_all = "camelCase", default)]
 pub struct NodeInfoUsage {
   pub users: Option<NodeInfoUsers>,
-  pub local_posts: Option<i64>,
-  pub local_comments: Option<i64>,
+  #[serde(skip_serializing_if = "Option::is_none")]
+  pub local_posts: Option<u64>,
+  #[serde(skip_serializing_if = "Option::is_none")]
+  pub local_comments: Option<u64>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
 #[serde(rename_all = "camelCase", default)]
 pub struct NodeInfoUsers {
-  pub total: Option<i64>,
-  pub active_halfyear: Option<i64>,
-  pub active_month: Option<i64>,
+  pub total: u64,
+  #[serde(skip_serializing_if = "Option::is_none")]
+  pub active_halfyear: Option<u64>,
+  #[serde(skip_serializing_if = "Option::is_none")]
+  pub active_month: Option<u64>,
 }
