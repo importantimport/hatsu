@@ -42,7 +42,7 @@ pub async fn nodeinfo_2_0(
   data: Data<AppData>,
 ) -> Result<Json<NodeInfo>, Error> {
   Ok(Json(NodeInfo {
-    version: "2.1".to_string(),
+    version: "2.0".to_string(),
     software: NodeInfoSoftware {
       name: "Hatsu".to_string(),
       version: option_env!("CARGO_PKG_VERSION").unwrap().to_string(),
