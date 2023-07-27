@@ -37,6 +37,7 @@ async fn nodeinfo_usage(
   })
 }
 
+/// https://github.com/jhass/nodeinfo/blob/main/schemas/2.0/schema.json
 #[debug_handler]
 pub async fn nodeinfo_2_0(
   data: Data<AppData>,
@@ -61,6 +62,7 @@ pub async fn nodeinfo_2_0(
 }
 
 
+/// https://github.com/jhass/nodeinfo/blob/main/schemas/2.1/schema.json
 #[debug_handler]
 pub async fn nodeinfo_2_1(
   data: Data<AppData>,
