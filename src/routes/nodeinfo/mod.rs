@@ -50,8 +50,13 @@ pub async fn nodeinfo_2_0(
       homepage: None,
     },
     protocols: vec!["activitypub".to_string()],
+    services: NodeInfoServices {
+      inbound: vec![],
+      outbound: vec![]
+    },
+    open_registrations: false,
     usage: nodeinfo_usage(data).await?,
-    open_registrations: false
+    metadata: NodeInfoMetadata {},
   }))
 }
 
@@ -69,8 +74,13 @@ pub async fn nodeinfo_2_1(
       homepage: Some("https://github.com/importantimport/hatsu".to_string()),
     },
     protocols: vec!["activitypub".to_string()],
+    services: NodeInfoServices {
+      inbound: vec![],
+      outbound: vec![]
+    },
+    open_registrations: false,
     usage: nodeinfo_usage(data).await?,
-    open_registrations: false
+    metadata: NodeInfoMetadata {},
   }))
 }
 
@@ -88,8 +98,10 @@ pub struct NodeInfo {
   pub version: String,
   pub software: NodeInfoSoftware,
   pub protocols: Vec<String>,
-  pub usage: NodeInfoUsage,
+  pub services: NodeInfoServices,
   pub open_registrations: bool,
+  pub usage: NodeInfoUsage,
+  pub metadata: NodeInfoMetadata,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
@@ -103,6 +115,13 @@ pub struct NodeInfoSoftware {
   /// Only available for NodeInfo 2.1
   #[serde(skip_serializing_if = "Option::is_none")]
   pub homepage: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+#[serde(default)]
+pub struct NodeInfoServices {
+  pub inbound: Vec<String>,
+  pub outbound: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
@@ -124,3 +143,7 @@ pub struct NodeInfoUsers {
   #[serde(skip_serializing_if = "Option::is_none")]
   pub active_month: Option<u64>,
 }
+
+#[derive(Serialize, Deserialize, Debug, Default)]
+#[serde(rename_all = "camelCase", default)]
+pub struct NodeInfoMetadata {}
