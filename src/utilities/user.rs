@@ -38,5 +38,5 @@ pub async fn get_site_feed(url: String) -> Result<Feed, Error> {
         rss: feed_auto_discovery(&document, "application/rss+xml"),
     };
 
-  Ok(feed)
+    Ok(feed)
 }
