@@ -44,7 +44,7 @@ pub async fn nodeinfo_2_0(
   Ok(Json(NodeInfo {
     version: "2.0".to_string(),
     software: NodeInfoSoftware {
-      name: "Hatsu".to_string(),
+      name: "hatsu".to_string(),
       version: option_env!("CARGO_PKG_VERSION").unwrap().to_string(),
       repository: None,
       homepage: None,
@@ -63,7 +63,7 @@ pub async fn nodeinfo_2_1(
   Ok(Json(NodeInfo {
     version: "2.1".to_string(),
     software: NodeInfoSoftware {
-      name: "Hatsu".to_string(),
+      name: "hatsu".to_string(),
       version: option_env!("CARGO_PKG_VERSION").unwrap().to_string(),
       repository: Some("https://github.com/importantimport/hatsu".to_string()),
       homepage: Some("https://github.com/importantimport/hatsu".to_string()),
