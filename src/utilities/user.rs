@@ -1,4 +1,4 @@
-use scraper::{Html, Selector};
+use scraper::{Html, Selector, ElementRef};
 use serde::{Deserialize, Serialize};
 
 use crate::{
@@ -20,9 +20,9 @@ pub async fn get_site_feed(domain: String) -> Result<Feed, Error> {
     let response = reqwest::get(format!("https://{}", &domain)).await?;
     let text = response.text().await?;
     let document = Html::parse_document(&text);
+    let head = document.select(&Selector::parse("head").unwrap()).next().unwrap();
 
-    fn feed_auto_discovery(document: &Html, domain: &str, kind: &str) -> Result<Option<String>, Error> {
-        let head = document.select(&Selector::parse("head").unwrap()).next().unwrap();
+    fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Result<Option<String>, Error> {
         let selector = Selector::parse(&format!("link[rel=\"alternate\"][type=\"{}\"]", kind)).unwrap();
         let link_href = head.select(&selector)
             .next()
@@ -33,9 +33,9 @@ pub async fn get_site_feed(domain: String) -> Result<Feed, Error> {
     }
 
     let feed = Feed {
-        json: feed_auto_discovery(&document, &domain, "application/feed+json")?,
-        atom: feed_auto_discovery(&document, &domain,"application/atom+xml")?,
-        rss: feed_auto_discovery(&document, &domain, "application/rss+xml")?,
+        json: feed_auto_discovery(&head, &domain, "application/feed+json")?,
+        atom: feed_auto_discovery(&head, &domain,"application/atom+xml")?,
+        rss: feed_auto_discovery(&head, &domain, "application/rss+xml")?,
     };
 
     Ok(feed)
