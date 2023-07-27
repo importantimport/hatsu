@@ -70,6 +70,12 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 | `HATSU_DOMAIN`       | `hatsu.local`            |         |
 | `HATSU_TEST_ACCOUNT` | `example.com`            |         |
 
+### Fediverse compatibility
+
+Hatsu uses the same library as [Lemmy](https://github.com/LemmyNet/lemmy), [Activitypub-Federation](https://github.com/LemmyNet/activitypub-federation-rust), so it should behave similarly in practice.
+
+If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility issue, you should open new issue in Hatsu first.
+
 ### Useful links
 
 - https://github.com/LemmyNet/activitypub-federation-rust/tree/main/examples/
