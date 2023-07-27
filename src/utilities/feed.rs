@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Excerpt from JSON Feed 1.1
+/// https://www.jsonfeed.org/version/1.1/
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Feed {
     // 用户名
@@ -16,6 +17,7 @@ pub struct Feed {
 }
 
 /// Excerpt from JSON Feed 1.1
+/// https://www.jsonfeed.org/version/1.1/
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct FeedItem {
     // 文章链接
