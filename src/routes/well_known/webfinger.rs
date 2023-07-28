@@ -41,6 +41,6 @@ pub async fn webfinger(
 
     Ok(Json(build_webfinger_response(
         query.resource,
-        Url::parse(&db_user.unwrap().id).unwrap()
+        Url::parse(&db_user.unwrap().id)?
     )))
 }

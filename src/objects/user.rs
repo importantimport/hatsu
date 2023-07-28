@@ -110,7 +110,7 @@ impl DbUser {
     // TODO: 从网站获取数据
     // TODO: Getting data from websites
     pub async fn new(name: &str) -> Result<Self, Error> {
-        let hostname = env::var("HATSU_DOMAIN").unwrap();
+        let hostname = env::var("HATSU_DOMAIN")?;
         let id = Url::parse(&format!("https://{}/u/{}", hostname, &name))?;
         let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &name))?;
         let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &name))?;
@@ -169,8 +169,8 @@ impl Object for DbUser {
             preferred_username: self.preferred_username.clone(),
             kind: Default::default(),
             id: Url::parse(&self.id).unwrap().into(),
-            inbox: Url::parse(&self.inbox).unwrap(),
-            outbox: Url::parse(&self.outbox).unwrap(),
+            inbox: Url::parse(&self.inbox)?,
+            outbox: Url::parse(&self.outbox)?,
             public_key: self.public_key(),
         })
     }

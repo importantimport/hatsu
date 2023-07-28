@@ -70,7 +70,7 @@ impl Object for DbPost {
         let object_id: ObjectId<DbUser> = Url::parse(&self.creator)?.into();
         let creator = object_id.dereference_local(data).await?;
         let mention = Mention {
-            href: Url::parse(&creator.id).unwrap(),
+            href: Url::parse(&creator.id)?,
             kind: Default::default()
         };
         let note = Note {
@@ -109,14 +109,14 @@ impl Object for DbPost {
         };
 
         let mention = Mention {
-            href: Url::parse(&creator.id).unwrap(),
+            href: Url::parse(&creator.id)?,
             kind: Default::default()
         };
         let note = Note {
             kind: Default::default(),
             id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
             // TODO: multiple user
-            attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT").unwrap()))?.into(),
+            attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))?.into(),
             to: vec![public()],
             content: format!("Hello {}", creator.name),
             in_reply_to: Some(json.id.clone()),
