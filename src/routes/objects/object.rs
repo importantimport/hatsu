@@ -37,6 +37,7 @@ pub async fn object(
 
     match db_post {
       Some(db_post) => Ok(Json(db_post.into_json(&data).await?)),
+      // TODO: StatusCode::NOT_FOUND
       None => Err(Error(anyhow!("Post Not Found")))
     }
 }
