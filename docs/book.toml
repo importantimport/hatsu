@@ -7,3 +7,9 @@ src = "src"
 
 [rust]
 edition = "2021"
+
+# https://github.com/catppuccin/mdBook#manual
+[output.html]
+default-theme = "latte"
+preferred-dark-theme = "frappe"
+additional-css = ["./theme/catppuccin.css", "./theme/catppuccin-highlight.css"]

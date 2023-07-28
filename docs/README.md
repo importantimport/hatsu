@@ -2,7 +2,7 @@
 
 ## Developing
 
-<!-- cargo install mdbook mdbook-catppuccin mdbook-linkcheck mdbook-toc -->
+<!-- cargo install mdbook mdbook-linkcheck mdbook-toc -->
 
 ```bash
 cd docs
