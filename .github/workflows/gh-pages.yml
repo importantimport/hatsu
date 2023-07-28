@@ -27,8 +27,6 @@ jobs:
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: 'latest'
-          
-      - run: cargo install mdbook-catppuccin mdbook-linkcheck mdbook-toc
 
       - run: mdbook build
 
