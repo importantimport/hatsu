@@ -5,9 +5,9 @@ use axum::{
 use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
-pub struct Error(pub(crate) anyhow::Error);
+pub struct AppError(pub(crate) anyhow::Error);
 
-impl IntoResponse for Error {
+impl IntoResponse for AppError {
     fn into_response(self) -> Response {
         (
             StatusCode::INTERNAL_SERVER_ERROR,
@@ -17,17 +17,17 @@ impl IntoResponse for Error {
     }
 }
 
-impl Display for Error {
+impl Display for AppError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         std::fmt::Display::fmt(&self.0, f)
     }
 }
 
-impl<T> From<T> for Error
+impl<T> From<T> for AppError
 where
     T: Into<anyhow::Error>,
 {
     fn from(t: T) -> Self {
-        Error(t.into())
+        AppError(t.into())
     }
 }

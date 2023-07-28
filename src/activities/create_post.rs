@@ -25,7 +25,7 @@ use crate::{
     post::Model as DbPost,
     user::Model as DbUser,
   },
-  error::Error,
+  error::AppError,
   objects::post::Note,
 };
 
@@ -42,7 +42,7 @@ pub struct CreatePost {
 }
 
 impl CreatePost {
-  pub async fn send(note: Note, inbox: Url, data: &Data<AppData>) -> Result<(), Error> {
+  pub async fn send(note: Note, inbox: Url, data: &Data<AppData>) -> Result<(), AppError> {
     tracing::info!("Sending reply to {}", &note.attributed_to);
 
     let create = CreatePost {
@@ -70,7 +70,7 @@ impl CreatePost {
 #[async_trait::async_trait]
 impl ActivityHandler for CreatePost {
   type DataType = AppData;
-  type Error = Error;
+  type Error = AppError;
 
   fn id(&self) -> &Url {
     &self.id

@@ -20,7 +20,7 @@ use crate::{
         prelude::*,
         user::Model as DbUser
     },
-    error::Error,
+    error::AppError,
     utilities::get_site_feed,
 };
 
@@ -109,7 +109,7 @@ impl DbUser {
     // Create a new user
     // TODO: 从网站获取数据
     // TODO: Getting data from websites
-    pub async fn new(name: &str) -> Result<Self, Error> {
+    pub async fn new(name: &str) -> Result<Self, AppError> {
         let hostname = env::var("HATSU_DOMAIN")?;
         let id = Url::parse(&format!("https://{}/u/{}", hostname, &name))?;
         let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &name))?;
@@ -144,7 +144,7 @@ impl DbUser {
 impl Object for DbUser {
     type DataType = AppData;
     type Kind = Person;
-    type Error = Error;
+    type Error = AppError;
 
     fn last_refreshed_at(&self) -> Option<NaiveDateTime> {
         Some(NaiveDateTime::parse_from_str(&self.last_refreshed_at, "%Y-%m-%d %H:%M:%S").unwrap())

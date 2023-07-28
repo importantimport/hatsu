@@ -16,7 +16,7 @@ use crate::{
         prelude::*,
         user::Model as DbUser,
     },
-    error::Error,
+    error::AppError,
     AppData
 };
 
@@ -29,7 +29,7 @@ pub struct WebfingerQuery {
 pub async fn webfinger(
     Query(query): Query<WebfingerQuery>,
     data: Data<AppData>,
-) -> Result<Json<Webfinger>, Error> {
+) -> Result<Json<Webfinger>, AppError> {
     tracing::info!("{}", &query.resource);
 
     let name = extract_webfinger_name(&query.resource, &data)?;

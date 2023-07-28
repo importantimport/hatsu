@@ -24,7 +24,7 @@ use crate::{
         post::Model as DbPost,
         user::Model as DbUser,
     },
-    error::Error,
+    error::AppError,
 };
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -52,7 +52,7 @@ pub struct Mention {
 impl Object for DbPost {
     type DataType = AppData;
     type Kind = Note;
-    type Error = Error;
+    type Error = AppError;
 
     async fn read_from_id(
         object_id: Url,

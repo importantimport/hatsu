@@ -16,7 +16,7 @@ use entities::{
 };
 
 mod error;
-use error::Error;
+use error::AppError;
 
 mod objects;
 
@@ -30,7 +30,7 @@ pub struct AppData {
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Error> {
+async fn main() -> Result<(), AppError> {
     // initialize tracing
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::DEBUG)
@@ -89,10 +89,9 @@ async fn main() -> Result<(), Error> {
     // axum 0.7
     // run our app with hyper
     // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
-    //     .await
-    //     .unwrap();
-    // tracing::debug!("listening on {}", listener.local_addr().unwrap());
-    // axum::serve(listener, app).await.unwrap();
+    //     .await?;
+    // tracing::debug!("listening on {}", listener.local_addr()?);
+    // axum::serve(listener, app).await?;
 
     Ok(())
 }

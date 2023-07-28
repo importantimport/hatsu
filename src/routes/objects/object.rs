@@ -16,7 +16,7 @@ use crate::{
     prelude::*,
     post::Model as DbPost
   },
-  error::Error,
+  error::AppError,
   objects::post::Note,
   utilities::remove_https
 };
@@ -25,7 +25,7 @@ use crate::{
 pub async fn object(
   Path(mut object): Path<String>,
   data: Data<AppData>,
-) -> Result<Json<Note>, Error> {
+) -> Result<Json<Note>, AppError> {
     object = remove_https(object);
 
     tracing::info!("Reading object {}", object);
@@ -38,6 +38,6 @@ pub async fn object(
     match db_post {
       Some(db_post) => Ok(Json(db_post.into_json(&data).await?)),
       // TODO: StatusCode::NOT_FOUND
-      None => Err(Error(anyhow!("Post Not Found")))
+      None => Err(AppError(anyhow!("Post Not Found")))
     }
 }

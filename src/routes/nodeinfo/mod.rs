@@ -15,12 +15,12 @@ use serde::{Deserialize, Serialize};
 use crate::{
   AppData,
   entities::{prelude::*, *},
-  error::Error,
+  error::AppError,
 };
 
 async fn nodeinfo_usage(
   data: Data<AppData>,
-) -> Result<NodeInfoUsage, Error> {
+) -> Result<NodeInfoUsage, AppError> {
   Ok(NodeInfoUsage {
     users: Some(NodeInfoUsers {
       total: User::find()
@@ -41,7 +41,7 @@ async fn nodeinfo_usage(
 #[debug_handler]
 pub async fn nodeinfo_2_0(
   data: Data<AppData>,
-) -> Result<Json<NodeInfo>, Error> {
+) -> Result<Json<NodeInfo>, AppError> {
   Ok(Json(NodeInfo {
     version: "2.0".to_string(),
     software: NodeInfoSoftware {
@@ -66,7 +66,7 @@ pub async fn nodeinfo_2_0(
 #[debug_handler]
 pub async fn nodeinfo_2_1(
   data: Data<AppData>,
-) -> Result<Json<NodeInfo>, Error> {
+) -> Result<Json<NodeInfo>, AppError> {
   Ok(Json(NodeInfo {
     version: "2.1".to_string(),
     software: NodeInfoSoftware {

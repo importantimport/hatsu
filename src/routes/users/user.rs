@@ -17,7 +17,7 @@ use crate::{
     prelude::*,
     user::Model as DbUser,
   },
-  error::Error,
+  error::AppError,
   objects::user::Person
 };
 
@@ -25,7 +25,7 @@ use crate::{
 pub async fn user(
     Path(name): Path<String>,
     data: Data<AppData>,
-) -> Result<FederationJson<WithContext<Person>>, Error> {
+) -> Result<FederationJson<WithContext<Person>>, AppError> {
     let id = format!("https://{}/{}", data.domain(), &name);
     let db_user: Option<DbUser> = User::find_by_id(&id)
         .one(&data.conn)
@@ -34,6 +34,6 @@ pub async fn user(
     match db_user {
       Some(db_user) => Ok(FederationJson(WithContext::new_default(db_user.into_json(&data).await?))),
       // TODO: StatusCode::NOT_FOUND
-      None => Err(Error(anyhow!("User Not Found")))
+      None => Err(AppError(anyhow!("User Not Found")))
     }
 }

@@ -2,7 +2,7 @@ use scraper::{Html, Selector, ElementRef};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    error::Error,
+    error::AppError,
     utilities::absolutize_relative_url,
 };
 
@@ -15,13 +15,13 @@ pub struct Feed {
 }
 
 /// 从网站获取 Feed 链接
-pub async fn get_site_feed(domain: String) -> Result<Feed, Error> {
+pub async fn get_site_feed(domain: String) -> Result<Feed, AppError> {
     let response = reqwest::get(format!("https://{}", &domain)).await?;
     let text = response.text().await?;
     let document = Html::parse_document(&text);
     let head = document.select(&Selector::parse("head").unwrap()).next().unwrap();
 
-    fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Result<Option<String>, Error> {
+    fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Result<Option<String>, AppError> {
         let selector = Selector::parse(&format!("link[rel=\"alternate\"][type=\"{}\"]", kind)).unwrap();
         let link_href = head.select(&selector)
             .next()
