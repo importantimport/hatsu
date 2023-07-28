@@ -4,13 +4,16 @@ use axum::{
 };
 use std::fmt::{Display, Formatter};
 
-/// Necessary because of this issue: https://github.com/actix/actix-web/issues/1711
 #[derive(Debug)]
 pub struct Error(pub(crate) anyhow::Error);
 
 impl IntoResponse for Error {
     fn into_response(self) -> Response {
-        (StatusCode::INTERNAL_SERVER_ERROR, format!("{}", self.0)).into_response()
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            format!("{}", self.0)
+        )
+            .into_response()
     }
 }
 
