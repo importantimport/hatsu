@@ -2,6 +2,7 @@ use activitypub_federation::{
     config::Data,
     traits::Object
 };
+use anyhow::anyhow;
 use axum::{
     Json,
     debug_handler,
@@ -30,11 +31,12 @@ pub async fn object(
     tracing::info!("Reading object {}", object);
 
     let object_id = format!("https://{}/o/{}", data.domain(), object);
-    let db_post: DbPost = Post::find_by_id(object_id)
+    let db_post: Option<DbPost> = Post::find_by_id(object_id)
         .one(&data.conn)
-        .await?
-        .unwrap();
-    let json_post: Note = db_post.into_json(&data).await?;
+        .await?;
 
-    Ok(Json(json_post))
+    match db_post {
+      Some(db_post) => Ok(Json(db_post.into_json(&data).await?)),
+      None => Err(Error(anyhow!("Post Not Found")))
+    }
 }
