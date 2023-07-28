@@ -8,8 +8,10 @@ src = "src"
 [rust]
 edition = "2021"
 
-# https://github.com/catppuccin/mdBook#manual
 [output.html]
+git-repository-url = "https://github.com/importantimport/hatsu"
+edit-url-template = "https://github.com/importantimport/hatsu/edit/main/docs/{path}"
+# https://github.com/catppuccin/mdBook#manual
+additional-css = ["./theme/catppuccin.css", "./theme/catppuccin-highlight.css"]
 default-theme = "latte"
 preferred-dark-theme = "frappe"
-additional-css = ["./theme/catppuccin.css", "./theme/catppuccin-highlight.css"]
