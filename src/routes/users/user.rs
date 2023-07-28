@@ -4,6 +4,7 @@ use activitypub_federation::{
   protocol::context::WithContext,
   traits::Object,
 };
+use anyhow::anyhow;
 use axum::{
   debug_handler,
   extract::Path,
@@ -29,7 +30,10 @@ pub async fn user(
     let db_user: Option<DbUser> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;
-    let json_user = db_user.unwrap().into_json(&data).await?;
 
-    Ok(FederationJson(WithContext::new_default(json_user)))
+    match db_user {
+      Some(db_user) => Ok(FederationJson(WithContext::new_default(db_user.into_json(&data).await?))),
+      // TODO: StatusCode::NOT_FOUND
+      None => Err(Error(anyhow!("User Not Found")))
+    }
 }
