@@ -111,7 +111,7 @@ impl DbUser {
     // TODO: Getting data from websites
     pub async fn new(name: &str) -> Result<Self, Error> {
         let hostname = env::var("HATSU_DOMAIN").unwrap();
-        let id = Url::parse(&format!("https://{}/u/{}", hostname, &name))?.into();
+        let id = Url::parse(&format!("https://{}/u/{}", hostname, &name))?;
         let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &name))?;
         let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &name))?;
         let keypair = generate_actor_keypair()?;
@@ -126,7 +126,7 @@ impl DbUser {
         );
 
         Ok(Self {
-            id,
+            id: id.to_string(),
             name: name.to_string(),
             preferred_username: "Hatsu".to_string(),
             inbox: inbox.to_string(),
