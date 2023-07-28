@@ -16,14 +16,17 @@ use crate::{
     post::Model as DbPost
   },
   error::Error,
-  objects::post::Note
+  objects::post::Note,
+  utilities::remove_https
 };
 
 #[debug_handler]
 pub async fn object(
-  Path(object): Path<String>,
+  Path(mut object): Path<String>,
   data: Data<AppData>,
 ) -> Result<Json<Note>, Error> {
+    object = remove_https(object);
+
     tracing::info!("Reading object {}", object);
 
     let object_id = format!("https://{}/o/{}", data.domain(), object);
