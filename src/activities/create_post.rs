@@ -56,7 +56,7 @@ impl CreatePost {
     let create_with_context = WithContext::new_default(create);
 
     // TODO: multiple user
-    let db_user: DbUser = User::find_by_id(env::var("HATSU_TEST_ACCOUNT")?)
+    let db_user: DbUser = User::find_by_id(format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))
         .one(&data.conn)
         .await?
         .unwrap();
