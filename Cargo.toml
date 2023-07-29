@@ -15,11 +15,17 @@ strip = "symbols"
 [workspace]
 members = [".", "migration"]
 
+[workspace.dependencies]
+tokio = { version = "1.0", features = ["full"] }
+
 # TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
 
 [dependencies.migration]
 path = "migration"
+
+[dependencies.tokio]
+workspace = true
 
 [dependencies]
 activitypub_federation = { version = "0.4", default-features = false, features = ["axum"] }
@@ -43,7 +49,6 @@ sea-orm = { version = "^0", features = [
 ] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-tokio = { version = "1.0", features = ["full"] }
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = { version = "2.4", features = ["serde"] }

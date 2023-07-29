@@ -8,9 +8,8 @@ publish = false
 name = "migration"
 path = "src/lib.rs"
 
-[dependencies]
-# async-std = { version = "1", features = ["attributes", "tokio1"] }
-tokio = { version = "1.0", features = ["full"] }
+[dependencies.tokio]
+workspace = true
 
 # TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
