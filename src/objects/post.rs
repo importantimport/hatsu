@@ -35,7 +35,7 @@ use crate::{
 pub struct Note {
     #[serde(rename = "type")]
     kind: NoteType,
-    id: ObjectId<DbPost>,
+    pub(crate) id: ObjectId<DbPost>,
     pub(crate) attributed_to: ObjectId<DbUser>,
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub(crate) to: Vec<Url>,
@@ -125,6 +125,19 @@ impl Object for DbPost {
             in_reply_to: Some(json.id.clone()),
             tag: vec![mention]
         };
+
+        // DEBUG TEST: 保存到数据库 / Save Note to Database
+        let db_post = DbPost {
+            id: note.id.to_string(),
+            creator: note.attributed_to.to_string(),
+            text: note.content.clone(),
+            local: true,
+        }.into_active_model();
+
+        // DEBUG TEST: 保存到数据库 / Save Note to Database
+        let _insert_db_post = Post::insert(db_post)
+            .exec(&data.conn)
+            .await?;
 
         CreatePost::send(note, creator.shared_inbox_or_inbox(), data).await?;
 

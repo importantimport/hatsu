@@ -16,7 +16,6 @@ use activitypub_federation::{
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
-use uuid::Uuid;
 
 use crate::{
   AppData,
@@ -46,12 +45,13 @@ impl CreatePost {
     tracing::info!("Sending reply to {}", &note.attributed_to);
 
     let create = CreatePost {
+      // TODO: I Don't Know
+      // id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?,
+      id: note.id.clone().into(),
       actor: note.attributed_to.clone(),
       to: note.to.clone(),
       object: note,
       kind: CreateType::Create,
-      // TODO: I Don't Know
-      id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?,
     };
     let create_with_context = WithContext::new_default(create);
 
