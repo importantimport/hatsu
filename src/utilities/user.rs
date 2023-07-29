@@ -26,7 +26,7 @@ pub async fn get_site_feed(domain: String) -> Result<Feed, AppError> {
         let link_href = head.select(&selector)
             .next()
             .and_then(|link| link.value().attr("href"))
-            .and_then(|href| Some(absolutize_relative_url(href.to_string(), domain.to_string()).unwrap().to_string()));
+            .map(|href| absolutize_relative_url(href.to_string(), domain.to_string()).unwrap().to_string());
 
         Ok(link_href)
     }

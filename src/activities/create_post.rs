@@ -51,7 +51,7 @@ impl CreatePost {
       object: note,
       kind: CreateType::Create,
       // TODO: I Don't Know
-      id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
+      id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?,
     };
     let create_with_context = WithContext::new_default(create);
 

@@ -87,13 +87,11 @@ pub async fn nodeinfo_2_1(
 }
 
 pub fn init() -> Router<(), Body> {
-    let router = Router::new()
+    Router::new()
         .route("/nodeinfo/2.0", get(nodeinfo_2_0))
         .route("/nodeinfo/2.0.json", get(nodeinfo_2_0))
         .route("/nodeinfo/2.1", get(nodeinfo_2_1))
-        .route("/nodeinfo/2.1.json", get(nodeinfo_2_1));
-
-    router
+        .route("/nodeinfo/2.1.json", get(nodeinfo_2_1))
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]

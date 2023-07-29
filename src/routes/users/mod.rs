@@ -1,10 +1,7 @@
 use axum::{
-  body::Body,
-  routing::{
-    get,
-    post,
-  },
-  Router,
+    body::Body,
+    routing::{get, post},
+    Router,
 };
 
 mod user;
@@ -14,11 +11,9 @@ mod inbox;
 pub use inbox::user_inbox;
 
 pub fn init() -> Router<(), Body> {
-  let router = Router::new()
-    .route("/u/:user", get(user))
-    .route("/users/:user", get(user))
-    .route("/u/:user/inbox", post(user_inbox))
-    .route("/users/:user/inbox", post(user_inbox));
-
-  router
+    Router::new()
+        .route("/u/:user", get(user))
+        .route("/users/:user", get(user))
+        .route("/u/:user/inbox", post(user_inbox))
+        .route("/users/:user/inbox", post(user_inbox))
 }

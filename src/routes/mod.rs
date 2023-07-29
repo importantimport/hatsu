@@ -20,12 +20,10 @@ async fn root() -> impl IntoResponse {
 }
 
 pub fn init() -> Router<(), Body> {
-    let routes = Router::new()
+    Router::new()
         .merge(nodeinfo::init())
         .merge(objects::init())
         .merge(users::init())
         .merge(well_known::init())
-        .route("/", get(root));
-
-    routes
+        .route("/", get(root))
 }
