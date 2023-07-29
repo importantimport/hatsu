@@ -1,0 +1,2 @@
+# https://doc.rust-lang.org/clippy/lint_configuration.html#msrv
+msrv = "1.70.0"
