@@ -13,7 +13,7 @@ mod well_known;
 
 // Hatsu & Version
 async fn root() -> impl IntoResponse {
-    let version = option_env!("CARGO_PKG_VERSION").unwrap();
+    let version = env!("CARGO_PKG_VERSION");
     let message = format!("Hatsu\nVersion {}", version);
 
     Response::new(Body::from(message))

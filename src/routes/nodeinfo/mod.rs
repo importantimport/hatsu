@@ -46,7 +46,7 @@ pub async fn nodeinfo_2_0(
     version: "2.0".to_string(),
     software: NodeInfoSoftware {
       name: "hatsu".to_string(),
-      version: option_env!("CARGO_PKG_VERSION").unwrap().to_string(),
+      version: env!("CARGO_PKG_VERSION").to_string(),
       repository: None,
       homepage: None,
     },
@@ -71,7 +71,7 @@ pub async fn nodeinfo_2_1(
     version: "2.1".to_string(),
     software: NodeInfoSoftware {
       name: "hatsu".to_string(),
-      version: option_env!("CARGO_PKG_VERSION").unwrap().to_string(),
+      version: env!("CARGO_PKG_VERSION").to_string(),
       repository: Some("https://github.com/importantimport/hatsu".to_string()),
       homepage: Some("https://github.com/importantimport/hatsu".to_string()),
     },
