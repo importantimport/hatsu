@@ -6,11 +6,14 @@ use std::env;
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
-    kinds::{object::NoteType, public},
+    kinds::{
+        link::MentionType,
+        object::NoteType,
+        public
+    },
     protocol::{helpers::deserialize_one_or_many, verification::verify_domains_match},
     traits::{Actor, Object},
 };
-use activitystreams_kinds::link::MentionType;
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
