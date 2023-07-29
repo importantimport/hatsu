@@ -1,4 +1,4 @@
-use std::{env, net::SocketAddr};
+use std::{env, net::ToSocketAddrs};
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use axum::Router;
@@ -41,7 +41,13 @@ async fn main() -> Result<(), AppError> {
     tracing::info!("loading environment variables");
     dotenv()?;
 
-    let conn = Database::connect(env::var("DATABASE_URL").expect("DATABASE_URL must be set"))
+    // environments
+    let database_url: String = env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite://hatsu.sqlite3".to_string());
+    let hatsu_domain: String = env::var("HATSU_DOMAIN").expect("HATSU_DOMAIN must be set");
+    let hatsu_listen: String = env::var("HATSU_LISTEN").unwrap_or_else(|_| "localhost:3939".to_string());
+    let hatsu_test_account: String = env::var("HATSU_TEST_ACCOUNT").expect("HATSU_TEST_ACCOUNT must be set");
+
+    let conn = Database::connect(database_url)
         .await
         .expect("Database connection failed");
 
@@ -50,9 +56,7 @@ async fn main() -> Result<(), AppError> {
         .expect("Migration failed");
 
     tracing::info!("creating test account");
-    let test_account = DbUser::new(
-        env::var("HATSU_TEST_ACCOUNT").expect("DATABASE_URL must be set").as_str()
-    ).await?.into_active_model();
+    let test_account = DbUser::new(hatsu_test_account.as_str()).await?.into_active_model();
     let _insert_account = User::insert(test_account)
         .on_conflict(
             sea_query::OnConflict::column(user::Column::Id)
@@ -64,7 +68,7 @@ async fn main() -> Result<(), AppError> {
 
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
-        .domain(env::var("HATSU_DOMAIN").expect("HATSU_DOMAIN must be set"))
+        .domain(hatsu_domain)
         .app_data(AppData {conn})
         .build()
         .await?;
@@ -79,13 +83,15 @@ async fn main() -> Result<(), AppError> {
 
     // axum 0.6
     // run our app with hyper
-    let addr = SocketAddr::from(([0, 0, 0, 0], 3939));
+    let addr = hatsu_listen
+        .to_socket_addrs()?
+        .next()
+        .expect("Failed to lookup domain name");
     tracing::debug!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await?;
 
-    // ENV TODO: HATSU_LISTEN `127.0.0.1:3939`
     // axum 0.7
     // run our app with hyper
     // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")

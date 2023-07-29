@@ -68,6 +68,7 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 | -------------------- | ------------------------ | ------- |
 | `DATABASE_URL`       | `sqlite://hatsu.sqlite3` |         |
 | `HATSU_DOMAIN`       | `hatsu.local`            |         |
+| `HATSU_LISTEN`       | `localhost:3939`         |
 | `HATSU_TEST_ACCOUNT` | `example.com`            |         |
 
 ### Fediverse compatibility
