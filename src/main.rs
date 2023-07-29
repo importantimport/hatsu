@@ -66,9 +66,16 @@ async fn main() -> Result<(), AppError> {
         .exec(&conn)
         .await?;
 
+    // get test account as signed fetch actor
+    let test_account_actor: DbUser = User::find_by_id(format!("https://{}/u/{}", hatsu_domain, hatsu_test_account))
+        .one(&conn)
+        .await?
+        .unwrap();
+
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
         .domain(hatsu_domain)
+        .signed_fetch_actor(&test_account_actor)
         .app_data(AppData {conn})
         .build()
         .await?;
@@ -95,6 +102,7 @@ async fn main() -> Result<(), AppError> {
     // axum 0.7
     // run our app with hyper
     // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+    // let listener = tokio::net::TcpListener::bind(hatsu_listen)
     //     .await?;
     // tracing::debug!("listening on {}", listener.local_addr()?);
     // axum::serve(listener, app).await?;
