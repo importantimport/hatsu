@@ -22,7 +22,7 @@ members = [".", "migration"]
 path = "migration"
 
 [dependencies]
-activitypub_federation = { version = "0.4" }
+activitypub_federation = { version = "0.4", default-features = false, features = ["axum"] }
 activitystreams-kinds = "0.3"
 anyhow = "1.0"
 async-trait = "0.1"
