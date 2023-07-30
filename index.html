@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Chapter 1 - Hatsu Documentation</title>
+        <title>Intro - Hatsu Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html" class="active"><strong aria-hidden="true">1.</strong> Chapter 1</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html" class="active"><strong aria-hidden="true">1.</strong> Intro</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -120,7 +120,7 @@
                         <a href="https://github.com/importantimport/hatsu" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/importantimport/hatsu/edit/main/docs/src/chapter_1.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/importantimport/hatsu/edit/main/docs/src/intro.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -149,7 +149,31 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>Hatsu is a self-hosted application that brings your static site to the Fediverse.</p>
+<p>It makes everything as automated as possible:
+All you have to do is enter a website URL with a valid feed and set up a redirect, and Hatsu does the rest.</p>
+<p>It automatically checks for feed updates to create/update posts
+and forwards the received responses back to the site in a Webmention.</p>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<ul>
+<li>Written in Rust.
+<ul>
+<li>It's fast and suitable for running on a low-provisioned VPS.</li>
+</ul>
+</li>
+<li>Supports both SQLite and Postgres.
+<ul>
+<li>If you don't want to use Postgres, SQLite would be an easy solution.</li>
+</ul>
+<!-- - Also works well with [Litestream](https://litestream.io/) or [LiteFS](https://fly.io/docs/litefs/)! -->
+</li>
+</ul>
+<!-- ## Comparison
+
+### Bridgy Fed
+
+### Bridgy -->
 
                     </main>
 
