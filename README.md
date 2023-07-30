@@ -1,6 +1,6 @@
 # Hatsu「初」
 
-Bring your blog to Fediverse. [WIP]
+Bring your static site to Fediverse. [WIP]
 
 ## Development
 
