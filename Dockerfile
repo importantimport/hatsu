@@ -10,10 +10,24 @@ RUN cargo chef prepare --recipe-path recipe.json
 FROM chef AS builder
 ARG PROFILE
 COPY --from=planner /app/recipe.json recipe.json
-RUN cargo chef cook --profile ${PROFILE} --recipe-path recipe.json
+# debug cook
+RUN if [ "$PROFILE" = "debug" ]; then \
+  cargo chef cook --recipe-path recipe.json \
+  ; fi
+# release cook
+RUN if [ "$PROFILE" = "release" ]; then \
+  cargo chef cook --release --recipe-path recipe.json \
+  ; fi
 COPY . .
 RUN apt update && apt install -y openssl libssl-dev pkg-config
-RUN cargo build --profile ${PROFILE} && mv ./target/${PROFILE}/hatsu ./target/hatsu
+# debug build
+RUN if [ "$PROFILE" = "debug" ]; then \
+  cargo build && mv ./target/debug/hatsu ./target/hatsu \
+  ; fi
+# release build
+RUN if [ "$PROFILE" = "release" ]; then \
+  cargo build --release && mv ./target/release/hatsu ./target/hatsu \
+  ; fi
 
 FROM debian:bookworm-slim AS rumtime
 RUN apt update && apt install openssl libssl-dev pkg-config
