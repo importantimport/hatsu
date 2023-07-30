@@ -4,5 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: hatsu
+    volumes:
+      - ./.env:/app/.env
     ports:
       - 3939:3939
