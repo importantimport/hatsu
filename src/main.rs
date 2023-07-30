@@ -77,6 +77,9 @@ async fn main() -> Result<(), AppError> {
         .domain(hatsu_domain)
         .signed_fetch_actor(&test_account_actor)
         .app_data(AppData {conn})
+        // TODO: Disable this configuration when Pleroma supports HTTP Signature draft-11
+        // https://git.pleroma.social/pleroma/pleroma/-/issues/2939
+        .http_signature_compat(true)
         .build()
         .await?;
 
