@@ -30,7 +30,7 @@ RUN if [ "$PROFILE" = "release" ]; then \
   ; fi
 
 FROM debian:bookworm-slim AS rumtime
-RUN apt update && apt install openssl libssl-dev pkg-config
+RUN apt update && apt install -y openssl libssl-dev pkg-config
 COPY --from=builder /app/target/hatsu /app/
 EXPOSE 3939/tcp
 CMD [ "/app/hatsu" ]
