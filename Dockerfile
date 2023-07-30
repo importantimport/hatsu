@@ -1,6 +1,6 @@
 FROM rust:slim-bookworm AS builder
 
-ARG TARGET = "release"
+ARG TARGET="release"
 
 WORKDIR /app
 
