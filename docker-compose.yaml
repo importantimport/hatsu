@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        TARGET: debug
+        PROFILE: debug
     container_name: hatsu
     volumes:
       - ./.env:/app/.env
