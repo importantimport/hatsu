@@ -26,7 +26,7 @@ pub async fn user(
     Path(name): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Person>>, AppError> {
-    let id = format!("https://{}/{}", data.domain(), &name);
+    let id = format!("https://{}/u/{}", data.domain(), &name);
     let db_user: Option<DbUser> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;
