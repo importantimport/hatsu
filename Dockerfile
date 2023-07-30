@@ -9,6 +9,7 @@ RUN cargo chef prepare --recipe-path recipe.json
 
 FROM chef AS builder
 ARG PROFILE
+RUN apt update && apt install -y openssl libssl-dev pkg-config
 COPY --from=planner /app/recipe.json recipe.json
 # debug cook
 RUN if [ "$PROFILE" = "debug" ]; then \
@@ -19,7 +20,6 @@ RUN if [ "$PROFILE" = "release" ]; then \
   cargo chef cook --release --recipe-path recipe.json \
   ; fi
 COPY . .
-RUN apt update && apt install -y openssl libssl-dev pkg-config
 # debug build
 RUN if [ "$PROFILE" = "debug" ]; then \
   cargo build && mv ./target/debug/hatsu ./target/hatsu \
