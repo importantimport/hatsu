@@ -120,7 +120,9 @@ impl Object for DbPost {
             id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
             // TODO: multiple user
             attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))?.into(),
-            to: vec![public()],
+            // 发送给提及的用户
+            // TODO: "cc": ["https://{}/u/{}/followers"]
+            to: vec![public(), json.attributed_to.clone().into()],
             content: format!("Hello {}", creator.name),
             in_reply_to: Some(json.id.clone()),
             tag: vec![mention]
