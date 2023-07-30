@@ -6,7 +6,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN cargo build --${TARGET}
+RUN apt update && \
+  apt install -y openssl libssl-dev pkg-config && \
+  cargo build --${TARGET}
 
 FROM debian:bookworm-slim
 
