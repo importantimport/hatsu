@@ -109,14 +109,14 @@ impl DbUser {
     // Create a new user
     // TODO: 从网站获取数据
     // TODO: Getting data from websites
-    pub async fn new(name: &str) -> Result<Self, AppError> {
+    pub async fn new(preferred_username: &str) -> Result<Self, AppError> {
         let hostname = env::var("HATSU_DOMAIN")?;
-        let id = Url::parse(&format!("https://{}/u/{}", hostname, &name))?;
-        let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &name))?;
-        let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &name))?;
+        let id = Url::parse(&format!("https://{}/u/{}", hostname, &preferred_username))?;
+        let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &preferred_username))?;
+        let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &preferred_username))?;
         let keypair = generate_actor_keypair()?;
 
-        let feed = get_site_feed(name.to_string()).await?;
+        let feed = get_site_feed(preferred_username.to_string()).await?;
 
         tracing::info!(
             "User Feed: {}, {}, {}",
@@ -127,8 +127,8 @@ impl DbUser {
 
         Ok(Self {
             id: id.to_string(),
-            name: name.to_string(),
-            preferred_username: "Hatsu".to_string(),
+            name: "Hatsu".to_string(),
+            preferred_username: preferred_username.to_string(),
             inbox: inbox.to_string(),
             outbox: outbox.to_string(),
             local: true,
