@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">For Users</li><li class="chapter-item expanded affix "><li class="part-title">For Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -172,6 +172,43 @@ and forwards the received responses back to the site in a Webmention.</p>
 ### Bridgy Fed
 
 ### Bridgy -->
+<div style="break-before: page; page-break-before: always;"></div><h1 id="prepare"><a class="header" href="#prepare">Prepare</a></h1>
+<p>To develop Hatsu, you should first <a href="https://www.rust-lang.org/tools/install">install Rust</a> and some dependencies.</p>
+<p>Arch-based distro:</p>
+<pre><code class="language-bash">sudo pacman -S git cargo openssl
+</code></pre>
+<p>Debian-based distro:</p>
+<pre><code class="language-bash">sudo apt install git cargo libssl-dev
+</code></pre>
+<h2 id="clone-repository"><a class="header" href="#clone-repository">Clone Repository</a></h2>
+<p>It will create a <code>hatsu</code> subfolder in the current path.</p>
+<pre><code class="language-bash">git clone https://github.com/importantimport/hatsu.git &amp;&amp; cd hatsu
+</code></pre>
+<h2 id="contributing"><a class="header" href="#contributing">Contributing</a></h2>
+<p>Go to the hatsu folder and you can see these:</p>
+<ul>
+<li><a href="https://github.com/importantimport/hatsu/tree/main/docs"><code>docs</code></a> - The documentation you're looking at right now, uses <a href="https://github.com/rust-lang/mdBook">mdBook</a> to build.</li>
+<li><a href="https://github.com/importantimport/hatsu/tree/main/migration"><code>migration</code></a> - <a href="https://www.sea-ql.org/SeaORM/docs/migration/setting-up-migration/">SeaORM Migration</a>.</li>
+<li><a href="https://github.com/importantimport/hatsu/tree/main/src"><code>src</code></a> - Main application.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="local-development"><a class="header" href="#local-development">Local Development</a></h1>
+<p>First copy the variables,</p>
+<p>Set <code>HATSU_DOMAIN</code> to your prepared domain
+(e.g. <code>hatsu.example.com</code> without <code>https://</code>)</p>
+<p>and <code>HATSU_TEST_ACCOUNT</code> to your desired user domain
+(e.g. <code>blog.example.com</code> without <code>https://</code>)</p>
+<pre><code class="language-bash"># copy env example
+cp .env.example .env
+# edit env
+nano .env
+</code></pre>
+<p>Then create the database file and run:</p>
+<pre><code class="language-bash"># create database
+touch hatsu.sqlite3
+# run hatsu
+cargo run
+</code></pre>
+<p>Hatsu now listen on <code>localhost:3939</code>, and in order for it to connect to Fediverse, you'll also need to set up a reverse proxy.</p>
 
                     </main>
 
