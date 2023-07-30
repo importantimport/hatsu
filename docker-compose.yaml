@@ -1,3 +1,5 @@
+version: "3"
+
 services:
   hatsu:
     build:
@@ -10,5 +12,6 @@ services:
     volumes:
       - ./.env:/app/.env
       - ./hatsu.sqlite3:/app/hatsu.sqlite3
-    ports:
-      - 3939:3939
+    # ports:
+    #   - 3939:3939
+    network_mode: "host"
