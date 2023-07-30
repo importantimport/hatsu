@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        TARGET: debug
     container_name: hatsu
     volumes:
       - ./.env:/app/.env
