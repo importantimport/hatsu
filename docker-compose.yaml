@@ -6,5 +6,6 @@ services:
     container_name: hatsu
     volumes:
       - ./.env:/app/.env
+      - ./hatsu.sqlite3:/app/hatsu.sqlite3
     ports:
       - 3939:3939
