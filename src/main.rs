@@ -72,8 +72,7 @@ async fn main() -> Result<(), AppError> {
                 let test_account = DbUser::new(hatsu_test_account.as_str()).await?.into_active_model();
                 // 向数据库插入 user::ActiveModel，并返回一个 user::Model (DbUser)
                 // Inserts a user::ActiveModel into the database and returns a user::Model (DbUser).
-                let test_account = test_account.insert(&conn).await?;
-                test_account
+                test_account.insert(&conn).await?
             }
         };
 
