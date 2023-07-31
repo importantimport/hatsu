@@ -11,7 +11,6 @@ mod activities;
 mod entities;
 use entities::{
     prelude::*,
-    user,
     user::Model as DbUser
 };
 
@@ -55,27 +54,22 @@ async fn main() -> Result<(), AppError> {
         .await
         .expect("Migration failed");
 
-    tracing::info!("creating test account");
-    let test_account = DbUser::new(hatsu_test_account.as_str()).await?.into_active_model();
-    let _insert_account = User::insert(test_account)
-        .on_conflict(
-            sea_query::OnConflict::column(user::Column::Id)
-                .update_column(user::Column::Id)
-                .to_owned()
-        )
-        .exec(&conn)
-        .await?;
-
-    // get test account as signed fetch actor
-    let test_account_actor: DbUser = User::find_by_id(format!("https://{}/u/{}", hatsu_domain, hatsu_test_account))
+    tracing::info!("checking test account");
+    let test_account: DbUser = match User::find_by_id(format!("https://{}/u/{}", hatsu_domain, hatsu_test_account))
         .one(&conn)
-        .await?
-        .unwrap();
+        .await? {
+            Some(test_account) => test_account,
+            None => {
+                let test_account = DbUser::new(hatsu_test_account.as_str()).await?.into_active_model();
+                let test_account = test_account.insert(&conn).await?;
+                test_account
+            }
+        };
 
     tracing::info!("setup configuration");
     let config = FederationConfig::builder()
         .domain(hatsu_domain)
-        .signed_fetch_actor(&test_account_actor)
+        .signed_fetch_actor(&test_account)
         .app_data(AppData {conn})
         // TODO: Disable this configuration when Pleroma supports HTTP Signature draft-11
         // https://git.pleroma.social/pleroma/pleroma/-/issues/2939
