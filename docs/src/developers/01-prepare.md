@@ -1,15 +1,5 @@
 # Prepare
 
-To develop Hatsu, you should first [install Rust](https://www.rust-lang.org/tools/install) and some dependencies.
-
-```bash
-# Arch-based distro
-sudo pacman -S git cargo openssl
-
-# Debian-based distro
-sudo apt install git cargo libssl-dev
-```
-
 ## Clone Repository
 
 It will create a `hatsu` subfolder in the current path.

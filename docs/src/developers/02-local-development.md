@@ -1,5 +1,19 @@
 # Local Development
 
+## Dependencies
+
+To develop Hatsu, you should first [install Rust](https://www.rust-lang.org/tools/install) and some dependencies.
+
+```bash
+# Arch-based distro
+sudo pacman -S git cargo openssl
+
+# Debian-based distro
+sudo apt install git cargo libssl-dev
+```
+
+## Running
+
 First copy the variables,
 
 Set `HATSU_DOMAIN` to your prepared domain
