@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">For Users</li><li class="chapter-item expanded affix "><li class="part-title">For Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">For Users</li><li class="chapter-item expanded affix "><li class="part-title">For Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -173,13 +173,6 @@ and forwards the received responses back to the site in a Webmention.</p>
 
 ### Bridgy -->
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prepare"><a class="header" href="#prepare">Prepare</a></h1>
-<p>To develop Hatsu, you should first <a href="https://www.rust-lang.org/tools/install">install Rust</a> and some dependencies.</p>
-<pre><code class="language-bash"># Arch-based distro
-sudo pacman -S git cargo openssl
-
-# Debian-based distro
-sudo apt install git cargo libssl-dev
-</code></pre>
 <h2 id="clone-repository"><a class="header" href="#clone-repository">Clone Repository</a></h2>
 <p>It will create a <code>hatsu</code> subfolder in the current path.</p>
 <pre><code class="language-bash">git clone https://github.com/importantimport/hatsu.git &amp;&amp; cd hatsu
@@ -192,6 +185,15 @@ sudo apt install git cargo libssl-dev
 <li><a href="https://github.com/importantimport/hatsu/tree/main/src"><code>src</code></a> - Main application.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="local-development"><a class="header" href="#local-development">Local Development</a></h1>
+<h2 id="dependencies"><a class="header" href="#dependencies">Dependencies</a></h2>
+<p>To develop Hatsu, you should first <a href="https://www.rust-lang.org/tools/install">install Rust</a> and some dependencies.</p>
+<pre><code class="language-bash"># Arch-based distro
+sudo pacman -S git cargo openssl
+
+# Debian-based distro
+sudo apt install git cargo libssl-dev
+</code></pre>
+<h2 id="running"><a class="header" href="#running">Running</a></h2>
 <p>First copy the variables,</p>
 <p>Set <code>HATSU_DOMAIN</code> to your prepared domain
 (e.g. <code>hatsu.example.com</code> without <code>https://</code>)</p>
@@ -209,6 +211,24 @@ touch hatsu.sqlite3
 cargo run
 </code></pre>
 <p>Hatsu now listen on <code>localhost:3939</code>, and in order for it to connect to Fediverse, you'll also need to set up a reverse proxy.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="docker-development"><a class="header" href="#docker-development">Docker Development</a></h1>
+<h2 id="dependencies-1"><a class="header" href="#dependencies-1">Dependencies</a></h2>
+<p>To use Docker, you only need to install Docker and Docker Compose.</p>
+<pre><code class="language-bash"># Arch-based distro
+sudo pacman -S docker docker-compose
+
+# Debian-based distro
+sudo apt install docker.io docker-compose
+</code></pre>
+<!-- ## Building -->
+<h2 id="running-1"><a class="header" href="#running-1">Running</a></h2>
+<p>Simply run:</p>
+<pre><code class="language-bash">docker-compose up -d
+</code></pre>
+<p>If there is no build image, it will be built automatically at execution time.
+Hatsu uses <a href="https://crates.io/crates/cargo-chef">cargo-chef</a> in the <a href="https://github.com/importantimport/hatsu/blob/main/Dockerfile">Dockerfile</a>,
+which caches dependencies to avoid duplicate builds
+(i.e. you only need to build Hatsu itself afterwards)</p>
 
                     </main>
 

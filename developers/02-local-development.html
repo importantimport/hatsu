@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">For Users</li><li class="chapter-item expanded affix "><li class="part-title">For Developers</li><li class="chapter-item expanded "><a href="../developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="../developers/02-local-development.html" class="active"><strong aria-hidden="true">3.</strong> Local Development</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">For Users</li><li class="chapter-item expanded affix "><li class="part-title">For Developers</li><li class="chapter-item expanded "><a href="../developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="../developers/02-local-development.html" class="active"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="../developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -150,6 +150,15 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="local-development"><a class="header" href="#local-development">Local Development</a></h1>
+<h2 id="dependencies"><a class="header" href="#dependencies">Dependencies</a></h2>
+<p>To develop Hatsu, you should first <a href="https://www.rust-lang.org/tools/install">install Rust</a> and some dependencies.</p>
+<pre><code class="language-bash"># Arch-based distro
+sudo pacman -S git cargo openssl
+
+# Debian-based distro
+sudo apt install git cargo libssl-dev
+</code></pre>
+<h2 id="running"><a class="header" href="#running">Running</a></h2>
 <p>First copy the variables,</p>
 <p>Set <code>HATSU_DOMAIN</code> to your prepared domain
 (e.g. <code>hatsu.example.com</code> without <code>https://</code>)</p>
@@ -176,6 +185,9 @@ cargo run
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="../developers/03-docker-development.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -187,6 +199,9 @@ cargo run
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="../developers/03-docker-development.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
