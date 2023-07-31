@@ -57,6 +57,8 @@ impl AcceptFollow {
   }
 }
 
+/// 只发送，不接收
+/// send only, without receive
 /// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/accept.rs
 #[async_trait::async_trait]
 impl ActivityHandler for AcceptFollow {
@@ -81,4 +83,3 @@ impl ActivityHandler for AcceptFollow {
       Ok(())
   }
 }
-
