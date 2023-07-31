@@ -32,7 +32,7 @@ cargo build --release
 cargo install
 ```
 
-###### Docker (possibly broken)
+###### Docker
 
 ```bash
 # docker build
