@@ -15,7 +15,7 @@ workspace = true
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
 
 [dependencies.sea-orm-migration]
-version = "0.11.0"
+version = "0.12"
 features = [
   # Enable at least one `ASYNC_RUNTIME` and `DATABASE_DRIVER` feature if you want to run migration via CLI.
   # View the list of supported features at https://www.sea-ql.org/SeaORM/docs/install-and-config/database-and-async-runtime.
