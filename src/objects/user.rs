@@ -150,19 +150,17 @@ impl Object for DbUser {
         Some(NaiveDateTime::parse_from_str(&self.last_refreshed_at, "%Y-%m-%d %H:%M:%S").unwrap())
     }
 
+    // 从 ID 读取
     async fn read_from_id(
         object_id: Url,
         data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
-        let db_post: Option<DbUser> = User::find_by_id(&object_id.to_string())
+        Ok(User::find_by_id(&object_id.to_string())
             .one(&data.conn)
-            .await?;
-
-        Ok(db_post)
+            .await?)
     }
 
     // 转换为 ActivityStreams JSON
-    // Convert to ActivityStreams JSON
     async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
         Ok(Person {
             name: self.name.clone(),
@@ -175,6 +173,7 @@ impl Object for DbUser {
         })
     }
 
+    // 验证
     async fn verify(
         json: &Self::Kind,
         expected_domain: &Url,
@@ -184,6 +183,7 @@ impl Object for DbUser {
         Ok(())
     }
 
+    // 转换为本地格式
     async fn from_json(
         json: Self::Kind,
         _data: &Data<Self::DataType>,
@@ -202,7 +202,11 @@ impl Object for DbUser {
         })
     }
 
-    async fn delete(self, _data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+    // 删除用户
+    async fn delete(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+        let _delete_user = User::delete_by_id(&self.id.to_string())
+            .exec(&data.conn)
+            .await?;
         Ok(())
     }
 }

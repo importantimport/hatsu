@@ -57,17 +57,17 @@ impl Object for DbPost {
     type Kind = Note;
     type Error = AppError;
 
+    // 从 ID 读取
     async fn read_from_id(
         object_id: Url,
         data: &Data<Self::DataType>
     ) -> Result<Option<Self>, Self::Error> {
-        let db_post: Option<DbPost> = Post::find_by_id(&object_id.to_string())
+        Ok(Post::find_by_id(&object_id.to_string())
             .one(&data.conn)
-            .await?;
-
-        Ok(db_post)
+            .await?)
     }
 
+    // 转换为 ActivityStreams JSON
     async fn into_json(self, data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
         // TODO: 不确定是否可用
         let object_id: ObjectId<DbUser> = Url::parse(&self.creator)?.into();
@@ -91,6 +91,7 @@ impl Object for DbPost {
         Ok(note)
     }
 
+    // 验证
     async fn verify(
         json: &Self::Kind,
         expected_domain: &Url,
@@ -100,6 +101,7 @@ impl Object for DbPost {
         Ok(())
     }
 
+    // 转换为本地格式
     async fn from_json(json: Self::Kind, data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
         tracing::info!("Received post with content {} and id {}", &json.content, &json.id);
 
@@ -146,4 +148,15 @@ impl Object for DbPost {
         Ok(post)
     }
 
+    // 删除帖文
+    async fn delete(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+        let _delete_post = Post::delete_by_id(&self.id.to_string())
+            .exec(&data.conn)
+            .await?;
+        Ok(())
+    }
+
+    // fn last_refreshed_at(&self) -> Option<chrono::NaiveDateTime> {
+    //     todo!()
+    // }
 }
