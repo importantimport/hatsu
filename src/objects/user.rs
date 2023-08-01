@@ -1,18 +1,12 @@
 use activitypub_federation::{
-    config::Data,
     fetch::object_id::ObjectId,
     kinds::actor::PersonType,
     protocol::public_key::PublicKey,
-    traits::ActivityHandler,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{
-    activities::create_post::CreatePost,
-    activities::following::follow::Follow,
-    entities::user::Model as DbUser,
-};
+use crate::entities::user::Model as DbUser;
 
 // ActivityPub 用户
 // ActivityPub Person
@@ -77,14 +71,6 @@ pub struct Person {
 //     name: String,
 //     value: String,
 // }
-
-#[derive(Deserialize, Serialize, Debug)]
-#[serde(untagged)]
-#[enum_delegate::implement(ActivityHandler)]
-pub enum PersonAcceptedActivities {
-    CreateNote(CreatePost),
-    Follow(Follow)
-}
 
 // 数据库用户 Feed
 // Database User Feed

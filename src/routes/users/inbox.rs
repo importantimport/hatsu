@@ -10,8 +10,8 @@ use axum::{
 
 use crate::{
   AppData,
+  activities::activity_lists::PersonInboxActivities,
   entities::user::Model as DbUser,
-  objects::user::PersonAcceptedActivities
 };
 
 #[debug_handler]
@@ -19,7 +19,7 @@ pub async fn user_inbox(
   data: Data<AppData>,
   activity_data: ActivityData
 ) -> impl IntoResponse {
-  receive_activity::<WithContext<PersonAcceptedActivities>, DbUser, AppData>(
+  receive_activity::<WithContext<PersonInboxActivities>, DbUser, AppData>(
     activity_data,
     &data,
   ).await
