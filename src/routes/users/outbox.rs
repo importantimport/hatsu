@@ -21,7 +21,7 @@ pub async fn user_outbox(
 ) -> Result<FederationJson<WithContext<Outbox>>, AppError> {
   Ok(FederationJson(WithContext::new_default(
     Outbox::new(
-      Url::parse(format!("https://{}/u/{}/outbox", data.domain(), name).as_str())?
+      Url::parse(&format!("https://{}/u/{}/outbox", data.domain(), name))?
     )?
   )))
 }
