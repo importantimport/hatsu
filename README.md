@@ -64,12 +64,12 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 
 ### Environments
 
-| Environment          | Default (.env.example)   | Remarks |
-| -------------------- | ------------------------ | ------- |
-| `DATABASE_URL`       | `sqlite://hatsu.sqlite3` |         |
-| `HATSU_DOMAIN`       | `hatsu.local`            |         |
-| `HATSU_LISTEN`       | `localhost:3939`         |         |
-| `HATSU_TEST_ACCOUNT` | `example.com`            |         |
+| Environment          | Default                  | .env.example             | Remarks |
+| -------------------- | ------------------------ | ------------------------ | ------- |
+| `DATABASE_URL`       | `sqlite://hatsu.sqlite3` | `sqlite://hatsu.sqlite3` |         |
+| `HATSU_DOMAIN`       |                          | `hatsu.local`            |         |
+| `HATSU_LISTEN`       | `localhost:3939`         | `0.0.0.0:3939`           |         |
+| `HATSU_TEST_ACCOUNT` |                          | `example.com`            |         |
 
 ### Fediverse compatibility
 
