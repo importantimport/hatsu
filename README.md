@@ -49,7 +49,7 @@ cargo install sea-orm-cli
 # migrate
 sea-orm-cli migrate up
 # generate entity
-sea-orm-cli generate entity -o src/entities
+sea-orm-cli generate entity -o src/entities/models
 ```
 
 The current goal is to refine the database and implement the basic functionality of the Fediverse server.
