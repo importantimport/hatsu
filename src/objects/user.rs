@@ -10,6 +10,7 @@ use url::Url;
 
 use crate::{
     activities::create_post::CreatePost,
+    activities::following::follow::Follow,
     entities::user::Model as DbUser,
 };
 
@@ -81,7 +82,8 @@ pub struct Person {
 #[serde(untagged)]
 #[enum_delegate::implement(ActivityHandler)]
 pub enum PersonAcceptedActivities {
-    CreateNote(CreatePost)
+    CreateNote(CreatePost),
+    Follow(Follow)
 }
 
 // 数据库用户 Feed
