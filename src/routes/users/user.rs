@@ -18,7 +18,7 @@ use crate::{
     user::Model as DbUser,
   },
   error::AppError,
-  objects::user::Person
+  protocol::objects::user::Person
 };
 
 #[debug_handler]

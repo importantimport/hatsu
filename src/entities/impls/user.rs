@@ -17,7 +17,7 @@ use crate::{
         user::Model as DbUser
     },
     error::AppError,
-    objects::user::Person,
+    protocol::objects::user::Person,
     utilities::get_site_feed,
 };
 

@@ -25,7 +25,7 @@ use crate::{
     user::Model as DbUser,
   },
   error::AppError,
-  objects::post::Note,
+  protocol::objects::post::Note,
 };
 
 #[derive(Deserialize, Serialize, Debug)]

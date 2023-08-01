@@ -21,7 +21,7 @@ use uuid::Uuid;
 
 use crate::{
     AppData,
-    activities::create_post::CreatePost,
+    protocol::activities::create_post::CreatePost,
     entities::{
         prelude::*,
         post::Model as DbPost,

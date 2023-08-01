@@ -7,8 +7,6 @@ use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
 use tokio_cron_scheduler::{JobScheduler, Job};
 
-mod activities;
-
 mod entities;
 use entities::{
     prelude::*,
@@ -18,7 +16,7 @@ use entities::{
 mod error;
 use error::AppError;
 
-mod objects;
+mod protocol;
 
 mod routes;
 

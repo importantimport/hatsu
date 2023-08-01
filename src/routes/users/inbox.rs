@@ -10,7 +10,7 @@ use axum::{
 
 use crate::{
   AppData,
-  activities::activity_lists::PersonInboxActivities,
+  protocol::activities::activity_lists::PersonInboxActivities,
   entities::user::Model as DbUser,
 };
 

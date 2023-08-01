@@ -12,7 +12,7 @@ use uuid::Uuid;
 
 use crate::{
   AppData,
-  activities::following::follow::Follow,
+  protocol::activities::following::follow::Follow,
   error::AppError,
   entities::user::Model as DbUser,
 };
