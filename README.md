@@ -78,9 +78,9 @@ Hatsu uses the same library as [Lemmy](https://github.com/LemmyNet/lemmy), [Acti
 In addition to this, Hatsu is also enabled:
 
 - [signed_fetch_actor](https://docs.rs/activitypub_federation/latest/activitypub_federation/config/struct.FederationConfigBuilder.html#method.signed_fetch_actor)
-  - Hatsu performs an HTTP signature on each request. This ensures compatibility with Mastodon instances with secure mode enabled and GoToSocial.
+  - Hatsu performs an HTTP signature on each request. This ensures compatibility with [Mastodon instances with secure mode enabled](https://docs.joinmastodon.org/admin/config/#authorized_fetch) and [GoToSocial](https://docs.gotosocial.org/en/latest/federation/federating_with_gotosocial/#access-control).
 - [http_signature_compat](https://docs.rs/activitypub_federation/latest/activitypub_federation/config/struct.FederationConfigBuilder.html#method.http_signature_compat)
-  - Like Lemmy, Hatsu enables this by default for Pleroma compatibility.
+  - Like Lemmy, Hatsu enables this by default for [Pleroma](https://git.pleroma.social/pleroma/pleroma/-/issues/2939) compatibility.
 
 If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility issue, you should open new issue in Hatsu first.
 
