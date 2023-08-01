@@ -5,6 +5,7 @@ use axum::Router;
 use dotenvy::dotenv;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
+use tokio_cron_scheduler::{JobScheduler, Job};
 
 mod activities;
 
@@ -94,6 +95,17 @@ async fn main() -> Result<(), AppError> {
         .http_signature_compat(true)
         .build()
         .await?;
+
+    tracing::info!("creating scheduler");
+    let scheduler: JobScheduler = JobScheduler::new().await?;
+
+    scheduler.add(
+        Job::new("0 */5 * * * *", |_, _| {
+            tracing::info!("I run every 5 minutes");
+        })?
+    ).await?;
+
+    scheduler.start().await?;
 
     // build our application with a route
     tracing::info!("creating app");
