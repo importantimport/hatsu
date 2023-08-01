@@ -78,7 +78,7 @@ async fn main() -> Result<(), AppError> {
         };
 
     tracing::info!("setup configuration");
-    let config = FederationConfig::builder()
+    let federation_config = FederationConfig::builder()
         // 实例域名，这里使用 `HATSU_DOMAIN` 环境变量
         // instance domain, `HATSU_DOMAIN` environment is used here.
         .domain(hatsu_domain)
@@ -111,7 +111,7 @@ async fn main() -> Result<(), AppError> {
     tracing::info!("creating app");
     let app = Router::new()
         .merge(routes::init())
-        .layer(FederationMiddleware::new(config));
+        .layer(FederationMiddleware::new(federation_config));
 
     // axum 0.6
     // run our app with hyper
