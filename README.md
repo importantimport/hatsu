@@ -75,6 +75,13 @@ I'm learning Rust through this project, so I need some Chinese comments to help 
 
 Hatsu uses the same library as [Lemmy](https://github.com/LemmyNet/lemmy), [Activitypub-Federation](https://github.com/LemmyNet/activitypub-federation-rust), so it should behave similarly in practice.
 
+In addition to this, Hatsu is also enabled:
+
+- [signed_fetch_actor](https://docs.rs/activitypub_federation/latest/activitypub_federation/config/struct.FederationConfigBuilder.html#method.signed_fetch_actor)
+  - Hatsu performs an HTTP signature on each request. This ensures compatibility with Mastodon instances with secure mode enabled and GoToSocial.
+- [http_signature_compat](https://docs.rs/activitypub_federation/latest/activitypub_federation/config/struct.FederationConfigBuilder.html#method.http_signature_compat)
+  - Like Lemmy, Hatsu enables this by default for Pleroma compatibility.
+
 If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility issue, you should open new issue in Hatsu first.
 
 ### Useful links
