@@ -12,8 +12,8 @@ impl MigrationTrait for Migration {
                     .table(UserFollower::Table)
                     .if_not_exists()
                     .col(ColumnDef::new(UserFollower::Id).uuid().not_null().primary_key())
-                    .col(ColumnDef::new(UserFollower::UserID).string().not_null())
-                    .col(ColumnDef::new(UserFollower::FollowerID).string().not_null())
+                    .col(ColumnDef::new(UserFollower::UserId).string().not_null())
+                    .col(ColumnDef::new(UserFollower::FollowerId).string().not_null())
                     .to_owned()
             )
             .await?;
@@ -36,7 +36,7 @@ enum UserFollower {
     // UUID
     Id,
     // 被关注者 ID
-    UserID,
+    UserId,
     // 关注者 ID
-    FollowerID,
+    FollowerId,
 }
