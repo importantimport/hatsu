@@ -22,6 +22,7 @@ pub struct UndoFollow {
   pub(crate) actor: ObjectId<DbUser>,
   /// Optional, for compatibility with platforms that always expect recipient field
   #[serde(deserialize_with = "deserialize_skip_error", default)]
+  #[serde(skip_serializing_if = "Option::is_none")]
   pub(crate) to: Option<[ObjectId<DbUser>; 1]>,
   pub(crate) object: Follow,
   #[serde(rename = "type")]

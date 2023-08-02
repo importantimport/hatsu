@@ -26,6 +26,7 @@ pub struct Follow {
     pub(crate) actor: ObjectId<DbUser>,
     /// Optional, for compatibility with platforms that always expect recipient field
     #[serde(deserialize_with = "deserialize_skip_error", default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub(crate) to: Option<[ObjectId<DbUser>; 1]>,
     /// 被关注者
     pub(crate) object: ObjectId<DbUser>,
