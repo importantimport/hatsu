@@ -165,8 +165,10 @@ sudo apt install docker.io docker-compose
 </code></pre>
 <p>If there is no build image, it will be built automatically at execution time.
 Hatsu uses <a href="https://crates.io/crates/cargo-chef">cargo-chef</a> in the <a href="https://github.com/importantimport/hatsu/blob/main/Dockerfile">Dockerfile</a>,
-which caches dependencies to avoid duplicate builds
-(i.e. you only need to build Hatsu itself afterwards)</p>
+which caches dependencies to avoid duplicate build dependencies.</p>
+<p>If you need to rebuild, add the <code>--build</code> flag:</p>
+<pre><code class="language-bash">docker-compose up -d --build
+</code></pre>
 
                     </main>
 
