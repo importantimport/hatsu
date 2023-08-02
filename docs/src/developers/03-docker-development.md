@@ -24,5 +24,10 @@ docker-compose up -d
 
 If there is no build image, it will be built automatically at execution time.
 Hatsu uses [cargo-chef](https://crates.io/crates/cargo-chef) in the [Dockerfile](https://github.com/importantimport/hatsu/blob/main/Dockerfile),
-which caches dependencies to avoid duplicate builds
-(i.e. you only need to build Hatsu itself afterwards)
+which caches dependencies to avoid duplicate build dependencies.
+
+If you need to rebuild, add the `--build` flag:
+
+```bash
+docker-compose up -d --build
+```
