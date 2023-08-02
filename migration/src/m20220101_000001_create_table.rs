@@ -52,18 +52,6 @@ impl MigrationTrait for Migration {
             )
             .await?;
 
-        manager
-            .create_table(
-                Table::create()
-                    .table(UserFollower::Table)
-                    .if_not_exists()
-                    .col(ColumnDef::new(UserFollower::Id).uuid().not_null().primary_key())
-                    .col(ColumnDef::new(UserFollower::UserID).string().not_null())
-                    .col(ColumnDef::new(UserFollower::FollowerID).string().not_null())
-                    .to_owned()
-            )
-            .await?;
-
         Ok(())
     }
 
@@ -74,10 +62,6 @@ impl MigrationTrait for Migration {
 
         manager
             .drop_table(Table::drop().table(User::Table).to_owned())
-            .await?;
-
-        manager
-            .drop_table(Table::drop().table(UserFollower::Table).to_owned())
             .await?;
 
         Ok(())
@@ -106,15 +90,4 @@ enum User {
     PublicKey,
     PrivateKey,
     LastRefreshedAt,
-}
-
-#[derive(Iden)]
-enum UserFollower {
-    Table,
-    // UUID
-    Id,
-    // 被关注者 ID
-    UserID,
-    // 关注者 ID
-    FollowerID,
 }
