@@ -3,7 +3,7 @@ use activitypub_federation::{
   config::Data,
   fetch::object_id::ObjectId,
   kinds::activity::AcceptType,
-  protocol::helpers::deserialize_skip_error,
+  protocol::{helpers::deserialize_skip_error, context::WithContext},
   traits::{ActivityHandler, Actor},
 };
 use serde::{Deserialize, Serialize};
@@ -52,7 +52,7 @@ impl AcceptFollow {
 
     let inbox = vec![person.shared_inbox_or_inbox()];
 
-    send_activity(accept, &user, inbox, data).await?;
+    send_activity(WithContext::new_default(accept), &user, inbox, data).await?;
 
     Ok(())
   }
