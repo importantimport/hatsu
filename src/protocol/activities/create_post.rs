@@ -18,12 +18,12 @@ use url::Url;
 
 use crate::{
   AppData,
+  AppError,
   entities::{
     prelude::*,
     post::Model as DbPost,
     user::Model as DbUser,
   },
-  error::AppError,
   protocol::objects::Note,
 };
 

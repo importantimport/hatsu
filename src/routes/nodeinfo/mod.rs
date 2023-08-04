@@ -14,8 +14,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
   AppData,
+  AppError,
   entities::{prelude::*, *},
-  error::AppError,
 };
 
 async fn nodeinfo_usage(

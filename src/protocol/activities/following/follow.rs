@@ -10,7 +10,7 @@ use url::Url;
 
 use crate::{
     AppData,
-    error::AppError,
+    AppError,
     entities::{
         user::Model as DbUser,
         user_follower::Model as DbUserFollower

@@ -13,11 +13,11 @@ use sea_orm::*;
 
 use crate::{
   AppData,
+  AppError,
   entities::{
     prelude::*,
     user::Model as DbUser,
   },
-  error::AppError,
   protocol::actors::Person
 };
 

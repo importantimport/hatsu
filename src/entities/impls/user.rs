@@ -14,11 +14,11 @@ use url::Url;
 
 use crate::{
     AppData,
+    AppError,
     entities::{
         prelude::*,
         user::{self, Model as DbUser}
     },
-    error::AppError,
     protocol::actors::Person,
     utilities::get_site_feed,
 };

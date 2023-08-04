@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 use crate::{
   AppData,
-  error::AppError,
+  AppError,
   entities::{
     prelude::*,
     user_follower::{self, Model as DbUserFollower}

@@ -2,7 +2,7 @@ use scraper::{Html, Selector, ElementRef};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    error::AppError,
+    AppError,
     utilities::absolutize_relative_url,
 };
 

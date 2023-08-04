@@ -10,7 +10,7 @@ use url::Url;
 
 use crate::{
   AppData,
-  error::AppError,
+  AppError,
   protocol::collections::outbox::Outbox,
 };
 

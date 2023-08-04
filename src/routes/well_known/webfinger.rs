@@ -12,12 +12,12 @@ use serde::Deserialize;
 use url::Url;
 
 use crate::{
+    AppData,
+    AppError,
     entities::{
         prelude::*,
         user::Model as DbUser,
     },
-    error::AppError,
-    AppData
 };
 
 #[derive(Deserialize)]

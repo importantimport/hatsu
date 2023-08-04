@@ -12,11 +12,11 @@ use sea_orm::*;
 
 use crate::{
   AppData,
+  AppError,
   entities::{
     prelude::*,
     post::Model as DbPost
   },
-  error::AppError,
   protocol::objects::Note,
   utilities::remove_https
 };

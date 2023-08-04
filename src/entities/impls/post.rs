@@ -16,6 +16,7 @@ use uuid::Uuid;
 
 use crate::{
     AppData,
+    AppError,
     protocol::{
       activities::create_post::CreatePost,
       links::Mention,
@@ -26,7 +27,6 @@ use crate::{
         post::Model as DbPost,
         user::Model as DbUser,
     },
-    error::AppError,
 };
 
 #[async_trait::async_trait]

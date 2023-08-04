@@ -2,7 +2,7 @@ use std::str;
 
 use url::Url;
 
-use crate::error::AppError;
+use crate::AppError;
 
 pub fn absolutize_relative_url(url: String, domain: String) -> Result<String, AppError> {
     if str::starts_with(&url, "https://") {
