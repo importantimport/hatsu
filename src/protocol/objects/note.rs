@@ -27,6 +27,8 @@ pub struct Note {
     pub(crate) attributed_to: ObjectId<DbUser>,
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub(crate) to: Vec<Url>,
+    #[serde(deserialize_with = "deserialize_one_or_many")]
+    pub(crate) cc: Vec<Url>,
     pub(crate) content: String,
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
     pub(crate) tag: Vec<Mention>,

@@ -61,6 +61,7 @@ impl Object for DbPost {
             // TODO:
             // to: vec![public(), creator.followers_url()?],
             to: vec![public()],
+            cc: vec![],
             content: self.text,
             in_reply_to: None,
             tag: vec![mention]
@@ -103,6 +104,7 @@ impl Object for DbPost {
             // 发送给提及的用户
             // TODO: "cc": ["https://{}/u/{}/followers"]
             to: vec![public(), json.attributed_to.clone().into()],
+            cc: vec![],
             content: format!("Hello {}", creator.name),
             in_reply_to: Some(json.id.clone()),
             tag: vec![mention]
