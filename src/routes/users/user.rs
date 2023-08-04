@@ -27,12 +27,12 @@ pub async fn user(
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Person>>, AppError> {
     let id = format!("https://{}/u/{}", data.domain(), &name);
-    let db_user: Option<DbUser> = User::find_by_id(&id)
+    let user: Option<DbUser> = User::find_by_id(&id)
         .one(&data.conn)
         .await?;
 
-    match db_user {
-        Some(db_user) => Ok(FederationJson(WithContext::new_default(db_user.into_json(&data).await?))),
+    match user {
+        Some(user) => Ok(FederationJson(WithContext::new_default(user.into_json(&data).await?))),
         // TODO: StatusCode::NOT_FOUND
         None => Err(AppError(anyhow!("User Not Found")))
     }

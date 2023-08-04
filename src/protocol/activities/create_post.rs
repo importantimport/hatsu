@@ -60,11 +60,7 @@ impl CreatePost {
             .await?
             .unwrap();
 
-        db_user.send(
-        create_with_context,
-        vec![inbox],
-        data
-        ).await?;
+        db_user.send(create_with_context, vec![inbox], data).await?;
 
         Ok(())
     }

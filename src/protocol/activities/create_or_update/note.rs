@@ -50,31 +50,31 @@ impl CreateOrUpdateNote {
         data: Data<AppData>
     ) -> Result<(), AppError> {
         let user: DbUser = User::find_by_id(
-        format!("https://{}/u/{}", data.domain(), user_id)
+            format!("https://{}/u/{}", data.domain(), user_id)
         )
-        .one(&data.conn)
-        .await?
-        .unwrap();
+            .one(&data.conn)
+            .await?
+            .unwrap();
         
         let note = Note {
-        kind: Default::default(),
-        id: post_id,
-        attributed_to: Url::parse(&user.id)?.into(),
-        to: vec![public()],
-        // TODO: cc: followers
-        cc: vec![Url::parse(&format!("https://{}/u/{}/followers", data.domain(), user_id))?],
-        content,
-        in_reply_to: None,
-        tag: vec![],
+            kind: Default::default(),
+            id: post_id,
+            attributed_to: Url::parse(&user.id)?.into(),
+            to: vec![public()],
+            // TODO: cc: followers
+            cc: vec![Url::parse(&format!("https://{}/u/{}/followers", data.domain(), user_id))?],
+            content,
+            in_reply_to: None,
+            tag: vec![],
         };
 
         let create_or_update_note = Self {
-        id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?,
-        actor: note.attributed_to.clone(),
-        to: note.to.clone(),
-        cc: note.cc.clone(),
-        object: note,
-        kind
+            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?,
+            actor: note.attributed_to.clone(),
+            to: note.to.clone(),
+            cc: note.cc.clone(),
+            object: note,
+            kind
         };
 
         let create_or_update_note_with_context = WithContext::new_default(create_or_update_note);

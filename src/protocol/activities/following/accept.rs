@@ -40,12 +40,12 @@ impl AcceptFollow {
         // 关注者
         let person = follow.actor.clone().dereference(data).await?;
         let accept = AcceptFollow {
-        actor: Url::parse(&user.id)?.into(),
-        to: Some([Url::parse(&person.id)?.into()]),
-        object: follow,
-        kind: AcceptType::Accept,
-        // 暂时使用 UUID v4 作为 ID
-        id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
+            actor: Url::parse(&user.id)?.into(),
+            to: Some([Url::parse(&person.id)?.into()]),
+            object: follow,
+            kind: AcceptType::Accept,
+            // 暂时使用 UUID v4 作为 ID
+            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
         };
 
         let inbox = vec![person.shared_inbox_or_inbox()];
