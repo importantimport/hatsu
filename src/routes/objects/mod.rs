@@ -1,7 +1,7 @@
 use axum::{
-  body::Body,
-  routing::get,
-  Router,
+    body::Body,
+    routing::get,
+    Router,
 };
 
 mod object;

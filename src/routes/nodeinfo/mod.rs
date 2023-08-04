@@ -3,62 +3,62 @@
 
 use activitypub_federation::config::Data;
 use axum::{
-  debug_handler,
-  body::Body,
-  routing::get,
-  Json,
-  Router,
+    debug_handler,
+    body::Body,
+    routing::get,
+    Json,
+    Router,
 };
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-  AppData,
-  AppError,
-  entities::{prelude::*, *},
+    AppData,
+    AppError,
+    entities::{prelude::*, *},
 };
 
 async fn nodeinfo_usage(
-  data: Data<AppData>,
+    data: Data<AppData>,
 ) -> Result<NodeInfoUsage, AppError> {
-  Ok(NodeInfoUsage {
-    users: Some(NodeInfoUsers {
-      total: User::find()
-        .filter(user::Column::Local.eq(true))
-        .count(&data.conn)
-        .await?,
-      /// TODO
-      active_halfyear: None,
-      active_month: None
-    }),
-    /// TODO
-    local_posts: None,
-    local_comments: None
-  })
+    Ok(NodeInfoUsage {
+        users: Some(NodeInfoUsers {
+        total: User::find()
+            .filter(user::Column::Local.eq(true))
+            .count(&data.conn)
+            .await?,
+        /// TODO
+        active_halfyear: None,
+        active_month: None
+        }),
+        /// TODO
+        local_posts: None,
+        local_comments: None
+    })
 }
 
 /// https://github.com/jhass/nodeinfo/blob/main/schemas/2.0/schema.json
 #[debug_handler]
 pub async fn nodeinfo_2_0(
-  data: Data<AppData>,
+    data: Data<AppData>,
 ) -> Result<Json<NodeInfo>, AppError> {
-  Ok(Json(NodeInfo {
-    version: "2.0".to_string(),
-    software: NodeInfoSoftware {
-      name: "hatsu".to_string(),
-      version: env!("CARGO_PKG_VERSION").to_string(),
-      repository: None,
-      homepage: None,
-    },
-    protocols: vec!["activitypub".to_string()],
-    services: NodeInfoServices {
-      inbound: vec![],
-      outbound: vec![]
-    },
-    open_registrations: false,
-    usage: nodeinfo_usage(data).await?,
-    metadata: NodeInfoMetadata {},
-  }))
+    Ok(Json(NodeInfo {
+        version: "2.0".to_string(),
+        software: NodeInfoSoftware {
+            name: "hatsu".to_string(),
+            version: env!("CARGO_PKG_VERSION").to_string(),
+            repository: None,
+            homepage: None,
+        },
+        protocols: vec!["activitypub".to_string()],
+        services: NodeInfoServices {
+            inbound: vec![],
+            outbound: vec![]
+        },
+        open_registrations: false,
+        usage: nodeinfo_usage(data).await?,
+        metadata: NodeInfoMetadata {},
+    }))
 }
 
 

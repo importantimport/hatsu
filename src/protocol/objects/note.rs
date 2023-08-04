@@ -2,19 +2,19 @@
 // https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
 use activitypub_federation::{
-  fetch::object_id::ObjectId,
-  kinds::object::NoteType,
-  protocol::helpers::deserialize_one_or_many,
+    fetch::object_id::ObjectId,
+    kinds::object::NoteType,
+    protocol::helpers::deserialize_one_or_many,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
-  protocol::links::Mention,
-  entities::{
-      post::Model as DbPost,
-      user::Model as DbUser,
-  }
+    protocol::links::Mention,
+    entities::{
+        post::Model as DbPost,
+        user::Model as DbUser,
+    }
 };
 
 /// https://www.w3.org/ns/activitystreams#Note

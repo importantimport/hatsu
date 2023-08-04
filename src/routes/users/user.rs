@@ -1,24 +1,24 @@
 use activitypub_federation::{
-  axum::json::FederationJson,
-  config::Data,
-  protocol::context::WithContext,
-  traits::Object,
+    axum::json::FederationJson,
+    config::Data,
+    protocol::context::WithContext,
+    traits::Object,
 };
 use anyhow::anyhow;
 use axum::{
-  debug_handler,
-  extract::Path,
+    debug_handler,
+    extract::Path,
 };
 use sea_orm::*;
 
 use crate::{
-  AppData,
-  AppError,
-  entities::{
-    prelude::*,
-    user::Model as DbUser,
-  },
-  protocol::actors::Person
+    AppData,
+    AppError,
+    entities::{
+        prelude::*,
+        user::Model as DbUser,
+    },
+    protocol::actors::Person
 };
 
 #[debug_handler]
@@ -32,8 +32,8 @@ pub async fn user(
         .await?;
 
     match db_user {
-      Some(db_user) => Ok(FederationJson(WithContext::new_default(db_user.into_json(&data).await?))),
-      // TODO: StatusCode::NOT_FOUND
-      None => Err(AppError(anyhow!("User Not Found")))
+        Some(db_user) => Ok(FederationJson(WithContext::new_default(db_user.into_json(&data).await?))),
+        // TODO: StatusCode::NOT_FOUND
+        None => Err(AppError(anyhow!("User Not Found")))
     }
 }

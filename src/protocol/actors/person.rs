@@ -1,7 +1,7 @@
 use activitypub_federation::{
-  fetch::object_id::ObjectId,
-  kinds::actor::PersonType,
-  protocol::public_key::PublicKey,
+    fetch::object_id::ObjectId,
+    kinds::actor::PersonType,
+    protocol::public_key::PublicKey,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -15,38 +15,38 @@ use crate::entities::user::Model as DbUser;
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Person {
-  // 用户 ID，应为域名 + 用户名（运行时生成）
-  pub id: ObjectId<DbUser>,
-  // 类型，应始终为 Person
-  #[serde(rename = "type")]
-  pub kind: PersonType,
-  // 用户名（应为域名）
-  // `example.com`
-  pub name: String,
-  // 首选用户名（应为网站标题）
-  // `Example Domain`
-  pub preferred_username: String,
-  // 用户描述
-  // summary: Option<String>,
-  // 用户头像
-  // icon: Option<PersonImage>,
-  // 用户背景图
-  // image: Option<PersonImage>,
-  // 收件箱
-  // `https://hatsu.local/example.com/inbox`
-  pub inbox: Url,
-  // 发件箱
-  // `https://hatsu.local/example.com/outbox`
-  pub outbox: Url,
-  // 公钥
-  pub public_key: PublicKey,
-  // ActivityPub 用户附件（Metadata）
-  // ActivityPub Person Attachment (Metadata)
-  // attachment: Vec<PersonAttachment>,
-  // 关注者
-  // followers: Url,
-  // 正在关注
-  // following: Url,
+    // 用户 ID，应为域名 + 用户名（运行时生成）
+    pub id: ObjectId<DbUser>,
+    // 类型，应始终为 Person
+    #[serde(rename = "type")]
+    pub kind: PersonType,
+    // 用户名（应为域名）
+    // `example.com`
+    pub name: String,
+    // 首选用户名（应为网站标题）
+    // `Example Domain`
+    pub preferred_username: String,
+    // 用户描述
+    // summary: Option<String>,
+    // 用户头像
+    // icon: Option<PersonImage>,
+    // 用户背景图
+    // image: Option<PersonImage>,
+    // 收件箱
+    // `https://hatsu.local/example.com/inbox`
+    pub inbox: Url,
+    // 发件箱
+    // `https://hatsu.local/example.com/outbox`
+    pub outbox: Url,
+    // 公钥
+    pub public_key: PublicKey,
+    // ActivityPub 用户附件（Metadata）
+    // ActivityPub Person Attachment (Metadata)
+    // attachment: Vec<PersonAttachment>,
+    // 关注者
+    // followers: Url,
+    // 正在关注
+    // following: Url,
 }
 
 // ActivityPub 用户图像

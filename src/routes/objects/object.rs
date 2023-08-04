@@ -11,14 +11,14 @@ use axum::{
 use sea_orm::*;
 
 use crate::{
-  AppData,
-  AppError,
-  entities::{
-    prelude::*,
-    post::Model as DbPost
-  },
-  protocol::objects::Note,
-  utilities::remove_https
+    AppData,
+    AppError,
+    entities::{
+        prelude::*,
+        post::Model as DbPost
+    },
+    protocol::objects::Note,
+    utilities::remove_https
 };
 
 #[debug_handler]
@@ -36,8 +36,8 @@ pub async fn object(
         .await?;
 
     match db_post {
-      Some(db_post) => Ok(Json(db_post.into_json(&data).await?)),
-      // TODO: StatusCode::NOT_FOUND
-      None => Err(AppError(anyhow!("Post Not Found")))
+        Some(db_post) => Ok(Json(db_post.into_json(&data).await?)),
+        // TODO: StatusCode::NOT_FOUND
+        None => Err(AppError(anyhow!("Post Not Found")))
     }
 }

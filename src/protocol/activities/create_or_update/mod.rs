@@ -6,6 +6,6 @@ pub use note::CreateOrUpdateNote;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub enum CreateOrUpdateType {
-  Create(CreateType),
-  Update(UpdateType)
+    Create(CreateType),
+    Update(UpdateType)
 }
