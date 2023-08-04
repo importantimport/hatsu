@@ -16,7 +16,7 @@ use crate::{
     AppData,
     entities::{
         prelude::*,
-        user::Model as DbUser
+        user::{self, Model as DbUser}
     },
     error::AppError,
     protocol::actors::Person,
@@ -125,12 +125,12 @@ impl Object for DbUser {
         Ok(())
     }
 
-    // 转换为本地格式
+    // 转换为本地格式（同时保存到数据库）
     async fn from_json(
         json: Self::Kind,
-        _data: &Data<Self::DataType>,
+        data: &Data<Self::DataType>,
     ) -> Result<Self, Self::Error> {
-        Ok(Self {
+        let user = Self {
             id: json.id.to_string(),
             name: json.name,
             preferred_username: json.preferred_username,
@@ -141,7 +141,21 @@ impl Object for DbUser {
             last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
             // followers: vec![],
             local: false,
-        })
+        };
+
+        // 写入数据库
+        // TODO: on_conflict 时执行更新
+        User::insert(user.clone().into_active_model())
+            .on_conflict(
+                sea_query::OnConflict::column(user::Column::Id)
+                    .do_nothing()
+                    .to_owned()
+            )
+            .do_nothing()
+            .exec(&data.conn)
+            .await?;
+
+        Ok(user)
     }
 
     // 删除用户

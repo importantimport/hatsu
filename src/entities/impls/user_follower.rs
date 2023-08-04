@@ -9,8 +9,7 @@ use crate::{
   error::AppError,
   entities::{
     prelude::*,
-    user_follower,
-    user_follower::Model as DbUserFollower
+    user_follower::{self, Model as DbUserFollower}
   },
 };
 
