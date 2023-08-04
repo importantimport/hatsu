@@ -1,13 +1,15 @@
 use std::env;
 
 use activitypub_federation::{
+    activity_queue::send_activity,
     config::Data,
     http_signatures::generate_actor_keypair,
     protocol::verification::verify_domains_match,
-    traits::{Actor, Object}
+    traits::{Actor, Object, ActivityHandler},
 };
 use chrono::{Local, NaiveDateTime};
 use sea_orm::*;
+use serde::Serialize;
 use url::Url;
 
 use crate::{
@@ -54,6 +56,28 @@ impl DbUser {
           last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
           // followers: vec![],
       })
+  }
+
+  /// 发送动态 / Send Activity
+  /// 
+  /// activitypub_federation::activity_queue::send_activity 的简单封装
+  /// 
+  /// 遇到类型问题加不上去，不要忘了用 WithContext::new_default(activity) 套一层
+  /// 
+  /// https://github.com/LemmyNet/activitypub-federation-rust/blob/35bf29ae73e33a537a9fdb2d2bb8bb1ba4842991/examples/federation/objects/person.rs#L111-L132
+  pub async fn send<Activity>(
+    &self,
+    activity: Activity,
+    inboxes: Vec<Url>,
+    data: &Data<AppData>,
+  ) -> Result<(), <Activity as ActivityHandler>::Error>
+  where
+    Activity: ActivityHandler + Serialize,
+    <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error>
+  {
+    // let activity = WithContext::new_default(activity);
+    send_activity(activity, self, inboxes, data).await?;
+    Ok(())
   }
 }
 

@@ -1,5 +1,4 @@
 use activitypub_federation::{
-  activity_queue::send_activity,
   config::Data,
   fetch::object_id::ObjectId,
   kinds::activity::AcceptType,
@@ -52,7 +51,7 @@ impl AcceptFollow {
 
     let inbox = vec![person.shared_inbox_or_inbox()];
 
-    send_activity(WithContext::new_default(accept), &user, inbox, data).await?;
+    user.send(WithContext::new_default(accept), inbox, data).await?;
 
     Ok(())
   }

@@ -3,7 +3,6 @@
 use std::env;
 
 use activitypub_federation::{
-  activity_queue::send_activity,
   config::Data,
   fetch::object_id::ObjectId,
   kinds::activity::CreateType,
@@ -61,7 +60,11 @@ impl CreatePost {
         .await?
         .unwrap();
 
-    send_activity(create_with_context, &db_user, vec![inbox], data).await?;
+    db_user.send(
+      create_with_context,
+      vec![inbox],
+      data
+    ).await?;
 
     Ok(())
   }
