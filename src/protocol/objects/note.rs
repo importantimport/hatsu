@@ -2,21 +2,22 @@
 // https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
 use activitypub_federation::{
-    fetch::object_id::ObjectId,
-    kinds::{
-        link::MentionType,
-        object::NoteType,
-    },
-    protocol::helpers::deserialize_one_or_many,
+  fetch::object_id::ObjectId,
+  kinds::object::NoteType,
+  protocol::helpers::deserialize_one_or_many,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::entities::{
-    post::Model as DbPost,
-    user::Model as DbUser,
+use crate::{
+  protocol::links::Mention,
+  entities::{
+      post::Model as DbPost,
+      user::Model as DbUser,
+  }
 };
 
+/// https://www.w3.org/ns/activitystreams#Note
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Note {
@@ -29,11 +30,4 @@ pub struct Note {
     pub(crate) content: String,
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
     pub(crate) tag: Vec<Mention>,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Mention {
-    pub href: Url,
-    #[serde(rename = "type")]
-    pub kind: MentionType,
 }

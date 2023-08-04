@@ -1,2 +1,2 @@
-pub mod post;
-pub mod user;
+mod note;
+pub use note::Note;

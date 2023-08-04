@@ -18,7 +18,8 @@ use crate::{
     AppData,
     protocol::{
       activities::create_post::CreatePost,
-      objects::post::{Mention, Note},
+      links::Mention,
+      objects::Note,
     },
     entities::{
         prelude::*,

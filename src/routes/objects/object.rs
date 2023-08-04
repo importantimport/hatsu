@@ -17,7 +17,7 @@ use crate::{
     post::Model as DbPost
   },
   error::AppError,
-  protocol::objects::post::Note,
+  protocol::objects::Note,
   utilities::remove_https
 };
 
