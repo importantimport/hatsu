@@ -75,6 +75,7 @@ impl DbUser {
     Activity: ActivityHandler + Serialize,
     <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error>
   {
+    // TODO: 在发送的同时保存到数据库
     // let activity = WithContext::new_default(activity);
     send_activity(activity, self, inboxes, data).await?;
     Ok(())
