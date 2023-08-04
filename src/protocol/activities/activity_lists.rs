@@ -5,13 +5,11 @@ use activitypub_federation::{
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use super::{
-  create_post::CreatePost,
-  following::{
-    follow::Follow,
-    accept::AcceptFollow,
-    undo_follow::UndoFollow,
-  }
+use crate::protocol::activities::{
+    create_post::CreatePost,
+    AcceptFollow,
+    Follow,
+    UndoFollow
 };
 
 /// 用户 Inbox 接受的 Activity 类型

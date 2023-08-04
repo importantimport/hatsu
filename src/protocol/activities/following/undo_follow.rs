@@ -10,7 +10,7 @@ use url::Url;
 
 use crate::{
   AppData,
-  protocol::activities::following::follow::Follow,
+  protocol::activities::Follow,
   error::AppError,
   entities::user::Model as DbUser,
 };
