@@ -11,7 +11,6 @@ use activitypub_federation::{
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
-use uuid::Uuid;
 
 use crate::{
     AppData,
@@ -25,6 +24,7 @@ use crate::{
         activities::CreateOrUpdateType,
         objects::Note
     },
+    utilities::generate_activity_id
 };
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -69,7 +69,7 @@ impl CreateOrUpdateNote {
         };
 
         let create_or_update_note = Self {
-            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?,
+            id: generate_activity_id(data.domain())?,
             actor: note.attributed_to.clone(),
             to: note.to.clone(),
             cc: note.cc.clone(),

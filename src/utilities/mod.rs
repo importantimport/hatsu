@@ -1,3 +1,6 @@
+mod activities;
+pub use activities::*;
+
 mod feed;
 pub use feed::*;
 
