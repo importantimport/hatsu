@@ -6,6 +6,7 @@ use axum::{
     http::Response
 };
 
+mod activities;
 mod nodeinfo;
 mod objects;
 mod users;
@@ -21,6 +22,7 @@ async fn root() -> impl IntoResponse {
 
 pub fn init() -> Router<(), Body> {
     Router::new()
+        .merge(activities::init())
         .merge(nodeinfo::init())
         .merge(objects::init())
         .merge(users::init())
