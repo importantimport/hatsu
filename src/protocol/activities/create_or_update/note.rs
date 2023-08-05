@@ -42,6 +42,21 @@ pub struct CreateOrUpdateNote {
 }
 
 impl CreateOrUpdateNote {
+    pub async fn new(
+        note: Note,
+        kind: CreateOrUpdateType,
+        data: &Data<AppData>
+    ) -> Result<WithContext<Self>, AppError> {
+        Ok(WithContext::new_default(Self {
+            id: generate_activity_id(data.domain(), None)?,
+            actor: note.attributed_to.clone(),
+            to: note.to.clone(),
+            cc: note.cc.clone(),
+            object: note,
+            kind
+        }))
+    }
+
     pub async fn send(
         user_id: ObjectId<DbUser>,
         post_id: ObjectId<DbPost>,
@@ -68,20 +83,8 @@ impl CreateOrUpdateNote {
             tag: vec![],
         };
 
-        let create_or_update_note = Self {
-            id: generate_activity_id(data.domain(), None)?,
-            actor: note.attributed_to.clone(),
-            to: note.to.clone(),
-            cc: note.cc.clone(),
-            object: note,
-            kind
-        };
-
-        let create_or_update_note_with_context = WithContext::new_default(create_or_update_note);
-
         // TODO: save note & create_or_update_note to database
-
-        user.send(create_or_update_note_with_context, vec![public()], &data).await?;
+        user.send(Self::new(note, kind, &data).await?, vec![public()], &data).await?;
 
         Ok(())
     }
