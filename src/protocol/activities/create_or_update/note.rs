@@ -69,7 +69,7 @@ impl CreateOrUpdateNote {
         };
 
         let create_or_update_note = Self {
-            id: generate_activity_id(data.domain())?,
+            id: generate_activity_id(data.domain(), None)?,
             actor: note.attributed_to.clone(),
             to: note.to.clone(),
             cc: note.cc.clone(),
