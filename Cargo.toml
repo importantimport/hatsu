@@ -53,4 +53,4 @@ tokio-cron-scheduler = "*"
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = { version = "2.4", features = ["serde"] }
-uuid = { version = "1.4", features = ["v4", "fast-rng", "macro-diagnostics"] }
+uuid = { version = "1.4", features = ["v4", "v7", "fast-rng", "macro-diagnostics"] }

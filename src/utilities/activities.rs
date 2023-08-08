@@ -10,6 +10,6 @@ pub fn generate_activity_id(domain: &str, id: Option<String>) -> Result<Url, App
     Ok(Url::parse(&format!(
         "https://{}/a/{}",
         domain,
-        id.unwrap_or_else(|| Uuid::new_v4().to_string())
+        id.unwrap_or_else(|| Uuid::now_v7().to_string())
     ))?)
 }
