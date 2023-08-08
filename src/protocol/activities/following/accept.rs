@@ -7,7 +7,6 @@ use activitypub_federation::{
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
-use uuid::Uuid;
 
 use crate::{
     AppData,
