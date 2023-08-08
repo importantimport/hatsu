@@ -45,7 +45,7 @@ impl AcceptFollow {
             object: follow,
             kind: AcceptType::Accept,
             // 暂时使用 UUID v4 作为 ID
-            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
+            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?.into(),
         };
 
         let inbox = vec![person.shared_inbox_or_inbox()];

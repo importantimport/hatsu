@@ -45,7 +45,7 @@ impl CreatePost {
 
         let create = CreatePost {
         // TODO: I Don't Know
-        // id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?,
+        // id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?,
         id: note.id.clone().into(),
         actor: note.attributed_to.clone(),
         to: note.to.clone(),

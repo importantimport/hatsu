@@ -32,7 +32,7 @@ impl DbUserFollower {
         Some(_user_follower) => Ok(()),
         None => {
           let user_follower = Self {
-            id: Uuid::new_v4().to_string(),
+            id: Uuid::now_v7().to_string(),
             user_id: user_id.to_string(),
             follower_id: follower_id.to_string(),
           }.into_active_model();

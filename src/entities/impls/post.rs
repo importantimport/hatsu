@@ -98,7 +98,7 @@ impl Object for DbPost {
         };
         let note = Note {
             kind: Default::default(),
-            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::new_v4()))?.into(),
+            id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?.into(),
             // TODO: multiple user
             attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))?.into(),
             // 发送给提及的用户
