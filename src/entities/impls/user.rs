@@ -10,6 +10,7 @@ use activitypub_federation::{
 use chrono::{Local, NaiveDateTime};
 use sea_orm::*;
 use serde::Serialize;
+use serde_json::to_string;
 use url::Url;
 
 use crate::{
@@ -17,6 +18,7 @@ use crate::{
     AppError,
     entities::{
         prelude::*,
+        activity::{self, Model as DbActivity},
         user::{self, Model as DbUser}
     },
     protocol::actors::Person,
@@ -73,10 +75,27 @@ impl DbUser {
   ) -> Result<(), <Activity as ActivityHandler>::Error>
   where
     Activity: ActivityHandler + Serialize,
-    <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error>
+    <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error> + From<migration::DbErr>
   {
-    // TODO: 在发送的同时保存到数据库
+    // 从 Activity URL 提取 UUID
+    let activity_id: String = activity
+        .id()
+        .path()
+        .split("/")
+        .last()
+        .unwrap()
+        .to_string();
+
+    // 保存到数据库
+    activity::Entity::insert(DbActivity {
+        id: activity_id,
+        activity: to_string(&activity)?
+    }.into_active_model())
+        .exec(&data.conn)
+        .await?;
+
     // let activity = WithContext::new_default(activity);
+    // 发送
     send_activity(activity, self, inboxes, data).await?;
     Ok(())
   }
