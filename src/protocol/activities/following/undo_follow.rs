@@ -12,7 +12,10 @@ use crate::{
     AppData,
     AppError,
     protocol::activities::Follow,
-    entities::user::Model as DbUser,
+    entities::{
+        user::Model as DbUser,
+        user_follower::Model as DbUserFollower,
+    },
 };
 
 /// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/undo_follow.rs
@@ -51,8 +54,19 @@ impl ActivityHandler for UndoFollow {
         Ok(())
     }
 
-    async fn receive(self, _data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        // TODO
+    async fn receive(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+        // 被取消关注者（本地账号）, user
+        let object = self.object.object.dereference_local(data).await?;
+        // 取消关注者, unfollower
+        let actor = self.actor.dereference(data).await?;
+
+        // 删除关注记录
+        DbUserFollower::delete(
+            Url::parse(&object.id)?,
+            Url::parse(&actor.id)?,
+            data
+        ).await?;
+
         Ok(())
     }
 }

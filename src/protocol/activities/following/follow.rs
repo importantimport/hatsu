@@ -62,8 +62,7 @@ impl ActivityHandler for Follow {
         // 关注者, follower
         let actor = self.actor.dereference(data).await?;
 
-        // 写入数据库
-        // TODO: 验证可用性
+        // 添加关注记录
         DbUserFollower::insert(
             Url::parse(&object.id)?,
             Url::parse(&actor.id)?,
@@ -71,7 +70,6 @@ impl ActivityHandler for Follow {
         ).await?;
 
         // 发送接受关注
-        // TODO: 验证可用性
         object.send(AcceptFollow::new(self, data).await?, vec![actor.shared_inbox_or_inbox()], data).await?;
 
         Ok(())

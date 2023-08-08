@@ -21,27 +21,51 @@ impl DbUserFollower {
         data: &Data<AppData>
     ) -> Result<(), AppError> {
         match UserFollower::find()
-        .filter(
-            Condition::all()
-                .add(user_follower::Column::UserId.eq(user_id.to_string()))
-                .add(user_follower::Column::FollowerId.eq(follower_id.to_string()))
-        )
-        .one(&data.conn)
-        .await? {
-            // TODO: 报错
-            Some(_user_follower) => Ok(()),
-            None => {
-                let user_follower = Self {
-                    id: Uuid::now_v7().to_string(),
-                    user_id: user_id.to_string(),
-                    follower_id: follower_id.to_string(),
-                }.into_active_model();
+            .filter(
+                Condition::all()
+                    .add(user_follower::Column::UserId.eq(user_id.to_string()))
+                    .add(user_follower::Column::FollowerId.eq(follower_id.to_string()))
+            )
+            .one(&data.conn)
+            .await? {
+                // TODO: 报错
+                Some(_user_follower) => Ok(()),
+                None => {
+                    let user_follower = Self {
+                        id: Uuid::now_v7().to_string(),
+                        user_id: user_id.to_string(),
+                        follower_id: follower_id.to_string(),
+                    }.into_active_model();
 
-                user_follower.insert(&data.conn).await?;
+                    user_follower.insert(&data.conn).await?;
 
-                Ok(())
+                    Ok(())
+                }
             }
-        }
+    }
+
+    // 移除关注
+    pub async fn delete(
+        user_id: Url,
+        follower_id: Url,
+        data: &Data<AppData>
+    ) -> Result<(), AppError> {
+        match UserFollower::find()
+            .filter(
+                Condition::all()
+                    .add(user_follower::Column::UserId.eq(user_id.to_string()))
+                    .add(user_follower::Column::FollowerId.eq(follower_id.to_string()))
+            )
+            .one(&data.conn)
+            .await? {
+                // 删除关注记录
+                Some(user_follower) => {
+                    user_follower.delete(&data.conn).await?;
+                    Ok(())
+                },
+                // TODO: 报错
+                None => Ok(())
+            }
     }
 
     // 查找对应用户名的关注者
