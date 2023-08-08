@@ -1,6 +1,6 @@
 // https://github.com/LemmyNet/activitypub-federation-rust/blob/61085a643f05dbb70502b3c519fd666214b7e308/examples/live_federation/activities/create_post.rs
 
-use std::env;
+// use std::env;
 
 use activitypub_federation::{
     config::Data,
@@ -8,11 +8,11 @@ use activitypub_federation::{
     kinds::activity::CreateType,
     protocol::{
         helpers::deserialize_one_or_many,
-        context::WithContext
+        // context::WithContext
     },
     traits::{ActivityHandler, Object},
 };
-use sea_orm::*;
+// use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -20,7 +20,7 @@ use crate::{
     AppData,
     AppError,
     entities::{
-        prelude::*,
+        // prelude::*,
         post::Model as DbPost,
         user::Model as DbUser,
     },
@@ -40,30 +40,30 @@ pub struct CreatePost {
 }
 
 impl CreatePost {
-    pub async fn send(note: Note, inbox: Url, data: &Data<AppData>) -> Result<(), AppError> {
-        tracing::info!("Sending reply to {}", &note.attributed_to);
+    // pub async fn send(note: Note, inbox: Url, data: &Data<AppData>) -> Result<(), AppError> {
+    //     tracing::info!("Sending reply to {}", &note.attributed_to);
 
-        let create = CreatePost {
-        // TODO: I Don't Know
-        // id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?,
-        id: note.id.clone().into(),
-        actor: note.attributed_to.clone(),
-        to: note.to.clone(),
-        object: note,
-        kind: CreateType::Create,
-        };
-        let create_with_context = WithContext::new_default(create);
+    //     let create = CreatePost {
+    //         // TODO: I Don't Know
+    //         // id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?,
+    //         id: note.id.clone().into(),
+    //         actor: note.attributed_to.clone(),
+    //         to: note.to.clone(),
+    //         object: note,
+    //         kind: CreateType::Create,
+    //     };
+    //     let create_with_context = WithContext::new_default(create);
 
-        // TODO: multiple user
-        let db_user: DbUser = User::find_by_id(format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))
-            .one(&data.conn)
-            .await?
-            .unwrap();
+    //     // TODO: multiple user
+    //     let db_user: DbUser = User::find_by_id(format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))
+    //         .one(&data.conn)
+    //         .await?
+    //         .unwrap();
 
-        db_user.send(create_with_context, vec![inbox], data).await?;
+    //     db_user.send(create_with_context, vec![inbox], data).await?;
 
-        Ok(())
-    }
+    //     Ok(())
+    // }
 }
 
 #[async_trait::async_trait]

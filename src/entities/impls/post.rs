@@ -18,7 +18,7 @@ use crate::{
     AppData,
     AppError,
     protocol::{
-      activities::create_post::CreatePost,
+      activities::{CreateOrUpdateNote, CreateOrUpdateType},
       links::Mention,
       objects::Note,
     },
@@ -123,7 +123,15 @@ impl Object for DbPost {
             .exec(&data.conn)
             .await?;
 
-        CreatePost::send(note, creator.shared_inbox_or_inbox(), data).await?;
+        // 获取本地用户
+        let person = note.attributed_to.dereference_local(data).await?;
+
+        // Send Activity
+        // 尝试替换 CreatePost::send
+        person.send(CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, &data).await?, vec![creator.shared_inbox_or_inbox()], data).await?;
+
+        // CreatePost::send(note, creator.shared_inbox_or_inbox(), data).await?;
+        
 
         Ok(post)
     }
