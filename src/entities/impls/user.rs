@@ -82,7 +82,7 @@ impl DbUser {
     let activity_id: String = activity
         .id()
         .path()
-        .split("/")
+        .split('/')
         .last()
         .unwrap()
         .to_string();
