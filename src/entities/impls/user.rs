@@ -12,6 +12,7 @@ use sea_orm::*;
 use serde::Serialize;
 use serde_json::to_string;
 use url::Url;
+// use uuid::Uuid;
 
 use crate::{
     AppData,
@@ -85,6 +86,9 @@ impl DbUser {
         .last()
         .unwrap()
         .to_string();
+
+    // 验证这个 UUID
+    // let uuid = Uuid::try_parse(&activity_id)?;
 
     // 保存到数据库
     activity::Entity::insert(DbActivity {
