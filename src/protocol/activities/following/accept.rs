@@ -3,7 +3,7 @@ use activitypub_federation::{
     fetch::object_id::ObjectId,
     kinds::activity::AcceptType,
     protocol::{helpers::deserialize_skip_error, context::WithContext},
-    traits::{ActivityHandler, Actor},
+    traits::ActivityHandler,
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -34,11 +34,12 @@ pub struct AcceptFollow {
 /// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/accept.rs
 /// https://github.com/LemmyNet/activitypub-federation-rust/blob/7bb17f21d59b0aed6126d8a8a0cd60897cb02e6d/examples/local_federation/activities/accept.rs
 impl AcceptFollow {
-    pub async fn send(follow: Follow, data: &Data<AppData>) -> Result<(), AppError> {
+    pub async fn new(follow: Follow, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
         // 被关注者（本地账号），https://{}/u/{}
         let user: DbUser = follow.object.dereference_local(data).await?;
         // 关注者
         let person = follow.actor.clone().dereference(data).await?;
+        // 接受关注
         let accept = AcceptFollow {
             actor: Url::parse(&user.id)?.into(),
             to: Some([Url::parse(&person.id)?.into()]),
@@ -48,11 +49,7 @@ impl AcceptFollow {
             id: generate_activity_id(data.domain(), None)?
         };
 
-        let inbox = vec![person.shared_inbox_or_inbox()];
-
-        user.send(WithContext::new_default(accept), inbox, data).await?;
-
-        Ok(())
+        Ok(WithContext::new_default(accept))
     }
 }
 

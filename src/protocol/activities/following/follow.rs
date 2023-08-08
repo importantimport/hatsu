@@ -3,7 +3,7 @@ use activitypub_federation::{
     fetch::object_id::ObjectId,
     kinds::activity::FollowType,
     protocol::helpers::deserialize_skip_error,
-    traits::ActivityHandler,
+    traits::{Actor, ActivityHandler},
 };
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -62,15 +62,17 @@ impl ActivityHandler for Follow {
         // 关注者, follower
         let actor = self.actor.dereference(data).await?;
 
+        // 写入数据库
         // TODO: 验证可用性
-        DbUserFollower::new(
+        DbUserFollower::insert(
             Url::parse(&object.id)?,
             Url::parse(&actor.id)?,
             data
         ).await?;
 
+        // 发送接受关注
         // TODO: 验证可用性
-        AcceptFollow::send(self, data).await?;
+        object.send(AcceptFollow::new(self, data).await?, vec![actor.shared_inbox_or_inbox()], data).await?;
 
         Ok(())
     }

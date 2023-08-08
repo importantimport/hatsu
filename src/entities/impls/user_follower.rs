@@ -15,7 +15,7 @@ use crate::{
 
 impl DbUserFollower {
     // 添加关注
-    pub async fn new(
+    pub async fn insert(
         user_id: Url,
         follower_id: Url,
         data: &Data<AppData>
