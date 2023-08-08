@@ -30,6 +30,12 @@ cargo build
 cargo build --release
 # install
 cargo install
+# lint
+cargo clippy
+# lint fix
+cargo clippy --fix
+# format
+cargo fmt
 ```
 
 ###### Docker
