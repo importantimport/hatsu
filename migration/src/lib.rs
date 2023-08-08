@@ -2,7 +2,7 @@ pub use sea_orm_migration::prelude::*;
 
 mod m20220101_000001_create_table;
 mod m20230802_000001_user_follower;
-mod m20230805_000001_activity;
+mod m20230808_000001_activity;
 
 pub struct Migrator;
 
@@ -12,7 +12,7 @@ impl MigratorTrait for Migrator {
         vec![
             Box::new(m20220101_000001_create_table::Migration),
             Box::new(m20230802_000001_user_follower::Migration),
-            Box::new(m20230805_000001_activity::Migration),
+            Box::new(m20230808_000001_activity::Migration),
         ]
     }
 }

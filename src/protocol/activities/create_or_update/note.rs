@@ -17,7 +17,6 @@ use crate::{
     AppError,
     entities::{
         prelude::*,
-        activity::Model as DbActivity,
         user::Model as DbUser,
         post::Model as DbPost,
     },
@@ -39,7 +38,7 @@ pub struct CreateOrUpdateNote {
     pub(crate) cc: Vec<Url>,
     #[serde(rename = "type")]
     pub(crate) kind: CreateOrUpdateType,
-    pub(crate) id: ObjectId<DbActivity>,
+    pub(crate) id: Url,
 }
 
 impl CreateOrUpdateNote {
@@ -97,7 +96,7 @@ impl ActivityHandler for CreateOrUpdateNote {
     type Error = AppError;
 
     fn id(&self) -> &Url {
-        self.id.inner()
+        &self.id
     }
 
     fn actor(&self) -> &Url {
@@ -106,7 +105,7 @@ impl ActivityHandler for CreateOrUpdateNote {
 
     async fn verify(&self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // TODO
-        DbPost::verify(&self.object, self.id.inner(), data).await?;
+        DbPost::verify(&self.object, &self.id, data).await?;
         Ok(())
     }
 

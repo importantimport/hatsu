@@ -12,10 +12,7 @@ use crate::{
     AppData,
     AppError,
     protocol::activities::Follow,
-    entities::{
-        activity::Model as DbActivity,
-        user::Model as DbUser
-    },
+    entities::user::Model as DbUser,
 };
 
 /// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/undo_follow.rs
@@ -30,7 +27,7 @@ pub struct UndoFollow {
     pub(crate) object: Follow,
     #[serde(rename = "type")]
     pub(crate) kind: UndoType,
-    pub(crate) id: ObjectId<DbActivity>,
+    pub(crate) id: Url,
 }
 
 /// 只接收，不发送
@@ -42,7 +39,7 @@ impl ActivityHandler for UndoFollow {
     type Error = AppError;
 
     fn id(&self) -> &Url {
-        self.id.inner()
+        &self.id
     }
 
     fn actor(&self) -> &Url {

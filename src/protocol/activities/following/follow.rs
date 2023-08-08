@@ -12,7 +12,6 @@ use crate::{
     AppData,
     AppError,
     entities::{
-        activity::Model as DbActivity,
         user::Model as DbUser,
         user_follower::Model as DbUserFollower
     },
@@ -33,7 +32,7 @@ pub struct Follow {
     pub(crate) object: ObjectId<DbUser>,
     #[serde(rename = "type")]
     pub(crate) kind: FollowType,
-    pub(crate) id: ObjectId<DbActivity>,
+    pub(crate) id: Url,
 }
 
 /// 只接收，不发送
@@ -45,7 +44,7 @@ impl ActivityHandler for Follow {
     type Error = AppError;
 
     fn id(&self) -> &Url {
-        self.id.inner()
+        &self.id
     }
 
     fn actor(&self) -> &Url {
