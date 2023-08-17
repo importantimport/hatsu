@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">For Users</li><li class="chapter-item expanded affix "><li class="part-title">For Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/00-compatibility-chart.html"><strong aria-hidden="true">5.</strong> Compatibility Chart</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -231,6 +231,16 @@ which caches dependencies to avoid duplicate build dependencies.</p>
 <p>If you need to rebuild, add the <code>--build</code> flag:</p>
 <pre><code class="language-bash">docker-compose up -d --build
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="compatibility-chart"><a class="header" href="#compatibility-chart">Compatibility Chart</a></h1>
+<p>Hatsu is primarily geared towards the micro-blogging platform in the Fediverse.</p>
+<p>Currently I've created a chart for all the platforms I expect to be compatible with, and hopefully it will be filled in later:</p>
+<div class="table-wrapper"><table><thead><tr><th></th><th><a href="https://www.w3.org/ns/activitystreams#Follow">Follow</a></th><th></th></tr></thead><tbody>
+<tr><td>Mastodon</td><td>✅</td><td></td></tr>
+<tr><td>GoToSocial</td><td></td><td></td></tr>
+<tr><td>Misskey</td><td></td><td></td></tr>
+<tr><td>Pleroma</td><td></td><td></td></tr>
+</tbody></table>
+</div><!-- After a period of time: if you wish to support the new platform, you can open a new discussion. -->
 
                     </main>
 
