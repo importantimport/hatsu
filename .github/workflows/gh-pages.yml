@@ -3,6 +3,7 @@ name: GitHub Pages
 on:
   push:
     paths:
+      - '.github/workflows/gh-pages.yml'
       - 'docs/src/**'
       - 'docs/book.toml'
   pull_request:
