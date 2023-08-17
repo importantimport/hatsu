@@ -1,2 +1,4 @@
 [build]
-rustflags = "--cfg uuid_unstable"
+rustflags = [
+    "--cfg uuid_unstable"
+]
