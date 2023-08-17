@@ -2,9 +2,9 @@
 
 - [Intro](./intro.md)
 
-# For Users
+# for Users
 
-# For Developers
+# for Developers
 
 - [Prepare](./developers/01-prepare.md)
 - [Local Development](./developers/02-local-development.md)
