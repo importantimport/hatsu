@@ -7,6 +7,7 @@ use axum::{
     Json,
     debug_handler,
     extract::Path,
+    response::{Redirect, IntoResponse},
 };
 use sea_orm::*;
 
@@ -22,7 +23,7 @@ use crate::{
 };
 
 #[debug_handler]
-pub async fn object(
+pub async fn handler(
   Path(mut object): Path<String>,
   data: Data<AppData>,
 ) -> Result<Json<Note>, AppError> {
@@ -40,4 +41,9 @@ pub async fn object(
         // TODO: StatusCode::NOT_FOUND
         None => Err(AppError(anyhow!("Object Not Found")))
     }
+}
+
+#[debug_handler]
+pub async fn redirect(Path(object): Path<String>) -> impl IntoResponse {
+    Redirect::permanent(&format!("/o/{}", object)).into_response()
 }

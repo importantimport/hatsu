@@ -8,6 +8,7 @@ use anyhow::anyhow;
 use axum::{
     debug_handler,
     extract::Path,
+    response::{IntoResponse, Redirect},
 };
 use sea_orm::*;
 
@@ -22,7 +23,7 @@ use crate::{
 };
 
 #[debug_handler]
-pub async fn user(
+pub async fn handler(
     Path(name): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Person>>, AppError> {
@@ -36,4 +37,9 @@ pub async fn user(
         // TODO: StatusCode::NOT_FOUND
         None => Err(AppError(anyhow!("User Not Found")))
     }
+}
+
+#[debug_handler]
+pub async fn redirect(Path(name): Path<String>) -> impl IntoResponse {
+    Redirect::permanent(&format!("/u/{}", name)).into_response()
 }

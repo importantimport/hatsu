@@ -15,7 +15,7 @@ use crate::{
 };
 
 #[debug_handler]
-pub async fn user_inbox(
+pub async fn handler(
     data: Data<AppData>,
     activity_data: ActivityData
 ) -> impl IntoResponse {
