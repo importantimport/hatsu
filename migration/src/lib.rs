@@ -3,6 +3,7 @@ pub use sea_orm_migration::prelude::*;
 mod m20220101_000001_create_table;
 mod m20230802_000001_user_follower;
 mod m20230808_000001_activity;
+mod m20230820_000001_user_feed;
 
 pub struct Migrator;
 
@@ -13,6 +14,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20220101_000001_create_table::Migration),
             Box::new(m20230802_000001_user_follower::Migration),
             Box::new(m20230808_000001_activity::Migration),
+            Box::new(m20230820_000001_user_feed::Migration),
         ]
     }
 }
