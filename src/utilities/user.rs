@@ -9,8 +9,11 @@ use crate::{
 /// User Site Feed
 #[derive(Deserialize, Serialize)]
 pub struct Feed {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub json: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub atom: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub rss: Option<String>,
 }
 
