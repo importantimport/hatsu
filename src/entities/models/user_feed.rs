@@ -3,19 +3,18 @@
 use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(table_name = "user")]
+#[sea_orm(table_name = "user_feed")]
 pub struct Model {
+    pub user_id: String,
+    pub hatsu: String,
     #[sea_orm(primary_key, auto_increment = false)]
-    pub id: String,
-    pub name: String,
-    pub preferred_username: String,
-    pub inbox: String,
-    pub outbox: String,
-    pub local: bool,
-    pub public_key: String,
-    pub private_key: Option<String>,
-    pub last_refreshed_at: String,
-    pub feed: String,
+    pub feed_url: String,
+    pub next_url: Option<String>,
+    pub title: String,
+    pub description: Option<String>,
+    pub icon: Option<String>,
+    pub language: Option<String>,
+    pub items: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
