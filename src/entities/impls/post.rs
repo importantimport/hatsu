@@ -128,7 +128,7 @@ impl Object for DbPost {
 
         // Send Activity
         // 尝试替换 CreatePost::send
-        person.send(CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, &data).await?, vec![creator.shared_inbox_or_inbox()], data).await?;
+        person.send(CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, data).await?, vec![creator.shared_inbox_or_inbox()], data).await?;
 
         // CreatePost::send(note, creator.shared_inbox_or_inbox(), data).await?;
         

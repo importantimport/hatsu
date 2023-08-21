@@ -55,7 +55,7 @@ impl DbUserFeed {
     ) -> Result<Self, AppError> {
         let json: UserFeed = serde_json::from_str(&str)?;
 
-        Ok(Self::from_json(json, user_id).await?)
+        Self::from_json(json, user_id).await
     }
 }
 

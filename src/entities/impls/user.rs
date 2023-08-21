@@ -65,9 +65,9 @@ impl DbUser {
                     .json()
                     .await?;
                 
-                let feed = DbUserFeed::from_json(json, id.into()).await?;
+                
 
-                feed
+                DbUserFeed::from_json(json, id.into()).await?
             },
             Feed { json: None, .. } => todo!()
             // Atom 1.0
