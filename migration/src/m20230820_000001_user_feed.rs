@@ -23,7 +23,7 @@ impl MigrationTrait for Migration {
                     .table(UserFeed::Table)
                     .if_not_exists()
                     .col(ColumnDef::new(UserFeed::UserId).string().not_null())
-                    .col(ColumnDef::new(UserFeed::Hatsu).json().not_null())
+                    .col(ColumnDef::new(UserFeed::Hatsu).json())
                     .col(ColumnDef::new(UserFeed::FeedUrl).string().not_null().primary_key())
                     .col(ColumnDef::new(UserFeed::NextUrl).string())
                     .col(ColumnDef::new(UserFeed::Title).string().not_null())

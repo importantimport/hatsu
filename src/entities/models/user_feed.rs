@@ -6,7 +6,7 @@ use sea_orm::entity::prelude::*;
 #[sea_orm(table_name = "user_feed")]
 pub struct Model {
     pub user_id: String,
-    pub hatsu: String,
+    pub hatsu: Option<String>,
     #[sea_orm(primary_key, auto_increment = false)]
     pub feed_url: String,
     pub next_url: Option<String>,
