@@ -55,20 +55,7 @@ impl DbUserFeed {
     ) -> Result<Self, AppError> {
         let json: UserFeed = serde_json::from_str(&str)?;
 
-        Ok(Self {
-            user_id: user_id.inner().to_string(),
-            hatsu: match json.hatsu {
-                Some(hatsu) => Some(serde_json::to_string(&hatsu)?),
-                None => None,
-            },
-            feed_url: json.feed_url,
-            next_url: json.next_url,
-            title: json.title,
-            description: json.description,
-            icon: json.icon,
-            language: json.language,
-            items: serde_json::to_string(&json.items)?
-        })
+        Ok(Self::from_json(json, user_id).await?)
     }
 }
 
