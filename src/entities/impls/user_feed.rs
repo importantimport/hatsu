@@ -92,13 +92,20 @@ pub struct UserFeedHatsu {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct UserFeedItem {
     id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     title: Option<String>,
     content_html: Option<String>,
     content_text: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     summary: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     image: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     date_published: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     date_modified: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     language: Option<String>,
 }
