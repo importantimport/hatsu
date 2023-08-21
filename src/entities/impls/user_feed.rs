@@ -69,10 +69,14 @@ pub struct UserFeed {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hatsu: Option<UserFeedHatsu>,
     pub feed_url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub next_url: Option<String>,
     pub title: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub icon: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
     pub items: Vec<UserFeedItem>,
 }
