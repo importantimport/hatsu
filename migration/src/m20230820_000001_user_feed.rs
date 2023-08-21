@@ -11,7 +11,7 @@ impl MigrationTrait for Migration {
                 Table::alter()
                     .table(Alias::new("user"))
                     .add_column_if_not_exists(
-                        ColumnDef::new(Alias::new("feed")).json().not_null().default("{}")
+                        ColumnDef::new(Alias::new("feed")).json()
                     )
                     .to_owned(),
             )

@@ -15,7 +15,7 @@ pub struct Model {
     pub public_key: String,
     pub private_key: Option<String>,
     pub last_refreshed_at: String,
-    pub feed: String,
+    pub feed: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
