@@ -11,7 +11,7 @@ use crate::{
 
 impl DbUserFeed {
     // 转换为 JSON
-    async fn into_json(self) -> Result<UserFeed, AppError> {
+    pub async fn into_json(self) -> Result<UserFeed, AppError> {
         Ok(UserFeed {
             hatsu: match self.hatsu {
                 Some(hatsu) => Some(serde_json::from_str(&hatsu)?),
@@ -28,7 +28,7 @@ impl DbUserFeed {
     }
 
     // 从 JSON 转换为本地格式
-    async fn from_json(
+    pub async fn from_json(
         json: UserFeed,
         user_id: ObjectId<DbUser>
     ) -> Result<Self, AppError> {
@@ -49,7 +49,7 @@ impl DbUserFeed {
     }
 
     // 从字符串转换为本地格式
-    async fn from_str(
+    pub async fn from_str(
         str: String,
         user_id: ObjectId<DbUser>
     ) -> Result<Self, AppError> {

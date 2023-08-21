@@ -20,40 +20,67 @@ use crate::{
     entities::{
         prelude::*,
         activity::{self, Model as DbActivity},
-        user::{self, Model as DbUser}
+        user::{self, Model as DbUser},
+        user_feed::Model as DbUserFeed,
     },
     protocol::actors::Person,
-    utilities::get_site_feed,
+    utilities::{Feed, get_site_feed},
 };
 
+use super::user_feed::UserFeed;
+
 impl DbUser {
-  // 创建新用户
-  // Create a new user
-  // TODO: 从网站获取数据
-  // TODO: Getting data from websites
-  pub async fn new(preferred_username: &str) -> Result<Self, AppError> {
-      let hostname = env::var("HATSU_DOMAIN")?;
-      let id = Url::parse(&format!("https://{}/u/{}", hostname, &preferred_username))?;
-      let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &preferred_username))?;
-      let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &preferred_username))?;
-      let keypair = generate_actor_keypair()?;
+    // 创建新用户
+    // Create a new user
+    // TODO: 从网站获取数据
+    // TODO: Getting data from websites
+    pub async fn new(preferred_username: &str, conn: &DatabaseConnection) -> Result<Self, AppError> {
+        let hostname = env::var("HATSU_DOMAIN")?;
+        let id = Url::parse(&format!("https://{}/u/{}", hostname, &preferred_username))?;
+        let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &preferred_username))?;
+        let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &preferred_username))?;
+        let keypair = generate_actor_keypair()?;
 
-      let feed = get_site_feed(preferred_username.to_string()).await?;
+        let feed = get_site_feed(preferred_username.to_string()).await?;
 
-      Ok(Self {
-          id: id.to_string(),
-          name: "Hatsu".to_string(),
-          preferred_username: preferred_username.to_string(),
-          inbox: inbox.to_string(),
-          outbox: outbox.to_string(),
-          local: true,
-          public_key: keypair.public_key,
-          private_key: Some(keypair.private_key),
-          last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
-          feed: Some(to_string(&feed)?),
-          // followers: vec![],
-      })
-  }
+        let user = Self {
+            id: id.to_string(),
+            name: "Hatsu".to_string(),
+            preferred_username: preferred_username.to_string(),
+            inbox: inbox.to_string(),
+            outbox: outbox.to_string(),
+            local: true,
+            public_key: keypair.public_key,
+            private_key: Some(keypair.private_key),
+            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
+            feed: Some(to_string(&feed)?),
+            // followers: vec![],
+        };
+
+        let user_feed: DbUserFeed = match feed {
+            // JSON Feed 1.1
+            Feed { json: Some(url), .. } => {
+                let json: UserFeed = reqwest::get(url)
+                    .await?
+                    .json()
+                    .await?;
+                
+                let feed = DbUserFeed::from_json(json, id.into()).await?;
+
+                feed
+            },
+            Feed { json: None, .. } => todo!()
+            // Atom 1.0
+            // Feed { json: _, atom: Some(_url), rss: _ } => {},
+            // RSS 2.0
+            // Feed { json: _, atom: _, rss: Some(_url) } => {},
+            // Feed { json: None, atom: None, rss: None } => {}
+        };
+
+        user_feed.into_active_model().insert(conn).await?;
+
+        Ok(user)
+    }
 
   /// 发送动态 / Send Activity
   /// 
