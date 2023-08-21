@@ -96,8 +96,6 @@ pub struct UserFeedItem {
     url: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     title: Option<String>,
-    content_html: Option<String>,
-    content_text: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     summary: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
