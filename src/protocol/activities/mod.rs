@@ -1,5 +1,3 @@
-pub mod create_post;
-
 mod create_or_update;
 pub use create_or_update::{CreateOrUpdateType, CreateOrUpdateNote};
 
