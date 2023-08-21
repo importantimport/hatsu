@@ -117,7 +117,7 @@ async fn main() -> Result<(), AppError> {
         .to_socket_addrs()?
         .next()
         .expect("Failed to lookup domain name");
-    tracing::debug!("listening on {}", addr);
+    tracing::debug!("listening on http://{}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await?;
@@ -127,7 +127,7 @@ async fn main() -> Result<(), AppError> {
     // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
     // let listener = tokio::net::TcpListener::bind(hatsu_listen)
     //     .await?;
-    // tracing::debug!("listening on {}", listener.local_addr()?);
+    // tracing::debug!("listening on http://{}", listener.local_addr()?);
     // axum::serve(listener, app).await?;
 
     Ok(())
