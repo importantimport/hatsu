@@ -27,7 +27,7 @@ impl DbUserFeed {
         })
     }
 
-    // 转换为本地格式
+    // 从 JSON 转换为本地格式
     async fn from_json(
         json: UserFeed,
         user_id: ObjectId<DbUser>
@@ -48,6 +48,7 @@ impl DbUserFeed {
         })
     }
 
+    // 从字符串转换为本地格式
     async fn from_str(
         str: String,
         user_id: ObjectId<DbUser>
