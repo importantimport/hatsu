@@ -40,13 +40,6 @@ impl DbUser {
 
       let feed = get_site_feed(preferred_username.to_string()).await?;
 
-      tracing::info!(
-          "User Feed: {}, {}, {}",
-          feed.json.unwrap_or_else(|| "null".to_string()),
-          feed.atom.unwrap_or_else(|| "null".to_string()),
-          feed.rss.unwrap_or_else(|| "null".to_string()),
-      );
-
       Ok(Self {
           id: id.to_string(),
           name: "Hatsu".to_string(),
@@ -57,6 +50,7 @@ impl DbUser {
           public_key: keypair.public_key,
           private_key: Some(keypair.private_key),
           last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
+          feed: Some(to_string(&feed)?),
           // followers: vec![],
       })
   }
@@ -164,6 +158,7 @@ impl Object for DbUser {
             last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
             // followers: vec![],
             local: false,
+            feed: None,
         };
 
         // 写入数据库
