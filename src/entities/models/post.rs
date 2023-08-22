@@ -7,8 +7,11 @@ use sea_orm::entity::prelude::*;
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub id: String,
-    pub creator: String,
-    pub text: String,
+    pub object: String,
+    pub attributed_to: String,
+    pub published: String,
+    pub updated: Option<String>,
+    pub last_refreshed_at: String,
     pub local: bool,
 }
 
