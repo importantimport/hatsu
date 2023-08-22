@@ -35,10 +35,6 @@ impl DbUserFeed {
     ) -> Result<Self, AppError> {
         Ok(Self {
             user_id: user_id.inner().to_string(),
-            // hatsu: match json.hatsu {
-            //     Some(hatsu) => Some(serde_json::to_string(&hatsu)?),
-            //     None => None,
-            // },
             hatsu: json.hatsu.and_then(|hatsu| Some(serde_json::to_string(&hatsu).unwrap())),
             feed_url: json.feed_url.to_string(),
             next_url: json.next_url.and_then(|url| Some(url.to_string())),
