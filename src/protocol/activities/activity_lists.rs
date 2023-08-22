@@ -6,7 +6,6 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::protocol::activities::{
-    // create_post::CreatePost,
     CreateOrUpdateNote,
     AcceptFollow,
     Follow,
@@ -19,7 +18,6 @@ use crate::protocol::activities::{
 #[enum_delegate::implement(ActivityHandler)]
 pub enum PersonInboxActivities {
     CreateOrUpdateNote(CreateOrUpdateNote),
-    // CreateNote(CreatePost),
     Follow(Follow),
     AcceptFollow(AcceptFollow),
     UndoFollow(UndoFollow),
