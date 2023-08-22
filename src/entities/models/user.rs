@@ -20,6 +20,8 @@ pub struct Model {
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
+    #[sea_orm(has_many = "super::post::Entity")]
+    Post,
     #[sea_orm(has_many = "super::user_feed::Entity")]
     UserFeed,
     #[sea_orm(has_many = "super::user_follower::Entity")]
@@ -27,6 +29,12 @@ pub enum Relation {
 }
 
 impl ActiveModelBehavior for ActiveModel {}
+
+impl Related<super::post::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Post.def()
+    }
+}
 
 impl Related<super::user_feed::Entity> for Entity {
     fn to() -> RelationDef {
