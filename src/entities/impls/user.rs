@@ -87,7 +87,7 @@ impl DbUser {
   /// 遇到类型问题加不上去，不要忘了用 WithContext::new_default(activity) 套一层
   /// 
   /// https://github.com/LemmyNet/activitypub-federation-rust/blob/35bf29ae73e33a537a9fdb2d2bb8bb1ba4842991/examples/federation/objects/person.rs#L111-L132
-  pub async fn send<Activity>(
+  pub async fn send_activity<Activity>(
     &self,
     activity: Activity,
     inboxes: Vec<Url>,
