@@ -32,4 +32,6 @@ pub struct Note {
     pub(crate) content: String,
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
     pub(crate) tag: Vec<Mention>,
+    pub(crate) published: Option<String>,
+    pub(crate) updated: Option<String>,
 }
