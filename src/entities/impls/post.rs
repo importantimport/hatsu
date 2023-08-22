@@ -5,11 +5,11 @@ use std::env;
 
 use activitypub_federation::{
     config::Data,
-    fetch::object_id::ObjectId,
     kinds::public,
     protocol::verification::verify_domains_match,
     traits::{Actor, Object},
 };
+use chrono::{NaiveDateTime, Local};
 use sea_orm::*;
 use url::Url;
 use uuid::Uuid;
@@ -25,7 +25,6 @@ use crate::{
     entities::{
         prelude::*,
         post::Model as DbPost,
-        user::Model as DbUser,
     },
 };
 
@@ -46,28 +45,29 @@ impl Object for DbPost {
     }
 
     // 转换为 ActivityStreams JSON
-    async fn into_json(self, data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
+    async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
         // TODO: 不确定是否可用
-        let object_id: ObjectId<DbUser> = Url::parse(&self.creator)?.into();
-        let creator = object_id.dereference_local(data).await?;
-        let mention = Mention {
-            href: Url::parse(&creator.id)?,
-            kind: Default::default()
-        };
-        let note = Note {
-            kind: Default::default(),
-            id: Url::parse(&self.id)?.into(),
-            attributed_to: Url::parse(&self.creator)?.into(),
-            // TODO:
-            // to: vec![public(), creator.followers_url()?],
-            to: vec![public()],
-            cc: vec![],
-            content: self.text,
-            in_reply_to: None,
-            tag: vec![mention]
-        };
+        // let object_id: ObjectId<DbUser> = Url::parse(&self.attributed_to)?.into();
+        // let creator = object_id.dereference_local(data).await?;
+        // let mention = Mention {
+        //     href: Url::parse(&creator.id)?,
+        //     kind: Default::default()
+        // };
+        // let note = Note {
+        //     kind: Default::default(),
+        //     id: Url::parse(&self.id)?.into(),
+        //     attributed_to: Url::parse(&self.attributed_to)?.into(),
+        //     // TODO:
+        //     // to: vec![public(), creator.followers_url()?],
+        //     to: vec![public()],
+        //     cc: vec![],
+        //     content: self.text,
+        //     in_reply_to: None,
+        //     tag: vec![mention]
+        // };
+        let json: Note = serde_json::from_str(&self.object)?;
 
-        Ok(note)
+        Ok(json)
     }
 
     // 验证
@@ -87,8 +87,11 @@ impl Object for DbPost {
         let creator = json.attributed_to.dereference(data).await?;
         let post = DbPost {
             id: json.id.to_string(),
-            creator: json.attributed_to.to_string(),
-            text: json.content,
+            attributed_to: json.attributed_to.to_string(),
+            object: serde_json::to_string(&json)?,
+            published: json.published,
+            updated: json.updated,
+            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
             local: false,
         };
 
@@ -99,26 +102,31 @@ impl Object for DbPost {
         let note = Note {
             kind: Default::default(),
             id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?.into(),
-            // TODO: multiple user
+            // TODO: multiple user / 多用户
             attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))?.into(),
             // 发送给提及的用户
-            // TODO: "cc": ["https://{}/u/{}/followers"]
-            to: vec![public(), json.attributed_to.clone().into()],
-            cc: vec![],
+            // TODO: "to": ["https://{}/u/{}/followers"]
+            to: vec![json.attributed_to.clone().into()],
+            cc: vec![public()],
             content: format!("Hello {}", creator.name),
             in_reply_to: Some(json.id.clone()),
-            tag: vec![mention]
+            tag: vec![mention],
+            published: Some(Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string()),
+            updated: None,
         };
 
-        // DEBUG TEST: 保存到数据库 / Save Note to Database
+        // 保存到数据库 / Save Note to Database
         let db_post = DbPost {
             id: note.id.to_string(),
-            creator: note.attributed_to.to_string(),
-            text: note.content.clone(),
+            attributed_to: note.attributed_to.to_string(),
+            object: serde_json::to_string(&note)?,
+            published: note.published.clone(),
+            updated: note.updated.clone(),
+            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
             local: true,
         }.into_active_model();
 
-        // DEBUG TEST: 保存到数据库 / Save Note to Database
+        // 保存到数据库 / Save Note to Database
         let _insert_db_post = Post::insert(db_post)
             .exec(&data.conn)
             .await?;
@@ -140,7 +148,7 @@ impl Object for DbPost {
         Ok(())
     }
 
-    // fn last_refreshed_at(&self) -> Option<chrono::NaiveDateTime> {
-    //     todo!()
-    // }
+    fn last_refreshed_at(&self) -> Option<NaiveDateTime> {
+        Some(NaiveDateTime::parse_from_str(&self.last_refreshed_at, "%Y-%m-%d %H:%M:%S").unwrap())
+    }
 }
