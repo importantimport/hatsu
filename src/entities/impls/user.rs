@@ -62,8 +62,6 @@ impl DbUser {
                     .await?
                     .json()
                     .await?;
-                
-                
 
                 DbUserFeed::from_json(json, id.into()).await?
             },
@@ -117,7 +115,6 @@ impl DbUser {
         .exec(&data.conn)
         .await?;
 
-    // let activity = WithContext::new_default(activity);
     // 发送
     send_activity(activity, self, inboxes, data).await?;
     Ok(())
