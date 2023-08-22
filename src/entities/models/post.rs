@@ -9,7 +9,7 @@ pub struct Model {
     pub id: String,
     pub object: String,
     pub attributed_to: String,
-    pub published: String,
+    pub published: Option<String>,
     pub updated: Option<String>,
     pub last_refreshed_at: String,
     pub local: bool,
