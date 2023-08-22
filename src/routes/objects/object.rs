@@ -1,6 +1,7 @@
 use activitypub_federation::{
     config::Data,
-    traits::Object
+    protocol::context::WithContext,
+    traits::Object,
 };
 use anyhow::anyhow;
 use axum::{
@@ -26,7 +27,7 @@ use crate::{
 pub async fn handler(
   Path(mut object): Path<String>,
   data: Data<AppData>,
-) -> Result<Json<Note>, AppError> {
+) -> Result<Json<WithContext<Note>>, AppError> {
     object = remove_https(object);
 
     tracing::info!("Reading object {}", object);
@@ -37,7 +38,7 @@ pub async fn handler(
         .await?;
 
     match db_post {
-        Some(db_post) => Ok(Json(db_post.into_json(&data).await?)),
+        Some(db_post) => Ok(Json(WithContext::new_default(db_post.into_json(&data).await?))),
         // TODO: StatusCode::NOT_FOUND
         None => Err(AppError(anyhow!("Object Not Found")))
     }
