@@ -60,7 +60,7 @@ impl DbUserFeed {
 /// JSON Feed 1.1
 /// 
 /// https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct UserFeed {
     #[serde(rename = "_hatsu")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -81,30 +81,30 @@ pub struct UserFeed {
 /// Hatsu JSON Feed Extension
 /// 
 /// https://github.com/importantimport/hatsu/issues/1
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct UserFeedHatsu {
-    about: Option<Url>,
-    banner_image: Option<Url>,
+    pub about: Option<Url>,
+    pub banner_image: Option<Url>,
 }
 
 /// JSON Feed Items
 /// 
 /// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct UserFeedItem {
-    id: String,
+    pub id: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    url: Option<Url>,
+    pub url: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    title: Option<String>,
+    pub title: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    summary: Option<String>,
+    pub summary: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    image: Option<Url>,
+    pub image: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    date_published: Option<String>,
+    pub date_published: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    date_modified: Option<String>,
+    pub date_modified: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    language: Option<String>,
+    pub language: Option<String>,
 }
