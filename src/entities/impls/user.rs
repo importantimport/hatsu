@@ -27,7 +27,7 @@ use crate::{
     utilities::{Feed, get_site_feed},
 };
 
-use super::user_feed::UserFeed;
+use super::user_feed::JsonUserFeed;
 
 impl DbUser {
     // 创建新用户
@@ -58,7 +58,7 @@ impl DbUser {
         let user_feed: DbUserFeed = match feed {
             // JSON Feed 1.1
             Feed { json: Some(url), .. } => {
-                let json: UserFeed = reqwest::get(url)
+                let json: JsonUserFeed = reqwest::get(url)
                     .await?
                     .json()
                     .await?;

@@ -1,5 +1,10 @@
-pub mod activity;
-pub mod post;
-pub mod user;
-pub mod user_feed;
-pub mod user_follower;
+mod activity;
+
+mod post;
+
+mod user;
+
+mod user_feed;
+pub use user_feed::{JsonUserFeed, JsonUserFeedHatsu, JsonUserFeedItem};
+
+mod user_follower;

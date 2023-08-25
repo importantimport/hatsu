@@ -12,8 +12,8 @@ use crate::{
 
 impl DbUserFeed {
     // 转换为 JSON
-    pub async fn into_json(self) -> Result<UserFeed, AppError> {
-        Ok(UserFeed {
+    pub async fn into_json(self) -> Result<JsonUserFeed, AppError> {
+        Ok(JsonUserFeed {
             hatsu: match self.hatsu {
                 Some(hatsu) => Some(serde_json::from_str(&hatsu)?),
                 None => None,
@@ -30,7 +30,7 @@ impl DbUserFeed {
 
     // 从 JSON 转换为本地格式
     pub async fn from_json(
-        json: UserFeed,
+        json: JsonUserFeed,
         user_id: ObjectId<DbUser>
     ) -> Result<Self, AppError> {
         Ok(Self {
@@ -51,7 +51,7 @@ impl DbUserFeed {
         str: String,
         user_id: ObjectId<DbUser>
     ) -> Result<Self, AppError> {
-        let json: UserFeed = serde_json::from_str(&str)?;
+        let json: JsonUserFeed = serde_json::from_str(&str)?;
 
         Self::from_json(json, user_id).await
     }
@@ -61,10 +61,10 @@ impl DbUserFeed {
 /// 
 /// https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
-pub struct UserFeed {
+pub struct JsonUserFeed {
     #[serde(rename = "_hatsu")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub hatsu: Option<UserFeedHatsu>,
+    pub hatsu: Option<JsonUserFeedHatsu>,
     pub feed_url: Url,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub next_url: Option<Url>,
@@ -75,14 +75,14 @@ pub struct UserFeed {
     pub icon: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
-    pub items: Vec<UserFeedItem>,
+    pub items: Vec<JsonUserFeedItem>,
 }
 
 /// Hatsu JSON Feed Extension
 /// 
 /// https://github.com/importantimport/hatsu/issues/1
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
-pub struct UserFeedHatsu {
+pub struct JsonUserFeedHatsu {
     pub about: Option<Url>,
     pub banner_image: Option<Url>,
 }
@@ -91,7 +91,7 @@ pub struct UserFeedHatsu {
 /// 
 /// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
-pub struct UserFeedItem {
+pub struct JsonUserFeedItem {
     pub id: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<Url>,
