@@ -14,10 +14,7 @@ impl DbUserFeed {
     // 转换为 JSON
     pub async fn into_json(self) -> Result<JsonUserFeed, AppError> {
         Ok(JsonUserFeed {
-            hatsu: match self.hatsu {
-                Some(hatsu) => Some(serde_json::from_str(&hatsu)?),
-                None => None,
-            },
+            hatsu: self.hatsu.and_then(|hatsu| serde_json::from_str(&hatsu).unwrap()),
             feed_url: Url::parse(&self.feed_url)?,
             next_url: self.next_url.and_then(|url| Some(Url::parse(&url).unwrap())),
             title: self.title,
