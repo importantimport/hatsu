@@ -1,11 +1,10 @@
-use std::{env, net::ToSocketAddrs};
+use std::env;
 
-use activitypub_federation::config::{FederationConfig, FederationMiddleware};
-use axum::Router;
 use dotenvy::dotenv;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
-use tokio_cron_scheduler::{JobScheduler, Job};
+use tokio::time::Duration;
+use tokio_graceful_shutdown::Toplevel;
 
 mod entities;
 use entities::{
@@ -21,6 +20,10 @@ mod protocol;
 mod routes;
 
 mod utilities;
+
+// Subsystem
+mod scheduler;
+mod web_server;
 
 #[derive(Clone, Debug)]
 pub struct AppData {
@@ -75,60 +78,19 @@ async fn main() -> Result<(), AppError> {
             }
         };
 
-    tracing::info!("setup configuration");
-    let federation_config = FederationConfig::builder()
-        // 实例域名，这里使用 `HATSU_DOMAIN` 环境变量
-        // instance domain, `HATSU_DOMAIN` environment is used here.
-        .domain(hatsu_domain)
-        // 使用测试账户作为 Signed fetch actor，以和 GoToSocial 或启用安全模式的 Mastodon 实例交互
-        // Use a test account as a Signed fetch actor to interact with GoToSocial or a Mastodon instance with secure mode enabled
-        .signed_fetch_actor(&test_account)
-        // Fediverse 应用数据，目前只有数据库连接
-        // Fediverse application data, currently only database connections
-        .app_data(AppData {conn})
-        // TODO:
-        // Disable this configuration when Pleroma supports HTTP Signature draft-11
-        // 当 Pleroma 支持 HTTP Signature draft-11 时，禁用此配置
-        // https://git.pleroma.social/pleroma/pleroma/-/issues/2939
-        .http_signature_compat(true)
-        .build()
-        .await?;
+    // 创建 AppData
+    let data = AppData { conn };
 
-    tracing::info!("creating scheduler");
-    let scheduler: JobScheduler = JobScheduler::new().await?;
-
-    scheduler.add(
-        Job::new("0 */5 * * * *", |_, _| {
-            tracing::info!("I run every 5 minutes");
-        })?
-    ).await?;
-
-    scheduler.start().await?;
-
-    // build our application with a route
-    tracing::info!("creating app");
-    let app = Router::new()
-        .merge(routes::init())
-        .layer(FederationMiddleware::new(federation_config));
-
-    // axum 0.6
-    // run our app with hyper
-    let addr = hatsu_listen
-        .to_socket_addrs()?
-        .next()
-        .expect("Failed to lookup domain name");
-    tracing::debug!("listening on http://{}", addr);
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
-
-    // axum 0.7
-    // run our app with hyper
-    // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
-    // let listener = tokio::net::TcpListener::bind(hatsu_listen)
-    //     .await?;
-    // tracing::debug!("listening on http://{}", listener.local_addr()?);
-    // axum::serve(listener, app).await?;
+    let _result = Toplevel::<AppError>::new()
+        .start("Web Server", move |subsys| {
+            web_server::init(subsys, data, hatsu_domain, hatsu_listen, test_account)
+        })
+        .start("Scheduler", move |subsys| {
+            scheduler::init(subsys)
+        })
+        .catch_signals()
+        .handle_shutdown_requests(Duration::from_millis(5000))
+        .await;
 
     Ok(())
 }
