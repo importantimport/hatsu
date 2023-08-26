@@ -3,7 +3,6 @@ use activitypub_federation::{
     protocol::context::WithContext,
     traits::Object,
 };
-use anyhow::anyhow;
 use axum::{
     Json,
     debug_handler,
@@ -15,10 +14,7 @@ use sea_orm::*;
 use crate::{
     AppData,
     AppError,
-    entities::{
-        prelude::*,
-        post::Model as DbPost
-    },
+    entities::prelude::*,
     protocol::objects::Note,
     utilities::remove_https
 };
@@ -33,15 +29,16 @@ pub async fn handler(
     tracing::info!("Reading object {}", object);
 
     let object_id = format!("https://{}/o/{}", data.domain(), object);
-    let db_post: Option<DbPost> = Post::find_by_id(object_id)
-        .one(&data.conn)
-        .await?;
 
-    match db_post {
-        Some(db_post) => Ok(Json(WithContext::new_default(db_post.into_json(&data).await?))),
-        // TODO: StatusCode::NOT_FOUND
-        None => Err(AppError(anyhow!("Object Not Found")))
-    }
+    match Post::find_by_id(&object_id)
+        .one(&data.conn)
+        .await? {
+            Some(db_post) => Ok(Json(WithContext::new_default(db_post.into_json(&data).await?))),
+            None => Err(AppError::NotFound {
+                kind: "Object".to_string(),
+                name: object_id,
+            })
+        }
 }
 
 #[debug_handler]

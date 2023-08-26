@@ -4,7 +4,6 @@ use activitypub_federation::{
     protocol::context::WithContext,
     traits::Object,
 };
-use anyhow::anyhow;
 use axum::{
     debug_handler,
     extract::Path,
@@ -15,10 +14,7 @@ use sea_orm::*;
 use crate::{
     AppData,
     AppError,
-    entities::{
-        prelude::*,
-        user::Model as DbUser,
-    },
+    entities::prelude::*,
     protocol::actors::Person
 };
 
@@ -28,15 +24,16 @@ pub async fn handler(
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Person>>, AppError> {
     let id = format!("https://{}/u/{}", data.domain(), &name);
-    let user: Option<DbUser> = User::find_by_id(&id)
-        .one(&data.conn)
-        .await?;
 
-    match user {
-        Some(user) => Ok(FederationJson(WithContext::new_default(user.into_json(&data).await?))),
-        // TODO: StatusCode::NOT_FOUND
-        None => Err(AppError(anyhow!("User Not Found")))
-    }
+    match User::find_by_id(&id)
+        .one(&data.conn)
+        .await? {
+            Some(user) => Ok(FederationJson(WithContext::new_default(user.into_json(&data).await?))),
+            None => Err(AppError::NotFound {
+                kind: "User".to_string(),
+                name,
+            })
+        }
 }
 
 #[debug_handler]

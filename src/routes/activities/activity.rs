@@ -2,7 +2,6 @@ use activitypub_federation::{
     axum::json::FederationJson,
     config::Data,
 };
-use anyhow::anyhow;
 use axum::{
     debug_handler,
     extract::Path,
@@ -24,12 +23,14 @@ pub async fn handler(
 ) -> Result<FederationJson<Value>, AppError> {
     tracing::info!("Reading activity {}", activity_id);
 
-    match Activity::find_by_id(activity_id)
+    match Activity::find_by_id(&activity_id)
         .one(&data.conn)
         .await? {
             Some(activity) => Ok(FederationJson(activity.into_json()?)),
-            // TODO: StatusCode::NOT_FOUND
-            None => Err(AppError(anyhow!("Activity Not Found")))
+            None => Err(AppError::NotFound{
+                kind: "Activity".to_string(),
+                name: activity_id,
+            })
         }
 }
 
