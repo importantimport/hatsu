@@ -79,24 +79,20 @@ async fn main() -> Result<(), AppError> {
     // 创建 AppData
     let data = AppData { conn };
 
-    let web_server_subsystem = subsystem::WebServer {
+    // 创建服务
+    let web_server = subsystem::WebServer {
         data: data.clone(),
         hatsu_domain,
         hatsu_listen,
         test_account
     };
-
-    let scheduler_subsystem = subsystem::Scheduler {
+    let scheduler = subsystem::Scheduler {
         data: data.clone()
     };
 
     let _result = Toplevel::<AppError>::new()
-        .start("Web Server", move |subsys| {
-            web_server_subsystem.run(subsys)
-        })
-        .start("Scheduler", move |subsys| {
-            scheduler_subsystem.run(subsys)
-        })
+        .start("Web Server", move |s| web_server.run(s))
+        .start("Scheduler", move |s| scheduler.run(s))
         .catch_signals()
         .handle_shutdown_requests(Duration::from_millis(5000))
         .await;

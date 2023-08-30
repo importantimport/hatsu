@@ -26,9 +26,7 @@ impl Scheduler {
             Job::new_async("0 */10 * * * *", move |_, _| {
                 tracing::info!("I run every 10 minutes");
                 let data = self.data.clone();
-                // let data = &self.data;
                 Box::pin(async move {
-                    // let mut data = data.lock().unwrap();
                     match fast_update(&data).await {
                         Ok(_) => tracing::info!("ok"),
                         Err(error) =>  tracing::warn!(%error, "error")
