@@ -19,11 +19,9 @@ mod protocol;
 
 mod routes;
 
-mod utilities;
+mod subsystem;
 
-// Subsystem
-mod scheduler;
-mod web_server;
+mod utilities;
 
 #[derive(Clone, Debug)]
 pub struct AppData {
@@ -81,12 +79,23 @@ async fn main() -> Result<(), AppError> {
     // 创建 AppData
     let data = AppData { conn };
 
+    let web_server_subsystem = subsystem::WebServer {
+        data: data.clone(),
+        hatsu_domain,
+        hatsu_listen,
+        test_account
+    };
+
+    let scheduler_subsystem = subsystem::Scheduler {
+        data: data.clone()
+    };
+
     let _result = Toplevel::<AppError>::new()
         .start("Web Server", move |subsys| {
-            web_server::init(subsys, data, hatsu_domain, hatsu_listen, test_account)
+            web_server_subsystem.run(subsys)
         })
         .start("Scheduler", move |subsys| {
-            scheduler::init(subsys)
+            scheduler_subsystem.run(subsys)
         })
         .catch_signals()
         .handle_shutdown_requests(Duration::from_millis(5000))

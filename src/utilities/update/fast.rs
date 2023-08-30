@@ -2,6 +2,7 @@ use sea_orm::*;
 use url::Url;
 
 use crate::{
+    AppData,
     AppError,
     entities::{
         prelude::*,
@@ -11,26 +12,24 @@ use crate::{
     utilities::Feed,
 };
 
-pub async fn fast_update(conn: &DatabaseConnection) -> Result<(), AppError> {
-    let local_users = User::find()
+pub async fn fast_update(data: &AppData) -> Result<(), AppError> {
+    for user in User::find()
         .filter(user::Column::Local.eq(true))
         .order_by_asc(user::Column::Id)
-        .all(conn)
-        .await?;
-
-    for user in local_users {
-        fast_update_partial(user, conn).await?;
-    }
+        .all(&data.conn)
+        .await? {
+            fast_update_partial(user, data).await?;
+        }
 
     Ok(())
 }
 
-async fn fast_update_partial(user: DbUser, conn: &DatabaseConnection) -> Result<(), AppError> {
+async fn fast_update_partial(user: DbUser, data: &AppData) -> Result<(), AppError> {
     let feed: Feed = serde_json::from_str(&user.feed.unwrap())?;
 
     // Tests for JSON Feed only
     match UserFeed::find_by_id(&feed.json.clone().unwrap())
-        .one(conn)
+        .one(&data.conn)
         .await? {
             Some(db_feed) => {
                 let curr_feed: JsonUserFeed = reqwest::get(Url::parse(&feed.json.clone().unwrap())?)
