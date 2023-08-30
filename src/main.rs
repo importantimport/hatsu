@@ -1,7 +1,6 @@
 use std::env;
 
 use dotenvy::dotenv;
-use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
@@ -52,13 +51,6 @@ async fn main() -> Result<(), AppError> {
         .await
         .expect("Database connection failed");
 
-    // 运行 SeaORM Migration
-    // Run SeaORM Migration
-    // https://www.sea-ql.org/SeaORM/docs/migration/running-migration/#migrating-programmatically
-    Migrator::up(&conn, None)
-        .await
-        .expect("Migration failed");
-
     tracing::info!("checking test account");
     // 尝试读取数据库中的测试账户，如果不存在则创建
     // Try to read test account in the database, if it doesn't exist then create
@@ -80,19 +72,19 @@ async fn main() -> Result<(), AppError> {
     let data = AppData { conn };
 
     // 创建服务
+    let migrator = subsystem::Migrator { data: data.clone() };
+    let scheduler = subsystem::Scheduler { data: data.clone() };
     let web_server = subsystem::WebServer {
         data: data.clone(),
         hatsu_domain,
         hatsu_listen,
         test_account
     };
-    let scheduler = subsystem::Scheduler {
-        data: data.clone()
-    };
 
     let _result = Toplevel::<AppError>::new()
-        .start("Web Server", move |s| web_server.run(s))
+        .start("Migrator", move |s| migrator.run(s))
         .start("Scheduler", move |s| scheduler.run(s))
+        .start("Web Server", move |s| web_server.run(s))
         .catch_signals()
         .handle_shutdown_requests(Duration::from_millis(5000))
         .await;
