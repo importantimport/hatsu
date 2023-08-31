@@ -7,6 +7,8 @@ use crate::{
     utilities::fast_update
 };
 
+mod update;
+
 pub struct Scheduler {
     pub data: AppData,
 }
