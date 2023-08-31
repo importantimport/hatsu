@@ -19,8 +19,8 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(UserFeedItem::Summary).string())
                     .col(ColumnDef::new(UserFeedItem::Image).string())
                     .col(ColumnDef::new(UserFeedItem::Language).string())
-                    .col(ColumnDef::new(UserFeedItem::DatePublished).date_time())
-                    .col(ColumnDef::new(UserFeedItem::DateModified).date_time())
+                    .col(ColumnDef::new(UserFeedItem::DatePublished).string())
+                    .col(ColumnDef::new(UserFeedItem::DateModified).string())
                     .to_owned()
             )
             .await?;
