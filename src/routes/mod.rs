@@ -12,12 +12,12 @@ mod objects;
 mod users;
 mod well_known;
 
-// Hatsu & Version
+// ./hatsu --version
 async fn root() -> impl IntoResponse {
     let version = env!("CARGO_PKG_VERSION");
-    let message = format!("Hatsu\nVersion {}", version);
+    let codename = "01_ballade";
 
-    Response::new(Body::from(message))
+    Response::new(Body::from(format!("Hatsu v{} \"{}\"", version, codename)))
 }
 
 pub fn init() -> Router<(), Body> {
