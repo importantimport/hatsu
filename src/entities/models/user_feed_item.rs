@@ -3,28 +3,34 @@
 use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(table_name = "post")]
+#[sea_orm(table_name = "user_feed_item")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub id: String,
-    pub object: String,
-    pub attributed_to: String,
-    pub published: Option<String>,
-    pub updated: Option<String>,
-    pub last_refreshed_at: String,
-    pub local: bool,
+    pub user_id: String,
+    pub object_id: Option<String>,
+    pub title: Option<String>,
+    pub summary: Option<String>,
+    pub image: Option<String>,
+    pub language: Option<String>,
+    pub date_published: Option<String>,
+    pub date_modified: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
     #[sea_orm(
         belongs_to = "super::user::Entity",
-        from = "Column::AttributedTo",
+        from = "Column::UserId",
         to = "super::user::Column::Id"
     )]
     User,
-    #[sea_orm(has_one = "super::user_feed_item::Entity")]
-    UserFeedItem,
+    #[sea_orm(
+        belongs_to = "super::post::Entity",
+        from = "Column::ObjectId",
+        to = "super::post::Column::Id"
+    )]
+    Post,
 }
 
 impl ActiveModelBehavior for ActiveModel {}
@@ -35,8 +41,8 @@ impl Related<super::user::Entity> for Entity {
     }
 }
 
-impl Related<super::user_feed_item::Entity> for Entity {
+impl Related<super::post::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::UserFeedItem.def()
+        Relation::Post.def()
     }
 }
