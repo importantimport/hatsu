@@ -1,0 +1,69 @@
+use activitypub_federation::fetch::object_id::ObjectId;
+use serde::{Deserialize, Serialize};
+use url::Url;
+
+use crate::{
+    AppError,
+    entities::{
+        post::Model as DbPost,
+        user::Model as DbUser,
+        user_feed_item::Model as DbUserFeedItem,
+    }
+};
+
+impl DbUserFeedItem {
+    // 转换为 JSON
+    pub async fn into_json(self) -> Result<JsonUserFeedItem, AppError> {
+        Ok(JsonUserFeedItem {
+            id: self.id,
+            url: None,
+            title: self.title,
+            summary: self.summary,
+            image: self.image.and_then(|url| Some(Url::parse(&url).unwrap())),
+            language: self.language,
+            date_published: self.date_published,
+            date_modified: self.date_modified,
+        })
+    }
+
+    // 从 JSON 转换为本地格式
+    pub async fn from_json(
+        json: JsonUserFeedItem,
+        user_id: ObjectId<DbUser>,
+        object_id: Option<ObjectId<DbPost>>
+    ) -> Result<Self, AppError> {
+        Ok(Self {
+            id: json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string(),
+            user_id: user_id.inner().to_string(),
+            object_id: object_id.and_then(|object_id| Some(object_id.inner().to_string())),
+            title: json.title,
+            summary: json.summary,
+            image: json.image.and_then(|url| Some(url.to_string())),
+            language: json.language,
+            date_published: json.date_published,
+            date_modified: json.date_modified,
+        })
+    }
+}
+
+/// JSON Feed Item
+/// 
+/// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct JsonUserFeedItem {
+    pub id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub url: Option<Url>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub summary: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub image: Option<Url>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub date_published: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub date_modified: Option<String>,
+}
