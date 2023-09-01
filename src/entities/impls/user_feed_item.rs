@@ -8,7 +8,8 @@ use crate::{
         post::Model as DbPost,
         user::Model as DbUser,
         user_feed_item::Model as DbUserFeedItem,
-    }
+    },
+    // utilities::absolutize_relative_url,
 };
 
 impl DbUserFeedItem {
@@ -19,7 +20,28 @@ impl DbUserFeedItem {
             url: None,
             title: self.title,
             summary: self.summary,
-            image: self.image.and_then(|url| Some(Url::parse(&url).unwrap())),
+            // 处理相对链接
+            // image: self.image.and_then(|url| Some(Url::parse(&absolutize_relative_url(
+            //     url,
+            //     // 从 UserID 获取域名
+            //     Url::parse(&self.user_id)
+            //         .unwrap()
+            //         .path()
+            //         .split('/')
+            //         .last()
+            //         .unwrap()
+            //         .to_string()
+            // ).unwrap()).unwrap())),
+            // 不处理相对链接，解析失败则视为空
+            // image: self.image.and_then(|url| {
+            //     if let Ok(url) = Url::parse(&url) {
+            //         Some(url)
+            //     } else {
+            //         None
+            //     }
+            // }),
+            // 视为字符串
+            image: self.image,
             language: self.language,
             date_published: self.date_published,
             date_modified: self.date_modified,
@@ -59,7 +81,8 @@ pub struct JsonUserFeedItem {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub summary: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub image: Option<Url>,
+    // pub image: Option<Url>,
+    pub image: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
