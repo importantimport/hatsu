@@ -14,11 +14,11 @@ pub fn absolutize_relative_url(url: String, domain: String) -> Result<String, Ap
     }
 }
 
-pub fn remove_https(url: String) -> String {
-    if str::starts_with(&url, "https://") {
-        let url_without_https = url.trim_start_matches("https://").to_string();
-        url_without_https
-    } else {
-        url
-    }
-}
+// pub fn remove_https(url: String) -> String {
+//     if str::starts_with(&url, "https://") {
+//         let url_without_https = url.trim_start_matches("https://").to_string();
+//         url_without_https
+//     } else {
+//         url
+//     }
+// }

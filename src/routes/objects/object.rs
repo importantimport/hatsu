@@ -16,16 +16,13 @@ use crate::{
     AppError,
     entities::prelude::*,
     protocol::objects::Note,
-    utilities::remove_https
 };
 
 #[debug_handler]
 pub async fn handler(
-  Path(mut object): Path<String>,
+  Path(object): Path<String>,
   data: Data<AppData>,
 ) -> Result<Json<WithContext<Note>>, AppError> {
-    object = remove_https(object);
-
     tracing::info!("Reading object {}", object);
 
     let object_id = format!("https://{}/o/{}", data.domain(), object);
