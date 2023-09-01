@@ -1,5 +1,6 @@
 use std::env;
 
+use activitypub_federation::config::FederationConfig;
 use dotenvy::dotenv;
 use sea_orm::*;
 use tokio::time::Duration;
@@ -71,11 +72,30 @@ async fn main() -> Result<(), AppError> {
     // 创建 AppData
     let data = AppData { conn };
 
+    tracing::info!("setup configuration");
+    let federation_config = FederationConfig::builder()
+        // 实例域名，这里使用 `HATSU_DOMAIN` 环境变量
+        // instance domain, `HATSU_DOMAIN` environment is used here.
+        .domain(&hatsu_domain)
+        // 使用测试账户作为 Signed fetch actor，以和 GoToSocial 或启用安全模式的 Mastodon 实例交互
+        // Use a test account as a Signed fetch actor to interact with GoToSocial or a Mastodon instance with secure mode enabled
+        .signed_fetch_actor(&test_account)
+        // Fediverse 应用数据，目前只有数据库连接
+        // Fediverse application data, currently only database connections
+        .app_data(data.clone())
+        // TODO:
+        // Disable this configuration when Pleroma supports HTTP Signature draft-11
+        // 当 Pleroma 支持 HTTP Signature draft-11 时，禁用此配置
+        // https://git.pleroma.social/pleroma/pleroma/-/issues/2939
+        .http_signature_compat(true)
+        .build()
+        .await?;
+
     // 创建服务
-    let migrator = subsystem::Migrator { data: data.clone() };
-    let scheduler = subsystem::Scheduler { data: data.clone() };
+    let migrator = subsystem::Migrator { data: federation_config.to_request_data() };
+    let scheduler = subsystem::Scheduler { config: federation_config.clone() };
     let web_server = subsystem::WebServer {
-        data: data.clone(),
+        federation_config,
         hatsu_domain,
         hatsu_listen,
         test_account

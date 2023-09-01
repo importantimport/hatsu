@@ -1,17 +1,17 @@
+use activitypub_federation::config::FederationConfig;
 use tokio_cron_scheduler::{JobScheduler, Job};
 use tokio_graceful_shutdown::SubsystemHandle;
 
 use crate::{
     AppData,
     AppError,
-    // utilities::fast_update
 };
 
 mod update;
 use update::fast_update;
 
 pub struct Scheduler {
-    pub data: AppData,
+    pub config: FederationConfig<AppData>,
 }
 
 impl Scheduler {
@@ -28,9 +28,9 @@ impl Scheduler {
         scheduler.add(
             Job::new_async("0 */10 * * * *", move |_, _| {
                 tracing::info!("I run every 10 minutes");
-                let data = self.data.clone();
+                let config = self.config.clone();
                 Box::pin(async move {
-                    match fast_update(&data).await {
+                    match fast_update(&config).await {
                         Ok(_) => tracing::info!("ok"),
                         Err(error) =>  tracing::warn!(%error, "error")
                     }

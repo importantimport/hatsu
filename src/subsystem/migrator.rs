@@ -1,3 +1,4 @@
+use activitypub_federation::config::Data;
 use migration::{Migrator as HatsuMigrator, MigratorTrait};
 use tokio_graceful_shutdown::SubsystemHandle;
 
@@ -7,7 +8,7 @@ use crate::{
 };
 
 pub struct Migrator {
-    pub data: AppData,
+    pub data: Data<AppData>,
 }
 
 impl Migrator {
