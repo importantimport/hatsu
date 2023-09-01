@@ -5,6 +5,7 @@ use url::Url;
 use crate::{
     AppError,
     entities::{
+        impls::JsonUserFeedItem,
         user::Model as DbUser,
         user_feed::Model as DbUserFeed,
     }
@@ -82,26 +83,4 @@ pub struct JsonUserFeed {
 pub struct JsonUserFeedHatsu {
     pub about: Option<Url>,
     pub banner_image: Option<Url>,
-}
-
-/// JSON Feed Items
-/// 
-/// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
-pub struct JsonUserFeedItem {
-    pub id: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub url: Option<Url>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub title: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub summary: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub image: Option<Url>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub date_published: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub date_modified: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub language: Option<String>,
 }

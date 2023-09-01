@@ -4,10 +4,11 @@ use tokio_graceful_shutdown::SubsystemHandle;
 use crate::{
     AppData,
     AppError,
-    utilities::fast_update
+    // utilities::fast_update
 };
 
 mod update;
+use update::fast_update;
 
 pub struct Scheduler {
     pub data: AppData,

@@ -11,7 +11,7 @@ use crate::{
     },
 };
 
-pub async fn check_feed_item(data: &AppData, _user: DbUser, item: JsonUserFeedItem) -> Result<(), AppError> {
+pub async fn check_feed_item(data: &AppData, _user: &DbUser, item: JsonUserFeedItem) -> Result<(), AppError> {
     match UserFeedItem::find_by_id(item.url.unwrap_or_else(|| Url::parse(&item.id).unwrap()).to_string())
         .one(&data.conn)
         .await? {
