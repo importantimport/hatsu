@@ -41,7 +41,7 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
                 // 创建 Note
                 let note = Note {
                     kind: Default::default(),
-                    id: Url::parse(&format!("https://{}/o/{}", "hatsu-test.010032.xyz", item.id))?.into(),
+                    id: Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
                     attributed_to: Url::parse(&user.id)?.into(),
                     to: vec![],
                     cc: vec![public()],
