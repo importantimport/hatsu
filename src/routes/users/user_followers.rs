@@ -51,30 +51,39 @@ pub async fn handler(
 
     let total = follower_pages.num_items_and_pages().await?;
 
-    Ok(FederationJson(WithContext::new_default(
-        match pagination.page {
-            None => {
+    match pagination.page {
+        None => {
+            Ok(FederationJson(WithContext::new_default(
                 serde_json::to_value(Followers::new(
                     Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
                     total.number_of_items,
                 )?)?
-            },
-            Some(page) => {
-                serde_json::to_value(FollowersPage::new(
-                    Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
-                    total.number_of_items,
-                    follower_pages
-                        .fetch_page(page - 1)
-                        .await?
-                        .into_iter()
-                        .map(|follow| Url::parse(&follow.id).unwrap())
-                        .collect(),
-                    total.number_of_pages,
-                    page
-                )?)?
+            )))
+        },
+        Some(page) => {
+            if page > 1 && page > total.number_of_pages {
+                Err(AppError::NotFound {
+                    kind: format!("user {}", name),
+                    name: format!("followers page {}", page) 
+                })
+            } else {
+                Ok(FederationJson(WithContext::new_default(
+                    serde_json::to_value(FollowersPage::new(
+                        Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
+                        total.number_of_items,
+                        follower_pages
+                            .fetch_page(page - 1)
+                            .await?
+                            .into_iter()
+                            .map(|follow| Url::parse(&follow.id).unwrap())
+                            .collect(),
+                        total.number_of_pages,
+                        page
+                    )?)?
+                )))
             }
         }
-    )))
+    }
 }
 
 #[debug_handler]
