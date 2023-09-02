@@ -5,6 +5,7 @@ use activitypub_federation::{
     protocol::helpers::deserialize_skip_error,
     traits::ActivityHandler,
 };
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -13,8 +14,8 @@ use crate::{
     AppError,
     protocol::activities::Follow,
     entities::{
+        prelude::*,
         user::Model as DbUser,
-        user_follower::Model as DbUserFollower,
     },
 };
 
@@ -56,16 +57,14 @@ impl ActivityHandler for UndoFollow {
 
     async fn receive(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // 被取消关注者（本地账号）, user
-        let object = self.object.object.dereference_local(data).await?;
+        // let object = self.object.object.dereference_local(data).await?;
         // 取消关注者, unfollower
-        let actor = self.actor.dereference(data).await?;
+        // let actor = self.actor.dereference(data).await?;
 
         // 删除关注记录
-        DbUserFollower::delete(
-            Url::parse(&object.id)?,
-            Url::parse(&actor.id)?,
-            data
-        ).await?;
+        ReceivedFollow::delete_by_id(self.object.id)
+            .exec(&data.conn)
+            .await?;
 
         Ok(())
     }
