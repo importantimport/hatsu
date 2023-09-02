@@ -8,4 +8,3 @@ pub mod received_follow;
 pub mod user;
 pub mod user_feed;
 pub mod user_feed_item;
-pub mod user_follower;

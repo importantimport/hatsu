@@ -28,8 +28,6 @@ pub enum Relation {
     UserFeed,
     #[sea_orm(has_many = "super::user_feed::Entity")]
     UserFeedItem,
-    #[sea_orm(has_many = "super::user_follower::Entity")]
-    UserFollower,
 }
 
 impl ActiveModelBehavior for ActiveModel {}
@@ -55,11 +53,5 @@ impl Related<super::user_feed::Entity> for Entity {
 impl Related<super::user_feed_item::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::UserFeedItem.def()
-    }
-}
-
-impl Related<super::user_follower::Entity> for Entity {
-    fn to() -> RelationDef {
-        Relation::UserFollower.def()
     }
 }

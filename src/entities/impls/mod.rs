@@ -11,5 +11,3 @@ pub use user_feed::{JsonUserFeed, JsonUserFeedHatsu};
 
 mod user_feed_item;
 pub use user_feed_item::JsonUserFeedItem;
-
-mod user_follower;

@@ -6,4 +6,3 @@ pub use super::received_follow::Entity as ReceivedFollow;
 pub use super::user::Entity as User;
 pub use super::user_feed::Entity as UserFeed;
 pub use super::user_feed_item::Entity as UserFeedItem;
-pub use super::user_follower::Entity as UserFollower;
