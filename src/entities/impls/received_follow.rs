@@ -8,7 +8,7 @@ use crate::{
 
 impl DbReceivedFollow {
     // 转换为ActivityStreams JSON
-    pub async fn into_json(self) -> Result<Follow, AppError> {
+    pub fn into_json(self) -> Result<Follow, AppError> {
         Ok(Follow {
             kind: Default::default(),
             id: Url::parse(&self.id)?,
@@ -19,7 +19,7 @@ impl DbReceivedFollow {
     }
 
     // 转换为本地格式
-    pub async fn from_json(json: Follow) -> Result<Self, AppError> {
+    pub fn from_json(json: Follow) -> Result<Self, AppError> {
         Ok(Self {
             id: json.id.to_string(),
             actor: json.actor.to_string(),
