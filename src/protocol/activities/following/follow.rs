@@ -5,6 +5,7 @@ use activitypub_federation::{
     protocol::helpers::deserialize_skip_error,
     traits::{Actor, ActivityHandler},
 };
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -12,8 +13,8 @@ use crate::{
     AppData,
     AppError,
     entities::{
+        received_follow::Model as DbReceivedFollow,
         user::Model as DbUser,
-        user_follower::Model as DbUserFollower
     },
     protocol::activities::AcceptFollow,
 };
@@ -63,11 +64,10 @@ impl ActivityHandler for Follow {
         let actor = self.actor.dereference(data).await?;
 
         // 添加关注记录
-        DbUserFollower::insert(
-            Url::parse(&object.id)?,
-            Url::parse(&actor.id)?,
-            data
-        ).await?;
+        let _insert_follow = DbReceivedFollow::from_json(self.clone())?
+            .into_active_model()
+            .insert(&data.conn)
+            .await;
 
         // 发送接受关注
         object.send_activity(AcceptFollow::new(self, data).await?, vec![actor.shared_inbox_or_inbox()], data).await?;
