@@ -68,6 +68,36 @@ impl DbUserFeedItem {
     }
 }
 
+/// JSON Feed 1.1
+/// 
+/// https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct JsonUserFeed {
+    #[serde(rename = "_hatsu")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hatsu: Option<JsonUserFeedHatsu>,
+    pub feed_url: Url,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub next_url: Option<Url>,
+    pub title: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub icon: Option<Url>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
+    pub items: Vec<JsonUserFeedItem>,
+}
+
+/// Hatsu JSON Feed Extension
+/// 
+/// https://github.com/importantimport/hatsu/issues/1
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct JsonUserFeedHatsu {
+    pub about: Option<Url>,
+    pub banner_image: Option<Url>,
+}
+
 /// JSON Feed Item
 /// 
 /// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
