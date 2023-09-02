@@ -1,12 +1,13 @@
 use activitypub_federation::{
     axum::json::FederationJson,
-    config::Data, protocol::context::WithContext,
+    config::Data, protocol::context::WithContext, fetch::object_id::ObjectId,
 };
 use axum::{
     debug_handler,
     extract::{Path, Query},
     response::{IntoResponse, Redirect},
 };
+use sea_orm::*;
 use serde::Deserialize;
 use serde_json::Value;
 use url::Url;
@@ -14,6 +15,11 @@ use url::Url;
 use crate::{
     AppData,
     AppError,
+    entities::{
+        prelude::*,
+        received_follow,
+        user::Model as DbUser,
+    },
     protocol::collections::followers::{Followers, FollowersPage},
 };
 
@@ -36,20 +42,34 @@ pub async fn handler(
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
     let Query(pagination) = pagination.unwrap_or_default();
 
+    let user_id: ObjectId<DbUser> = Url::parse(&format!("https://{}/u/{}", data.domain(), &name))?.into();
+    let user = user_id.dereference_local(&data).await?;
+
+    let follower_pages = user.find_related(ReceivedFollow)
+        .order_by_asc(received_follow::Column::Id)
+        .paginate(&data.conn, 12);
+
+    let total = follower_pages.num_items_and_pages().await?;
+
     Ok(FederationJson(WithContext::new_default(
         match pagination.page {
             None => {
                 serde_json::to_value(Followers::new(
                     Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
-                    0
+                    total.number_of_items,
                 )?)?
             },
             Some(page) => {
                 serde_json::to_value(FollowersPage::new(
                     Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
-                    0,
-                    vec![],
-                    128,
+                    total.number_of_items,
+                    follower_pages
+                        .fetch_page(page - 1)
+                        .await?
+                        .into_iter()
+                        .map(|follow| Url::parse(&follow.id).unwrap())
+                        .collect(),
+                    total.number_of_pages,
                     page
                 )?)?
             }
