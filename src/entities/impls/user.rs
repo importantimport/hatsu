@@ -21,18 +21,15 @@ use crate::{
         prelude::*,
         activity::{self, Model as DbActivity},
         user::{self, Model as DbUser},
-        user_feed::Model as DbUserFeed,
     },
     protocol::actors::Person,
-    utilities::{Feed, get_site_feed},
+    utilities::get_site_feed,
 };
-
-use super::user_feed::JsonUserFeed;
 
 impl DbUser {
     // 创建新用户
     // Create a new user
-    pub async fn new(preferred_username: &str, conn: &DatabaseConnection) -> Result<Self, AppError> {
+    pub async fn new(preferred_username: &str) -> Result<Self, AppError> {
         let hostname = env::var("HATSU_DOMAIN")?;
         let id = Url::parse(&format!("https://{}/u/{}", hostname, &preferred_username))?;
         let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &preferred_username))?;
@@ -54,26 +51,6 @@ impl DbUser {
             feed: Some(to_string(&feed)?),
             // followers: vec![],
         };
-
-        let user_feed: DbUserFeed = match feed {
-            // JSON Feed 1.1
-            Feed { json: Some(url), .. } => {
-                let json: JsonUserFeed = reqwest::get(url)
-                    .await?
-                    .json()
-                    .await?;
-
-                DbUserFeed::from_json(json, id.into()).await?
-            },
-            Feed { json: None, .. } => todo!()
-            // Atom 1.0
-            // Feed { json: _, atom: Some(_url), rss: _ } => {},
-            // RSS 2.0
-            // Feed { json: _, atom: _, rss: Some(_url) } => {},
-            // Feed { json: None, atom: None, rss: None } => {}
-        };
-
-        user_feed.into_active_model().insert(conn).await?;
 
         Ok(user)
     }

@@ -62,7 +62,7 @@ async fn main() -> Result<(), AppError> {
             None => {
                 // 根据域名创建一个 user::ActiveModel
                 // Create a user::ActiveModel based on the domain
-                let test_account = DbUser::new(hatsu_test_account.as_str(), &conn).await?.into_active_model();
+                let test_account = DbUser::new(hatsu_test_account.as_str()).await?.into_active_model();
                 // 向数据库插入 user::ActiveModel，并返回一个 user::Model (DbUser)
                 // Inserts a user::ActiveModel into the database and returns a user::Model (DbUser).
                 test_account.insert(&conn).await?
