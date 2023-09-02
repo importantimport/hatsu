@@ -24,7 +24,7 @@ use crate::{
         activities::CreateOrUpdateType,
         objects::Note
     },
-    utilities::generate_activity_id
+    utilities::generate_activity_url
 };
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -48,7 +48,7 @@ impl CreateOrUpdateNote {
         data: &Data<AppData>
     ) -> Result<WithContext<Self>, AppError> {
         Ok(WithContext::new_default(Self {
-            id: generate_activity_id(data.domain(), None)?,
+            id: generate_activity_url(data.domain(), None)?,
             actor: note.attributed_to.clone(),
             to: note.to.clone(),
             cc: note.cc.clone(),

@@ -13,7 +13,7 @@ use crate::{
     AppError,
     protocol::activities::Follow,
     entities::user::Model as DbUser,
-    utilities::generate_activity_id
+    utilities::generate_activity_url
 };
 
 /// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/accept.rs
@@ -46,7 +46,7 @@ impl AcceptFollow {
             object: follow,
             kind: AcceptType::Accept,
             // 使用 UUID v7 作为 ID
-            id: generate_activity_id(data.domain(), None)?
+            id: generate_activity_url(data.domain(), None)?
         };
 
         Ok(WithContext::new_default(accept))
