@@ -7,7 +7,8 @@ use axum::{
     extract::{Path, Query},
     response::{IntoResponse, Redirect},
 };
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use serde_json::Value;
 use url::Url;
 
 use crate::{
@@ -16,37 +17,41 @@ use crate::{
     protocol::collections::followers::{Followers, FollowersPage},
 };
 
-#[derive(Deserialize, Serialize)]
-pub struct FollowersQuery {
+#[derive(Deserialize)]
+pub struct Pagination {
     page: Option<u64>,
 }
 
-#[derive(Deserialize, Serialize)]
-pub enum FollowersJson {
-    Followers(Followers),
-    FollowersPage(FollowersPage),
+impl Default for Pagination {
+    fn default() -> Self {
+        Self { page: None }
+    }
 }
 
 #[debug_handler]
 pub async fn handler(
-    Path(user_id): Path<String>,
-    Query(query): Query<FollowersQuery>,
+    Path(name): Path<String>,
+    pagination: Option<Query<Pagination>>,
     data: Data<AppData>,
-) -> Result<FederationJson<WithContext<FollowersJson>>, AppError> {
+) -> Result<FederationJson<WithContext<Value>>, AppError> {
+    let Query(pagination) = pagination.unwrap_or_default();
 
     Ok(FederationJson(WithContext::new_default(
-        match query.page {
+        match pagination.page {
             None => {
-                FollowersJson::Followers(Followers::new(
-                    Url::parse(&format!("https://{}/u/{}/followers", data.domain(), user_id))?,
+                serde_json::to_value(Followers::new(
+                    Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
                     0
-                )?)
+                )?)?
             },
-            Some(_page) => {
-                FollowersJson::Followers(Followers::new(
-                    Url::parse(&format!("https://{}/u/{}/followers", data.domain(), user_id))?,
-                    0
-                )?) 
+            Some(page) => {
+                serde_json::to_value(FollowersPage::new(
+                    Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
+                    0,
+                    vec![],
+                    128,
+                    page
+                )?)?
             }
         }
     )))
