@@ -48,6 +48,7 @@ pub async fn handler(
     let follower_pages = user.find_related(ReceivedFollow)
         // TODO: order by last_refreshed_at
         .order_by_asc(received_follow::Column::Id)
+        // 12 per page
         .paginate(&data.conn, 12);
 
     let total = follower_pages.num_items_and_pages().await?;
