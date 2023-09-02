@@ -2,6 +2,7 @@
 
 pub use super::activity::Entity as Activity;
 pub use super::post::Entity as Post;
+pub use super::received_follow::Entity as ReceivedFollow;
 pub use super::user::Entity as User;
 pub use super::user_feed::Entity as UserFeed;
 pub use super::user_feed_item::Entity as UserFeedItem;
