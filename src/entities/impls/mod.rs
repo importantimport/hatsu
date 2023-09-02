@@ -2,6 +2,8 @@ mod activity;
 
 mod post;
 
+mod received_follow;
+
 mod user;
 
 mod user_feed;
