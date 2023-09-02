@@ -46,6 +46,7 @@ pub async fn handler(
     let user = user_id.dereference_local(&data).await?;
 
     let follower_pages = user.find_related(ReceivedFollow)
+        // TODO: order by last_refreshed_at
         .order_by_asc(received_follow::Column::Id)
         .paginate(&data.conn, 12);
 
