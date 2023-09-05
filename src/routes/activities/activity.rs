@@ -14,6 +14,7 @@ use crate::{
     AppData,
     AppError,
     entities::prelude::*,
+    utilities::generate_activity_url
 };
 
 #[debug_handler]
@@ -23,7 +24,7 @@ pub async fn handler(
 ) -> Result<FederationJson<Value>, AppError> {
     tracing::info!("Reading activity {}", activity_id);
 
-    match Activity::find_by_id(&activity_id)
+    match Activity::find_by_id(generate_activity_url(data.domain(), Some(activity_id.clone()))?)
         .one(&data.conn)
         .await? {
             Some(activity) => Ok(FederationJson(activity.into_json()?)),
