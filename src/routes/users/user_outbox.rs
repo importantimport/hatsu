@@ -24,7 +24,7 @@ use crate::{
         activity,
         user::Model as DbUser,
     },
-    protocol::collections::outbox::{Outbox, OutboxPage},
+    protocol::collections::{CollectionPage, Collection},
 };
 
 #[derive(Default, Deserialize)]
@@ -56,10 +56,10 @@ pub async fn handler(
     match pagination.page {
         None => {
             Ok(FederationJson(WithContext::new_default(
-                serde_json::to_value(Outbox::new(
+                serde_json::to_value(Collection::new(
                     Url::parse(&format!("https://{}/u/{}/outbox", data.domain(), name))?,
                     total.number_of_items,
-                    total.number_of_pages,
+                    Some(total.number_of_pages),
                 )?)?
             )))
         },
@@ -71,7 +71,7 @@ pub async fn handler(
                 })
             } else {
                 Ok(FederationJson(WithContext::new_default(
-                    serde_json::to_value(OutboxPage::new(
+                    serde_json::to_value(CollectionPage::<Value>::new(
                         Url::parse(&format!("https://{}/u/{}/outbox", data.domain(), name))?,
                         total.number_of_items,
                         activity_pages

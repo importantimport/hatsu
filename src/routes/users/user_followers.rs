@@ -20,7 +20,7 @@ use crate::{
         received_follow,
         user::Model as DbUser,
     },
-    protocol::collections::followers::{Followers, FollowersPage},
+    protocol::collections::{Collection, CollectionPage},
 };
 
 #[derive(Default, Deserialize)]
@@ -50,9 +50,11 @@ pub async fn handler(
     match pagination.page {
         None => {
             Ok(FederationJson(WithContext::new_default(
-                serde_json::to_value(Followers::new(
+                serde_json::to_value(Collection::new(
                     Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
                     total.number_of_items,
+                    // TODO: last (maybe)
+                    None,
                 )?)?
             )))
         },
@@ -64,7 +66,7 @@ pub async fn handler(
                 })
             } else {
                 Ok(FederationJson(WithContext::new_default(
-                    serde_json::to_value(FollowersPage::new(
+                    serde_json::to_value(CollectionPage::<Url>::new(
                         Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
                         total.number_of_items,
                         follower_pages
