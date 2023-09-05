@@ -14,8 +14,10 @@ pub struct Model {
     pub local: bool,
     pub public_key: String,
     pub private_key: Option<String>,
+    pub feed_json: Option<String>,
+    pub feed_atom: Option<String>,
+    pub feed_rss: Option<String>,
     pub last_refreshed_at: String,
-    pub feed: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
