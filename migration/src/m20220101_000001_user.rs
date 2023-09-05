@@ -26,6 +26,9 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(User::Local).boolean().not_null())
                     .col(ColumnDef::new(User::PublicKey).string().not_null())
                     .col(ColumnDef::new(User::PrivateKey).string())
+                    .col(ColumnDef::new(User::FeedJson).string())
+                    .col(ColumnDef::new(User::FeedAtom).string())
+                    .col(ColumnDef::new(User::FeedRss).string())
                     .col(ColumnDef::new(User::LastRefreshedAt).date_time().not_null())
                     .to_owned(),
             )
@@ -55,5 +58,9 @@ enum User {
     Local,
     PublicKey,
     PrivateKey,
+    // Hatsu Private
+    FeedJson,
+    FeedAtom,
+    FeedRss,
     LastRefreshedAt,
 }
