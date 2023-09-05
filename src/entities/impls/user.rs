@@ -10,7 +10,6 @@ use activitypub_federation::{
 use chrono::{Local, NaiveDateTime};
 use sea_orm::*;
 use serde::Serialize;
-use serde_json::to_string;
 use url::Url;
 // use uuid::Uuid;
 
@@ -19,7 +18,6 @@ use crate::{
     AppError,
     entities::{
         prelude::*,
-        activity::{self, Model as DbActivity},
         user::{self, Model as DbUser},
     },
     protocol::actors::Person,
@@ -47,8 +45,10 @@ impl DbUser {
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
+            feed_json: feed.json,
+            feed_atom: feed.atom,
+            feed_rss: feed.rss,
             last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
-            feed: Some(to_string(&feed)?),
             // followers: vec![],
         };
 
@@ -73,24 +73,27 @@ impl DbUser {
     <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error> + From<migration::DbErr>
   {
     // 从 Activity URL 提取 UUID
-    let activity_id: String = activity
-        .id()
-        .path()
-        .split('/')
-        .last()
-        .unwrap()
-        .to_string();
+    // let activity_id: String = activity
+    //     .id()
+    //     .path()
+    //     .split('/')
+    //     .last()
+    //     .unwrap()
+    //     .to_string();
 
     // 验证这个 UUID
     // let uuid = Uuid::try_parse(&activity_id)?;
 
     // 保存到数据库
-    activity::Entity::insert(DbActivity {
-        id: activity_id,
-        activity: to_string(&activity)?
-    }.into_active_model())
-        .exec(&data.conn)
-        .await?;
+    // activity::Entity::insert(DbActivity {
+    //     id: activity_id,
+    //     activity: to_string(&activity)?,
+    //     actor: activity.actor().to_string(),
+    //     kind: activity.kind,
+
+    // }.into_active_model())
+    //     .exec(&data.conn)
+    //     .await?;
 
     // 发送
     send_activity(activity, self, inboxes, data).await?;
@@ -154,10 +157,12 @@ impl Object for DbUser {
             outbox: json.outbox.to_string(),
             public_key: json.public_key.public_key_pem,
             private_key: None,
+            feed_json: None,
+            feed_atom: None,
+            feed_rss: None,
             last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
             // followers: vec![],
             local: false,
-            feed: None,
         };
 
         // 写入数据库
