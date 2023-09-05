@@ -13,6 +13,9 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(ColumnDef::new(Activity::Id).uuid().not_null().primary_key())
                     .col(ColumnDef::new(Activity::Activity).json().not_null())
+                    .col(ColumnDef::new(Activity::Actor).string().not_null())
+                    .col(ColumnDef::new(Activity::Kind).string().not_null())
+                    .col(ColumnDef::new(Activity::Published).string())
                     .to_owned()
             )
             .await?;
@@ -37,4 +40,10 @@ enum Activity {
     // Activity JSON
     /// https://www.w3.org/TR/activitystreams-vocabulary/#activity-types
     Activity,
+    // Activity Actor
+    Actor,
+    // Activity Type
+    Kind,
+    // Activity Publish Date (optional)
+    Published
 }
