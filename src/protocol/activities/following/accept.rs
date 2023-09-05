@@ -5,6 +5,7 @@ use activitypub_federation::{
     protocol::{helpers::deserialize_skip_error, context::WithContext},
     traits::ActivityHandler,
 };
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -12,7 +13,10 @@ use crate::{
     AppData,
     AppError,
     protocol::activities::Follow,
-    entities::user::Model as DbUser,
+    entities::{
+        activity::Model as DbActivity,
+        user::Model as DbUser,
+    },
     utilities::generate_activity_url
 };
 
@@ -40,7 +44,7 @@ impl AcceptFollow {
         // 关注者
         let person = follow.actor.clone().dereference(data).await?;
         // 接受关注
-        let accept = AcceptFollow {
+        let activity = AcceptFollow {
             actor: Url::parse(&user.id)?.into(),
             to: Some([Url::parse(&person.id)?.into()]),
             object: follow,
@@ -49,7 +53,18 @@ impl AcceptFollow {
             id: generate_activity_url(data.domain(), None)?
         };
 
-        Ok(WithContext::new_default(accept))
+        let _insert_activity = DbActivity {
+            id: activity.id().to_string(),
+            activity: serde_json::to_string(&activity)?,
+            actor: activity.actor().to_string(),
+            kind: activity.kind.to_string(),
+            published: None,
+        }
+            .into_active_model()
+            .insert(&data.conn)
+            .await?;
+
+        Ok(WithContext::new_default(activity))
     }
 }
 
