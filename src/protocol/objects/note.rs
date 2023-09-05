@@ -18,7 +18,7 @@ use crate::{
 };
 
 /// https://www.w3.org/ns/activitystreams#Note
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Note {
     #[serde(rename = "type")]
