@@ -1,4 +1,4 @@
-use std::fmt::{self, Display};
+use std::fmt::{Display, Formatter, Result};
 
 use serde::{Deserialize, Serialize};
 
@@ -12,7 +12,7 @@ pub enum CreateOrUpdateType {
 }
 
 impl Display for CreateOrUpdateType {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut Formatter) -> Result {
         match self {
             CreateOrUpdateType::Create => f.write_str("Create"),
             CreateOrUpdateType::Update => f.write_str("Update"),
