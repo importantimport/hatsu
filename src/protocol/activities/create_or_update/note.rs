@@ -7,6 +7,7 @@ use activitypub_federation::{
     },
     traits::{ActivityHandler, Object},
 };
+use chrono::{Local, SecondsFormat};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -38,6 +39,7 @@ pub struct CreateOrUpdateNote {
     #[serde(rename = "type")]
     pub(crate) kind: CreateOrUpdateType,
     pub(crate) id: Url,
+    pub(crate) published: String,
 }
 
 impl CreateOrUpdateNote {
@@ -52,7 +54,8 @@ impl CreateOrUpdateNote {
             to: note.to.clone(),
             cc: note.cc.clone(),
             object: note.clone(),
-            kind
+            kind,
+            published: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)
         };
 
         let _insert_activity = DbActivity {
@@ -60,7 +63,7 @@ impl CreateOrUpdateNote {
             activity: serde_json::to_string(&activity)?,
             actor: activity.actor().to_string(),
             kind: activity.kind.to_string(),
-            published: note.published,
+            published: Some(activity.published.clone()),
         }
             .into_active_model()
             .insert(&data.conn)

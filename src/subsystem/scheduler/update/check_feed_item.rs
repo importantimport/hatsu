@@ -1,5 +1,5 @@
 use activitypub_federation::{kinds::public, config::Data};
-use chrono::Local;
+use chrono::{Local, SecondsFormat};
 use sea_orm::*;
 use url::Url;
 
@@ -52,7 +52,7 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
                     ),
                     in_reply_to: None,
                     tag: vec![],
-                    published: Some(Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string()),
+                    published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
                     updated: None,
                 };
 
@@ -63,7 +63,7 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
                     object: serde_json::to_string(&note)?,
                     published: note.published.clone(),
                     updated: note.updated.clone(),
-                    last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
+                    last_refreshed_at: note.published.clone().unwrap(),
                     local: true,
                 }
                     .into_active_model()

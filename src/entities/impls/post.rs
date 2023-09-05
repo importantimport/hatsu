@@ -9,7 +9,7 @@ use activitypub_federation::{
     protocol::verification::verify_domains_match,
     traits::{Actor, Object},
 };
-use chrono::{NaiveDateTime, Local};
+use chrono::{DateTime, Local, NaiveDateTime, SecondsFormat};
 use sea_orm::*;
 use url::Url;
 use uuid::Uuid;
@@ -111,7 +111,7 @@ impl Object for DbPost {
             content: format!("Hello {}", creator.name),
             in_reply_to: Some(json.id.clone()),
             tag: vec![mention],
-            published: Some(Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string()),
+            published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
         };
 
@@ -122,7 +122,7 @@ impl Object for DbPost {
             object: serde_json::to_string(&note)?,
             published: note.published.clone(),
             updated: note.updated.clone(),
-            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
+            last_refreshed_at: note.published.clone().unwrap(),
             local: true,
         }.into_active_model();
 
@@ -149,6 +149,6 @@ impl Object for DbPost {
     }
 
     fn last_refreshed_at(&self) -> Option<NaiveDateTime> {
-        Some(NaiveDateTime::parse_from_str(&self.last_refreshed_at, "%Y-%m-%d %H:%M:%S").unwrap())
+        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().naive_local())
     }
 }
