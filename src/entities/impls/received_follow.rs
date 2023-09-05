@@ -23,7 +23,7 @@ impl DbReceivedFollow {
         Ok(Self {
             id: json.id.to_string(),
             actor: json.actor.to_string(),
-            to: json.to.and_then(|to| Some(serde_json::to_string(&to).unwrap())),
+            to: json.to.map(|to| serde_json::to_string(&to).unwrap()),
             object: json.object.to_string()
         })
     }

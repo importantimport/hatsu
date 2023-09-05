@@ -5,7 +5,7 @@ use url::Url;
 use crate::AppError;
 
 pub fn generate_followers_page_url(followers_id: &Url, page: u64) -> Result<Url, AppError> {
-    Ok(Url::parse_with_params(&followers_id.to_string(), &[("page", page.to_string())])?)
+    Ok(Url::parse_with_params(followers_id.as_ref(), &[("page", page.to_string())])?)
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -62,7 +62,7 @@ impl FollowersPage {
     pub fn new(followers_id: Url, total_items: u64, ordered_items: Vec<Url>, total_pages: u64, page: u64) -> Result<Self, AppError> {
         Ok(Self {
             kind: OrderedCollectionPageType::OrderedCollectionPage,
-            id: Url::parse_with_params(&followers_id.to_string(), &[("page", page.to_string())])?,
+            id: Url::parse_with_params(followers_id.as_ref(), &[("page", page.to_string())])?,
             /// 如果当前页数大于 1，则提供上一页
             prev: match page {
                 page if page > 1 => Some(generate_followers_page_url(&followers_id, page - 1)?),

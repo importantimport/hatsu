@@ -57,10 +57,10 @@ impl DbUserFeedItem {
         Ok(Self {
             id: json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string(),
             user_id: user_id.inner().to_string(),
-            object_id: object_id.and_then(|object_id| Some(object_id.inner().to_string())),
+            object_id: object_id.map(|object_id| object_id.inner().to_string()),
             title: json.title,
             summary: json.summary,
-            image: json.image.and_then(|url| Some(url.to_string())),
+            image: json.image.map(|url| url.to_string()),
             language: json.language,
             date_published: json.date_published,
             date_modified: json.date_modified,

@@ -5,7 +5,7 @@ use url::Url;
 use crate::AppError;
 
 pub fn generate_outbox_page_url(outbox_id: &Url, page: u64) -> Result<Url, AppError> {
-    Ok(Url::parse_with_params(&outbox_id.to_string(), &[("page", page.to_string())])?)
+    Ok(Url::parse_with_params(outbox_id.as_ref(), &[("page", page.to_string())])?)
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

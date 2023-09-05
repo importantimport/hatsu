@@ -23,15 +23,9 @@ use crate::{
     protocol::collections::followers::{Followers, FollowersPage},
 };
 
-#[derive(Deserialize)]
+#[derive(Default, Deserialize)]
 pub struct Pagination {
     page: Option<u64>,
-}
-
-impl Default for Pagination {
-    fn default() -> Self {
-        Self { page: None }
-    }
 }
 
 #[debug_handler]
