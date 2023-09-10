@@ -2,10 +2,13 @@
 // https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
 use activitypub_federation::{
+    config::Data,
     fetch::object_id::ObjectId,
-    kinds::object::NoteType,
+    kinds::{public, object::NoteType},
     protocol::helpers::deserialize_one_or_many,
+    traits::Actor,
 };
+use chrono::{Local, SecondsFormat};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -14,7 +17,7 @@ use crate::{
     entities::{
         post::Model as DbPost,
         user::Model as DbUser,
-    }
+    }, AppData, error::AppError
 };
 
 /// https://www.w3.org/ns/activitystreams#Note
@@ -30,8 +33,32 @@ pub struct Note {
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub(crate) cc: Vec<Url>,
     pub(crate) content: String,
+    /// TODO: remove in_reply_to (version 0.1.0)
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
     pub(crate) tag: Vec<Mention>,
     pub(crate) published: Option<String>,
     pub(crate) updated: Option<String>,
+    // TODO:
+    // sensitive (default: false) (extension: _hatsu.sensitive)
+    // source
+    // attachment
+    // context (?)
+    // conversation (?)
+}
+
+impl Note {
+    pub fn new(note_id: String, actor: &DbUser, content: String, data: &Data<AppData>) -> Result<Self, AppError> {
+        Ok(Self {
+            kind: Default::default(),
+            id: Url::parse(&note_id)?.into(),
+            attributed_to: actor.id().into(),
+            to: vec![public()],
+            cc: vec![Url::parse(&format!("https://{}/u/{}/followers", data.domain(), actor.id()))?],
+            content,
+            in_reply_to: None,
+            tag: vec![],
+            published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
+            updated: None,
+        })
+    }
 }

@@ -1,5 +1,4 @@
 use activitypub_federation::{kinds::public, config::Data};
-use chrono::{Local, SecondsFormat};
 use sea_orm::*;
 use url::Url;
 
@@ -37,24 +36,18 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
             }
             None => {
                 // 创建 Note
-                let note = Note {
-                    kind: Default::default(),
-                    id: Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
-                    attributed_to: Url::parse(&user.id)?.into(),
-                    to: vec![],
-                    cc: vec![public()],
-                    content: format!(
+                let note = Note::new(
+                    Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
+                    user,
+                    format!(
                         "{}\n{}\n{}",
                         // TODO: fallback
                         item.title.unwrap_or_default(),
                         item.summary.unwrap_or_default(),
                         item.id
                     ),
-                    in_reply_to: None,
-                    tag: vec![],
-                    published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
-                    updated: None,
-                };
+                    &data
+                )?;
 
                 // 创建 Post 并保存到数据库
                 let _post = DbPost {
