@@ -18,9 +18,10 @@ use crate::{
     AppError,
     entities::{
         prelude::*,
+        impls::JsonUserFeed,
         user::{self, Model as DbUser},
     },
-    protocol::actors::Person,
+    protocol::actors::{Person, PersonImage},
     utilities::get_site_feed,
 };
 
@@ -36,10 +37,19 @@ impl DbUser {
 
         let feed = get_site_feed(preferred_username.to_string()).await?;
 
+        // Tests for JSON Feed only
+        let json_feed: JsonUserFeed = reqwest::get(Url::parse(&feed.json.clone().unwrap())?)
+            .await?
+            .json::<JsonUserFeed>()
+            .await?;
+
         let user = Self {
             id: id.to_string(),
-            name: "Hatsu".to_string(),
+            name: json_feed.title,
             preferred_username: preferred_username.to_string(),
+            summary: json_feed.description,
+            icon: json_feed.icon.and_then(|url| Some(url.to_string())),
+            image: json_feed.hatsu.and_then(|hatsu| hatsu.banner_image.and_then(|url| Some(url.to_string()))),
             inbox: inbox.to_string(),
             outbox: outbox.to_string(),
             local: true,
@@ -124,10 +134,21 @@ impl Object for DbUser {
     // 转换为 ActivityStreams JSON
     async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
         Ok(Person {
+            kind: Default::default(),
             name: self.name.clone(),
             preferred_username: self.preferred_username.clone(),
-            kind: Default::default(),
             id: Url::parse(&self.id).unwrap().into(),
+            summary: self.summary.clone(),
+            icon: self.icon.clone().and_then(|icon| Some(PersonImage {
+                kind: Default::default(),
+                url: Url::parse(&icon).unwrap()
+            })),
+            image: self.image.clone().and_then(|image| Some(PersonImage {
+                kind: Default::default(),
+                url: Url::parse(&image).unwrap()
+            })),
+            // TODO: User Attachment
+            attachment: vec![],
             inbox: Url::parse(&self.inbox)?,
             outbox: Url::parse(&self.outbox)?,
             public_key: self.public_key(),
@@ -153,6 +174,9 @@ impl Object for DbUser {
             id: json.id.to_string(),
             name: json.name,
             preferred_username: json.preferred_username,
+            summary: json.summary,
+            icon: json.icon.and_then(|icon| Some(icon.url.to_string())),
+            image: json.image.and_then(|image| Some(image.url.to_string())),
             inbox: json.inbox.to_string(),
             outbox: json.outbox.to_string(),
             public_key: json.public_key.public_key_pem,
