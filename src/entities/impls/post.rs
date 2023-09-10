@@ -85,13 +85,13 @@ impl Object for DbPost {
         tracing::info!("Received post with content {} and id {}", &json.content, &json.id);
 
         let creator = json.attributed_to.dereference(data).await?;
-        let post = DbPost {
+        let post = Self {
             id: json.id.to_string(),
             attributed_to: json.attributed_to.to_string(),
             object: serde_json::to_string(&json)?,
             published: json.published,
             updated: json.updated,
-            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
+            last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
             local: false,
         };
 
