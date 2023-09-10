@@ -1,2 +1,2 @@
 mod person;
-pub use person::Person;
+pub use person::{Person, PersonImage, PersonAttachment};
