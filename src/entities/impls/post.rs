@@ -108,6 +108,7 @@ impl Object for DbPost {
             // TODO: "to": ["https://{}/u/{}/followers"]
             to: vec![json.attributed_to.clone().into()],
             cc: vec![public()],
+            source: "".to_string(),
             content: format!("Hello {}", creator.name),
             in_reply_to: Some(json.id.clone()),
             tag: vec![mention],

@@ -33,6 +33,8 @@ pub struct Note {
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub(crate) cc: Vec<Url>,
     pub(crate) content: String,
+    /// TODO: customization via item._hatsu.source
+    pub(crate) source: String,
     /// TODO: remove in_reply_to (version 0.1.0)
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
     pub(crate) tag: Vec<Mention>,
@@ -40,21 +42,21 @@ pub struct Note {
     pub(crate) updated: Option<String>,
     // TODO:
     // sensitive (default: false) (extension: _hatsu.sensitive)
-    // source
     // attachment
     // context (?)
     // conversation (?)
 }
 
 impl Note {
-    pub fn new(note_id: String, actor: &DbUser, content: String, data: &Data<AppData>) -> Result<Self, AppError> {
+    pub fn new(note_id: String, actor: &DbUser, source: String, data: &Data<AppData>) -> Result<Self, AppError> {
         Ok(Self {
             kind: Default::default(),
             id: Url::parse(&note_id)?.into(),
             attributed_to: actor.id().into(),
             to: vec![public()],
             cc: vec![Url::parse(&format!("https://{}/u/{}/followers", data.domain(), actor.id()))?],
-            content,
+            content: markdown::to_html_with_options(&source, &markdown::Options::gfm()).unwrap(),
+            source,
             in_reply_to: None,
             tag: vec![],
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
