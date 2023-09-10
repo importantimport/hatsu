@@ -13,14 +13,12 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(User::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(User::Id)
-                            .string()
-                            .not_null()
-                            .primary_key(),
-                    )
+                    .col(ColumnDef::new(User::Id).string().not_null().primary_key())
                     .col(ColumnDef::new(User::Name).string().not_null().unique_key())
                     .col(ColumnDef::new(User::PreferredUsername).string().not_null())
+                    .col(ColumnDef::new(User::Summary).string())
+                    .col(ColumnDef::new(User::Icon).string())
+                    .col(ColumnDef::new(User::Image).string())
                     .col(ColumnDef::new(User::Inbox).string().not_null())
                     .col(ColumnDef::new(User::Outbox).string().not_null())
                     .col(ColumnDef::new(User::Local).boolean().not_null())
@@ -53,6 +51,9 @@ enum User {
     Id,
     Name,
     PreferredUsername,
+    Summary,
+    Icon,
+    Image,
     Inbox,
     Outbox,
     Local,
