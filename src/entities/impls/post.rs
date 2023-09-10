@@ -116,7 +116,7 @@ impl Object for DbPost {
         };
 
         // 保存到数据库 / Save Note to Database
-        let db_post = DbPost {
+        let _insert_post = DbPost {
             id: note.id.to_string(),
             attributed_to: note.attributed_to.to_string(),
             object: serde_json::to_string(&note)?,
@@ -124,11 +124,9 @@ impl Object for DbPost {
             updated: note.updated.clone(),
             last_refreshed_at: note.published.clone().unwrap(),
             local: true,
-        }.into_active_model();
-
-        // 保存到数据库 / Save Note to Database
-        let _insert_db_post = Post::insert(db_post)
-            .exec(&data.conn)
+        }
+            .into_active_model()
+            .insert(&data.conn)
             .await?;
 
         // 获取本地用户
