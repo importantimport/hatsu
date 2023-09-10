@@ -13,11 +13,14 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
+    AppData,
+    AppError,
     protocol::links::Mention,
     entities::{
         post::Model as DbPost,
         user::Model as DbUser,
-    }, AppData, error::AppError
+    },
+    utilities::markdown_to_html
 };
 
 /// https://www.w3.org/ns/activitystreams#Note
@@ -55,7 +58,7 @@ impl Note {
             attributed_to: actor.id().into(),
             to: vec![public()],
             cc: vec![Url::parse(&format!("https://{}/u/{}/followers", data.domain(), actor.id()))?],
-            content: markdown::to_html_with_options(&source, &markdown::Options::gfm()).unwrap(),
+            content: markdown_to_html(&source),
             source,
             in_reply_to: None,
             tag: vec![],
