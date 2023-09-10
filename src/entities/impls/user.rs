@@ -7,7 +7,7 @@ use activitypub_federation::{
     protocol::verification::verify_domains_match,
     traits::{Actor, Object, ActivityHandler},
 };
-use chrono::{Local, NaiveDateTime};
+use chrono::{DateTime, Local, NaiveDateTime, SecondsFormat};
 use sea_orm::*;
 use serde::Serialize;
 use url::Url;
@@ -48,7 +48,7 @@ impl DbUser {
             feed_json: feed.json,
             feed_atom: feed.atom,
             feed_rss: feed.rss,
-            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
+            last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
             // followers: vec![],
         };
 
@@ -108,7 +108,7 @@ impl Object for DbUser {
     type Error = AppError;
 
     fn last_refreshed_at(&self) -> Option<NaiveDateTime> {
-        Some(NaiveDateTime::parse_from_str(&self.last_refreshed_at, "%Y-%m-%d %H:%M:%S").unwrap())
+        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().naive_local())
     }
 
     // 从 ID 读取
