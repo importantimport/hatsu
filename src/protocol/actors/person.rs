@@ -53,6 +53,7 @@ pub struct Person {
     // following: Url,
     // 公钥
     pub public_key: PublicKey,
+    // TODO: bot account
     // TODO: (maybe) endpoints.sharedInbox (https://hatsu.local/inbox)
 }
 
