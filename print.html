@@ -167,11 +167,23 @@ and forwards the received responses back to the site in a Webmention.</p>
 <!-- - Also works well with [Litestream](https://litestream.io/) or [LiteFS](https://fly.io/docs/litefs/)! -->
 </li>
 </ul>
-<!-- ## Comparison
-
-### Bridgy Fed
-
-### Bridgy -->
+<h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
+<p>Hatsu is still a Work-In-Progress. It is similar to Bridgy Fed but different:</p>
+<ul>
+<li>Hatsu uses Feed (JSON / Atom / RSS) as a data source instead of HTML pages with microformats2.</li>
+<li>Hatsu doesn't require you to automatically or manually send Webmention reminders for create and update, it's all fully automated.</li>
+</ul>
+<p>If you don't want to self-host, you may still want to use Bridgy or Bridgy Fed in some cases:</p>
+<h3 id="bridgy-fed"><a class="header" href="#bridgy-fed">Bridgy Fed</a></h3>
+<ul>
+<li>You don't mind compatibility with platforms other than Mastodon.</li>
+<li>Your site has good microformats2 markup.</li>
+</ul>
+<h3 id="bridgy"><a class="header" href="#bridgy">Bridgy</a></h3>
+<ul>
+<li>You already have a Fediverse account ready to be used for this purpose.</li>
+<li>Your site has good microformats2 markup.</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prepare"><a class="header" href="#prepare">Prepare</a></h1>
 <h2 id="clone-repository"><a class="header" href="#clone-repository">Clone Repository</a></h2>
 <p>It will create a <code>hatsu</code> subfolder in the current path.</p>
