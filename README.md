@@ -108,6 +108,7 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 #### Shuttle
 
 - https://docs.shuttle.rs/migration/migrating-to-shuttle
+- https://github.com/shuttle-hq/shuttle/issues/179#issuecomment-1203536025
 
 ## License
 
