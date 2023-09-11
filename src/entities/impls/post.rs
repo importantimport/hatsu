@@ -46,28 +46,7 @@ impl Object for DbPost {
 
     // 转换为 ActivityStreams JSON
     async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
-        // TODO: 不确定是否可用
-        // let object_id: ObjectId<DbUser> = Url::parse(&self.attributed_to)?.into();
-        // let creator = object_id.dereference_local(data).await?;
-        // let mention = Mention {
-        //     href: Url::parse(&creator.id)?,
-        //     kind: Default::default()
-        // };
-        // let note = Note {
-        //     kind: Default::default(),
-        //     id: Url::parse(&self.id)?.into(),
-        //     attributed_to: Url::parse(&self.attributed_to)?.into(),
-        //     // TODO:
-        //     // to: vec![public(), creator.followers_url()?],
-        //     to: vec![public()],
-        //     cc: vec![],
-        //     content: self.text,
-        //     in_reply_to: None,
-        //     tag: vec![mention]
-        // };
-        let json: Note = serde_json::from_str(&self.object)?;
-
-        Ok(json)
+        Ok(serde_json::from_str(&self.object)?)
     }
 
     // 验证
