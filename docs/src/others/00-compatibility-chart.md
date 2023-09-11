@@ -23,6 +23,7 @@ Currently I've created a chart for all the platforms I expect to be compatible w
 | Pleroma    |          |     |
 
 <!-- After a period of time: if you wish to support the new platform, you can open a new discussion. -->
+<!-- TODO: Akkoma & Firefish -->
 
 [Note]: https://www.w3.org/ns/activitystreams#Note
 [Accept]: https://www.w3.org/ns/activitystreams#Accept
