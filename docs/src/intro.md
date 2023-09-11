@@ -16,8 +16,21 @@ and forwards the received responses back to the site in a Webmention.
   - If you don't want to use Postgres, SQLite would be an easy solution.
   <!-- - Also works well with [Litestream](https://litestream.io/) or [LiteFS](https://fly.io/docs/litefs/)! -->
 
-<!-- ## Comparison
+## Comparison
+
+Hatsu is still a Work-In-Progress. It is similar to Bridgy Fed but different:
+
+- Hatsu uses Feed (JSON / Atom / RSS) as a data source instead of HTML pages with microformats2.
+- Hatsu doesn't require you to automatically or manually send Webmention reminders for create and update, it's all fully automated.
+
+If you don't want to self-host, you may still want to use Bridgy or Bridgy Fed in some cases:
 
 ### Bridgy Fed
 
-### Bridgy -->
+- You don't mind compatibility with platforms other than Mastodon.
+- Your site has good microformats2 markup.
+
+### Bridgy
+
+- You already have a Fediverse account ready to be used for this purpose.
+- Your site has good microformats2 markup.
