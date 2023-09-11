@@ -90,10 +90,24 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 
 ### Useful links
 
+#### ActivityPub
+
 - https://github.com/LemmyNet/activitypub-federation-rust/tree/main/examples/
 - https://github.com/LemmyNet/lemmy/tree/main/crates/apub/
-- https://github.com/SeaQL/sea-orm/tree/master/examples/axum_example/
 - https://blog.joinmastodon.org/2018/06/how-to-implement-a-basic-activitypub-server/
+
+#### SeaORM
+
+- https://github.com/SeaQL/sea-orm/tree/master/examples/axum_example/
+
+#### Leptos
+
+- https://github.com/leptos-rs/start-axum
+- https://github.com/leptos-rs/start-axum-workspace
+
+#### Shuttle
+
+- https://docs.shuttle.rs/migration/migrating-to-shuttle
 
 ## License
 
