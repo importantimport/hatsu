@@ -2,7 +2,6 @@
 // https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
 use activitypub_federation::{
-    config::Data,
     fetch::object_id::ObjectId,
     kinds::{public, object::NoteType},
     protocol::helpers::deserialize_one_or_many,
@@ -13,7 +12,6 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
-    AppData,
     AppError,
     protocol::links::Mention,
     entities::{
@@ -51,13 +49,13 @@ pub struct Note {
 }
 
 impl Note {
-    pub fn new(note_id: String, actor: &DbUser, source: String, data: &Data<AppData>) -> Result<Self, AppError> {
+    pub fn new(note_id: String, actor: &DbUser, source: String) -> Result<Self, AppError> {
         Ok(Self {
             kind: Default::default(),
             id: Url::parse(&note_id)?.into(),
             attributed_to: actor.id().into(),
             to: vec![public()],
-            cc: vec![Url::parse(&format!("https://{}/u/{}/followers", data.domain(), actor.id()))?],
+            cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
             content: markdown_to_html(&source),
             source,
             in_reply_to: None,

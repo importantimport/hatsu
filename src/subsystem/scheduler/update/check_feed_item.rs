@@ -45,8 +45,7 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
                         item.title.unwrap_or_default(),
                         item.summary.unwrap_or_default(),
                         item.id
-                    ),
-                    &data
+                    )
                 )?;
 
                 // 创建 Post 并保存到数据库
