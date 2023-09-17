@@ -2,6 +2,7 @@ use std::env;
 
 use activitypub_federation::config::FederationConfig;
 use dotenvy::dotenv;
+use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
@@ -52,6 +53,9 @@ async fn main() -> Result<(), AppError> {
         .await
         .expect("Database connection failed");
 
+    // 运行 SeaORM Migration
+    Migrator::up(&conn, None).await?;
+
     tracing::info!("checking test account");
     // 尝试读取数据库中的测试账户，如果不存在则创建
     // Try to read test account in the database, if it doesn't exist then create
@@ -92,7 +96,7 @@ async fn main() -> Result<(), AppError> {
         .await?;
 
     // 创建服务
-    let migrator = subsystem::Migrator { data: federation_config.to_request_data() };
+    // let migrator = subsystem::Migrator { data: federation_config.to_request_data() };
     let scheduler = subsystem::Scheduler { config: federation_config.clone() };
     let web_server = subsystem::WebServer {
         federation_config,
@@ -102,7 +106,7 @@ async fn main() -> Result<(), AppError> {
     };
 
     let _result = Toplevel::<AppError>::new()
-        .start("Migrator", move |s| migrator.run(s))
+        // .start("Migrator", move |s| migrator.run(s))
         .start("Scheduler", move |s| scheduler.run(s))
         .start("Web Server", move |s| web_server.run(s))
         .catch_signals()
