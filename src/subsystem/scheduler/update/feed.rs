@@ -6,17 +6,17 @@ use crate::{
     AppError,
     entities::{
         impls::{JsonUserFeed, JsonUserFeedItem},
-        user::Model as DbUser
+        user::Model as DbUser,
     },
 };
 
 pub async fn get_user_feed(user: DbUser) -> Result<JsonUserFeed, AppError> {
-    Ok(match user {
-        DbUser { feed_json: Some(url), .. } => parse_json_feed(url).await?,
-        DbUser { feed_atom: Some(url), .. } => parse_xml_feed(url).await?,
-        DbUser { feed_rss: Some(url), .. } => parse_xml_feed(url).await?,
-        DbUser { feed_json: None, feed_atom: None, feed_rss: None, .. } => todo!(), // Error
-    })
+    match user {
+        DbUser { feed_json: Some(url), .. } => Ok(parse_json_feed(url).await?),
+        DbUser { feed_atom: Some(url), .. } => Ok(parse_xml_feed(url).await?),
+        DbUser { feed_rss: Some(url), .. } => Ok(parse_xml_feed(url).await?),
+        DbUser { feed_json: None, feed_atom: None, feed_rss: None, .. } => Err(AppError::NotFound { kind: "Feed Url".to_string(), name: user.name })
+    }
 }
 
 async fn parse_json_feed(url: String) -> Result<JsonUserFeed, AppError> {
@@ -33,7 +33,7 @@ async fn parse_xml_feed(url: String) -> Result<JsonUserFeed, AppError> {
             .text()
             .await?
             .as_bytes()
-        )?;
+    )?;
         
     let items = feed.entries
         .iter()
@@ -57,6 +57,6 @@ async fn parse_xml_feed(url: String) -> Result<JsonUserFeed, AppError> {
         description: feed.description.and_then(|text| Some(text.content)),
         icon: feed.icon.and_then(|image| Some(Url::parse(&image.uri).unwrap())),
         language: feed.language,
-        items
+        items,
     })
 }
