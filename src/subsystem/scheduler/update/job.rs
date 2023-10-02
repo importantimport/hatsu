@@ -11,6 +11,7 @@ use crate::{
         user::{self, Model as DbUser},
         user_feed_item::Model as DbUserFeedItem,
     },
+    subsystem::scheduler::update::get_user_feed,
 };
 
 use super::check_feed_item;
@@ -31,11 +32,7 @@ pub async fn fast_update(config: &FederationConfig<AppData>) -> Result<(), AppEr
 }
 
 pub async fn fast_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<(), AppError> {
-    // Tests for JSON Feed only
-    let feed: JsonUserFeed = reqwest::get(Url::parse(&user.feed_json.clone().unwrap())?)
-        .await?
-        .json::<JsonUserFeed>()
-        .await?;
+    let feed: JsonUserFeed = get_user_feed(user.clone()).await?;
 
     for item in feed.items {
         check_feed_item(data, &user, DbUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), None).await?).await?;
