@@ -1,6 +1,10 @@
 # Hatsu Documentation
 
-## Developing
+## Deployment
+
+This documentation is deployed at [hatsu.cli.rs](https://hatsu.cli.rs).
+
+## Development
 
 <!-- cargo install mdbook mdbook-linkcheck mdbook-toc -->
 
