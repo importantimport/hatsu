@@ -27,10 +27,10 @@ impl Scheduler {
 
         scheduler.add(
             Job::new_async("0 */10 * * * *", move |_, _| {
-                tracing::info!("I run every 10 minutes");
-                let config = self.config.clone();
+                // tracing::info!("I run every 10 minutes");
+                let data = self.config.to_request_data();
                 Box::pin(async move {
-                    match fast_update(&config).await {
+                    match fast_update(&data).await {
                         Ok(_) => tracing::info!("ok"),
                         Err(error) =>  tracing::warn!(%error, "error")
                     }

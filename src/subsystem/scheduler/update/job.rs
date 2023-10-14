@@ -1,4 +1,4 @@
-use activitypub_federation::config::{Data, FederationConfig};
+use activitypub_federation::config::Data;
 use sea_orm::*;
 use url::Url;
 
@@ -16,10 +16,7 @@ use crate::{
 
 use super::check_feed_item;
 
-// pub async fn fast_update(data: &Data<AppData>) -> Result<(), AppError> {
-pub async fn fast_update(config: &FederationConfig<AppData>) -> Result<(), AppError> {
-    let data = config.to_request_data();
-
+pub async fn fast_update(data: &Data<AppData>) -> Result<(), AppError> {
     for user in User::find()
         .filter(user::Column::Local.eq(true))
         .order_by_asc(user::Column::Id)
