@@ -19,11 +19,11 @@ impl Scheduler {
         tracing::info!("creating scheduler");
         let scheduler: JobScheduler = JobScheduler::new().await?;
 
-        scheduler.add(
-            Job::new("0 */5 * * * *", |_, _| {
-                tracing::info!("I run every 5 minutes");
-            })?
-        ).await?;
+        // scheduler.add(
+        //     Job::new("0 */5 * * * *", |_, _| {
+        //         tracing::info!("I run every 5 minutes");
+        //     })?
+        // ).await?;
 
         scheduler.add(
             Job::new_async("0 */10 * * * *", move |_, _| {
