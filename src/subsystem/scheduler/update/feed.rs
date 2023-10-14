@@ -42,8 +42,8 @@ async fn parse_xml_feed(url: String) -> Result<JsonUserFeed, AppError> {
             url: None, // TODO
             title: entry.title.clone().and_then(|text| Some(text.content)),
             summary: entry.summary.clone().and_then(|text| Some(text.content)),
-            image: None,
             language: None,
+            tags: entry.categories.iter().map(|category| Some(category.label.clone().unwrap_or(category.term.clone()))).collect(),
             date_published: entry.published.and_then(|date| Some(date.to_rfc3339_opts(SecondsFormat::Secs, true))),
             date_modified: entry.updated.and_then(|date| Some(date.to_rfc3339_opts(SecondsFormat::Secs, true))),
         })

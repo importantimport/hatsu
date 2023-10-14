@@ -20,29 +20,8 @@ impl DbUserFeedItem {
             url: None,
             title: self.title,
             summary: self.summary,
-            // 处理相对链接
-            // image: self.image.and_then(|url| Some(Url::parse(&absolutize_relative_url(
-            //     url,
-            //     // 从 UserID 获取域名
-            //     Url::parse(&self.user_id)
-            //         .unwrap()
-            //         .path()
-            //         .split('/')
-            //         .last()
-            //         .unwrap()
-            //         .to_string()
-            // ).unwrap()).unwrap())),
-            // 不处理相对链接，解析失败则视为空
-            // image: self.image.and_then(|url| {
-            //     if let Ok(url) = Url::parse(&url) {
-            //         Some(url)
-            //     } else {
-            //         None
-            //     }
-            // }),
-            // 视为字符串
-            image: self.image,
             language: self.language,
+            tags: self.tags.and_then(|tags| Some(serde_json::from_str(&tags).unwrap())),
             date_published: self.date_published,
             date_modified: self.date_modified,
         })
@@ -60,8 +39,8 @@ impl DbUserFeedItem {
             object_id: object_id.map(|object_id| object_id.inner().to_string()),
             title: json.title,
             summary: json.summary,
-            image: json.image.map(|url| url.to_string()),
             language: json.language,
+            tags: json.tags.and_then(|tags| Some(serde_json::to_string::<Vec<String>>(&tags).unwrap())),
             date_published: json.date_published,
             date_modified: json.date_modified,
         })
@@ -111,10 +90,9 @@ pub struct JsonUserFeedItem {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub summary: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    // pub image: Option<Url>,
-    pub image: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tags: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub date_published: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]

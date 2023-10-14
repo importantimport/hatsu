@@ -11,8 +11,8 @@ pub struct Model {
     pub object_id: Option<String>,
     pub title: Option<String>,
     pub summary: Option<String>,
-    pub image: Option<String>,
     pub language: Option<String>,
+    pub tags: Option<String>,
     pub date_published: Option<String>,
     pub date_modified: Option<String>,
 }

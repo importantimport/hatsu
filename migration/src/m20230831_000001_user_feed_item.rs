@@ -17,8 +17,8 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(UserFeedItem::ObjectId).string())
                     .col(ColumnDef::new(UserFeedItem::Title).string())
                     .col(ColumnDef::new(UserFeedItem::Summary).string())
-                    .col(ColumnDef::new(UserFeedItem::Image).string())
                     .col(ColumnDef::new(UserFeedItem::Language).string())
+                    .col(ColumnDef::new(UserFeedItem::Tags).string())
                     .col(ColumnDef::new(UserFeedItem::DatePublished).string())
                     .col(ColumnDef::new(UserFeedItem::DateModified).string())
                     .to_owned()
@@ -50,10 +50,10 @@ enum UserFeedItem {
     Title,
     /// JSON Feed Item `summary`
     Summary,
-    /// JSON Feed Item `image`
-    Image,
     /// JSON Feed Item `language`
     Language,
+    /// JSON Feed Item `tags`
+    Tags,
     /// JSON Feed Item `date_published`
     DatePublished,
     /// JSON Feed Item `date_modified`
