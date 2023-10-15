@@ -55,4 +55,5 @@ tokio-graceful-shutdown = "0.13"
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 url = { version = "2.4", features = ["serde"] }
+urlencoding = "2"
 uuid = { version = "1.4", features = ["v4", "v7", "fast-rng", "macro-diagnostics"] }

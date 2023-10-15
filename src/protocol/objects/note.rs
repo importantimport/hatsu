@@ -11,11 +11,12 @@ use activitypub_federation::{
 use chrono::{Local, SecondsFormat};
 use serde::{Deserialize, Serialize};
 use url::Url;
+use urlencoding::encode;
 
 use crate::{
     AppData,
     AppError,
-    protocol::links::Mention,
+    protocol::links::Hashtag,
     entities::{
         impls::JsonUserFeedItem,
         post::Model as DbPost,
@@ -41,7 +42,8 @@ pub struct Note {
     pub(crate) source: String,
     /// TODO: remove in_reply_to (version 0.1.0)
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
-    pub(crate) tag: Vec<Mention>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub(crate) tag: Option<Vec<Hashtag>>,
     pub(crate) published: Option<String>,
     pub(crate) updated: Option<String>,
     // TODO:
@@ -62,7 +64,7 @@ impl Note {
             content: markdown_to_html(&source),
             source,
             in_reply_to: None,
-            tag: vec![],
+            tag: None,
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
         })
@@ -73,7 +75,7 @@ impl Note {
         // TODO: match json._hatsu.source (string)
         let mut sources: Vec<Option<String>> = vec![json.title, json.summary];
 
-        // TODO: json._hatsu.url (boolean)
+        // TODO: json._hatsu.url (Option<false>)
         // TODO: parse_item_id (check url)
         // https://example.com/foo/bar => https://example.com/foo/bar
         // /foo/bar => https://example.com/foo/bar 
@@ -81,18 +83,40 @@ impl Note {
         let json_id = json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string();
         sources.push(Some(json_id));
 
-        let source = sources
+        let mut source = sources
             .iter()
             .filter(|source| source.is_some())
             .map(|source| source.clone().unwrap())
             .collect::<Vec<String>>()
             .join("\n\n");
 
-        let content = markdown_to_html(&source);
+        let mut content = markdown_to_html(&source);
 
-        // TODO: json._hatsu.tags (boolean)
-        // source + "\n\n#tag1 #tag2"
-        // content + "\n\n<a href="https://hatsu.local/t/tag1" rel="tag">#<span>tag1</span></a> <a href="https://hatsu.local/t/tag2" rel="tag">#<span>tag2</span></a>"
+        // TODO: json._hatsu.tags (Option<false>)
+        if json.tags.is_some() {
+            source.push_str(&format!(
+                "\n\n{}",
+                json.tags
+                    .clone()
+                    .unwrap()
+                    .iter()
+                    .map(|tag| "#".to_owned() + tag)
+                    .collect::<Vec<String>>()
+                    .join(" ")
+            ));
+
+            content.push_str(&format!(
+                "\n\n{}",
+                json.tags
+                    .clone()
+                    .unwrap()
+                    .iter()
+                    // TODO: test urlencoding::encode()
+                    .map(|tag| format!("<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>", data.domain(), encode(tag), tag))
+                    .collect::<Vec<String>>()
+                    .join(" ")
+            ));
+        }
 
         let id = Url::parse(&format!("https://{}/o/{}", data.domain(), json.id))?.into();
 
@@ -106,8 +130,16 @@ impl Note {
             source,
             // TODO: remove
             in_reply_to: None,
-            // TODO: add tag
-            tag: vec![],
+            // TODO: test this
+            tag: json.tags.and_then(|tags: Vec<String>| Some(tags
+                .iter()
+                .map(|tag| Hashtag {
+                    kind: Default::default(),
+                    href: Url::parse(&format!("https://{}/t/{}", data.domain(), encode(tag))).unwrap(),
+                    name: "#".to_owned() + tag,
+                })
+                .collect())
+            ),
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
         })
