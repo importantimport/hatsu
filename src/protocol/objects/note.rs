@@ -2,6 +2,7 @@
 // https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
 use activitypub_federation::{
+    config::Data,
     fetch::object_id::ObjectId,
     kinds::{public, object::NoteType},
     protocol::helpers::deserialize_one_or_many,
@@ -12,9 +13,11 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
+    AppData,
     AppError,
     protocol::links::Mention,
     entities::{
+        impls::JsonUserFeedItem,
         post::Model as DbPost,
         user::Model as DbUser,
     },
@@ -59,6 +62,51 @@ impl Note {
             content: markdown_to_html(&source),
             source,
             in_reply_to: None,
+            tag: vec![],
+            published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
+            updated: None,
+        })
+    }
+
+    // TODO: replace Note::new()
+    pub fn new_default(actor: &DbUser, json: JsonUserFeedItem, data: &Data<AppData>) -> Result<Self, AppError> {
+        // TODO: match json._hatsu.source (string)
+        let mut sources: Vec<Option<String>> = vec![json.title, json.summary];
+
+        // TODO: json._hatsu.url (boolean)
+        // TODO: parse_item_id (check url)
+        // https://example.com/foo/bar => https://example.com/foo/bar
+        // /foo/bar => https://example.com/foo/bar 
+        // foo/bar => https://example.com/foo/bar
+        let json_id = json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string();
+        sources.push(Some(json_id));
+
+        let source = sources
+            .iter()
+            .filter(|source| source.is_some())
+            .map(|source| source.clone().unwrap())
+            .collect::<Vec<String>>()
+            .join("\n\n");
+
+        let content = markdown_to_html(&source);
+
+        // TODO: json._hatsu.tags (boolean)
+        // source + "\n\n#tag1 #tag2"
+        // content + "\n\n<a href="https://hatsu.local/t/tag1" rel="tag">#<span>tag1</span></a> <a href="https://hatsu.local/t/tag2" rel="tag">#<span>tag2</span></a>"
+
+        let id = Url::parse(&format!("https://{}/o/{}", data.domain(), json.id))?.into();
+
+        Ok(Self {
+            kind: Default::default(),
+            id,
+            attributed_to: actor.id().into(),
+            to: vec![public()],
+            cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
+            content,
+            source,
+            // TODO: remove
+            in_reply_to: None,
+            // TODO: add tag
             tag: vec![],
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
