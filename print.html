@@ -197,6 +197,9 @@ and forwards the received responses back to the site in a Webmention.</p>
 <li><a href="https://github.com/importantimport/hatsu/tree/main/src"><code>src</code></a> - Main application.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="local-development"><a class="header" href="#local-development">Local Development</a></h1>
+<blockquote>
+<p>You'll need to complete <a href="developers/./01-prepare.html">prepare</a> before you do this.</p>
+</blockquote>
 <h2 id="dependencies"><a class="header" href="#dependencies">Dependencies</a></h2>
 <p>To develop Hatsu, you should first <a href="https://www.rust-lang.org/tools/install">install Rust</a> and some dependencies.</p>
 <pre><code class="language-bash"># Arch-based distro
@@ -224,6 +227,9 @@ cargo run
 </code></pre>
 <p>Hatsu now listen on <code>localhost:3939</code>, and in order for it to connect to Fediverse, you'll also need to set up a reverse proxy.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="docker-development"><a class="header" href="#docker-development">Docker Development</a></h1>
+<blockquote>
+<p>You'll need to complete <a href="developers/./01-prepare.html">prepare</a> before you do this.</p>
+</blockquote>
 <h2 id="dependencies-1"><a class="header" href="#dependencies-1">Dependencies</a></h2>
 <p>To use Docker, you only need to install Docker and Docker Compose.</p>
 <pre><code class="language-bash"># Arch-based distro
@@ -278,7 +284,7 @@ which caches dependencies to avoid duplicate build dependencies.</p>
 <h2 id="items"><a class="header" href="#items">items</a></h2>
 <p>The following applies to the <a href="https://www.jsonfeed.org/version/1.1/#items-a-name-items-a">JSON Feed Item</a>.</p>
 <ul>
-<li><code>about</code> (optional but strongly recommended, string) is the URL used to introduce this extension to humans. should be <code>https://github.com/importantimport/hatsu/issues/1</code>.</li>
+<li><code>about</code> (optional but strongly recommended, string) is the URL used to introduce this extension to humans. should be <a href="https://github.com/importantimport/hatsu/issues/1">https://github.com/importantimport/hatsu/issues/1</a> .</li>
 </ul>
 
                     </main>
