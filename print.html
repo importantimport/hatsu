@@ -240,8 +240,21 @@ sudo apt install docker.io docker-compose
 </code></pre>
 <!-- ## Building -->
 <h2 id="running-1"><a class="header" href="#running-1">Running</a></h2>
-<p>Simply run:</p>
-<pre><code class="language-bash">docker-compose up -d
+<p>First copy the variables,</p>
+<p>Set <code>HATSU_DOMAIN</code> to your prepared domain
+(e.g. <code>hatsu.example.com</code> without <code>https://</code>)</p>
+<p>and <code>HATSU_TEST_ACCOUNT</code> to your desired user domain
+(e.g. <code>blog.example.com</code> without <code>https://</code>)</p>
+<pre><code class="language-bash"># copy env example
+cp .env.example .env
+# edit env
+nano .env
+</code></pre>
+<p>Then create the database file and run:</p>
+<pre><code class="language-bash"># create database
+touch hatsu.sqlite3
+# run hatsu
+docker-compose up -d
 </code></pre>
 <p>If there is no build image, it will be built automatically at execution time.
 Hatsu uses <a href="https://crates.io/crates/cargo-chef">cargo-chef</a> in the <a href="https://github.com/importantimport/hatsu/blob/main/Dockerfile">Dockerfile</a>,
