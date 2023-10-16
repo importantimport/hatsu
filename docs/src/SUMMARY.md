@@ -12,4 +12,5 @@
 
 # Others
 
-- [Compatibility Chart](./others/00-compatibility-chart.md)
+- [Compatibility Chart](./others/compatibility-chart.md)
+- [JSON Feed Extension](./others/json-feed-extension.md)
