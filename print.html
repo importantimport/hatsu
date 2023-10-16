@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/00-compatibility-chart.html"><strong aria-hidden="true">5.</strong> Compatibility Chart</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">5.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">6.</strong> JSON Feed Extension</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -263,6 +263,23 @@ which caches dependencies to avoid duplicate build dependencies.</p>
 </tbody></table>
 </div><!-- After a period of time: if you wish to support the new platform, you can open a new discussion. -->
 <!-- TODO: Akkoma & Firefish -->
+<div style="break-before: page; page-break-before: always;"></div><h1 id="hatsu-json-feed-extension"><a class="header" href="#hatsu-json-feed-extension">Hatsu JSON Feed Extension</a></h1>
+<p>To allow you to customize your postings, Hatsu defines a JSON Feed extension that uses the <code>_hatsu</code> key.</p>
+<p>All extension keys for the Hatsu JSON Feed Extension are optional.</p>
+<blockquote>
+<p>Note: everything here is experimental. It is always subject to breaking changes and does not follow semver.</p>
+</blockquote>
+<h2 id="top-level"><a class="header" href="#top-level">Top-level</a></h2>
+<p>The following applies to the <a href="https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a">Top-level JSON Feed</a>.</p>
+<ul>
+<li><code>about</code> (optional but strongly recommended, string) is the URL used to introduce this extension to humans. should be <a href="https://github.com/importantimport/hatsu/issues/1">https://github.com/importantimport/hatsu/issues/1</a> .</li>
+<li><code>banner_image</code> (optional, string) is the URL of the banner image for the website in hatsu.</li>
+</ul>
+<h2 id="items"><a class="header" href="#items">items</a></h2>
+<p>The following applies to the <a href="https://www.jsonfeed.org/version/1.1/#items-a-name-items-a">JSON Feed Item</a>.</p>
+<ul>
+<li><code>about</code> (optional but strongly recommended, string) is the URL used to introduce this extension to humans. should be <code>https://github.com/importantimport/hatsu/issues/1</code>.</li>
+</ul>
 
                     </main>
 

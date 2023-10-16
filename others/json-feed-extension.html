@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Local Development - Hatsu Documentation</title>
+        <title>JSON Feed Extension - Hatsu Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="../developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="../developers/02-local-development.html" class="active"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="../developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="../others/compatibility-chart.html"><strong aria-hidden="true">5.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="../others/json-feed-extension.html"><strong aria-hidden="true">6.</strong> JSON Feed Extension</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="../developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="../developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="../developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="../others/compatibility-chart.html"><strong aria-hidden="true">5.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="../others/json-feed-extension.html" class="active"><strong aria-hidden="true">6.</strong> JSON Feed Extension</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -120,7 +120,7 @@
                         <a href="https://github.com/importantimport/hatsu" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/importantimport/hatsu/edit/main/docs/src/developers/02-local-development.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/importantimport/hatsu/edit/main/docs/src/others/json-feed-extension.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -149,45 +149,32 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="local-development"><a class="header" href="#local-development">Local Development</a></h1>
-<h2 id="dependencies"><a class="header" href="#dependencies">Dependencies</a></h2>
-<p>To develop Hatsu, you should first <a href="https://www.rust-lang.org/tools/install">install Rust</a> and some dependencies.</p>
-<pre><code class="language-bash"># Arch-based distro
-sudo pacman -S git cargo openssl
-
-# Debian-based distro
-sudo apt install git cargo libssl-dev
-</code></pre>
-<h2 id="running"><a class="header" href="#running">Running</a></h2>
-<p>First copy the variables,</p>
-<p>Set <code>HATSU_DOMAIN</code> to your prepared domain
-(e.g. <code>hatsu.example.com</code> without <code>https://</code>)</p>
-<p>and <code>HATSU_TEST_ACCOUNT</code> to your desired user domain
-(e.g. <code>blog.example.com</code> without <code>https://</code>)</p>
-<pre><code class="language-bash"># copy env example
-cp .env.example .env
-# edit env
-nano .env
-</code></pre>
-<p>Then create the database file and run:</p>
-<pre><code class="language-bash"># create database
-touch hatsu.sqlite3
-# run hatsu
-cargo run
-</code></pre>
-<p>Hatsu now listen on <code>localhost:3939</code>, and in order for it to connect to Fediverse, you'll also need to set up a reverse proxy.</p>
+                        <h1 id="hatsu-json-feed-extension"><a class="header" href="#hatsu-json-feed-extension">Hatsu JSON Feed Extension</a></h1>
+<p>To allow you to customize your postings, Hatsu defines a JSON Feed extension that uses the <code>_hatsu</code> key.</p>
+<p>All extension keys for the Hatsu JSON Feed Extension are optional.</p>
+<blockquote>
+<p>Note: everything here is experimental. It is always subject to breaking changes and does not follow semver.</p>
+</blockquote>
+<h2 id="top-level"><a class="header" href="#top-level">Top-level</a></h2>
+<p>The following applies to the <a href="https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a">Top-level JSON Feed</a>.</p>
+<ul>
+<li><code>about</code> (optional but strongly recommended, string) is the URL used to introduce this extension to humans. should be <a href="https://github.com/importantimport/hatsu/issues/1">https://github.com/importantimport/hatsu/issues/1</a> .</li>
+<li><code>banner_image</code> (optional, string) is the URL of the banner image for the website in hatsu.</li>
+</ul>
+<h2 id="items"><a class="header" href="#items">items</a></h2>
+<p>The following applies to the <a href="https://www.jsonfeed.org/version/1.1/#items-a-name-items-a">JSON Feed Item</a>.</p>
+<ul>
+<li><code>about</code> (optional but strongly recommended, string) is the URL used to introduce this extension to humans. should be <code>https://github.com/importantimport/hatsu/issues/1</code>.</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../developers/01-prepare.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../others/compatibility-chart.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../developers/03-docker-development.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -195,13 +182,10 @@ cargo run
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../developers/01-prepare.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../others/compatibility-chart.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../developers/03-docker-development.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
