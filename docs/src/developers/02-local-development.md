@@ -1,5 +1,7 @@
 # Local Development
 
+> You'll need to complete [prepare](./01-prepare.md) before you do this.
+
 ## Dependencies
 
 To develop Hatsu, you should first [install Rust](https://www.rust-lang.org/tools/install) and some dependencies.

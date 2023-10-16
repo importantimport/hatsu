@@ -1,5 +1,7 @@
 # Docker Development
 
+> You'll need to complete [prepare](./01-prepare.md) before you do this.
+
 ## Dependencies
 
 To use Docker, you only need to install Docker and Docker Compose.
