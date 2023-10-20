@@ -1,6 +1,6 @@
 # Hatsu「初」
 
-Bring your static site to Fediverse. [WIP]
+Self-hosted & Fully-automated ActivityPub Bridge for Static Sites. [WIP]
 
 ## Development
 
