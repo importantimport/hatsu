@@ -21,7 +21,7 @@ impl DbUserFeedItem {
             title: self.title,
             summary: self.summary,
             language: self.language,
-            tags: self.tags.and_then(|tags| Some(serde_json::from_str(&tags).unwrap())),
+            tags: self.tags.map(|tags| serde_json::from_str(&tags).unwrap()),
             date_published: self.date_published,
             date_modified: self.date_modified,
         })
@@ -40,7 +40,7 @@ impl DbUserFeedItem {
             title: json.title,
             summary: json.summary,
             language: json.language,
-            tags: json.tags.and_then(|tags| Some(serde_json::to_string::<Vec<String>>(&tags).unwrap())),
+            tags: json.tags.map(|tags| serde_json::to_string::<Vec<String>>(&tags).unwrap()),
             date_published: json.date_published,
             date_modified: json.date_modified,
         })

@@ -37,7 +37,7 @@ pub async fn webfinger(
         _ => {
             // extract webfinger domain
             // acct:any@example.com (extract example.com)
-            let vec: Vec<&str> = query.resource.split("@").collect();
+            let vec: Vec<&str> = query.resource.split('@').collect();
             vec[1].to_string()
             // TODO:
             // match vec.get(1) {

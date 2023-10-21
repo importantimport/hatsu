@@ -40,12 +40,12 @@ async fn parse_xml_feed(url: String) -> Result<JsonUserFeed, AppError> {
         .map(|entry| JsonUserFeedItem {
             id: entry.id.clone(),
             url: None, // TODO
-            title: entry.title.clone().and_then(|text| Some(text.content)),
-            summary: entry.summary.clone().and_then(|text| Some(text.content)),
+            title: entry.title.clone().map(|text| text.content),
+            summary: entry.summary.clone().map(|text| text.content),
             language: None,
             tags: entry.categories.iter().map(|category| Some(category.label.clone().unwrap_or(category.term.clone()))).collect(),
-            date_published: entry.published.and_then(|date| Some(date.to_rfc3339_opts(SecondsFormat::Secs, true))),
-            date_modified: entry.updated.and_then(|date| Some(date.to_rfc3339_opts(SecondsFormat::Secs, true))),
+            date_published: entry.published.map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
+            date_modified: entry.updated.map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
         })
         .collect();
 
@@ -54,8 +54,8 @@ async fn parse_xml_feed(url: String) -> Result<JsonUserFeed, AppError> {
         feed_url: Url::parse(&feed.id).unwrap(),
         next_url: None,
         title: feed.title.unwrap().content,
-        description: feed.description.and_then(|text| Some(text.content)),
-        icon: feed.icon.and_then(|image| Some(Url::parse(&image.uri).unwrap())),
+        description: feed.description.map(|text| text.content),
+        icon: feed.icon.map(|image| Url::parse(&image.uri).unwrap()),
         language: feed.language,
         items,
     })

@@ -85,8 +85,7 @@ impl Note {
 
         let mut source = sources
             .iter()
-            .filter(|source| source.is_some())
-            .map(|source| source.clone().unwrap())
+            .filter_map(|source| source.clone())
             .collect::<Vec<String>>()
             .join("\n\n");
 
@@ -131,15 +130,14 @@ impl Note {
             // TODO: remove
             in_reply_to: None,
             // TODO: test this
-            tag: json.tags.and_then(|tags: Vec<String>| Some(tags
+            tag: json.tags.map(|tags: Vec<String>| tags
                 .iter()
                 .map(|tag| Hashtag {
                     kind: Default::default(),
                     href: Url::parse(&format!("https://{}/t/{}", data.domain(), encode(tag))).unwrap(),
                     name: "#".to_owned() + tag,
                 })
-                .collect())
-            ),
+                .collect()),
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
         })

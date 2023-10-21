@@ -48,8 +48,8 @@ impl DbUser {
             name: json_feed.title,
             preferred_username: preferred_username.to_string(),
             summary: json_feed.description,
-            icon: json_feed.icon.and_then(|url| Some(url.to_string())),
-            image: json_feed.hatsu.and_then(|hatsu| hatsu.banner_image.and_then(|url| Some(url.to_string()))),
+            icon: json_feed.icon.map(|url| url.to_string()),
+            image: json_feed.hatsu.and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
             inbox: inbox.to_string(),
             outbox: outbox.to_string(),
             local: true,
@@ -139,14 +139,14 @@ impl Object for DbUser {
             preferred_username: self.preferred_username.clone(),
             id: Url::parse(&self.id).unwrap().into(),
             summary: self.summary.clone(),
-            icon: self.icon.clone().and_then(|icon| Some(PersonImage {
+            icon: self.icon.clone().map(|icon| PersonImage {
                 kind: Default::default(),
                 url: Url::parse(&icon).unwrap()
-            })),
-            image: self.image.clone().and_then(|image| Some(PersonImage {
+            }),
+            image: self.image.clone().map(|image| PersonImage {
                 kind: Default::default(),
                 url: Url::parse(&image).unwrap()
-            })),
+            }),
             // TODO: User Attachment
             attachment: vec![],
             inbox: Url::parse(&self.inbox)?,
@@ -175,8 +175,8 @@ impl Object for DbUser {
             name: json.name,
             preferred_username: json.preferred_username,
             summary: json.summary,
-            icon: json.icon.and_then(|icon| Some(icon.url.to_string())),
-            image: json.image.and_then(|image| Some(image.url.to_string())),
+            icon: json.icon.map(|icon| icon.url.to_string()),
+            image: json.image.map(|image| image.url.to_string()),
             inbox: json.inbox.to_string(),
             outbox: json.outbox.to_string(),
             public_key: json.public_key.public_key_pem,

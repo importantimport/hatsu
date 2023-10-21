@@ -22,7 +22,7 @@ pub async fn fast_update(data: &Data<AppData>) -> Result<(), AppError> {
         .order_by_asc(user::Column::Id)
         .all(&data.conn)
         .await? {
-            fast_update_per_user(&data, user).await?;
+            fast_update_per_user(data, user).await?;
         }
 
     Ok(())
