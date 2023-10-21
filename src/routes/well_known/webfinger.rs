@@ -32,7 +32,23 @@ pub async fn webfinger(
 ) -> Result<Json<Webfinger>, AppError> {
     tracing::info!("{}", &query.resource);
 
-    let name = extract_webfinger_name(&query.resource, &data)?;
+    let name = match extract_webfinger_name(&query.resource, &data) {
+        Ok(name) => name,
+        _ => {
+            // extract webfinger domain
+            // acct:any@example.com (extract example.com)
+            let vec: Vec<&str> = query.resource.split("@").collect();
+            vec[1].to_string()
+            // TODO:
+            // match vec.get(1) {
+            //     Some(domain) => domain,
+            //     None => AppError::NotFound {
+            //         kind: "User".to_string(),
+            //         name: query.resource,
+            //     }
+            // }
+        }
+    };
     let id = format!("https://{}/u/{}", data.domain(), &name);
 
     let db_user: Option<DbUser> = User::find_by_id(&id)
