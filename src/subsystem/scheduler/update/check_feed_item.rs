@@ -20,7 +20,7 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
         .await? {
             Some(prev_item) => {
                 // item.date_modified 不为空且不等于 prev_item.date_modified
-                item.date_modified.map(|date_modified| {
+                if let Some(date_modified) = item.date_modified {
                     match prev_item.date_modified {
                         Some(prev_date_modified) if prev_date_modified != date_modified => {
                             // TODO: Update Post
@@ -30,7 +30,7 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
                         },
                         _ => {}
                     }
-                });
+                }
 
                 Ok(())
             }
