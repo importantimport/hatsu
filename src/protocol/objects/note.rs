@@ -75,7 +75,6 @@ impl Note {
         // TODO: match json._hatsu.source (string)
         let mut sources: Vec<Option<String>> = vec![json.title, json.summary];
 
-        // TODO: json._hatsu.url (Option<false>)
         // TODO: parse_item_id (check url)
         // https://example.com/foo/bar => https://example.com/foo/bar
         // /foo/bar => https://example.com/foo/bar 
