@@ -6,6 +6,7 @@ use tokio_graceful_shutdown::SubsystemHandle;
 
 use crate::{
     AppData,
+    AppEnv,
     AppError,
     routes,
     entities::user::Model as DbUser,
@@ -13,8 +14,7 @@ use crate::{
 
 pub struct WebServer {
     pub federation_config: FederationConfig<AppData>,
-    pub hatsu_domain: String,
-    pub hatsu_listen: String,
+    pub env: AppEnv,
     pub test_account: DbUser
 }
 
@@ -28,7 +28,7 @@ impl WebServer {
 
         // axum 0.6
         // run our app with hyper
-        let addr = self.hatsu_listen
+        let addr = self.env.hatsu_listen
             .to_socket_addrs()?
             .next()
             .expect("Failed to lookup domain name");
