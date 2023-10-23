@@ -53,9 +53,9 @@ async fn main() -> Result<(), AppError> {
     // Environments
     let env = AppEnv {
         database_url: env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite://hatsu.sqlite3".to_string()),
-        hatsu_domain: env::var("HATSU_DOMAIN").expect("HATSU_DOMAIN must be set"),
+        hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
         hatsu_listen: env::var("HATSU_LISTEN").unwrap_or_else(|_| "localhost:3939".to_string()),
-        hatsu_test_account: env::var("HATSU_TEST_ACCOUNT").expect("HATSU_TEST_ACCOUNT must be set"),
+        hatsu_test_account: env::var("HATSU_TEST_ACCOUNT").expect("env HATSU_TEST_ACCOUNT must be set"),
     };
 
     // 连接数据库
