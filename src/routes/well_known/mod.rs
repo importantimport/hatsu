@@ -5,7 +5,7 @@ use axum::{
 };
 
 mod host_meta;
-pub use host_meta::{host_meta, host_meta_json};
+pub use host_meta::{host_meta, host_meta_xrd, host_meta_json};
 
 mod nodeinfo;
 pub use nodeinfo::nodeinfo;
@@ -16,6 +16,9 @@ pub use webfinger::webfinger;
 pub fn init() -> Router<(), Body> {
     Router::new()
         .route("/.well-known/host-meta", get(host_meta))
+        .route("/.well-known/host-meta.xrd", get(host_meta_xrd))
+        .route("/.well-known/host-meta.xml", get(host_meta_xrd))
+        .route("/.well-known/host-meta.jrd", get(host_meta_json))
         .route("/.well-known/host-meta.json", get(host_meta_json))
         .route("/.well-known/nodeinfo", get(nodeinfo))
         .route("/.well-known/webfinger", get(webfinger))
