@@ -11,23 +11,15 @@ FROM chef AS builder
 ARG PROFILE
 RUN apt update && apt install -y openssl libssl-dev pkg-config
 COPY --from=planner /app/recipe.json recipe.json
-# debug cook
-RUN if [ "$PROFILE" = "debug" ]; then \
-  cargo chef cook --recipe-path recipe.json \
-  ; fi
-# release cook
-RUN if [ "$PROFILE" = "release" ]; then \
-  cargo chef cook --release --recipe-path recipe.json \
-  ; fi
+# cargo chef cook
+RUN cargo chef cook \
+  $(if [ "$PROFILE" = "release" ]; then echo --release; fi) \
+  --recipe-path recipe.json
 COPY . .
-# debug build
-RUN if [ "$PROFILE" = "debug" ]; then \
-  cargo build && mv ./target/debug/hatsu ./target/hatsu \
-  ; fi
-# release build
-RUN if [ "$PROFILE" = "release" ]; then \
-  cargo build --release && mv ./target/release/hatsu ./target/hatsu \
-  ; fi
+# cargo build
+RUN cargo build \
+  $(if [ "$PROFILE" = "release" ]; then echo --release; fi) \
+  && mv ./target/$(if [ "$PROFILE" = "release" ]; then echo release; else echo debug; fi)/hatsu ./target/hatsu
 
 FROM bitnami/minideb:bookworm AS runtime
 WORKDIR /app
