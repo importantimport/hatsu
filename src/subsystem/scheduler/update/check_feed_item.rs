@@ -34,42 +34,44 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
 
                 Ok(())
             }
-            None => {
-                // 将 Item 保存到数据库
-                let item = item.into_active_model().insert(&data.conn).await?;
-
-                // 创建 Note
-                let note = Note::new(
-                    Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
-                    user,
-                    format!(
-                        "{}\n{}\n{}",
-                        // TODO: fallback
-                        item.title.unwrap_or_default(),
-                        item.summary.unwrap_or_default(),
-                        item.id
-                        // TODO: tags
-                    )
-                )?;
-
-                // 创建 Post 并保存到数据库
-                let _post = DbPost {
-                    id: note.id.to_string(),
-                    attributed_to: note.attributed_to.to_string(),
-                    object: serde_json::to_string(&note)?,
-                    published: note.published.clone(),
-                    updated: note.updated.clone(),
-                    last_refreshed_at: note.published.clone().unwrap(),
-                    local: true,
-                }
-                    .into_active_model()
-                    .insert(&data.conn)
-                    .await?;
-
-                // 发送 Note
-                user.send_activity(CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, data).await?, vec![public()], data).await?;
-
-                Ok(())
-            }
+            None => Ok(create_feed_item(data, user, item).await?)
         }
+}
+
+async fn create_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFeedItem) -> Result<(), AppError> {
+    // 将 Item 保存到数据库
+    let item = item.into_active_model().insert(&data.conn).await?;
+
+    // 创建 Note
+    let note = Note::new(
+        Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
+        user,
+        format!(
+            "{}\n{}\n{}",
+            // TODO: fallback
+            item.title.unwrap_or_default(),
+            item.summary.unwrap_or_default(),
+            item.id
+            // TODO: tags
+        )
+    )?;
+        
+    // 创建 Post 并保存到数据库
+    let _post = DbPost {
+        id: note.id.to_string(),
+        attributed_to: note.attributed_to.to_string(),
+        object: serde_json::to_string(&note)?,
+        published: note.published.clone(),
+        updated: note.updated.clone(),
+        last_refreshed_at: note.published.clone().unwrap(),
+        local: true,
+    }
+        .into_active_model()
+        .insert(&data.conn)
+        .await?;
+        
+    // 发送 Note
+    user.send_activity(CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, data).await?, vec![public()], data).await?;
+        
+    Ok(())
 }
