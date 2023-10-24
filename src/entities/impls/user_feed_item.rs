@@ -18,7 +18,7 @@ use crate::{
 
 impl DbUserFeedItem {
     // 转换为 JSON
-    pub async fn into_json(self) -> Result<JsonUserFeedItem, AppError> {
+    pub fn into_json(self) -> Result<JsonUserFeedItem, AppError> {
         Ok(JsonUserFeedItem {
             id: self.id,
             url: None,
@@ -32,7 +32,7 @@ impl DbUserFeedItem {
     }
 
     // 从 JSON 转换为本地格式
-    pub async fn from_json(
+    pub fn from_json(
         json: JsonUserFeedItem,
         user_id: ObjectId<DbUser>,
         data: &Data<AppData>

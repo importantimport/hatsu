@@ -1,6 +1,6 @@
 use activitypub_federation::{kinds::public, config::Data};
 use sea_orm::*;
-use url::Url;
+// use url::Url;
 
 use crate::{
     AppData,
@@ -43,18 +43,19 @@ async fn create_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFeedI
     let item = item.into_active_model().insert(&data.conn).await?;
 
     // 创建 Note
-    let note = Note::new(
-        Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
-        user,
-        format!(
-            "{}\n{}\n{}",
-            // TODO: fallback
-            item.title.unwrap_or_default(),
-            item.summary.unwrap_or_default(),
-            item.id
-            // TODO: tags
-        )
-    )?;
+    let note = Note::new_default(user, item.into_json()?, data)?;
+    // let note = Note::new(
+    //     Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
+    //     user,
+    //     format!(
+    //         "{}\n{}\n{}",
+    //         // TODO: fallback
+    //         item.title.unwrap_or_default(),
+    //         item.summary.unwrap_or_default(),
+    //         item.id
+    //         // TODO: tags
+    //     )
+    // )?;
         
     // 创建 Post 并保存到数据库
     let _post = DbPost {
