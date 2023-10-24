@@ -32,7 +32,8 @@ pub async fn fast_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<
     let feed: JsonUserFeed = get_user_feed(user.clone()).await?;
 
     for item in feed.items {
-        check_feed_item(data, &user, DbUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), None).await?).await?;
+        // check_feed_item(data, &user, DbUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), None).await?).await?;
+        check_feed_item(data, &user, DbUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), data).await?).await?;
     }
 
     Ok(())

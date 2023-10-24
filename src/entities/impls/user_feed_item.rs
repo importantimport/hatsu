@@ -1,11 +1,15 @@
-use activitypub_federation::fetch::object_id::ObjectId;
+use activitypub_federation::{
+    config::Data,
+    fetch::object_id::ObjectId
+};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
 use crate::{
+    AppData,
     AppError,
     entities::{
-        post::Model as DbPost,
+        // post::Model as DbPost,
         user::Model as DbUser,
         user_feed_item::Model as DbUserFeedItem,
     },
@@ -31,12 +35,16 @@ impl DbUserFeedItem {
     pub async fn from_json(
         json: JsonUserFeedItem,
         user_id: ObjectId<DbUser>,
-        object_id: Option<ObjectId<DbPost>>
+        data: &Data<AppData>
+        // object_id: Option<ObjectId<DbPost>>
     ) -> Result<Self, AppError> {
+        let id = json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string();
+
         Ok(Self {
-            id: json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string(),
+            id: id.clone(),
             user_id: user_id.inner().to_string(),
-            object_id: object_id.map(|object_id| object_id.inner().to_string()),
+            // object_id: object_id.map(|object_id| object_id.inner().to_string()),
+            object_id: Some(Url::parse(&format!("https://{}/o/{}", data.domain(), id)).unwrap().to_string()),
             title: json.title,
             summary: json.summary,
             language: json.language,
