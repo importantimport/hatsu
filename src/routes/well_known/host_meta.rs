@@ -28,7 +28,9 @@ pub struct HostMetaJson {
 #[derive(Serialize)]
 struct Link {
     rel: String,
-    href: String,
+    #[serde(rename = "type")]
+    kind: String,
+    template: String,
 }
 
 use crate::AppData;
@@ -50,7 +52,7 @@ pub async fn host_meta(
         let host_meta = format!(
             r#"<?xml version="1.0" encoding="UTF-8"?>
             <XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
-            <Link rel="lrdd" type="application/xrd+xml" template="https://{}/.well-known/webfinger?resource={{uri}}">
+            <Link rel="lrdd" type="application/json" template="https://{}/.well-known/webfinger?resource={{uri}}">
             </Link>
             </XRD>"#,
             data.domain()
@@ -68,7 +70,8 @@ pub async fn host_meta_json(
         links: vec![
                 Link {
                     rel: "lrdd".to_string(),
-                    href: format!("https://{}/.well-known/webfinger?resource={{uri}}", data.domain()),
+                    kind: "application/json".to_string(),
+                    template: format!("https://{}/.well-known/webfinger?resource={{uri}}", data.domain()),
                 }
             ]
     };
