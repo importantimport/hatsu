@@ -35,6 +35,9 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
                 Ok(())
             }
             None => {
+                // 将 Item 保存到数据库
+                let item = item.into_active_model().insert(&data.conn).await?;
+
                 // 创建 Note
                 let note = Note::new(
                     Url::parse(&format!("https://{}/o/{}", data.domain(), item.id))?.into(),
