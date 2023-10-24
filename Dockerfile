@@ -29,7 +29,7 @@ RUN if [ "$PROFILE" = "release" ]; then \
   cargo build --release && mv ./target/release/hatsu ./target/hatsu \
   ; fi
 
-FROM debian:bookworm-slim AS rumtime
+FROM bitnami/minideb:bookworm AS runtime
 WORKDIR /app
 RUN apt update && apt install -y openssl libssl-dev pkg-config ca-certificates
 COPY --from=builder /app/target/hatsu /app/
