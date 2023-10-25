@@ -29,6 +29,7 @@ impl DbUser {
     // 创建新用户
     // Create a new user
     pub async fn new(preferred_username: &str) -> Result<Self, AppError> {
+        // TODO: data.domain()
         let hostname = env::var("HATSU_DOMAIN")?;
         let id = Url::parse(&format!("https://{}/u/{}", hostname, &preferred_username))?;
         let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &preferred_username))?;
