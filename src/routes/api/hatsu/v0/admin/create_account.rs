@@ -22,7 +22,7 @@ use crate::{
 
 #[derive(Deserialize, Serialize)]
 pub struct CreateAccount {
-    access_token: Option<String>,
+    token: Option<String>,
     name: String,
 }
 
@@ -31,11 +31,8 @@ pub async fn create_account(
     data: Data<AppData>,
     Json(payload): Json<CreateAccount>,
 ) -> Result<impl IntoResponse, AppError> {
-    match payload.access_token {
-        access_token if (
-            access_token.is_some() &&
-            access_token == data.env.hatsu_access_token
-        ) => {
+    match payload.token {
+        token if (token.is_some() && token == data.env.hatsu_access_token) => {
             match User::find_by_id(format!("https://{}/u/{}", data.domain(), payload.name))
                 .one(&data.conn)
                 .await? {
