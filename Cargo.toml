@@ -9,7 +9,7 @@ publish = false
 [profile.release]
 incremental = true
 lto = "thin"
-panic = "abort"
+panic = "unwind"
 strip = "symbols"
 
 [workspace]
