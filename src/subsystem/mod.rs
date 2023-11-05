@@ -4,5 +4,5 @@
 mod scheduler;
 pub use scheduler::*;
 
-mod web_server;
-pub use web_server::*;
+mod server;
+pub use server::*;

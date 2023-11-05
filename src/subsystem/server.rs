@@ -12,13 +12,13 @@ use crate::{
     entities::user::Model as DbUser,
 };
 
-pub struct WebServer {
+pub struct Server {
     pub federation_config: FederationConfig<AppData>,
     pub env: AppEnv,
     pub test_account: DbUser
 }
 
-impl WebServer {
+impl Server {
     pub async fn run(self, subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
         // build our application with a route
         tracing::info!("creating app");

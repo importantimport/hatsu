@@ -112,7 +112,7 @@ async fn main() -> Result<(), AppError> {
     // 创建服务
     // let migrator = subsystem::Migrator { data: federation_config.to_request_data() };
     let scheduler = subsystem::Scheduler { config: federation_config.clone() };
-    let web_server = subsystem::WebServer {
+    let server = subsystem::Server {
         federation_config,
         env: env.clone(),
         test_account
@@ -121,7 +121,7 @@ async fn main() -> Result<(), AppError> {
     let _result = Toplevel::<AppError>::new()
         // .start("Migrator", move |s| migrator.run(s))
         .start("Scheduler", move |s| scheduler.run(s))
-        .start("Web Server", move |s| web_server.run(s))
+        .start("Web Server", move |s| server.run(s))
         .catch_signals()
         .handle_shutdown_requests(Duration::from_millis(5000))
         .await;
