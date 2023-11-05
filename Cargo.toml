@@ -29,6 +29,7 @@ workspace = true
 
 [dependencies]
 activitypub_federation = { version = "0.4", default-features = false, features = ["axum"] }
+aide = { version = "0.12", features = ["axum"] }
 anyhow = "1.0"
 async-trait = "0.1"
 axum = { version = "0.6", features = ["tokio", "macros"] }
