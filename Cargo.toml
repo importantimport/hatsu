@@ -3,6 +3,10 @@ name = "hatsu"
 version = "0.1.0"
 edition = "2021"
 publish = false
+description = "Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
+repository = "https://github.com/importantimport/hatsu"
+readme = "README.md"
+authors = ["藍+85CD"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
