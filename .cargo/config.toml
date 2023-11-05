@@ -1,17 +1,17 @@
 # Enable UUID Unstable Features
 # https://docs.rs/uuid/1.4.0/uuid/index.html#unstable-features
 [target.'cfg(all())']
-rustflags = "--cfg uuid_unstable"
+rustflags = ["-C", "link-arg=-fuse-ld=lld", "--cfg", "uuid_unstable"]
 
 # x86_64-v3 (Intel Haswell / AMD Excavator and above)
 # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
 [target.'cfg(target_arch = "x86_64")']
-rustflags = "-C target-cpu=x86-64-v3"
+rustflags = ["-C", "target-cpu=x86-64-v3"]
 
 # aarch64 (ARM Neon)
 [target.'cfg(target_arch = "aarch64")']
-rustflags = "-C target-feature=+neon"
+rustflags = ["-C", "target-feature=+neon"]
 
 # Apple Silicon (M1 and above)
 [target.aarch64-apple-darwin]
-rustflags = "-C target-cpu=apple-m1"
+rustflags = ["-C", "target-cpu=apple-m1"]
