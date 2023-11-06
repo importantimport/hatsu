@@ -1,4 +1,7 @@
-use aide::transform::TransformOpenApi;
+use aide::{
+    openapi::{ApiKeyLocation, SecurityScheme},
+    transform::TransformOpenApi
+};
 
 pub fn api_docs(api: TransformOpenApi) -> TransformOpenApi {
     api.title("Hatsu")
@@ -9,4 +12,13 @@ pub fn api_docs(api: TransformOpenApi) -> TransformOpenApi {
         //     name: "Hatsu API".into(),
         //     ..Default::default()
         // })
+        .security_scheme(
+            "Hatsu Access Token",
+            SecurityScheme::ApiKey {
+                location: ApiKeyLocation::Query,
+                name: "token".to_string(),
+                description: Some("env HATSU_ACCESS_TOKEN".to_string()),
+                extensions: Default::default()
+            }
+        )
 }
