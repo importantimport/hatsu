@@ -14,12 +14,14 @@ use serde::{Deserialize, Serialize};
 
 use crate::{
     AppData,
+    AppError,
     entities::{
         prelude::*,
         user::Model as DbUser,
-    }, error::AppError
+    },
 };
 
+// TODO: Serialize => JsonSchema
 #[derive(Deserialize, Serialize)]
 pub struct CreateAccount {
     token: Option<String>,
