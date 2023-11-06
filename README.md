@@ -1,5 +1,9 @@
 # Hatsu「初」
 
+[![MSRV](https://img.shields.io/badge/rust-1.70%2B-red)](.clippy.toml)
+[![License](https://img.shields.io/github/license/importantimport/hatsu)](LICENSE)
+[![Matrix](https://img.shields.io/matrix/importantimport%3Amatrix.org)](https://matrix.to/#/#importantimport:matrix.org)
+
 Self-hosted & Fully-automated ActivityPub Bridge for Static Sites. [WIP]
 
 ## Development
@@ -117,7 +121,7 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 
 ## License
 
-Licensed under [AGPLv3](/LICENSE).
+Licensed under [AGPLv3](LICENSE).
 
 ### Third Party Licenses
 
