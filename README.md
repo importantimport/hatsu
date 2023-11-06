@@ -101,6 +101,10 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 - https://www.sea-ql.org/SeaORM/docs/basic-crud/basic-schema/
 - https://github.com/SeaQL/sea-orm/tree/master/examples/axum_example/
 
+#### OpenAPI
+
+- https://github.com/tamasfe/aide/blob/master/examples/example-axum/
+
 #### Leptos
 
 - https://github.com/leptos-rs/start-axum
