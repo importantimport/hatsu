@@ -6,6 +6,8 @@ use migration::{Migrator, MigratorTrait};
 use sea_orm::*;
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
+use tracing_error::ErrorLayer;
+use tracing_subscriber::prelude::*;
 
 mod entities;
 use entities::{
@@ -42,10 +44,16 @@ pub struct AppEnv {
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
     // initialize tracing
-    tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
-        .with_target(false)
-        .init();
+    let subscriber = tracing_subscriber::Registry::default()
+        .with(
+            tracing_subscriber::fmt::layer()
+                .with_ansi(false)
+                .json()
+        )
+        .with(ErrorLayer::default());
+    
+    // TODO: tracing_opentelemetry
+    tracing::subscriber::set_global_default(subscriber)?;
 
     // Load environment variables from .env file.
     tracing::info!("loading environment variables");

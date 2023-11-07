@@ -15,7 +15,7 @@ pub async fn get_user_feed(user: DbUser) -> Result<JsonUserFeed, AppError> {
         DbUser { feed_json: Some(url), .. } => Ok(parse_json_feed(url).await?),
         DbUser { feed_atom: Some(url), .. } => Ok(parse_xml_feed(url).await?),
         DbUser { feed_rss: Some(url), .. } => Ok(parse_xml_feed(url).await?),
-        DbUser { feed_json: None, feed_atom: None, feed_rss: None, .. } => Err(AppError::NotFound { kind: "Feed Url".to_string(), name: user.name })
+        DbUser { feed_json: None, feed_atom: None, feed_rss: None, .. } => Err(AppError::not_found("Feed Url", &user.name))
     }
 }
 

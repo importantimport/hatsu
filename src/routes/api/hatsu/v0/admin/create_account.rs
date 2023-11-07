@@ -47,6 +47,6 @@ pub async fn create_account(
                 }
         }
         // TODO: StatusCode::FORBIDDEN
-        _ => Err(AppError::Anyhow(anyhow!("Access Token Authentication Failed")))
+        _ => Err(anyhow!("Access Token Authentication Failed").into())
     }
 }

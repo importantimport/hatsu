@@ -5,34 +5,50 @@ use axum::{
     response::{IntoResponse, Response},
     http::StatusCode,
 };
-use serde_json::json;
+use schemars::JsonSchema;
+use serde::Serialize;
+use serde_json::Value;
+use tracing_error::SpanTrace;
+use uuid::Uuid;
 
-#[derive(Debug)]
-pub enum AppError {
-    NotFound {
-        kind: String,
-        name: String
-    },
-    Anyhow(anyhow::Error)
+#[derive(Debug, JsonSchema, Serialize)]
+pub struct AppError {
+    /// An error message.
+    pub error: String,
+    /// A unique error ID.
+    pub error_id: Uuid,
+    /// Optional Additional error details.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error_details: Option<Value>,
+    #[serde(skip)]
+    pub status: StatusCode,
+    #[serde(skip)]
+    pub context: SpanTrace,
+}
+
+impl AppError {
+    pub fn not_found(kind: &str, name: &str) -> Self {
+        Self {
+            error: format!("Unable to find {} named {}", kind, name),
+            error_id: Uuid::new_v4(),
+            status: StatusCode::NOT_FOUND,
+            error_details: None,
+            context: SpanTrace::capture(),
+        }
+    }
 }
 
 impl IntoResponse for AppError {
     fn into_response(self) -> Response {
-        let (status, message) = match self {
-            Self::NotFound { kind, name } => (StatusCode::NOT_FOUND, format!("Unable to find {} named {}", kind, name)),
-            Self::Anyhow(err) => (StatusCode::INTERNAL_SERVER_ERROR, err.to_string())
-        };
-
-        (status, Json(json!({ "error": message }))).into_response()
+        (self.status, Json(self)).into_response()
     }
 }
 
 impl Display for AppError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::NotFound { kind, name } => Display::fmt(&format!("Unable to find {} named {}", kind, name), f),
-            Self::Anyhow(err) => Display::fmt(&err, f)
-        }
+        writeln!(f, "{:?}", self.error)?;
+        self.context.fmt(f)?;
+        Ok(())
     }
 }
 
@@ -41,6 +57,12 @@ where
     T: Into<anyhow::Error>,
 {
     fn from(t: T) -> Self {
-        AppError::Anyhow(t.into())
+        Self {
+            error: t.into().to_string(),
+            error_id: Uuid::new_v4(),
+            error_details: None,
+            status: StatusCode::INTERNAL_SERVER_ERROR,
+            context: SpanTrace::capture(),
+        }
     }
 }

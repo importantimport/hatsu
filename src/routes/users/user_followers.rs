@@ -60,10 +60,10 @@ pub async fn handler(
         },
         Some(page) => {
             if page > 1 && page > total.number_of_pages {
-                Err(AppError::NotFound {
-                    kind: format!("user {}", name),
-                    name: format!("followers page {}", page) 
-                })
+                Err(AppError::not_found(
+                    &format!("user {}", name),
+                    &format!("followers page {}", page) )
+                )
             } else {
                 Ok(FederationJson(WithContext::new_default(
                     serde_json::to_value(CollectionPage::<Url>::new(

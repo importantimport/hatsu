@@ -28,10 +28,7 @@ pub async fn handler(
         .one(&data.conn)
         .await? {
             Some(activity) => Ok(FederationJson(activity.into_json()?)),
-            None => Err(AppError::NotFound{
-                kind: "Activity".to_string(),
-                name: activity_id,
-            })
+            None => Err(AppError::not_found("Activity", &activity_id))
         }
 }
 

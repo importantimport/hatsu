@@ -31,10 +31,7 @@ pub async fn handler(
         .one(&data.conn)
         .await? {
             Some(db_post) => Ok(Json(WithContext::new_default(db_post.into_json(&data).await?))),
-            None => Err(AppError::NotFound {
-                kind: "Object".to_string(),
-                name: object_id,
-            })
+            None => Err(AppError::not_found("Object", &object_id))
         }
 }
 

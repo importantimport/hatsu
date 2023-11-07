@@ -29,10 +29,7 @@ pub async fn handler(
         .one(&data.conn)
         .await? {
             Some(user) => Ok(FederationJson(WithContext::new_default(user.into_json(&data).await?))),
-            None => Err(AppError::NotFound {
-                kind: "User".to_string(),
-                name,
-            })
+            None => Err(AppError::not_found("User", &name))
         }
 }
 
