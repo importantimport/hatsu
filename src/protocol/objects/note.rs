@@ -39,7 +39,7 @@ pub struct Note {
     pub(crate) cc: Vec<Url>,
     pub(crate) content: String,
     /// TODO: customization via item._hatsu.source
-    pub(crate) source: String,
+    pub(crate) source: NoteSource,
     /// TODO: remove in_reply_to (version 0.1.0)
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -53,6 +53,13 @@ pub struct Note {
     // conversation (?)
 }
 
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct NoteSource {
+    pub content: String,
+    pub media_type: String,
+}
+
 impl Note {
     pub fn new(note_id: String, actor: &DbUser, source: String) -> Result<Self, AppError> {
         Ok(Self {
@@ -62,7 +69,7 @@ impl Note {
             to: vec![public()],
             cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
             content: markdown_to_html(&source),
-            source,
+            source: NoteSource::new(source),
             in_reply_to: None,
             tag: None,
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
@@ -125,7 +132,7 @@ impl Note {
             to: vec![public()],
             cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
             content,
-            source,
+            source: NoteSource::new(source),
             // TODO: remove
             in_reply_to: None,
             // TODO: test this
@@ -140,5 +147,14 @@ impl Note {
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
         })
+    }
+}
+
+impl NoteSource {
+    pub fn new(source: String) -> Self {
+        Self {
+            content: source,
+            media_type: "text/markdown".to_string()
+        }
     }
 }
