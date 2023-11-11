@@ -51,6 +51,7 @@ pub struct Note {
     // attachment
     // context (?)
     // conversation (?)
+    // license (default: undefined) (extension: _hatsu.license)
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
