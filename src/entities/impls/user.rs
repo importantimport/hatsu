@@ -27,12 +27,6 @@ impl DbUser {
     // 创建新用户
     // Create a new user
     pub async fn new(domain: &str, preferred_username: &str) -> Result<Self, AppError> {
-        // TODO: data.domain()
-        let id = Url::parse(&format!("https://{}/u/{}", domain, &preferred_username))?;
-        let inbox = Url::parse(&format!("https://{}/u/{}/inbox", domain, &preferred_username))?;
-        let outbox = Url::parse(&format!("https://{}/u/{}/outbox", domain, &preferred_username))?;
-        let followers = Url::parse(&format!("https://{}/u/{}/followers", domain, &preferred_username))?;
-        let following = Url::parse(&format!("https://{}/u/{}/following", domain, &preferred_username))?;
         let keypair = generate_actor_keypair()?;
 
         let feed = get_site_feed(preferred_username.to_string()).await?;
@@ -44,16 +38,16 @@ impl DbUser {
             .await?;
 
         let user = Self {
-            id: id.to_string(),
+            id: format!("https://{}/u/{}", domain, preferred_username),
             name: json_feed.title,
             preferred_username: preferred_username.to_string(),
             summary: json_feed.description,
             icon: json_feed.icon.map(|url| url.to_string()),
             image: json_feed.hatsu.and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
-            inbox: inbox.to_string(),
-            outbox: outbox.to_string(),
-            followers: followers.to_string(),
-            following: following.to_string(),
+            inbox: format!("https://{}/u/{}/inbox", domain, preferred_username),
+            outbox: format!("https://{}/u/{}/outbox", domain, preferred_username),
+            followers: format!("https://{}/u/{}/followers", domain, preferred_username),
+            following: format!("https://{}/u/{}/following", domain, preferred_username),
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
