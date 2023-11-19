@@ -14,6 +14,8 @@ pub struct Model {
     pub image: Option<String>,
     pub inbox: String,
     pub outbox: String,
+    pub followers: String,
+    pub following: String,
     pub local: bool,
     pub public_key: String,
     pub private_key: Option<String>,

@@ -21,6 +21,8 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(User::Image).string())
                     .col(ColumnDef::new(User::Inbox).string().not_null())
                     .col(ColumnDef::new(User::Outbox).string().not_null())
+                    .col(ColumnDef::new(User::Followers).string().not_null())
+                    .col(ColumnDef::new(User::Following).string().not_null())
                     .col(ColumnDef::new(User::Local).boolean().not_null())
                     .col(ColumnDef::new(User::PublicKey).string().not_null())
                     .col(ColumnDef::new(User::PrivateKey).string())
@@ -56,6 +58,8 @@ enum User {
     Image,
     Inbox,
     Outbox,
+    Followers,
+    Following,
     Local,
     PublicKey,
     PrivateKey,

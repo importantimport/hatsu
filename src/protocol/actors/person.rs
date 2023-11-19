@@ -48,9 +48,9 @@ pub struct Person {
     // `https://hatsu.local/example.com/outbox`
     pub outbox: Url,
     // 关注者
-    // followers: Url,
+    pub followers: Url,
     // 正在关注
-    // following: Url,
+    pub following: Url,
     // 公钥
     pub public_key: PublicKey,
     // TODO: bot account

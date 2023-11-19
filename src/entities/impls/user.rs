@@ -34,6 +34,8 @@ impl DbUser {
         let id = Url::parse(&format!("https://{}/u/{}", hostname, &preferred_username))?;
         let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &preferred_username))?;
         let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &preferred_username))?;
+        let followers = Url::parse(&format!("https://{}/u/{}/followers", hostname, &preferred_username))?;
+        let following = Url::parse(&format!("https://{}/u/{}/following", hostname, &preferred_username))?;
         let keypair = generate_actor_keypair()?;
 
         let feed = get_site_feed(preferred_username.to_string()).await?;
@@ -53,6 +55,8 @@ impl DbUser {
             image: json_feed.hatsu.and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
             inbox: inbox.to_string(),
             outbox: outbox.to_string(),
+            followers: followers.to_string(),
+            following: following.to_string(),
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
@@ -60,7 +64,6 @@ impl DbUser {
             feed_atom: feed.atom,
             feed_rss: feed.rss,
             last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
-            // followers: vec![],
         };
 
         Ok(user)
@@ -152,6 +155,8 @@ impl Object for DbUser {
             attachment: vec![],
             inbox: Url::parse(&self.inbox)?,
             outbox: Url::parse(&self.outbox)?,
+            followers: Url::parse(&self.followers)?,
+            following: Url::parse(&self.following)?,
             public_key: self.public_key(),
         })
     }
@@ -180,13 +185,14 @@ impl Object for DbUser {
             image: json.image.map(|image| image.url.to_string()),
             inbox: json.inbox.to_string(),
             outbox: json.outbox.to_string(),
+            followers: json.followers.to_string(),
+            following: json.following.to_string(),
             public_key: json.public_key.public_key_pem,
             private_key: None,
             feed_json: None,
             feed_atom: None,
             feed_rss: None,
             last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
-            // followers: vec![],
             local: false,
         };
 
