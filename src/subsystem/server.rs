@@ -1,8 +1,7 @@
 use std::net::ToSocketAddrs;
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
-use aide::{axum::ApiRouter, openapi::OpenApi};
-use axum::Extension;
+use axum::Router;
 use tokio_graceful_shutdown::SubsystemHandle;
 
 use crate::{
@@ -13,9 +12,6 @@ use crate::{
     entities::user::Model as DbUser,
 };
 
-mod api_docs;
-use api_docs::api_docs;
-
 pub struct Server {
     pub federation_config: FederationConfig<AppData>,
     pub env: AppEnv,
@@ -24,14 +20,10 @@ pub struct Server {
 
 impl Server {
     pub async fn run(self, subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
-        let mut api = OpenApi::default();
-
         // build our application with a route
         tracing::info!("creating app");
-        let app = ApiRouter::new()
+        let app = Router::new()
             .merge(routes::init())
-            .finish_api_with(&mut api, api_docs)
-            .layer(Extension(api))
             .layer(FederationMiddleware::new(self.federation_config));
 
         // axum 0.6

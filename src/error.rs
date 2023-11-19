@@ -5,13 +5,12 @@ use axum::{
     response::{IntoResponse, Response},
     http::StatusCode,
 };
-use schemars::JsonSchema;
 use serde::Serialize;
 use serde_json::Value;
 use tracing_error::SpanTrace;
 use uuid::Uuid;
 
-#[derive(Debug, JsonSchema, Serialize)]
+#[derive(Debug, Serialize)]
 pub struct AppError {
     /// An error message.
     pub error: String,

@@ -1,11 +1,8 @@
-use aide::openapi::OpenApi;
 use axum::{
     body::Body,
     routing::get,
     response::IntoResponse,
     http::Response,
-    Extension,
-    Json,
     Router
 };
 
@@ -24,10 +21,6 @@ async fn root() -> impl IntoResponse {
     Response::new(Body::from(format!("Hatsu v{} \"{}\"", version, codename)))
 }
 
-async fn openapi_json(Extension(api): Extension<OpenApi>) -> Json<OpenApi> {
-    Json(api)
-}
-
 pub fn init() -> Router<(), Body> {
     Router::new()
         .merge(activities::init())
@@ -37,5 +30,4 @@ pub fn init() -> Router<(), Body> {
         .merge(users::init())
         .merge(well_known::init())
         .route("/", get(root))
-        .route("/openapi.json", get(openapi_json))
 }
