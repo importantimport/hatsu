@@ -107,7 +107,7 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 
 #### OpenAPI
 
-- https://github.com/tamasfe/aide/blob/master/examples/example-axum/
+- https://github.com/juhaku/utoipa/tree/master/examples/todo-axum
 
 #### Leptos
 
