@@ -1,5 +1,3 @@
-use std::env;
-
 use activitypub_federation::{
     activity_queue::send_activity,
     config::Data,
@@ -28,14 +26,13 @@ use crate::{
 impl DbUser {
     // 创建新用户
     // Create a new user
-    pub async fn new(preferred_username: &str) -> Result<Self, AppError> {
+    pub async fn new(domain: &str, preferred_username: &str) -> Result<Self, AppError> {
         // TODO: data.domain()
-        let hostname = env::var("HATSU_DOMAIN")?;
-        let id = Url::parse(&format!("https://{}/u/{}", hostname, &preferred_username))?;
-        let inbox = Url::parse(&format!("https://{}/u/{}/inbox", hostname, &preferred_username))?;
-        let outbox = Url::parse(&format!("https://{}/u/{}/outbox", hostname, &preferred_username))?;
-        let followers = Url::parse(&format!("https://{}/u/{}/followers", hostname, &preferred_username))?;
-        let following = Url::parse(&format!("https://{}/u/{}/following", hostname, &preferred_username))?;
+        let id = Url::parse(&format!("https://{}/u/{}", domain, &preferred_username))?;
+        let inbox = Url::parse(&format!("https://{}/u/{}/inbox", domain, &preferred_username))?;
+        let outbox = Url::parse(&format!("https://{}/u/{}/outbox", domain, &preferred_username))?;
+        let followers = Url::parse(&format!("https://{}/u/{}/followers", domain, &preferred_username))?;
+        let following = Url::parse(&format!("https://{}/u/{}/following", domain, &preferred_username))?;
         let keypair = generate_actor_keypair()?;
 
         let feed = get_site_feed(preferred_username.to_string()).await?;

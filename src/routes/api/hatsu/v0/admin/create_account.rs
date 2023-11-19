@@ -40,7 +40,7 @@ pub async fn create_account(
                 .await? {
                     Some(account) => Ok((StatusCode::BAD_REQUEST, Json(account.into_json(&data).await?))),
                     _ => {
-                        let account = DbUser::new(&payload.name).await?;
+                        let account = DbUser::new(data.domain(), &payload.name).await?;
                         let account = account.into_active_model().insert(&data.conn).await?;
                         Ok((StatusCode::CREATED, Json(account.into_json(&data).await?)))
                     }
