@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install-with-docker.html"><strong aria-hidden="true">5.</strong> Install with Docker</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">6.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">7.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">8.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">9.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">10.</strong> JSON Feed Extension</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-platform-specific-config.html"><strong aria-hidden="true">4.3.</strong> with Platform-Specific Configuration</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install-with-docker.html"><strong aria-hidden="true">5.</strong> Install with Docker</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">6.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">7.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">8.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">9.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">10.</strong> JSON Feed Extension</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -269,10 +269,12 @@ you might also want to check out the <a href="users/../others/json-feed-extensio
 <p>This should apply to most hosting services and SSG.</p>
 <h2 id="with-redirects-file"><a class="header" href="#with-redirects-file"><a href="users/./redirecting-with-redirects-file.html">with Redirects file</a></a></h2>
 <p>Works with Netlify and Cloudflare Pages.</p>
+<h2 id="with-platform-specific-configuration"><a class="header" href="#with-platform-specific-configuration"><a href="users/./redirecting-with-platform-specific-config.html">with Platform-Specific Configuration</a></a></h2>
+<p>Works with Netlify and Vercel.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-static-files-and-markup"><a class="header" href="#redirecting-with-static-files-and-markup">Redirecting with Static files and Markup</a></h1>
 <p>This should apply to most hosting services and SSG.</p>
 <h2 id="well-known"><a class="header" href="#well-known">Well Known</a></h2>
-<p>For the .well-known files, you need to get the corresponding contents from the hatsu instance and output them as a static file.</p>
+<p>For the <code>.well-known/*</code> files, you need to get the corresponding contents from the hatsu instance and output them as a static file.</p>
 <blockquote>
 <p>Replace <code>hatsu.local</code> with your Hatsu instance and <code>example.com</code> with your site.</p>
 </blockquote>
@@ -290,7 +292,7 @@ await fetch('https://hatsu.local/.well-known/host-meta.json').then(res =&gt; res
 which you need to save to the SSG equivalent of the static files directory and make sure they are output to the <code>.well-known</code> folder.</p>
 <h2 id="as2-alternate"><a class="header" href="#as2-alternate">AS2 Alternate</a></h2>
 <blockquote>
-<p>Only Mastodon and Misskey / Firefish is known to support auto-discovery, other software requires redirection to search correctly.
+<p>Only Mastodon and Misskey (and their forks) is known to support auto-discovery, other software requires redirection to search correctly.
 <a href="https://github.com/w3c/activitypub/issues/310">w3c/activitypub#310</a></p>
 </blockquote>
 <p>Make your posts searchable on Fediverse by setting up auto-discovery.</p>
@@ -317,11 +319,63 @@ which you need to save to the SSG equivalent of the static files directory and m
 <blockquote>
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
 </blockquote>
-<pre><code class="language-text">/.well-known/host-meta* https://hatsu.local/host-meta:splat 308
-/.well-known/nodeinfo* https://hatsu.local/nodeinfo 308
-/.well-known/webfinger* https://hatsu.local/webfinger 308
+<pre><code class="language-text">/.well-known/host-meta* https://hatsu.local/.well-known/host-meta:splat 307
+/.well-known/nodeinfo* https://hatsu.local/.well-known/nodeinfo 307
+/.well-known/webfinger* https://hatsu.local/.well-known/webfinger 307
 </code></pre>
 <h2 id="as2"><a class="header" href="#as2">AS2</a></h2>
+<blockquote>
+<p>Redirects file only applies to <code>.well-known</code>.
+for AS2 redirects, you need to use <a href="users/./redirecting-with-static-files-and-markup.html#as2-alternate">AS2 Alternate</a>.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-platform-specific-configuration"><a class="header" href="#redirecting-with-platform-specific-configuration">Redirecting with Platform-Specific Configuration</a></h1>
+<p>Works with <a href="https://docs.netlify.com/routing/redirects/#syntax-for-the-netlify-configuration-file">Netlify</a> and <a href="https://vercel.com/docs/projects/project-configuration#redirects">Vercel</a>.</p>
+<h2 id="well-known-2"><a class="header" href="#well-known-2">Well Known</a></h2>
+<h3 id="netlify-netlifytoml"><a class="header" href="#netlify-netlifytoml">Netlify <code>netlify.toml</code></a></h3>
+<p>Create a <code>netlify.toml</code> file in the root directory containing the following:</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
+</blockquote>
+<pre><code class="language-toml">[[redirects]]
+  from = &quot;/.well-known/host-meta*&quot;
+  to = &quot;https://hatsu.local/.well-known/host-meta:splat&quot;
+  status = 307
+[[redirects]]
+  from = &quot;/.well-known/nodeinfo*&quot;
+  to = &quot;https://hatsu.local/.well-known/nodeinfo&quot;
+  status = 307
+[[redirects]]
+  from = &quot;/.well-known/webfinger*&quot;
+  to = &quot;https://hatsu.local/.well-known/webfinger&quot;
+  status = 307
+</code></pre>
+<h3 id="vercel-verceljson"><a class="header" href="#vercel-verceljson">Vercel <code>vercel.json</code></a></h3>
+<p>Create a <code>vercel.json</code> file in the root directory containing the following:</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
+</blockquote>
+<pre><code class="language-json">{
+  &quot;redirects&quot;: [
+    {
+      &quot;source&quot;: &quot;/.well-known/host-meta&quot;,
+      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/host-meta&quot;
+    },
+    {
+      &quot;source&quot;: &quot;/.well-known/host-meta.json&quot;,
+      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/host-meta.json&quot;
+    },
+    {
+      &quot;source&quot;: &quot;/.well-known/nodeinfo&quot;,
+      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/nodeinfo&quot;
+    },
+    {
+      &quot;source&quot;: &quot;/.well-known/webfinger&quot;,
+      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/webfinger&quot;
+    }
+  ]
+}
+</code></pre>
+<h2 id="as2-1"><a class="header" href="#as2-1">AS2</a></h2>
 <blockquote>
 <p>Redirects file only applies to <code>.well-known</code>.
 for AS2 redirects, you need to use <a href="users/./redirecting-with-static-files-and-markup.html#as2-alternate">AS2 Alternate</a>.</p>
