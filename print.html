@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-platform-specific-config.html"><strong aria-hidden="true">4.3.</strong> with Platform-Specific Configuration</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install-with-docker.html"><strong aria-hidden="true">5.</strong> Install with Docker</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">6.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">7.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">8.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">9.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">10.</strong> JSON Feed Extension</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-platform-specific-config.html"><strong aria-hidden="true">4.3.</strong> with Platform-Specific Configuration</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-aoba.html"><strong aria-hidden="true">4.4.</strong> with Aoba (Lume & Hono)</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install-with-docker.html"><strong aria-hidden="true">5.</strong> Install with Docker</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">6.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">7.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">8.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">9.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">10.</strong> JSON Feed Extension</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -271,6 +271,8 @@ you might also want to check out the <a href="users/../others/json-feed-extensio
 <p>Works with Netlify and Cloudflare Pages.</p>
 <h2 id="with-platform-specific-configuration"><a class="header" href="#with-platform-specific-configuration"><a href="users/./redirecting-with-platform-specific-config.html">with Platform-Specific Configuration</a></a></h2>
 <p>Works with Netlify and Vercel.</p>
+<h2 id="with-aoba-lume--hono"><a class="header" href="#with-aoba-lume--hono"><a href="users/./redirecting-with-aoba.html">with Aoba (Lume &amp; Hono)</a></a></h2>
+<p>SSG plugin for Lume and Server Middleware for Deno Deploy and Netlify.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-static-files-and-markup"><a class="header" href="#redirecting-with-static-files-and-markup">Redirecting with Static files and Markup</a></h1>
 <p>This should apply to most hosting services and SSG.</p>
 <h2 id="well-known"><a class="header" href="#well-known">Well Known</a></h2>
@@ -380,6 +382,68 @@ for AS2 redirects, you need to use <a href="users/./redirecting-with-static-file
 <p>Redirects file only applies to <code>.well-known</code>.
 for AS2 redirects, you need to use <a href="users/./redirecting-with-static-files-and-markup.html#as2-alternate">AS2 Alternate</a>.</p>
 </blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-aoba-lume--hono"><a class="header" href="#redirecting-with-aoba-lume--hono">Redirecting with <a href="https://github.com/fedikit/aoba">Aoba</a> (Lume &amp; Hono)</a></h1>
+<p>SSG plugin for Lume and Server Middleware for Deno Deploy and Netlify.</p>
+<p>Aoba provides some plugins and server middleware for Lume and Hono,
+including Hatsu integration.</p>
+<h2 id="lume"><a class="header" href="#lume"><a href="https://github.com/fedikit/aoba/blob/main/lume/plugins/hatsu.ts">Lume</a></a></h2>
+<p>The Lume plugin will do what you did in <a href="users/./redirecting-with-static-files-and-markup.html">Redirecting with Static files and Markup</a> for you.</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance and <code>example.com</code> with your site.</p>
+</blockquote>
+<pre><code class="language-ts">import lume from 'lume/mod.ts'
+import { hatsuPlugin } from 'aoba/lume/plugins/hatsu.ts'
+
+export default lume({ location: new URL('https://example.com') })
+    .use(hatsuPlugin({
+        // Hatsu instance
+        instance: new URL('https://hatsu.local'),
+        // match /posts/*
+        match: [/^\/posts\/(.+)$/],
+    }))
+</code></pre>
+<h3 id="lume-server"><a class="header" href="#lume-server"><a href="https://github.com/fedikit/aoba/blob/main/lume/middlewares/hatsu.ts">Lume Server</a></a></h3>
+<p>On top of that, the Lume server middleware can redirect <code>.well-known/*</code> and AS2 request.</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
+</blockquote>
+<pre><code class="language-ts">import Server from 'lume/core/server.ts'
+import site from './_config.ts'
+import { hatsuMiddleware } from 'aoba/lume/middlewares/hatsu.ts'
+
+const server = new Server()
+
+server.use(hatsuMiddleware({
+    // Hatsu instance
+    instance: new URL('https://hatsu.local'),
+    // site location
+    location: site.options.location,
+}))
+
+server.start()
+</code></pre>
+<h2 id="hono"><a class="header" href="#hono"><a href="https://github.com/fedikit/aoba/blob/main/hono/middlewares/hatsu.ts">Hono</a></a></h2>
+<p>It's not published to npm, so feel free to copy and paste it if you need to use it in a Node.js.</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
+</blockquote>
+<pre><code class="language-ts">import { Hono } from 'hono'
+import { hatsuWellKnown, hatsuObject } from 'aoba/hono/middlewares/hatsu.ts'
+
+const app = new Hono()
+const instance = new URL('https://hatsu.local')
+
+// https://example.com/.well-known/* =&gt; https://hatsu.local/.well-known/*
+app.use('/.well-known/*'， hatsuWellKnown({ instance }))
+// https://example.com/posts/foo =&gt; https://hatsu.local/o/https://example.com/posts/foo
+app.use('/posts/*', hatsuObject({ instance }))
+</code></pre>
+<!-- ### Deno Deploy
+
+### Netlify -->
+<!-- ## Well Known
+
+## AS2 -->
 <div style="break-before: page; page-break-before: always;"></div><h1 id="install-with-docker"><a class="header" href="#install-with-docker">Install with Docker</a></h1>
 <p>Hatsu has not yet released an docker image (this will be done when v0.1.0 is released)</p>
 <p>So for now you need to follow the steps in <a href="admins/../developers/prepare.html">Prepare</a> and <a href="admins/../developers/development-docker.html">Docker Development</a>.</p>
