@@ -10,6 +10,7 @@
     - [with Static files and Markup](./users/redirecting-with-static-files-and-markup.md)
     - [with Redirects file](./users/redirecting-with-redirects-file.md)
     - [with Platform-Specific Configuration](./users/redirecting-with-platform-specific-config.md)
+    - [with Aoba (Lume & Hono)](./users/redirecting-with-aoba.md)
 
 # for Admins
 

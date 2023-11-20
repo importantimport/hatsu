@@ -24,3 +24,7 @@ Works with Netlify and Cloudflare Pages.
 ## [with Platform-Specific Configuration](./redirecting-with-platform-specific-config.md)
 
 Works with Netlify and Vercel.
+
+## [with Aoba (Lume & Hono)](./redirecting-with-aoba.md)
+
+SSG plugin for Lume and Server Middleware for Deno Deploy and Netlify.
