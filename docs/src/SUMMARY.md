@@ -4,11 +4,21 @@
 
 # for Users
 
+- [Getting Started](./users/getting-started.md)
+- [Feed](./users/feed.md)
+- [Redirecting](./users/redirecting.md)
+    - [with Static files and Markup](./users/redirecting-with-static-files-and-markup.md)
+    - [with Redirects file](./users/redirecting-with-redirects-file.md)
+
+# for Admins
+
+- [Install with Docker](./admins/install-with-docker.md)
+
 # for Developers
 
-- [Prepare](./developers/01-prepare.md)
-- [Local Development](./developers/02-local-development.md)
-- [Docker Development](./developers/03-docker-development.md)
+- [Prepare](./developers/prepare.md)
+- [Local Development](./developers/development-local.md)
+- [Docker Development](./developers/development-docker.md)
 
 # Others
 
