@@ -20,3 +20,7 @@ This should apply to most hosting services and SSG.
 ## [with Redirects file](./redirecting-with-redirects-file.md)
 
 Works with Netlify and Cloudflare Pages.
+
+## [with Platform-Specific Configuration](./redirecting-with-platform-specific-config.md)
+
+Works with Netlify and Vercel.

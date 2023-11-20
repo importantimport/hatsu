@@ -9,9 +9,9 @@ Create a `_redirects` file in the SSG static files directory containing the foll
 > Replace `hatsu.local` with your Hatsu instance.
 
 ```text
-/.well-known/host-meta* https://hatsu.local/host-meta:splat 308
-/.well-known/nodeinfo* https://hatsu.local/nodeinfo 308
-/.well-known/webfinger* https://hatsu.local/webfinger 308
+/.well-known/host-meta* https://hatsu.local/.well-known/host-meta:splat 307
+/.well-known/nodeinfo* https://hatsu.local/.well-known/nodeinfo 307
+/.well-known/webfinger* https://hatsu.local/.well-known/webfinger 307
 ```
 
 ## AS2

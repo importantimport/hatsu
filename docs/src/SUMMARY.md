@@ -9,6 +9,7 @@
 - [Redirecting](./users/redirecting.md)
     - [with Static files and Markup](./users/redirecting-with-static-files-and-markup.md)
     - [with Redirects file](./users/redirecting-with-redirects-file.md)
+    - [with Platform-Specific Configuration](./users/redirecting-with-platform-specific-config.md)
 
 # for Admins
 
