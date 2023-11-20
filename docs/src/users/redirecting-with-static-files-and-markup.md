@@ -4,7 +4,7 @@ This should apply to most hosting services and SSG.
 
 ## Well Known
 
-For the .well-known files, you need to get the corresponding contents from the hatsu instance and output them as a static file.
+For the `.well-known/*` files, you need to get the corresponding contents from the hatsu instance and output them as a static file.
 
 > Replace `hatsu.local` with your Hatsu instance and `example.com` with your site.
 
@@ -26,7 +26,7 @@ which you need to save to the SSG equivalent of the static files directory and m
 
 ## AS2 Alternate
 
-> Only Mastodon and Misskey / Firefish is known to support auto-discovery, other software requires redirection to search correctly.
+> Only Mastodon and Misskey (and their forks) is known to support auto-discovery, other software requires redirection to search correctly.
 > [w3c/activitypub#310](https://github.com/w3c/activitypub/issues/310)
 
 Make your posts searchable on Fediverse by setting up auto-discovery.
