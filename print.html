@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/01-prepare.html"><strong aria-hidden="true">2.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/02-local-development.html"><strong aria-hidden="true">3.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/03-docker-development.html"><strong aria-hidden="true">4.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">5.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">6.</strong> JSON Feed Extension</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install-with-docker.html"><strong aria-hidden="true">5.</strong> Install with Docker</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">6.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">7.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">8.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">9.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">10.</strong> JSON Feed Extension</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -213,6 +213,126 @@ and forwards the received responses back to the site in a Webmention.</p>
 <li>You already have a Fediverse account ready to be used for this purpose.</li>
 <li>Your site has good microformats2 markup.</li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
+<h2 id="setting-up-your-static-site"><a class="header" href="#setting-up-your-static-site">Setting up your static site</a></h2>
+<p>Once you register in Hatsu instance, it will be updated <strong>fully automatically</strong>.</p>
+<p>However, your site will need to make some changes accordingly to take advantage of the ActivityPub features that Hatsu brings to the table.</p>
+<ul>
+<li><a href="users/./feed.html">Feed</a></li>
+<li><a href="users/./redirecting.html">Redirecting</a></li>
+<li>Backfeed [WIP]</li>
+</ul>
+<!-- - [Webmention]
+- [Mastodon Comments] -->
+<h2 id="choose-instance"><a class="header" href="#choose-instance">Choose instance</a></h2>
+<p>After Hatsu supports public instances, there may be a list of instances here.</p>
+<p>Until then, you'll need to <a href="users/../admins/install-with-docker.html">self-host the instance</a> or find an person running a Hatsu instance and have them create an account.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="feed"><a class="header" href="#feed">Feed</a></h1>
+<p>For Hatsu to work, your site needs to have one of the valid <a href="https://jsonfeed.org/version/1.1/">JSON</a> / <a href="https://en.wikipedia.org/wiki/Atom_(web_standard)">Atom</a> / <a href="https://en.wikipedia.org/wiki/RSS">RSS</a> feeds.</p>
+<p>Hatsu uses serde direct parsing of JSON feeds internally and parses Atom / RSS via <a href="https://github.com/feed-rs/feed-rs"><code>feed-rs</code></a>, so JSON Feed are supported first-class.</p>
+<p>These feeds should be auto-discoverable on the homepage:</p>
+<pre><code class="language-html">&lt;html&gt;
+    &lt;head&gt;
+        ...
+        &lt;link rel=&quot;alternate&quot; type=&quot;application/feed+json&quot; href=&quot;https://example.com/feed.json&quot; /&gt;
+        &lt;link rel=&quot;alternate&quot; type=&quot;application/atom+xml&quot; href=&quot;https://example.com/atom.xml&quot; /&gt;
+        &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://example.com/rss.xml&quot; /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        ...
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Hatsu detects all available feeds and prioritizes them in order of <code>JSON &gt; Atom &gt; RSS</code>.</p>
+<p>If you can customize your site's JSON Feed,
+you might also want to check out the <a href="users/../others/json-feed-extension.html">Hatsu JSON Feed Extension</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting"><a class="header" href="#redirecting">Redirecting</a></h1>
+<p>There are two types of redirects required by Hatsu:</p>
+<ol>
+<li>
+<p>Well Known files, redirecting them to make your username searchable.</p>
+<ul>
+<li>before: <code>https://example.com/.well-known/webfinger?resource=acct:carol@example.com</code></li>
+<li>after: <code>https://hatsu.local/.well-known/webfinger?resource=acct:carol@example.com</code></li>
+</ul>
+</li>
+<li>
+<p>Requests accept of type <code>application/activity+json</code>, redirecting them to make your page searchable.</p>
+<ul>
+<li>before: <code>https://example.com/foo/bar</code></li>
+<li>after: <code>https://hatsu.local/o/https://example.com/foo/bar</code></li>
+</ul>
+</li>
+</ol>
+<p>There are many ways to redirect them and you can pick one you like:</p>
+<h2 id="with-static-files-and-markup"><a class="header" href="#with-static-files-and-markup"><a href="users/./redirecting-with-static-files-and-markup.html">with Static files and Markup</a></a></h2>
+<p>This should apply to most hosting services and SSG.</p>
+<h2 id="with-redirects-file"><a class="header" href="#with-redirects-file"><a href="users/./redirecting-with-redirects-file.html">with Redirects file</a></a></h2>
+<p>Works with Netlify and Cloudflare Pages.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-static-files-and-markup"><a class="header" href="#redirecting-with-static-files-and-markup">Redirecting with Static files and Markup</a></h1>
+<p>This should apply to most hosting services and SSG.</p>
+<h2 id="well-known"><a class="header" href="#well-known">Well Known</a></h2>
+<p>For the .well-known files, you need to get the corresponding contents from the hatsu instance and output them as a static file.</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance and <code>example.com</code> with your site.</p>
+</blockquote>
+<p>Open your Hatsu instance home page in a browser and F12 -&gt; Console to run:</p>
+<pre><code class="language-js">// .well-known/webfinger
+await fetch('https://hatsu.local/.well-known/webfinger?resource=acct:example.com@hatsu.local').then(res =&gt; res.text())
+// .well-known/nodeinfo
+await fetch('https://hatsu.local/.well-known/nodeinfo').then(res =&gt; res.text())
+// .well-known/host-meta
+await fetch('https://hatsu.local/.well-known/host-meta').then(res =&gt; res.text()).then(text =&gt; text.split('\n').map(v =&gt; v.trim()).join(''))
+// .well-known/host-meta.json
+await fetch('https://hatsu.local/.well-known/host-meta.json').then(res =&gt; res.text())
+</code></pre>
+<p>This will fetch their text contents,
+which you need to save to the SSG equivalent of the static files directory and make sure they are output to the <code>.well-known</code> folder.</p>
+<h2 id="as2-alternate"><a class="header" href="#as2-alternate">AS2 Alternate</a></h2>
+<blockquote>
+<p>Only Mastodon and Misskey / Firefish is known to support auto-discovery, other software requires redirection to search correctly.
+<a href="https://github.com/w3c/activitypub/issues/310">w3c/activitypub#310</a></p>
+</blockquote>
+<p>Make your posts searchable on Fediverse by setting up auto-discovery.</p>
+<p>Since Hatsu's object URLs are predictable, you just need to make sure:</p>
+<ul>
+<li>The page you want to set up for auto-discovery is in the Feed.</li>
+<li>The actual URL of the page is the same as in the Feed. Hatsu handles it this way:
+<ul>
+<li><code>https://example.com/posts/foo =&gt; https://example.com/posts/foo</code></li>
+<li><code>foo/bar</code> =&gt; <code>https://example.com/foo/bar</code></li>
+</ul>
+</li>
+</ul>
+<p>That's it! For <code>https://example.com/foo/bar</code>, just add the following tag to the <code>document.head</code>:</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
+</blockquote>
+<pre><code class="language-html">&lt;link rel=&quot;alternate&quot; type=&quot;application/activity+json&quot; href=&quot;https://hatsu.local/o/https://example.com/foo/bar&quot; /&gt;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-redirects-file"><a class="header" href="#redirecting-with-redirects-file">Redirecting with Redirects file</a></h1>
+<p>Works with <a href="https://docs.netlify.com/routing/redirects/#syntax-for-the-redirects-file">Netlify</a> and <a href="https://developers.cloudflare.com/pages/platform/redirects">Cloudflare Pages</a>.</p>
+<h2 id="well-known-1"><a class="header" href="#well-known-1">Well Known</a></h2>
+<p>Create a <code>_redirects</code> file in the SSG static files directory containing the following:</p>
+<blockquote>
+<p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
+</blockquote>
+<pre><code class="language-text">/.well-known/host-meta* https://hatsu.local/host-meta:splat 308
+/.well-known/nodeinfo* https://hatsu.local/nodeinfo 308
+/.well-known/webfinger* https://hatsu.local/webfinger 308
+</code></pre>
+<h2 id="as2"><a class="header" href="#as2">AS2</a></h2>
+<blockquote>
+<p>Redirects file only applies to <code>.well-known</code>.
+for AS2 redirects, you need to use <a href="users/./redirecting-with-static-files-and-markup.html#as2-alternate">AS2 Alternate</a>.</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="install-with-docker"><a class="header" href="#install-with-docker">Install with Docker</a></h1>
+<p>Hatsu has not yet released an docker image (this will be done when v0.1.0 is released)</p>
+<p>So for now you need to follow the steps in <a href="admins/../developers/prepare.html">Prepare</a> and <a href="admins/../developers/development-docker.html">Docker Development</a>.</p>
+<p>In order to add other accounts, you also need to set the <code>HATSU_ACCESS_TOKEN</code> variable.</p>
+<p>This can be any string, but I recommend generating a random uuid v4.</p>
+<pre><code class="language-bash">echo &quot;HATSU_ACCESS_TOKEN = \&quot;$(cat /proc/sys/kernel/random/uuid)\&quot;&quot; &gt;&gt; .env
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prepare"><a class="header" href="#prepare">Prepare</a></h1>
 <h2 id="clone-repository"><a class="header" href="#clone-repository">Clone Repository</a></h2>
 <p>It will create a <code>hatsu</code> subfolder in the current path.</p>
