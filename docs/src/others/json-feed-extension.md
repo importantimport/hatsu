@@ -13,7 +13,7 @@ The following applies to the [Top-level JSON Feed](https://www.jsonfeed.org/vers
 - `about` (optional but strongly recommended, string) is the URL used to introduce this extension to humans. should be [https://github.com/importantimport/hatsu/issues/1](https://github.com/importantimport/hatsu/issues/1) .
 - `banner_image` (optional, string) is the URL of the banner image for the website in hatsu.
 
-## items
+## Items
 
 The following applies to the [JSON Feed Item](https://www.jsonfeed.org/version/1.1/#items-a-name-items-a).
 
