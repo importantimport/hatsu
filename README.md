@@ -92,6 +92,14 @@ In addition to this, Hatsu is also enabled:
 
 If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility issue, you should open new issue in Hatsu first.
 
+### TODO
+
+- OpenAPI
+- Upgrade dependencies
+  - axum 0.7
+  - activitypub-federation 0.5
+  - tokio-graceful-shutdown 0.14
+
 ### Useful links
 
 #### ActivityPub
