@@ -77,12 +77,12 @@ impl<T> CollectionPage<T> {
         Ok(Self {
             kind: OrderedCollectionPageType::OrderedCollectionPage,
             id: Url::parse_with_params(collection_id.as_ref(), &[("page", page.to_string())])?,
-            /// 如果当前页数大于 1，则提供上一页
+            // 如果当前页数大于 1，则提供上一页
             prev: match page {
                 page if page > 1 => Some(generate_collection_page_url(&collection_id, page - 1)?),
                 _ => None,
             },
-            /// 如果当前页数小于总页数，则提供下一页
+            // 如果当前页数小于总页数，则提供下一页
             next: match page {
                 page if page < total_pages => Some(generate_collection_page_url(&collection_id, page + 1)?),
                 _ => None,

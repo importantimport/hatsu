@@ -27,11 +27,11 @@ async fn nodeinfo_usage(
             .filter(user::Column::Local.eq(true))
             .count(&data.conn)
             .await?,
-        /// TODO
+        // TODO
         active_halfyear: None,
         active_month: None
         }),
-        /// TODO
+        // TODO
         local_posts: None,
         local_comments: None
     })
