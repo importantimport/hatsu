@@ -1,3 +1,6 @@
+#[global_allocator]
+static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
+
 use std::env;
 
 use activitypub_federation::config::FederationConfig;
