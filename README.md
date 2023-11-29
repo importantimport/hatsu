@@ -99,6 +99,10 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
   - axum 0.7
   - activitypub-federation 0.5
   - tokio-graceful-shutdown 0.14
+- Performance improvements
+  - sonic-rs (required nightly) / simd-json
+  - uuid-simd
+  - base64-simd
 
 ### Useful links
 
