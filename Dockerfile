@@ -36,4 +36,5 @@ COPY --from=builder /app/target/hatsu /app/
 COPY --from=planner /app/Justfile /app/Justfile
 
 EXPOSE 3939/tcp
-CMD [ "/app/hatsu" ]
+
+ENTRYPOINT [ "/app/hatsu" ]
