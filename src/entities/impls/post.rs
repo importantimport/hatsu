@@ -85,7 +85,7 @@ impl Object for DbPost {
         //     kind: Default::default(),
         //     id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?.into(),
         //     // TODO: multiple user / 多用户
-        //     attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_TEST_ACCOUNT")?))?.into(),
+        //     attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_PRIMARY_ACCOUNT")?))?.into(),
         //     // 发送给提及的用户
         //     // TODO: "to": ["https://{}/u/{}/followers"]
         //     to: vec![json.attributed_to.clone().into()],

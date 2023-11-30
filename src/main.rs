@@ -42,7 +42,7 @@ pub struct AppEnv {
     hatsu_domain: String,
     hatsu_listen_host: String,
     hatsu_listen_port: String,
-    hatsu_test_account: String,
+    hatsu_primary_account: String,
 }
 
 #[tokio::main]
@@ -71,7 +71,7 @@ async fn main() -> Result<(), AppError> {
         hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
         hatsu_listen_host: env::var("HATSU_LISTEN_HOST").unwrap_or_else(|_| "localhost".to_string()),
         hatsu_listen_port: env::var("HATSU_LISTEN_PORT").unwrap_or_else(|_| "3939".to_string()),
-        hatsu_test_account: env::var("HATSU_TEST_ACCOUNT").expect("env HATSU_TEST_ACCOUNT must be set"),
+        hatsu_primary_account: env::var("HATSU_PRIMARY_ACCOUNT").expect("env HATSU_PRIMARY_ACCOUNT must be set"),
     };
 
     // 连接数据库
@@ -86,14 +86,14 @@ async fn main() -> Result<(), AppError> {
     tracing::info!("checking test account");
     // 尝试读取数据库中的测试账户，如果不存在则创建
     // Try to read test account in the database, if it doesn't exist then create
-    let test_account: DbUser = match User::find_by_id(format!("https://{}/u/{}", env.hatsu_domain, env.hatsu_test_account))
+    let test_account: DbUser = match User::find_by_id(format!("https://{}/u/{}", env.hatsu_domain, env.hatsu_primary_account))
         .one(&conn)
         .await? {
             Some(test_account) => test_account,
             None => {
                 // 根据域名创建一个 user::ActiveModel
                 // Create a user::ActiveModel based on the domain
-                let test_account = DbUser::new(&env.hatsu_domain, &env.hatsu_test_account).await?.into_active_model();
+                let test_account = DbUser::new(&env.hatsu_domain, &env.hatsu_primary_account).await?.into_active_model();
                 // 向数据库插入 user::ActiveModel，并返回一个 user::Model (DbUser)
                 // Inserts a user::ActiveModel into the database and returns a user::Model (DbUser).
                 test_account.insert(&conn).await?

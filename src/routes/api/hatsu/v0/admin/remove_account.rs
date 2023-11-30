@@ -38,7 +38,7 @@ pub async fn remove_account(
                 .one(&data.conn)
                 .await? {
                     Some(account) => {
-                        if account.name == data.env.hatsu_test_account {
+                        if account.name == data.env.hatsu_primary_account {
                             Ok((StatusCode::BAD_REQUEST, Json(RemoveAccountResult {
                                 name: account.name.clone(),
                                 message: format!("The primary account for this Hatsu instance could not be removed: {}", account.name)

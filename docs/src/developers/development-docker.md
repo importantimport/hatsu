@@ -23,7 +23,7 @@ First copy the variables,
 Set `HATSU_DOMAIN` to your prepared domain
 (e.g. `hatsu.example.com` without `https://`)
 
-and `HATSU_TEST_ACCOUNT` to your desired user domain
+and `HATSU_PRIMARY_ACCOUNT` to your desired user domain
 (e.g. `blog.example.com` without `https://`)
 
 ```bash

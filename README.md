@@ -68,14 +68,14 @@ It will crawl the feed ([JSON Feed 1.1](https://jsonfeed.org/version/1.1) / [Ato
 
 ### Environments
 
-| Environment          | Default                  | .env.example             | Remarks                                                                                                                                                   |
-| -------------------- | ------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DATABASE_URL`       | `sqlite://hatsu.sqlite3` | `sqlite://hatsu.sqlite3` | Should be a valid `sqlite://` or `postgres://` URL. see [sea-ql.org](https://www.sea-ql.org/SeaORM/docs/install-and-config/connection/#connection-string) |
-| `HATSU_DOMAIN`       |                          | `hatsu.local`            | The domain name you assigned to this Hatsu instance. For example, `hatsu.example.com`                                                                     |
-| `HATSU_LISTEN_HOST`  | `localhost`              | `0.0.0.0`                | The hostname on which Hatsu is listening.                                                                                                                 |
-| `HATSU_LISTEN_PORT`  | `3939`                   | `3939`                   | The port on which Hatsu is listening.                                                                                                                     |
-| `HATSU_TEST_ACCOUNT` |                          | `example.com`            | The primary account for this Hatsu instance, which cannot be removed and is used as a `signed_fetch_actor`.                                                 |
-| `HATSU_ACCESS_TOKEN` |                          |                          | For accessing Admin API. (optional)                                                                                                                       |
+| Environment             | Default                  | .env.example             | Remarks                                                                                                                                                   |
+| ----------------------- | ------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`          | `sqlite://hatsu.sqlite3` | `sqlite://hatsu.sqlite3` | Should be a valid `sqlite://` or `postgres://` URL. see [sea-ql.org](https://www.sea-ql.org/SeaORM/docs/install-and-config/connection/#connection-string) |
+| `HATSU_DOMAIN`          |                          | `hatsu.local`            | The domain name you assigned to this Hatsu instance. For example, `hatsu.example.com`                                                                     |
+| `HATSU_LISTEN_HOST`     | `localhost`              | `0.0.0.0`                | The hostname on which Hatsu is listening.                                                                                                                 |
+| `HATSU_LISTEN_PORT`     | `3939`                   | `3939`                   | The port on which Hatsu is listening.                                                                                                                     |
+| `HATSU_PRIMARY_ACCOUNT` |                          | `example.com`            | The primary account for this Hatsu instance, which cannot be removed and is used as a `signed_fetch_actor`.                                               |
+| `HATSU_ACCESS_TOKEN`    |                          |                          | For accessing Admin API. (optional)                                                                                                                       |
 
 ### Fediverse compatibility
 
