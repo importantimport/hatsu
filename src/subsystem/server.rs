@@ -28,7 +28,7 @@ impl Server {
 
         // axum 0.6
         // run our app with hyper
-        let addr = self.env.hatsu_listen
+        let addr = format!("{}:{}", self.env.hatsu_listen_host, self.env.hatsu_listen_port)
             .to_socket_addrs()?
             .next()
             .expect("Failed to lookup domain name");

@@ -40,7 +40,8 @@ pub struct AppEnv {
     database_url: String,
     hatsu_access_token: Option<String>,
     hatsu_domain: String,
-    hatsu_listen: String,
+    hatsu_listen_host: String,
+    hatsu_listen_port: String,
     hatsu_test_account: String,
 }
 
@@ -68,7 +69,8 @@ async fn main() -> Result<(), AppError> {
         database_url: env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite://hatsu.sqlite3".to_string()),
         hatsu_access_token: env::var_os("HATSU_ACCESS_TOKEN").map(|env| env.into_string().unwrap()),
         hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
-        hatsu_listen: env::var("HATSU_LISTEN").unwrap_or_else(|_| "localhost:3939".to_string()),
+        hatsu_listen_host: env::var("HATSU_LISTEN_HOST").unwrap_or_else(|_| "localhost".to_string()),
+        hatsu_listen_port: env::var("HATSU_LISTEN_PORT").unwrap_or_else(|_| "3939".to_string()),
         hatsu_test_account: env::var("HATSU_TEST_ACCOUNT").expect("env HATSU_TEST_ACCOUNT must be set"),
     };
 
