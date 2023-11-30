@@ -66,18 +66,16 @@ The goal of this project is to provide a self-hosted and easy-to-use alternative
 
 It will crawl the feed ([JSON Feed 1.1](https://jsonfeed.org/version/1.1) / [Atom 1.0](https://validator.w3.org/feed/docs/atom.html) / [RSS 2.0](https://www.rssboard.org/rss-specification)) to get the data instead of going through Webmention / Microformats, but the response from Fediverse will still be converted to a Webmention back to the source.
 
-### Chinese comments?
-
-I'm learning Rust through this project, so I need some Chinese comments to help me understand it. However, I usually add English comments as well, so if you haven't seen them, feel free to open a PR!
-
 ### Environments
 
-| Environment          | Default                  | .env.example             | Remarks |
-| -------------------- | ------------------------ | ------------------------ | ------- |
-| `DATABASE_URL`       | `sqlite://hatsu.sqlite3` | `sqlite://hatsu.sqlite3` |         |
-| `HATSU_DOMAIN`       |                          | `hatsu.local`            |         |
-| `HATSU_LISTEN`       | `localhost:3939`         | `0.0.0.0:3939`           |         |
-| `HATSU_TEST_ACCOUNT` |                          | `example.com`            |         |
+| Environment          | Default                  | .env.example             | Remarks                                                                                                                                                   |
+| -------------------- | ------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`       | `sqlite://hatsu.sqlite3` | `sqlite://hatsu.sqlite3` | Should be a valid `sqlite://` or `postgres://` URL. see [sea-ql.org](https://www.sea-ql.org/SeaORM/docs/install-and-config/connection/#connection-string) |
+| `HATSU_DOMAIN`       |                          | `hatsu.local`            | The domain name you assigned to this Hatsu instance. For example, `hatsu.example.com`                                                                     |
+| `HATSU_LISTEN_HOST`  | `localhost`              | `0.0.0.0`                | The hostname on which Hatsu is listening.                                                                                                                 |
+| `HATSU_LISTEN_PORT`  | `3939`                   | `3939`                   | The port on which Hatsu is listening.                                                                                                                     |
+| `HATSU_TEST_ACCOUNT` |                          | `example.com`            | The primary account for this Hatsu instance, which cannot be removed and is used as a `signed_fetch_actor`.                                                 |
+| `HATSU_ACCESS_TOKEN` |                          |                          | For accessing Admin API. (optional)                                                                                                                       |
 
 ### Fediverse compatibility
 
