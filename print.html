@@ -91,7 +91,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-platform-specific-config.html"><strong aria-hidden="true">4.3.</strong> with Platform-Specific Configuration</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-aoba.html"><strong aria-hidden="true">4.4.</strong> with Aoba (Lume & Hono)</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install-with-docker.html"><strong aria-hidden="true">5.</strong> Install with Docker</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">6.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">7.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">8.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">9.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">10.</strong> JSON Feed Extension</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-platform-specific-config.html"><strong aria-hidden="true">4.3.</strong> with Platform-Specific Configuration</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-aoba.html"><strong aria-hidden="true">4.4.</strong> with Aoba (Lume & Hono)</a></li></ol></li><li class="chapter-item expanded "><a href="users/backfeed.html"><strong aria-hidden="true">5.</strong> Backfeed (TODO)</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/backfeed-based-on-webmention.html"><strong aria-hidden="true">5.1.</strong> based on Webmention (TODO)</a></li><li class="chapter-item expanded "><a href="users/backfeed-based-on-mastodon-comments.html"><strong aria-hidden="true">5.2.</strong> based on Mastodon Comments (TODO)</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install-with-docker.html"><strong aria-hidden="true">6.</strong> Install with Docker</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">7.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">8.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">9.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">10.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">11.</strong> JSON Feed Extension</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -220,10 +220,8 @@ and forwards the received responses back to the site in a Webmention.</p>
 <ul>
 <li><a href="users/./feed.html">Feed</a></li>
 <li><a href="users/./redirecting.html">Redirecting</a></li>
-<li>Backfeed [WIP]</li>
+<li><a href="users/./backfeed.html">Backfeed (TODO)</a></li>
 </ul>
-<!-- - [Webmention]
-- [Mastodon Comments] -->
 <h2 id="choose-instance"><a class="header" href="#choose-instance">Choose instance</a></h2>
 <p>After Hatsu supports public instances, there may be a list of instances here.</p>
 <p>Until then, you'll need to <a href="users/../admins/install-with-docker.html">self-host the instance</a> or find an person running a Hatsu instance and have them create an account.</p>
@@ -444,6 +442,66 @@ app.use('/posts/*', hatsuObject({ instance }))
 <!-- ## Well Known
 
 ## AS2 -->
+<div style="break-before: page; page-break-before: always;"></div><h1 id="backfeed"><a class="header" href="#backfeed">Backfeed</a></h1>
+<blockquote>
+<p>This section is not yet implemented in Hatsu.</p>
+</blockquote>
+<p>Display mentions received by Hatsu on your site.</p>
+<h2 id="based-on-webmention-todo"><a class="header" href="#based-on-webmention-todo"><a href="users/./backfeed-based-on-webmention.html">based on Webmention (TODO)</a></a></h2>
+<h2 id="based-on-mastodon-comments-todo"><a class="header" href="#based-on-mastodon-comments-todo"><a href="users/./backfeed-based-on-mastodon-comments.html">based on Mastodon Comments (TODO)</a></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="backfeed-based-on-webmention"><a class="header" href="#backfeed-based-on-webmention">Backfeed based on Webmention</a></h1>
+<blockquote>
+<p>This section is not yet implemented in Hatsu.</p>
+</blockquote>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="backfeed-based-on-mastodon-comments"><a class="header" href="#backfeed-based-on-mastodon-comments">Backfeed based on Mastodon Comments</a></h1>
+<blockquote>
+<p>This section is not yet implemented in Hatsu.</p>
+</blockquote>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<p>&quot;Mastodon Comments&quot; refers to the <a href="https://github.com/oom-components/mastodon-comments"><code>@oom/mastodon-components</code></a> library.</p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;https://esm.run/@oom/mastodon-comments&quot;&gt;&lt;/script&gt;
+&lt;oom-comments src=&quot;https://mastodon.gal/@misteroom/110810445656343599&quot;&gt;
+  No comments yet
+&lt;/oom-comments&gt;
+</code></pre>
+<p>The basic example should look something like the above, where <a href="https://mastodon.gal/@misteroom/110810445656343599">https://mastodon.gal/@misteroom/110810445656343599</a> is the link to the post in Fediverse.</p>
+<p>Hatsu uses predictable URLs, you just need to change the src:</p>
+<pre><code class="language-js">// trim url
+// input:
+// https://example.com/foo/bar#baz
+// https://example.com/foo/bar?baz=qux
+// output:
+// https://example.com/foo/bar
+const { origin, pathname } = new URL(window.location.href)
+const url = new URL(pathname, origin).href
+
+// get id (base64url encode)
+// aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
+const id = btoa(url)
+  .replaceAll('+', '-')
+  .replaceAll('/', '_')
+
+// oom-comments src
+// https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
+const src = new URL(`/notice/${id}`, 'https://hatsu.local')
+</code></pre>
+<p>It's a real pain in the ass, but you can try to automate it.</p>
+<!-- ### [lume_theme_simple_blog](https://deno.land/x/lume_theme_simple_blog) -->
+<h2 id="how-it-works"><a class="header" href="#how-it-works">How it works?</a></h2>
+<p>Hatsu mimics Pleroma's URL format.</p>
+<p><code>@oom/mastodon-components</code> will extract the ID from the URL and query the corresponding API for the data.</p>
+<pre><code class="language-js">// oom-comments src
+const src = 'https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy'
+// origin: 'https://hatsu.local
+// pathname: '/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy'
+const { origin, pathname } = new URL(src)
+// id: 'aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy'
+const [, id] = pathname.match(/^\/notice\/([^\/?#]+)/)
+// api url: https://hatsu.local/api/v1/statuses/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy/context
+const url = new URL(`/api/v1/statuses/${id}/context`, origin)
+</code></pre>
+<p>Upon receiving a request, Hatsu's corresponding API will attempt to decode the base64url ID and return the data.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="install-with-docker"><a class="header" href="#install-with-docker">Install with Docker</a></h1>
 <p>Hatsu has not yet released an docker image (this will be done when v0.1.0 is released)</p>
 <p>So for now you need to follow the steps in <a href="admins/../developers/prepare.html">Prepare</a> and <a href="admins/../developers/development-docker.html">Docker Development</a>.</p>
