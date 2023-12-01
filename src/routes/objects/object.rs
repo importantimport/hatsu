@@ -6,10 +6,11 @@ use activitypub_federation::{
 use axum::{
     Json,
     debug_handler,
-    extract::Path,
     response::{Redirect, IntoResponse},
 };
+use axum_extra::routing::TypedPath;
 use sea_orm::*;
+use serde::Deserialize;
 
 use crate::{
     AppData,
@@ -18,10 +19,22 @@ use crate::{
     protocol::objects::Note,
 };
 
+#[derive(TypedPath, Deserialize)]
+#[typed_path("/o/*object")]
+pub struct Objects {
+    object: String
+}
+
+#[derive(TypedPath, Deserialize)]
+#[typed_path("/objects/*object")]
+pub struct ObjectsRedirect {
+    object: String
+}
+
 #[debug_handler]
 pub async fn handler(
-  Path(object): Path<String>,
-  data: Data<AppData>,
+    Objects { object }: Objects,
+    data: Data<AppData>,
 ) -> Result<Json<WithContext<Note>>, AppError> {
     tracing::info!("Reading object {}", object);
 
@@ -36,6 +49,8 @@ pub async fn handler(
 }
 
 #[debug_handler]
-pub async fn redirect(Path(object): Path<String>) -> impl IntoResponse {
+pub async fn redirect(
+    ObjectsRedirect { object }: ObjectsRedirect
+) -> impl IntoResponse {
     Redirect::permanent(&format!("/o/{}", object)).into_response()
 }

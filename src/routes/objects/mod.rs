@@ -1,13 +1,13 @@
 use axum::{
     body::Body,
-    routing::get,
     Router,
 };
+use axum_extra::routing::RouterExt;
 
 mod object;
 
 pub fn init() -> Router<(), Body> {
     Router::new()
-        .route("/o/*object", get(object::handler))
-        .route("/objects/*object", get(object::redirect))
+        .typed_get(object::handler)
+        .typed_get(object::redirect)
 }
