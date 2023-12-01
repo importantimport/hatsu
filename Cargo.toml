@@ -36,6 +36,7 @@ activitypub_federation = { version = "0.4", default-features = false, features =
 anyhow = "1.0"
 async-trait = "0.1"
 axum = { version = "0.6", features = ["tokio", "macros"] }
+axum-extra = { version = "0.8", features = ["query", "typed-routing"]}
 chrono = "0.4"
 dotenvy = "0.15"
 enum_delegate = "0.2"

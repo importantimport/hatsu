@@ -95,6 +95,7 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 - OpenAPI
 - Upgrade dependencies
   - axum 0.7
+  - axum-extra 0.9
   - activitypub-federation 0.5
   - tokio-graceful-shutdown 0.14
 - Performance improvements

@@ -7,10 +7,11 @@ use activitypub_federation::{
 };
 use axum::{
     debug_handler,
-    extract::Path,
     response::{IntoResponse, Redirect},
 };
+use axum_extra::routing::TypedPath;
 use sea_orm::*;
+use serde::Deserialize;
 use serde_json::Value;
 
 use crate::{
@@ -20,9 +21,21 @@ use crate::{
     protocol::actors::Person
 };
 
+#[derive(TypedPath, Deserialize)]
+#[typed_path("/u/:name")]
+pub struct Users {
+    name: String
+}
+
+#[derive(TypedPath, Deserialize)]
+#[typed_path("/users/:name")]
+pub struct UsersRedirect {
+    name: String
+}
+
 #[debug_handler]
 pub async fn handler(
-    Path(name): Path<String>,
+    Users { name }: Users,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Person>>, AppError> {
     let id = format!("https://{}/u/{}", data.domain(), &name);
@@ -41,6 +54,8 @@ pub async fn handler(
 }
 
 #[debug_handler]
-pub async fn redirect(Path(name): Path<String>) -> impl IntoResponse {
+pub async fn redirect(
+    UsersRedirect { name }: UsersRedirect,
+) -> impl IntoResponse {
     Redirect::permanent(&format!("/u/{}", name)).into_response()
 }

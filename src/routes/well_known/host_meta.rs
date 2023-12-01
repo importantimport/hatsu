@@ -33,6 +33,8 @@ struct Link {
 use crate::AppData;
 
 pub async fn host_meta(
+    // TODO: use axum_extra::TypedHeader
+    // https://github.com/hyperium/headers/issues/53
     headers: HeaderMap,
 ) -> impl IntoResponse {
     match headers.get(ACCEPT).unwrap().to_str() {

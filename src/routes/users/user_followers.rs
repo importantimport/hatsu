@@ -4,8 +4,11 @@ use activitypub_federation::{
 };
 use axum::{
     debug_handler,
-    extract::{Path, Query},
     response::{IntoResponse, Redirect},
+};
+use axum_extra::{
+    extract::Query,
+    routing::TypedPath,
 };
 use sea_orm::*;
 use serde::Deserialize;
@@ -23,6 +26,18 @@ use crate::{
     protocol::collections::{Collection, CollectionPage},
 };
 
+#[derive(TypedPath, Deserialize)]
+#[typed_path("/u/:name/followers")]
+pub struct UsersFollowers {
+    name: String
+}
+
+#[derive(TypedPath, Deserialize)]
+#[typed_path("/users/:name/followers")]
+pub struct UsersFollowersRedirect {
+    name: String
+}
+
 #[derive(Default, Deserialize)]
 pub struct Pagination {
     page: Option<u64>,
@@ -30,7 +45,7 @@ pub struct Pagination {
 
 #[debug_handler]
 pub async fn handler(
-    Path(name): Path<String>,
+    UsersFollowers { name }: UsersFollowers,
     pagination: Option<Query<Pagination>>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
@@ -85,6 +100,8 @@ pub async fn handler(
 }
 
 #[debug_handler]
-pub async fn redirect(Path(name): Path<String>) -> impl IntoResponse {
+pub async fn redirect(
+    UsersFollowersRedirect { name }: UsersFollowersRedirect,
+) -> impl IntoResponse {
     Redirect::permanent(&format!("/u/{}/followers", name)).into_response()
 }
