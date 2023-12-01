@@ -13,6 +13,8 @@ mod objects;
 mod users;
 mod well_known;
 
+mod openapi;
+
 // ./hatsu --version
 async fn root() -> impl IntoResponse {
     let version = env!("CARGO_PKG_VERSION");
@@ -29,5 +31,6 @@ pub fn handler() -> Router<(), Body> {
         .merge(objects::handler())
         .merge(users::handler())
         .merge(well_known::handler())
+        .merge(openapi::handler())
         .route("/", get(root))
 }
