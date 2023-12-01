@@ -85,7 +85,7 @@ pub async fn nodeinfo_2_1(
   }))
 }
 
-pub fn init() -> Router {
+pub fn handler() -> Router {
     Router::new()
         .route("/nodeinfo/2.0", get(nodeinfo_2_0))
         .route("/nodeinfo/2.0.json", get(nodeinfo_2_0))

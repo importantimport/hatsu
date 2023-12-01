@@ -1,2 +1,2 @@
 mod v0;
-pub use v0::init;
+pub use v0::handler;

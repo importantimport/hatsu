@@ -12,7 +12,7 @@ pub use nodeinfo::nodeinfo;
 mod webfinger;
 pub use webfinger::webfinger;
 
-pub fn init() -> Router {
+pub fn handler() -> Router {
     Router::new()
         .route("/.well-known/host-meta", get(host_meta))
         .route("/.well-known/host-meta.xrd", get(host_meta_xrd))

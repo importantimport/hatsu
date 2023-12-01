@@ -21,13 +21,13 @@ async fn root() -> impl IntoResponse {
     Response::new(Body::from(format!("Hatsu v{} \"{}\"", version, codename)))
 }
 
-pub fn init() -> Router<(), Body> {
+pub fn handler() -> Router<(), Body> {
     Router::new()
-        .merge(activities::init())
-        .merge(api::init())
-        .merge(nodeinfo::init())
-        .merge(objects::init())
-        .merge(users::init())
-        .merge(well_known::init())
+        .merge(activities::handler())
+        .merge(api::handler())
+        .merge(nodeinfo::handler())
+        .merge(objects::handler())
+        .merge(users::handler())
+        .merge(well_known::handler())
         .route("/", get(root))
 }

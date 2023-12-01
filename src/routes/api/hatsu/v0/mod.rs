@@ -1,2 +1,2 @@
 mod admin;
-pub use admin::init;
+pub use admin::handler;

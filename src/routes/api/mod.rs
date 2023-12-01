@@ -1,2 +1,2 @@
 mod hatsu;
-pub use hatsu::init;
+pub use hatsu::handler;

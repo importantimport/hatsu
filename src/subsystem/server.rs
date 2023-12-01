@@ -23,7 +23,7 @@ impl Server {
         // build our application with a route
         tracing::info!("creating app");
         let app = Router::new()
-            .merge(routes::init())
+            .merge(routes::handler())
             .layer(FederationMiddleware::new(self.federation_config));
 
         // axum 0.6
