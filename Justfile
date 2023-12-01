@@ -13,6 +13,6 @@ account method name:
   fi
 
 _account method name:
-  curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/hatsu/v0/admin/{{method}}-account" \
+  curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/hatsu/v0/admin/{{method}}-account?token=${HATSU_ACCESS_TOKEN}" \
   -H "Content-Type: application/json" \
-  -d "{\"token\": \"${HATSU_ACCESS_TOKEN}\", \"name\": \"{{name}}\"}"
+  -d "{\"name\": \"{{name}}\"}"
