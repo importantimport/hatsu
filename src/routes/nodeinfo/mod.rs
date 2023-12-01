@@ -4,7 +4,6 @@
 use activitypub_federation::config::Data;
 use axum::{
     debug_handler,
-    body::Body,
     routing::get,
     Json,
     Router,
@@ -86,7 +85,7 @@ pub async fn nodeinfo_2_1(
   }))
 }
 
-pub fn init() -> Router<(), Body> {
+pub fn init() -> Router {
     Router::new()
         .route("/nodeinfo/2.0", get(nodeinfo_2_0))
         .route("/nodeinfo/2.0.json", get(nodeinfo_2_0))

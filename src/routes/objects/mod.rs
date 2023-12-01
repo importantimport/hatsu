@@ -1,12 +1,9 @@
-use axum::{
-    body::Body,
-    Router,
-};
+use axum::Router;
 use axum_extra::routing::RouterExt;
 
 mod object;
 
-pub fn init() -> Router<(), Body> {
+pub fn init() -> Router {
     Router::new()
         .typed_get(object::handler)
         .typed_get(object::redirect)
