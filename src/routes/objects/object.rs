@@ -4,13 +4,14 @@ use activitypub_federation::{
     traits::Object,
 };
 use axum::{
-    Json,
     debug_handler,
+    extract::Path,
     response::{Redirect, IntoResponse},
+    Json,
 };
-use axum_extra::routing::TypedPath;
+// use axum_extra::routing::TypedPath;
 use sea_orm::*;
-use serde::Deserialize;
+// use serde::Deserialize;
 
 use crate::{
     AppData,
@@ -19,21 +20,22 @@ use crate::{
     protocol::objects::Note,
 };
 
-#[derive(TypedPath, Deserialize)]
-#[typed_path("/o/*object")]
-pub struct Objects {
-    object: String
-}
+// #[derive(TypedPath, Deserialize)]
+// #[typed_path("/o/*object")]
+// pub struct Objects {
+//     object: String
+// }
 
-#[derive(TypedPath, Deserialize)]
-#[typed_path("/objects/*object")]
-pub struct ObjectsRedirect {
-    object: String
-}
+// #[derive(TypedPath, Deserialize)]
+// #[typed_path("/objects/*object")]
+// pub struct ObjectsRedirect {
+//     object: String
+// }
 
 #[debug_handler]
 pub async fn handler(
-    Objects { object }: Objects,
+    // Objects { object }: Objects,
+    Path(object): Path<String>,
     data: Data<AppData>,
 ) -> Result<Json<WithContext<Note>>, AppError> {
     tracing::info!("Reading object {}", object);
@@ -50,7 +52,8 @@ pub async fn handler(
 
 #[debug_handler]
 pub async fn redirect(
-    ObjectsRedirect { object }: ObjectsRedirect
+    // ObjectsRedirect { object }: ObjectsRedirect
+    Path(object): Path<String>,
 ) -> impl IntoResponse {
     Redirect::permanent(&format!("/o/{}", object)).into_response()
 }

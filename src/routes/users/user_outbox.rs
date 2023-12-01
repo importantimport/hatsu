@@ -5,12 +5,13 @@ use activitypub_federation::{
 };
 use axum::{
     debug_handler,
+    extract::{Path, Query},
     response::{IntoResponse, Redirect},
 };
-use axum_extra::{
-    extract::Query,
-    routing::TypedPath,
-};
+// use axum_extra::{
+//     extract::Query,
+//     routing::TypedPath,
+// };
 use sea_orm::*;
 use serde::Deserialize;
 use serde_json::Value;
@@ -27,17 +28,17 @@ use crate::{
     protocol::collections::{CollectionPage, Collection},
 };
 
-#[derive(TypedPath, Deserialize)]
-#[typed_path("/u/:name/outbox")]
-pub struct UsersOutbox {
-    name: String
-}
+// #[derive(TypedPath, Deserialize)]
+// #[typed_path("/u/:name/outbox")]
+// pub struct UsersOutbox {
+//     name: String
+// }
 
-#[derive(TypedPath, Deserialize)]
-#[typed_path("/users/:name/outbox")]
-pub struct UsersOutboxRedirect {
-    name: String
-}
+// #[derive(TypedPath, Deserialize)]
+// #[typed_path("/users/:name/outbox")]
+// pub struct UsersOutboxRedirect {
+//     name: String
+// }
 
 #[derive(Default, Deserialize)]
 pub struct Pagination {
@@ -46,7 +47,8 @@ pub struct Pagination {
 
 #[debug_handler]
 pub async fn handler(
-    UsersOutbox { name }: UsersOutbox,
+    // UsersOutbox { name }: UsersOutbox,
+    Path(name): Path<String>,
     pagination: Option<Query<Pagination>>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
@@ -103,7 +105,8 @@ pub async fn handler(
 
 #[debug_handler]
 pub async fn redirect(
-    UsersOutboxRedirect { name }: UsersOutboxRedirect,
+    // UsersOutboxRedirect { name }: UsersOutboxRedirect,
+    Path(name): Path<String>,
 ) -> impl IntoResponse {
     Redirect::permanent(&format!("/u/{}/outbox", name)).into_response()
 }
