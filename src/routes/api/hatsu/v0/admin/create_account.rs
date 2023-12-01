@@ -7,6 +7,7 @@ use axum::{
 };
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 
 use crate::{
     AppData,
@@ -17,18 +18,32 @@ use crate::{
     },
 };
 
-#[derive(Deserialize)]
+#[derive(Deserialize, ToSchema)]
 pub struct CreateAccount {
     token: Option<String>,
     name: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, ToSchema)]
 pub struct CreateAccountResult {
     name: String,
     message: String,
 }
 
+/// Create Account
+#[utoipa::path(
+    post,
+    tag = "hatsu::admin",
+    path = "/api/hatsu/v0/admin/create-account",
+    responses(
+        (status = 201, description = "create succesfully", body = CreateAccountResult),
+        (status = NOT_FOUND, description = "error", body = AppError)
+    ),
+    params(
+        ("name" = String, Query, description = "username"),
+    ),
+    // security(("api_key" = ["token"]))
+)]
 #[debug_handler]
 pub async fn create_account(
     data: Data<AppData>,

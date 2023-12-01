@@ -3,10 +3,10 @@ use axum::{
     Router,
 };
 
-mod create_account;
+pub mod create_account;
 use create_account::create_account;
 
-mod remove_account;
+pub mod remove_account;
 use remove_account::remove_account;
 
 pub fn handler() -> Router {

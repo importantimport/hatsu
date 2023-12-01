@@ -8,9 +8,10 @@ use axum::{
 use serde::Serialize;
 use serde_json::Value;
 use tracing_error::SpanTrace;
+use utoipa::ToSchema;
 use uuid::Uuid;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, ToSchema)]
 pub struct AppError {
     /// An error message.
     pub error: String,

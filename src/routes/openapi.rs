@@ -1,6 +1,6 @@
 use axum::{
-    routing::get,
-    Json,
+    // routing::get,
+    // Json,
     Router,
 };
 use utoipa::{
@@ -8,9 +8,28 @@ use utoipa::{
     Modify,
     OpenApi
 };
+use utoipa_swagger_ui::SwaggerUi;
 
 #[derive(OpenApi)]
-#[openapi()]
+#[openapi(
+    paths(
+        super::api::hatsu::v0::admin::create_account::create_account
+    ),
+    components(
+        schemas(
+            crate::AppError,
+            super::api::hatsu::v0::admin::create_account::CreateAccount,
+            super::api::hatsu::v0::admin::create_account::CreateAccountResult,
+        )
+    ),
+    modifiers(&SecurityAddon),
+    tags(
+        (name = "hatsu", description = "Hatsu API"),
+        (name = "hatsu::admin", description = "Hatsu Admin API"),
+        (name = "mastodon", description = "Mastodon Compatible API"),
+        (name = "activitypub", description = "ActivityPub API"),
+    )
+)]
 pub struct ApiDoc;
 
 pub struct SecurityAddon;
@@ -32,5 +51,7 @@ impl Modify for SecurityAddon {
 
 pub fn handler() -> Router {
     Router::new()
-        .route("/openapi.json", get(|| async move { Json(ApiDoc::openapi()) }))
+        // .route("/openapi.json", get(|| async move { Json(ApiDoc::openapi()) }))
+        .merge(SwaggerUi::new("/swagger-ui")
+            .url("/openapi.json", ApiDoc::openapi()))
 }
