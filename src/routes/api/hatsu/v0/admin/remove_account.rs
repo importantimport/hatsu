@@ -1,5 +1,4 @@
 use activitypub_federation::config::Data;
-use anyhow::anyhow;
 use axum::{
     debug_handler,
     http::StatusCode,
@@ -39,10 +38,11 @@ pub async fn remove_account(
                 .await? {
                     Some(account) => {
                         if account.name == data.env.hatsu_primary_account {
-                            Ok((StatusCode::BAD_REQUEST, Json(RemoveAccountResult {
-                                name: account.name.clone(),
-                                message: format!("The primary account for this Hatsu instance could not be removed: {}", account.name)
-                            })))
+                            Err(AppError::new(
+                                format!("The primary account for this Hatsu instance could not be removed: {}", account.name), 
+                                None,
+                                Some(StatusCode::BAD_REQUEST),
+                            ))
                         } else {
                             // TODO: remove account
                             Ok((StatusCode::OK, Json(RemoveAccountResult {
@@ -52,14 +52,18 @@ pub async fn remove_account(
                         }
                     },
                     _ => {
-                        Ok((StatusCode::BAD_REQUEST, Json(RemoveAccountResult {
-                            name: payload.name.clone(),
-                            message: format!("The account does not exist: {}", payload.name)
-                        })))
+                        Err(AppError::new(
+                            format!("The account does not exist: {}", payload.name), 
+                            None,
+                            Some(StatusCode::BAD_REQUEST),
+                        ))
                     }
                 }
         }
-        // TODO: StatusCode::FORBIDDEN
-        _ => Err(anyhow!("Access Token Authentication Failed").into())
+        _ => Err(AppError::new(
+            "Access Token Authentication Failed".to_string(), 
+            None,
+            Some(StatusCode::FORBIDDEN),
+        ))
     }
 }

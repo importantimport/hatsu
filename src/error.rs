@@ -26,12 +26,22 @@ pub struct AppError {
 }
 
 impl AppError {
+    pub fn new(error: String, error_details: Option<Value>, status: Option<StatusCode>) -> Self {
+        Self {
+            error,
+            error_details,
+            error_id: Uuid::new_v4(),
+            status: status.unwrap_or_else(|| StatusCode::INTERNAL_SERVER_ERROR),
+            context: SpanTrace::capture(),
+        }
+    }
+
     pub fn not_found(kind: &str, name: &str) -> Self {
         Self {
             error: format!("Unable to find {} named {}", kind, name),
+            error_details: None,
             error_id: Uuid::new_v4(),
             status: StatusCode::NOT_FOUND,
-            error_details: None,
             context: SpanTrace::capture(),
         }
     }

@@ -1,5 +1,4 @@
 use activitypub_federation::config::Data;
-use anyhow::anyhow;
 use axum::{
     debug_handler,
     http::StatusCode,
@@ -40,10 +39,11 @@ pub async fn create_account(
             match User::find_by_id(format!("https://{}/u/{}", data.domain(), payload.name))
                 .one(&data.conn)
                 .await? {
-                    Some(account) => Ok((StatusCode::BAD_REQUEST, Json(CreateAccountResult {
-                        name: account.name.clone(),
-                        message: format!("The account already exists: {}", account.name),
-                    }))),
+                    Some(account) => Err(AppError::new(
+                        format!("The account already exists: {}", account.name), 
+                        None,
+                        Some(StatusCode::BAD_REQUEST),
+                    )),
                     _ => {
                         let account = DbUser::new(data.domain(), &payload.name).await?;
                         let account = account.into_active_model().insert(&data.conn).await?;
@@ -54,7 +54,10 @@ pub async fn create_account(
                     }
                 }
         }
-        // TODO: StatusCode::FORBIDDEN
-        _ => Err(anyhow!("Access Token Authentication Failed").into())
+        _ => Err(AppError::new(
+            "Access Token Authentication Failed".to_string(), 
+            None,
+            Some(StatusCode::FORBIDDEN),
+        ))
     }
 }
