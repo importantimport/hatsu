@@ -8,10 +8,7 @@ However, your site will need to make some changes accordingly to take advantage 
 
 - [Feed](./feed.md)
 - [Redirecting](./redirecting.md)
-- Backfeed [WIP]
-
-<!-- - [Webmention]
-- [Mastodon Comments] -->
+- [Backfeed (TODO)](./backfeed.md)
 
 ## Choose instance
 

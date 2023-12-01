@@ -11,6 +11,9 @@
     - [with Redirects file](./users/redirecting-with-redirects-file.md)
     - [with Platform-Specific Configuration](./users/redirecting-with-platform-specific-config.md)
     - [with Aoba (Lume & Hono)](./users/redirecting-with-aoba.md)
+- [Backfeed (TODO)](./users/backfeed.md)
+    - [based on Webmention (TODO)](./users/backfeed-based-on-webmention.md)
+    - [based on Mastodon Comments (TODO)](./users/backfeed-based-on-mastodon-comments.md)
 
 # for Admins
 
