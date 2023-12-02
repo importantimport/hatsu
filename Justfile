@@ -10,7 +10,22 @@ dev:
 build:
   cargo build --release
 
-# method: create/remove name: example.com
+# cross-build:
+#   cross build --release --target aarch64-unknown-linux-gnu
+#   cross build --release --target aarch64-unknown-linux-musl
+#   cross build --release --target x86_64-unknown-linux-gnu
+#   cross build --release --target x86_64-unknown-linux-musl
+
+# docker-build name='importantimport/hatsu' version='latest':
+#   docker build . \
+#   --tag "{{name}}:{{version}}"
+
+# docker-buildx name='importantimport/hatsu' version='latest':
+#   docker buildx build . \
+#   --tag "{{name}}:{{version}}"
+#   --platform "linux/amd64,linux/arm64"
+
+# create and remove account (method: create/remove) (name: example.com)
 account method name:
   #!/bin/sh
   if [ -z ${HATSU_ACCESS_TOKEN+x} ]; then
@@ -24,20 +39,20 @@ _account method name:
   -H "Content-Type: application/json" \
   -d "{\"name\": \"{{name}}\"}"
 
-# setup dev environment for arch linux
-setup-arch:
+# setup dev environment for arch linux (target-arch: amd64/arm64)
+setup-arch target-arch='amd64':
   sudo pacman -S mold rustup
-  just _setup-rustup
-  just _setup-cargo
+  just _setup-rustup {{target-arch}}
+  just _setup-cargo arch
 
-# setup dev environment for debian sid
-setup-debian:
+# setup dev environment for debian sid (target-arch: amd64/arm64)
+setup-debian target-arch='amd64':
   sudo apt install mold rustup
-  just _setup-rustup
-  just _setup-cargo
+  just _setup-rustup {{target-arch}}
+  just _setup-cargo debian
 
-# setup dev environment for docker (debian:sid-slim)
-setup-docker:
+# setup dev environment for docker (target-arch: amd64/arm64)
+setup-docker target-arch='amd64':
   just setup-debian
   cargo install cargo-chef
 
@@ -46,14 +61,14 @@ setup-docker:
 # rustup component add rustc-codegen-cranelift-preview --toolchain nightly
 # TODO: cargo-pgo
 # rustup component add llvm-tools-preview
-_setup-rustup:
+_setup-rustup target-arch='amd64':
   @echo "TODO"
 
-# cargo install sccache
 # TODO: cargo-pgo
 # cargo install cargo-pgo
-_setup-cargo:
-  cargo install cargo-watch
+# (distro: undefined/arch/debian)
+_setup-cargo distro='undefined':
+  {{ if distro == 'arch' { "sudo pacman -S cargo-watch" } else { "cargo install cargo-watch" } }}
 
 # cargo install cross --git https://github.com/cross-rs/cross
 _setup-cross:
