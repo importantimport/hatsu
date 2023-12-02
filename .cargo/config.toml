@@ -1,7 +1,15 @@
 # Enable UUID Unstable Features
 # https://docs.rs/uuid/1.4.0/uuid/index.html#unstable-features
 [target.'cfg(all())']
-rustflags = ["-C", "link-arg=-fuse-ld=lld", "--cfg", "uuid_unstable"]
+rustflags = ["--cfg", "uuid_unstable"]
+
+# linux (mold)
+[target.'cfg(target_os = "linux")']
+rustflags = ["-C", "link-arg=-fuse-ld=mold"]
+
+# not linux (lld)
+# [target.'cfg(not(target_os = "linux"))']
+# rustflags = ["-C", "link-arg=-fuse-ld=lld"]
 
 # x86_64-v3 (Intel Haswell / AMD Excavator and above)
 # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
