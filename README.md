@@ -101,6 +101,7 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
   - activitypub-federation 0.5
   - tokio-graceful-shutdown 0.14
 - Performance improvements
+  - https://github.com/TechEmpower/FrameworkBenchmarks/issues/8501#issuecomment-1780275745
   - sonic-rs (required nightly) / simd-json
   - uuid-simd
   - base64-simd
