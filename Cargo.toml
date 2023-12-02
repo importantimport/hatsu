@@ -11,10 +11,17 @@ authors = ["藍+85CD"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
 [profile.release]
-incremental = true
-lto = "thin"
-panic = "unwind"
+codegen-units = 1
+lto = "fat"
+opt-level = "z"
+panic = "abort"
 strip = "symbols"
 
 [workspace]
