@@ -6,6 +6,7 @@ use axum::{
 
 mod user;
 mod user_followers;
+mod user_following;
 mod user_inbox;
 mod user_outbox;
 
@@ -21,6 +22,8 @@ pub fn handler() -> Router {
         .route("/users/:user", get(user::redirect))
         .route("/u/:user/followers", get(user_followers::handler))
         .route("/users/:user/followers", get(user_followers::redirect))
+        .route("/u/:user/following", get(user_following::handler))
+        .route("/users/:user/following", get(user_following::redirect))
         .route("/u/:user/outbox", get(user_outbox::handler))
         .route("/users/:user/outbox", get(user_outbox::redirect))
         .route("/u/:user/inbox", post(user_inbox::handler))
