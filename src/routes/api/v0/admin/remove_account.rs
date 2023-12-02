@@ -19,7 +19,7 @@ use super::create_account::{CreateRemoveAccount, CreateRemoveAccountResult};
 #[utoipa::path(
     post,
     tag = "hatsu::admin",
-    path = "/api/hatsu/v0/admin/remove-account",
+    path = "/api/v0/admin/remove-account",
     responses(
         (status = OK, description = "remove succesfully", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)

@@ -17,8 +17,8 @@ use remove_account::remove_account;
 
 pub fn handler() -> Router {
     Router::new()
-        .route("/api/hatsu/v0/admin/create-account", post(create_account))
-        .route("/api/hatsu/v0/admin/remove-account", post(remove_account))
+        .route("/api/v0/admin/create-account", post(create_account))
+        .route("/api/v0/admin/remove-account", post(remove_account))
         .layer(middleware::from_fn(auth))
 }
 

@@ -33,7 +33,7 @@ pub struct CreateRemoveAccountResult {
 #[utoipa::path(
     post,
     tag = "hatsu::admin",
-    path = "/api/hatsu/v0/admin/create-account",
+    path = "/api/v0/admin/create-account",
     responses(
         (status = CREATED, description = "create succesfully", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)

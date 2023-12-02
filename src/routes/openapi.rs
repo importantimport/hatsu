@@ -13,22 +13,21 @@ use utoipa_swagger_ui::SwaggerUi;
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        super::api::hatsu::v0::admin::create_account::create_account,
-        super::api::hatsu::v0::admin::remove_account::remove_account,
+        super::api::v0::admin::create_account::create_account,
+        super::api::v0::admin::remove_account::remove_account,
     ),
     components(
         schemas(
             crate::AppError,
-            super::api::hatsu::v0::admin::create_account::CreateRemoveAccount,
-            super::api::hatsu::v0::admin::create_account::CreateRemoveAccountResult,
+            super::api::v0::admin::create_account::CreateRemoveAccount,
+            super::api::v0::admin::create_account::CreateRemoveAccountResult,
         )
     ),
     modifiers(&SecurityAddon),
     tags(
-        (name = "hatsu", description = "Hatsu API"),
-        (name = "hatsu::admin", description = "Hatsu Admin API"),
-        (name = "mastodon", description = "Mastodon Compatible API"),
-        (name = "activitypub", description = "ActivityPub API"),
+        (name = "hatsu", description = "Hatsu API (/api/v0/)"),
+        (name = "hatsu::admin", description = "Hatsu Admin API (/api/v0/admin/)"),
+        (name = "mastodon", description = "Mastodon Compatible API (/api/v1/)"),
     )
 )]
 pub struct ApiDoc;
