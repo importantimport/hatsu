@@ -1,7 +1,9 @@
 ARG PROFILE="release"
 
 ########## CHEF ##########
-FROM lukemathwalker/cargo-chef:latest-rust-slim-bookworm AS chef
+FROM --platform=$BUILDPLATFORM rust:slim-bookworm AS chef
+
+RUN cargo install cargo-chef
 
 WORKDIR /app
 
