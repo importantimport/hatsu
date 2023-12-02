@@ -7,10 +7,6 @@ rustflags = ["--cfg", "uuid_unstable"]
 [target.'cfg(target_os = "linux")']
 rustflags = ["-C", "link-arg=-fuse-ld=mold"]
 
-# not linux (lld)
-# [target.'cfg(not(target_os = "linux"))']
-# rustflags = ["-C", "link-arg=-fuse-ld=lld"]
-
 # x86_64-v3 (Intel Haswell / AMD Excavator and above)
 # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
 [target.'cfg(target_arch = "x86_64")']
@@ -19,7 +15,3 @@ rustflags = ["-C", "target-cpu=x86-64-v3"]
 # aarch64 (ARM Neon)
 [target.'cfg(target_arch = "aarch64")']
 rustflags = ["-C", "target-feature=+neon"]
-
-# Apple Silicon (M1 and above)
-[target.aarch64-apple-darwin]
-rustflags = ["-C", "target-cpu=apple-m1"]
