@@ -1,7 +1,14 @@
 set dotenv-load
 
-default:
-  just --list
+# show available recipes
+list:
+  @just --list
+
+dev:
+  cargo watch -x run
+
+build:
+  cargo build --release
 
 # method: create/remove name: example.com
 account method name:
@@ -17,5 +24,37 @@ _account method name:
   -H "Content-Type: application/json" \
   -d "{\"name\": \"{{name}}\"}"
 
+# setup dev environment for arch linux
 setup-arch:
-  sudo pacman -S mold
+  sudo pacman -S mold rustup
+  just _setup-rustup
+  just _setup-cargo
+
+# setup dev environment for debian sid
+setup-debian:
+  sudo apt install mold rustup
+  just _setup-rustup
+  just _setup-cargo
+
+# setup dev environment for docker (debian:sid-slim)
+setup-docker:
+  just setup-debian
+  cargo install cargo-chef
+
+# rustup install nightly
+# rustup override set nightly
+# rustup component add rustc-codegen-cranelift-preview --toolchain nightly
+# TODO: cargo-pgo
+# rustup component add llvm-tools-preview
+_setup-rustup:
+  @echo "TODO"
+
+# cargo install sccache
+# TODO: cargo-pgo
+# cargo install cargo-pgo
+_setup-cargo:
+  cargo install cargo-watch
+
+# cargo install cross --git https://github.com/cross-rs/cross
+_setup-cross:
+  @echo "TODO"
