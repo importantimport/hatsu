@@ -13,13 +13,14 @@ use utoipa_swagger_ui::SwaggerUi;
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        super::api::hatsu::v0::admin::create_account::create_account
+        super::api::hatsu::v0::admin::create_account::create_account,
+        super::api::hatsu::v0::admin::remove_account::remove_account,
     ),
     components(
         schemas(
             crate::AppError,
-            super::api::hatsu::v0::admin::create_account::CreateAccount,
-            super::api::hatsu::v0::admin::create_account::CreateAccountResult,
+            super::api::hatsu::v0::admin::create_account::CreateRemoveAccount,
+            super::api::hatsu::v0::admin::create_account::CreateRemoveAccountResult,
         )
     ),
     modifiers(&SecurityAddon),

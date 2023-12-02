@@ -1,5 +1,4 @@
-use std::env;
-
+use activitypub_federation::config::Data;
 use axum::{
     http::{Request, StatusCode},
     middleware::{self, Next},
@@ -7,6 +6,8 @@ use axum::{
     routing::post,
     Router,
 };
+
+use crate::AppData;
 
 pub mod create_account;
 use create_account::create_account;
@@ -21,10 +22,13 @@ pub fn handler() -> Router {
         .layer(middleware::from_fn(auth))
 }
 
-async fn auth<B>(request: Request<B>, next: Next<B>) -> Result<Response, StatusCode> {
-    // TODO: no longer use std::env
-    match env::var("HATSU_ACCESS_TOKEN").unwrap_or("".to_string()) {
-        token if token != "".to_string() => {
+async fn auth<B>(
+    data: Data<AppData>,
+    request: Request<B>,
+    next: Next<B>
+) -> Result<Response, StatusCode> {
+    match &data.env.hatsu_access_token {
+        Some(token) => {
             match request.uri().query() {
                 Some(query) if query == format!("token={}", token) => Ok(next.run(request).await),
                 Some(query) if query != format!("token={}", token) => Err(StatusCode::UNAUTHORIZED),

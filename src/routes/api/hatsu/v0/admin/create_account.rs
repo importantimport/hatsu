@@ -19,14 +19,14 @@ use crate::{
 };
 
 #[derive(Deserialize, ToSchema)]
-pub struct CreateAccount {
-    name: String,
+pub struct CreateRemoveAccount {
+    pub name: String,
 }
 
 #[derive(Serialize, ToSchema)]
-pub struct CreateAccountResult {
-    name: String,
-    message: String,
+pub struct CreateRemoveAccountResult {
+    pub name: String,
+    pub message: String,
 }
 
 /// Create Account
@@ -35,7 +35,7 @@ pub struct CreateAccountResult {
     tag = "hatsu::admin",
     path = "/api/hatsu/v0/admin/create-account",
     responses(
-        (status = 201, description = "create succesfully", body = CreateAccountResult),
+        (status = CREATED, description = "create succesfully", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)
     ),
     security(("api_key" = ["token"]))
@@ -43,7 +43,7 @@ pub struct CreateAccountResult {
 #[debug_handler]
 pub async fn create_account(
     data: Data<AppData>,
-    Json(payload): Json<CreateAccount>,
+    Json(payload): Json<CreateRemoveAccount>,
 ) -> Result<impl IntoResponse, AppError> {
     match User::find_by_id(format!("https://{}/u/{}", data.domain(), payload.name))
         .one(&data.conn)
@@ -56,7 +56,7 @@ pub async fn create_account(
             _ => {
                 let account = DbUser::new(data.domain(), &payload.name).await?;
                 let account = account.into_active_model().insert(&data.conn).await?;
-                Ok((StatusCode::CREATED, Json(CreateAccountResult {
+                Ok((StatusCode::CREATED, Json(CreateRemoveAccountResult {
                     name: account.name.clone(),
                     message: format!("The account was successfully created: {}", account.name),
                 })))

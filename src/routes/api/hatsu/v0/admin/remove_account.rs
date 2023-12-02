@@ -6,7 +6,6 @@ use axum::{
     Json,
 };
 use sea_orm::*;
-use serde::{Deserialize, Serialize};
 
 use crate::{
     AppData,
@@ -14,56 +13,48 @@ use crate::{
     entities::prelude::*,
 };
 
-#[derive(Deserialize)]
-pub struct RemoveAccount {
-    token: Option<String>,
-    name: String,
-}
+use super::create_account::{CreateRemoveAccount, CreateRemoveAccountResult};
 
-#[derive(Serialize)]
-pub struct RemoveAccountResult {
-    name: String,
-    message: String,
-}
-
+/// Remove Account
+#[utoipa::path(
+    post,
+    tag = "hatsu::admin",
+    path = "/api/hatsu/v0/admin/remove-account",
+    responses(
+        (status = OK, description = "remove succesfully", body = CreateRemoveAccountResult),
+        (status = BAD_REQUEST, description = "error", body = AppError)
+    ),
+    security(("api_key" = ["token"]))
+)]
 #[debug_handler]
 pub async fn remove_account(
     data: Data<AppData>,
-    Json(payload): Json<RemoveAccount>,
+    Json(payload): Json<CreateRemoveAccount>,
 ) -> Result<impl IntoResponse, AppError> {
-    match payload.token {
-        token if (token.is_some() && token == data.env.hatsu_access_token) => {
-            match User::find_by_id(format!("https://{}/u/{}", data.domain(), payload.name))
-                .one(&data.conn)
-                .await? {
-                    Some(account) => {
-                        if account.name == data.env.hatsu_primary_account {
-                            Err(AppError::new(
-                                format!("The primary account for this Hatsu instance could not be removed: {}", account.name), 
-                                None,
-                                Some(StatusCode::BAD_REQUEST),
-                            ))
-                        } else {
-                            // TODO: remove account
-                            Ok((StatusCode::OK, Json(RemoveAccountResult {
-                                name: payload.name.clone(),
-                                message: format!("Successfully removed account: {}", payload.name),
-                            })))
-                        }
-                    },
-                    _ => {
-                        Err(AppError::new(
-                            format!("The account does not exist: {}", payload.name), 
-                            None,
-                            Some(StatusCode::BAD_REQUEST),
-                        ))
-                    }
+    match User::find_by_id(format!("https://{}/u/{}", data.domain(), payload.name))
+        .one(&data.conn)
+        .await? {
+            Some(account) => {
+                if account.name == data.env.hatsu_primary_account {
+                    Err(AppError::new(
+                    format!("The primary account for this Hatsu instance could not be removed: {}", account.name), 
+                    None,
+                    Some(StatusCode::BAD_REQUEST),
+                    ))
+                } else {
+                    // TODO: remove account
+                    Ok((StatusCode::OK, Json(CreateRemoveAccountResult {
+                        name: payload.name.clone(),
+                        message: format!("Successfully removed account: {}", payload.name),
+                    })))
                 }
+            },
+            _ => {
+                Err(AppError::new(
+                format!("The account does not exist: {}", payload.name), 
+                None,
+                Some(StatusCode::BAD_REQUEST),
+                ))
+            }
         }
-        _ => Err(AppError::new(
-            "Access Token Authentication Failed".to_string(), 
-            None,
-            Some(StatusCode::FORBIDDEN),
-        ))
-    }
 }
