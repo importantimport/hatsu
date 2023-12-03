@@ -83,9 +83,9 @@ async fn main() -> Result<(), AppError> {
     // 运行 SeaORM Migration
     Migrator::up(&conn, None).await?;
 
-    tracing::info!("checking test account");
-    // 尝试读取数据库中的测试账户，如果不存在则创建
-    // Try to read test account in the database, if it doesn't exist then create
+    tracing::info!("checking primary account");
+    // 尝试读取数据库中的主要账户，如果不存在则创建
+    // Try to read primary account in the database, if it doesn't exist then create
     let test_account: DbUser = match User::find_by_id(format!("https://{}/u/{}", env.hatsu_domain, env.hatsu_primary_account))
         .one(&conn)
         .await? {
