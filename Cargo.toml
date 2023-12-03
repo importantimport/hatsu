@@ -39,10 +39,20 @@ panic = "abort"
 strip = "symbols"
 
 [workspace]
-members = [".", "migration"]
+members = [
+    ".",
+    "migration",
+    "crates/api_mastodon"
+]
 
 [workspace.dependencies]
+hatsu_api_mastodon = { path = "./crates/api_mastodon" }
+axum = { version = "0.6", features = ["tokio", "macros"] }
+axum-extra = { version = "0.8", features = ["query", "typed-routing"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 tokio = { version = "1.0", features = ["full"] }
+utoipa = { version = "4", features = ["axum_extras", "url", "uuid"] }
 
 # TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
@@ -54,11 +64,12 @@ path = "migration"
 workspace = true
 
 [dependencies]
+hatsu_api_mastodon = { workspace = true }
 activitypub_federation = { version = "0.4", default-features = false, features = ["axum"] }
 anyhow = "1.0"
 async-trait = "0.1"
-axum = { version = "0.6", features = ["tokio", "macros"] }
-axum-extra = { version = "0.8", features = ["query", "typed-routing"]}
+axum = { workspace = true }
+axum-extra = { workspace = true }
 chrono = "0.4"
 dotenvy = "0.15"
 enum_delegate = "0.2"
@@ -75,8 +86,8 @@ sea-orm = { version = "0.12", features = [
   "with-json",
   "with-uuid",
 ] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+serde = { workspace = true }
+serde_json = { workspace = true }
 snmalloc-rs = "0.3"
 tokio-cron-scheduler = "*"
 tokio-graceful-shutdown = "0.13"
@@ -85,7 +96,7 @@ tracing-error = "0.2"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 url = { version = "2.4", features = ["serde"] }
 urlencoding = "2"
-utoipa = { version = "4", features = ["axum_extras", "url", "uuid"]}
+utoipa = { workspace = true }
 # TODO: dev-dependencies
 utoipa-swagger-ui = { version = "4", features = ["axum"] }
 uuid = { version = "1.4", features = ["v4", "v7", "fast-rng", "macro-diagnostics"] }
