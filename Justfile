@@ -4,9 +4,11 @@ set dotenv-load
 list:
   @just --list
 
+# starting dev server.
 dev:
   cargo watch -x run
 
+# building production.
 build:
   cargo build --release
 
@@ -38,6 +40,22 @@ _account method name:
   curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/v0/admin/{{method}}-account?token=${HATSU_ACCESS_TOKEN}" \
   -H "Content-Type: application/json" \
   -d "{\"name\": \"{{name}}\"}"
+
+# apply migrations to database.
+db_migration *args='up':
+  just _sea-orm-cli migrate {{args}} -d crates/db_migration
+
+# generate entities from database.
+db_schema: (db_migration 'fresh')
+  just _sea-orm-cli generate entity -o crates/db_schema/src/entities
+
+# detect before running sea-orm-cli and install it if it doesn't exist.
+_sea-orm-cli *args:
+  #!/bin/sh
+  if [ -z $(which sea-orm-cli) ]; then
+    cargo install sea-orm-cli
+  fi
+  sea-orm-cli {{args}}
 
 # setup dev environment for arch linux (target-arch: amd64/arm64)
 setup-arch target-arch='amd64':
