@@ -13,6 +13,8 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 use urlencoding::encode;
 
+use hatsu_utils::markdown::markdown_to_html;
+
 use crate::{
     AppData,
     AppError,
@@ -22,7 +24,6 @@ use crate::{
         post::Model as DbPost,
         user::Model as DbUser,
     },
-    utilities::markdown_to_html
 };
 
 /// https://www.w3.org/ns/activitystreams#Note

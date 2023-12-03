@@ -12,14 +12,14 @@ use tokio_graceful_shutdown::Toplevel;
 use tracing_error::ErrorLayer;
 use tracing_subscriber::prelude::*;
 
+// TODO: remove this
+pub use hatsu_utils::{AppData, AppEnv, AppError};
+
 mod entities;
 use entities::{
     prelude::*,
     user::Model as DbUser
 };
-
-mod error;
-use error::AppError;
 
 mod protocol;
 
@@ -28,22 +28,6 @@ mod routes;
 mod subsystem;
 
 mod utilities;
-
-#[derive(Clone, Debug)]
-pub struct AppData {
-    conn: DatabaseConnection,
-    env: AppEnv,
-}
-
-#[derive(Clone, Debug)]
-pub struct AppEnv {
-    database_url: String,
-    hatsu_access_token: Option<String>,
-    hatsu_domain: String,
-    hatsu_listen_host: String,
-    hatsu_listen_port: String,
-    hatsu_primary_account: String,
-}
 
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
