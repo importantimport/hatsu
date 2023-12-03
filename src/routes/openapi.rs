@@ -16,13 +16,16 @@ use utoipa_swagger_ui::SwaggerUi;
         super::api::v0::admin::create_account::create_account,
         super::api::v0::admin::remove_account::remove_account,
         hatsu_api_mastodon::routes::statuses::status_context::status_context,
+        hatsu_api_mastodon::routes::statuses::status_favourited_by::status_favourited_by,
+        hatsu_api_mastodon::routes::statuses::status_reblogged_by::status_reblogged_by,
     ),
     components(
         schemas(
             crate::AppError,
             super::api::v0::admin::create_account::CreateRemoveAccount,
             super::api::v0::admin::create_account::CreateRemoveAccountResult,
-            hatsu_api_mastodon::routes::statuses::status_context::Context,
+            hatsu_api_mastodon::entities::account::Account,
+            hatsu_api_mastodon::entities::context::Context,
         )
     ),
     modifiers(&SecurityAddon),

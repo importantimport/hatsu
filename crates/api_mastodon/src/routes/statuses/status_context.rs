@@ -3,19 +3,11 @@ use axum::{
     response::IntoResponse,
     Json,
 };
-use serde::Serialize;
-use utoipa::ToSchema;
 
-/// https://docs.joinmastodon.org/entities/Context/
-/// https://docs.joinmastodon.org/methods/statuses/#context
-#[derive(Debug, Serialize, ToSchema)]
-pub struct Context {
-    // TODO: Vec<Status>
-    // should always be empty vec
-    ancestors: Vec<String>,
-    // TODO: Vec<Status>
-    descendants: Vec<String>,
-}
+use crate::entities::context::Context;
+
+// (status = NOT_FOUND, description = "Status is private or does not exist", body = AppError)
+// { "error": "Record not found" }
 
 /// Get parent and child statuses in context
 ///
