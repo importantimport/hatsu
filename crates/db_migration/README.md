@@ -1,4 +1,19 @@
-# Running Migrator CLI
+# hatsu_db_migration
+
+## Usage
+
+```bash
+# via just
+just db_migration [COMMAND] [OPTIONS]
+# via sea-orm-cli
+sea-orm-cli migrate [COMMAND] [OPTIONS] -d crates/db_migration
+# via cargo
+cargo run -p hatsu_db_migration -- [COMMAND] [OPTIONS]
+# via cargo (in this directory)
+cargo run -- [COMMAND] [OPTIONS]
+```
+
+### Options
 
 - Generate a new migration file
     ```sh
