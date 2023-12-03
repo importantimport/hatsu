@@ -1,7 +1,7 @@
 use axum::{routing::get, Router};
 
-mod status_context;
-use status_context::status_context;
+pub mod status_context;
+pub use status_context::status_context;
 
 pub fn handler() -> Router {
     Router::new()
