@@ -1,11 +1,18 @@
 [package]
-name = "migration"
-version = "0.1.0"
-edition = "2021"
-publish = false
+name = "hatsu_db_migration"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+readme.workspace = true
+license.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+repository.workspace = true
 
 [lib]
-name = "migration"
+name = "hatsu_db_migration"
 path = "src/lib.rs"
 
 [dependencies.tokio]

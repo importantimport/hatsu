@@ -75,7 +75,7 @@ impl DbUser {
   ) -> Result<(), <Activity as ActivityHandler>::Error>
   where
     Activity: ActivityHandler + Serialize,
-    <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error> + From<migration::DbErr>
+    <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error> + From<hatsu_db_migration::DbErr>
   {
     // 从 Activity URL 提取 UUID
     // let activity_id: String = activity

@@ -41,12 +41,13 @@ strip = "symbols"
 [workspace]
 members = [
     ".",
-    "migration",
+    "crates/db_migration",
     "crates/api_mastodon"
 ]
 
 [workspace.dependencies]
 hatsu_api_mastodon = { path = "./crates/api_mastodon" }
+hatsu_db_migration = { path = "./crates/db_migration" }
 axum = { version = "0.6", features = ["tokio", "macros"] }
 axum-extra = { version = "0.8", features = ["query", "typed-routing"] }
 serde = { version = "1.0", features = ["derive"] }
@@ -57,14 +58,9 @@ utoipa = { version = "4", features = ["axum_extras", "url", "uuid"] }
 # TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
 
-[dependencies.migration]
-path = "migration"
-
-[dependencies.tokio]
-workspace = true
-
 [dependencies]
 hatsu_api_mastodon = { workspace = true }
+hatsu_db_migration = { workspace = true }
 activitypub_federation = { version = "0.4", default-features = false, features = ["axum"] }
 anyhow = "1.0"
 async-trait = "0.1"
@@ -89,6 +85,7 @@ sea-orm = { version = "0.12", features = [
 serde = { workspace = true }
 serde_json = { workspace = true }
 snmalloc-rs = "0.3"
+tokio = { workspace = true }
 tokio-cron-scheduler = "*"
 tokio-graceful-shutdown = "0.13"
 tracing = { version = "0.1" }

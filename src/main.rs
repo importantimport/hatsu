@@ -5,7 +5,7 @@ use std::env;
 
 use activitypub_federation::config::FederationConfig;
 use dotenvy::dotenv;
-use migration::{Migrator, MigratorTrait};
+use hatsu_db_migration::{Migrator, MigratorTrait};
 use sea_orm::*;
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
