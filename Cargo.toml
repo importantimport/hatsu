@@ -1,13 +1,27 @@
-[package]
-name = "hatsu"
+[workspace.package]
 version = "0.1.0"
 edition = "2021"
 publish = false
-description = "Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
-repository = "https://github.com/importantimport/hatsu"
 readme = "README.md"
 license = "AGPL-3.0"
 authors = ["藍+85CD"]
+description = "Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
+documentation = "https://hatsu.cli.rs"
+homepage = "https://hatsu.cli.rs"
+repository = "https://github.com/importantimport/hatsu"
+
+[package]
+name = "hatsu"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+readme.workspace = true
+license.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+repository.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
