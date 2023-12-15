@@ -100,6 +100,8 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
     - use typed-routing (https://github.com/tokio-rs/axum/issues/2218, https://github.com/ibraheemdev/matchit/issues/13)
   - activitypub-federation 0.5
   - tokio-graceful-shutdown 0.14
+    - https://github.com/tokio-rs/axum/pull/2398
+    - https://github.com/hyperium/hyper-util/pull/66
 - Performance improvements
   - https://github.com/rust-lang/rustc_codegen_cranelift
   - https://github.com/TechEmpower/FrameworkBenchmarks/issues/8501#issuecomment-1780275745
