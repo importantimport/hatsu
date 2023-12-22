@@ -92,7 +92,8 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 
 ### TODO
 
-- OpenAPI
+- Use Service type for local actors
+  - https://www.w3.org/ns/activitystreams#Service
 - Upgrade dependencies
   - axum 0.7
     - utoipa-swagger-ui 5.0
