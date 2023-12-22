@@ -1,6 +1,6 @@
 set dotenv-load
 
-# show available recipes
+# show available recipes.
 list:
   @just --list
 
@@ -40,6 +40,10 @@ _account method name:
   curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/v0/admin/{{method}}-account?token=${HATSU_ACCESS_TOKEN}" \
   -H "Content-Type: application/json" \
   -d "{\"name\": \"{{name}}\"}"
+
+# use db_* without underscores.
+db *args='migration up':
+  just db_{{args}}
 
 # apply migrations to database.
 db_migration *args='up':
