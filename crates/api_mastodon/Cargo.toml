@@ -16,6 +16,7 @@ name = "hatsu_api_mastodon"
 path = "src/lib.rs"
 
 [dependencies]
+hatsu_utils = { workspace = true }
 axum = { workspace = true }
 serde = { workspace = true }
 url = { workspace = true }

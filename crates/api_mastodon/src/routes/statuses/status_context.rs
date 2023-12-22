@@ -1,5 +1,6 @@
 use axum::{
     debug_handler,
+    extract::Path,
     response::IntoResponse,
     Json,
 };
@@ -24,9 +25,8 @@ use crate::entities::Context;
     )
 )]
 #[debug_handler]
-pub async fn status_context() -> impl IntoResponse {
-    Json(Context {
-        ancestors: vec![],
-        descendants: vec![]
-    })
+pub async fn status_context(
+    Path(status_id): Path<String>,
+) -> impl IntoResponse {
+    Json(Context::find_by_id(status_id))
 }
