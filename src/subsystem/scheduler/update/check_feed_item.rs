@@ -61,6 +61,7 @@ async fn create_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFeedI
     let _post = DbPost {
         id: note.id.to_string(),
         attributed_to: note.attributed_to.to_string(),
+        in_reply_to: None,
         object: serde_json::to_string(&note)?,
         published: note.published.clone(),
         updated: note.updated.clone(),
