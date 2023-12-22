@@ -24,8 +24,8 @@ use utoipa_swagger_ui::SwaggerUi;
             crate::AppError,
             super::api::v0::admin::create_account::CreateRemoveAccount,
             super::api::v0::admin::create_account::CreateRemoveAccountResult,
-            hatsu_api_mastodon::entities::account::Account,
-            hatsu_api_mastodon::entities::context::Context,
+            hatsu_api_mastodon::entities::Account,
+            hatsu_api_mastodon::entities::Context,
         )
     ),
     modifiers(&SecurityAddon),

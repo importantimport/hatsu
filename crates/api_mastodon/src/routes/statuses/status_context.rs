@@ -4,7 +4,7 @@ use axum::{
     Json,
 };
 
-use crate::entities::context::Context;
+use crate::entities::Context;
 
 // (status = NOT_FOUND, description = "Status is private or does not exist", body = AppError)
 // { "error": "Record not found" }
