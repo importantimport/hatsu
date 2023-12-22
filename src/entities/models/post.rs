@@ -9,6 +9,7 @@ pub struct Model {
     pub id: String,
     pub object: String,
     pub attributed_to: String,
+    pub in_reply_to: Option<String>,
     pub published: Option<String>,
     pub updated: Option<String>,
     pub last_refreshed_at: String,
@@ -25,7 +26,17 @@ pub enum Relation {
     User,
     #[sea_orm(has_one = "super::user_feed_item::Entity")]
     UserFeedItem,
+    #[sea_orm(
+        belongs_to = "Entity",
+        from = "Column::InReplyTo",
+        to = "Column::Id"
+    )]
+    /// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+    SelfReferencing,
 }
+
+/// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+pub struct SelfReferencingLink;
 
 impl ActiveModelBehavior for ActiveModel {}
 
@@ -38,5 +49,15 @@ impl Related<super::user::Entity> for Entity {
 impl Related<super::user_feed_item::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::UserFeedItem.def()
+    }
+}
+
+/// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+impl Linked for SelfReferencingLink {
+    type FromEntity = Entity;
+    type ToEntity = Entity;
+
+    fn link(&self) -> Vec<sea_orm::LinkDef> {
+        vec![Relation::SelfReferencing.def()]
     }
 }

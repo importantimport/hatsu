@@ -73,6 +73,7 @@ impl Object for DbPost {
             object: serde_json::to_string(&json)?,
             published: json.published,
             updated: json.updated,
+            in_reply_to: json.in_reply_to.and_then(|url| Some(url.to_string())),
             last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
             local: false,
         }.into_active_model().insert(&data.conn).await?;

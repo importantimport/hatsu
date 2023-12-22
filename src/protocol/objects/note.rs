@@ -41,7 +41,6 @@ pub struct Note {
     pub(crate) content: String,
     /// TODO: customization via item._hatsu.source
     pub(crate) source: NoteSource,
-    /// TODO: remove in_reply_to (version 0.1.0)
     pub(crate) in_reply_to: Option<ObjectId<DbPost>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(crate) tag: Option<Vec<Hashtag>>,
