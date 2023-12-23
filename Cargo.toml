@@ -42,6 +42,7 @@ strip = "symbols"
 members = [
     ".",
     "crates/api_mastodon",
+    "crates/apub",
     "crates/db_migration",
     "crates/db_schema",
     "crates/utils",
@@ -49,6 +50,7 @@ members = [
 
 [workspace.dependencies]
 hatsu_api_mastodon = { path = "./crates/api_mastodon" }
+hatsu_apub = { path = "./crates/apub" }
 hatsu_db_migration = { path = "./crates/db_migration" }
 hatsu_db_schema = { path = "./crates/db_schema" }
 hatsu_utils = { path = "./crates/utils" }
@@ -58,6 +60,7 @@ async-trait = "0.1"
 axum = { version = "0.6", features = ["tokio", "macros"] }
 axum-extra = { version = "0.8", features = ["query", "typed-routing"] }
 chrono = "0.4"
+enum_delegate = "0.2"
 markdown = "1.0.0-alpha.13"
 sea-orm = { version = "0.12", features = [
   "sqlx-postgres",
@@ -91,7 +94,7 @@ axum = { workspace = true }
 axum-extra = { workspace = true }
 chrono = { workspace = true }
 dotenvy = "0.15"
-enum_delegate = "0.2"
+enum_delegate = { workspace = true }
 feed-rs = "1.3"
 markdown = { workspace = true }
 reqwest = { version = "0.11", features = ["json"] }
