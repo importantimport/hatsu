@@ -51,7 +51,7 @@ db_migration *args='up':
 
 # generate entities from database.
 db_schema: (db_migration 'fresh')
-  just _sea-orm-cli generate entity -o crates/db_schema/src/entities
+  just _sea-orm-cli generate entity -l -o crates/db_schema/src
 
 # detect before running sea-orm-cli and install it if it doesn't exist.
 _sea-orm-cli *args:
