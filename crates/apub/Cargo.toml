@@ -22,6 +22,8 @@ activitypub_federation = { workspace = true }
 async-trait = { workspace = true }
 chrono = { workspace = true }
 enum_delegate = { workspace = true }
+reqwest = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }
+serde_json = { workspace = true }
 url = { workspace = true }

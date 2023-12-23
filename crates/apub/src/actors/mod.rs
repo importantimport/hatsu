@@ -1,5 +1,8 @@
+mod db_user_feed_item;
+mod db_user_impl;
+mod db_user;
 mod service;
-mod service_db;
 
+pub use db_user_feed_item::{JsonUserFeed, JsonUserFeedHatsu, JsonUserFeedItem};
+pub use db_user::ApubUser;
 pub use service::{Service, ServiceAttachment, ServiceImage};
-pub use service_db::ApubUser;
