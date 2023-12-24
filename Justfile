@@ -4,8 +4,8 @@ set dotenv-load
 list:
   @just --list
 
-# starting dev server.
-dev:
+# running dev server.
+run:
   cargo watch -x run
 
 # building production.
