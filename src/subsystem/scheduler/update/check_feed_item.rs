@@ -1,20 +1,23 @@
 use activitypub_federation::{kinds::public, config::Data};
+use hatsu_apub::{
+    activities::{CreateOrUpdateNote, CreateOrUpdateType},
+    actors::{ApubUser, ApubUserFeedItem},
+    objects::Note,
+};
+use hatsu_db_schema::{
+    prelude::*,
+    post::Model as DbPost,
+    user_feed_item::Model as DbUserFeedItem,
+};
 use sea_orm::*;
 // use url::Url;
 
 use crate::{
     AppData,
     AppError,
-    entities::{
-        prelude::*,
-        post::Model as DbPost,
-        user::Model as DbUser,
-        user_feed_item::Model as DbUserFeedItem,
-    },
-    protocol::{objects::Note, activities::{CreateOrUpdateNote, CreateOrUpdateType}},
 };
 
-pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFeedItem) -> Result<(), AppError> {
+pub async fn check_feed_item(data: &Data<AppData>, user: &ApubUser, item: DbUserFeedItem) -> Result<(), AppError> {
     match UserFeedItem::find_by_id(&item.id)
         .one(&data.conn)
         .await? {
@@ -38,9 +41,10 @@ pub async fn check_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFe
         }
 }
 
-async fn create_feed_item(data: &Data<AppData>, user: &DbUser, item: DbUserFeedItem) -> Result<(), AppError> {
+async fn create_feed_item(data: &Data<AppData>, user: &ApubUser, item: DbUserFeedItem) -> Result<(), AppError> {
     // 将 Item 保存到数据库
     let item = item.into_active_model().insert(&data.conn).await?;
+    let item: ApubUserFeedItem = item.into();
 
     // 创建 Note
     let note = Note::new_default(user, item.into_json()?, data)?;

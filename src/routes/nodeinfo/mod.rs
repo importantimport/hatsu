@@ -8,13 +8,16 @@ use axum::{
     Json,
     Router,
 };
+use hatsu_db_schema::{
+    prelude::User,
+    user,
+};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 
 use crate::{
     AppData,
     AppError,
-    entities::{prelude::*, *},
 };
 
 async fn nodeinfo_usage(

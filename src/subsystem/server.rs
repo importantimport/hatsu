@@ -2,15 +2,11 @@ use std::net::ToSocketAddrs;
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use axum::Router;
+use hatsu_db_schema::user::Model as DbUser;
+use hatsu_utils::{AppData, AppEnv, AppError};
 use tokio_graceful_shutdown::SubsystemHandle;
 
-use crate::{
-    AppData,
-    AppEnv,
-    AppError,
-    routes,
-    entities::user::Model as DbUser,
-};
+use crate::routes;
 
 pub struct Server {
     pub federation_config: FederationConfig<AppData>,

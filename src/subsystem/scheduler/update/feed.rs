@@ -1,14 +1,9 @@
 use chrono::SecondsFormat;
 use feed_rs::parser;
+use hatsu_apub::actors::{JsonUserFeed, JsonUserFeedItem};
+use hatsu_db_schema::user::Model as DbUser;
+use hatsu_utils::AppError;
 use url::Url;
-
-use crate::{
-    AppError,
-    entities::{
-        impls::{JsonUserFeed, JsonUserFeedItem},
-        user::Model as DbUser,
-    },
-};
 
 pub async fn get_user_feed(user: DbUser) -> Result<JsonUserFeed, AppError> {
     match user {

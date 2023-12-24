@@ -10,14 +10,14 @@ use axum::{
     Json,
 };
 // use axum_extra::routing::TypedPath;
+use hatsu_apub::objects::{ApubPost, Note};
+use hatsu_db_schema::prelude::Post;
 use sea_orm::*;
 // use serde::Deserialize;
 
 use crate::{
     AppData,
     AppError,
-    entities::prelude::*,
-    protocol::objects::Note,
 };
 
 // #[derive(TypedPath, Deserialize)]
@@ -45,7 +45,10 @@ pub async fn handler(
     match Post::find_by_id(&object_id)
         .one(&data.conn)
         .await? {
-            Some(db_post) => Ok(Json(WithContext::new_default(db_post.into_json(&data).await?))),
+            Some(db_post) => {
+                let apub_post: ApubPost = db_post.into();
+                Ok(Json(WithContext::new_default(apub_post.into_json(&data).await?)))
+            },
             None => Err(AppError::not_found("Object", &object_id))
         }
 }

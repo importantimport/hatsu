@@ -1,12 +1,16 @@
 #[global_allocator]
 static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 
-use std::env;
-
 use activitypub_federation::config::FederationConfig;
 use dotenvy::dotenv;
+use hatsu_apub::actors::ApubUser;
 use hatsu_db_migration::{Migrator, MigratorTrait};
+use hatsu_db_schema::{
+    prelude::User,
+    user::Model as DbUser,
+};
 use sea_orm::*;
+use std::{env, ops::Deref};
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
 use tracing_error::ErrorLayer;
@@ -15,19 +19,9 @@ use tracing_subscriber::prelude::*;
 // TODO: remove this
 pub use hatsu_utils::{AppData, AppEnv, AppError};
 
-mod entities;
-use entities::{
-    prelude::*,
-    user::Model as DbUser
-};
-
-mod protocol;
-
 mod routes;
 
 mod subsystem;
-
-mod utilities;
 
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
@@ -77,7 +71,7 @@ async fn main() -> Result<(), AppError> {
             None => {
                 // 根据域名创建一个 user::ActiveModel
                 // Create a user::ActiveModel based on the domain
-                let test_account = DbUser::new(&env.hatsu_domain, &env.hatsu_primary_account).await?.into_active_model();
+                let test_account = ApubUser::new(&env.hatsu_domain, &env.hatsu_primary_account).await?.deref().clone().into_active_model();
                 // 向数据库插入 user::ActiveModel，并返回一个 user::Model (DbUser)
                 // Inserts a user::ActiveModel into the database and returns a user::Model (DbUser).
                 test_account.insert(&conn).await?
@@ -87,6 +81,8 @@ async fn main() -> Result<(), AppError> {
     // 创建 AppData
     let data = AppData { conn, env: env.clone() };
 
+    let signed_fetch_actor: ApubUser = test_account.clone().into();
+
     tracing::info!("setup configuration");
     let federation_config = FederationConfig::builder()
         // 实例域名，这里使用 `HATSU_DOMAIN` 环境变量
@@ -94,7 +90,7 @@ async fn main() -> Result<(), AppError> {
         .domain(&env.hatsu_domain)
         // 使用测试账户作为 Signed fetch actor，以和 GoToSocial 或启用安全模式的 Mastodon 实例交互
         // Use a test account as a Signed fetch actor to interact with GoToSocial or a Mastodon instance with secure mode enabled
-        .signed_fetch_actor(&test_account)
+        .signed_fetch_actor(&signed_fetch_actor)
         // Fediverse 应用数据，目前只有数据库连接
         // Fediverse application data, currently only database connections
         .app_data(data.clone())

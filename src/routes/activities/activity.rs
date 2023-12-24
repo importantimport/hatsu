@@ -8,16 +8,16 @@ use axum::{
     response::{IntoResponse, Redirect},
 };
 // use axum_extra::routing::TypedPath;
+use hatsu_apub::activities::ApubActivity;
+use hatsu_db_schema::prelude::*;
+use hatsu_utils::{
+    AppData,
+    AppError,
+    url::generate_activity_url,
+};
 use sea_orm::*;
 // use serde::Deserialize;
 use serde_json::Value;
-
-use crate::{
-    AppData,
-    AppError,
-    entities::prelude::*,
-    utilities::generate_activity_url
-};
 
 // #[derive(TypedPath, Deserialize)]
 // #[typed_path("/a/*activity_id")]
@@ -42,7 +42,10 @@ pub async fn handler(
     match Activity::find_by_id(generate_activity_url(data.domain(), Some(activity_id.clone()))?)
         .one(&data.conn)
         .await? {
-            Some(activity) => Ok(FederationJson(activity.into_json()?)),
+            Some(activity) => {
+                let activity: ApubActivity = activity.into();
+                Ok(FederationJson(activity.into_json()?))
+            },
             None => Err(AppError::not_found("Activity", &activity_id))
         }
 }

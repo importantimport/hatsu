@@ -7,6 +7,10 @@ use axum::{
     extract::Query,
     Json
 };
+use hatsu_db_schema::{
+    prelude::*,
+    user::Model as DbUser,
+};
 use sea_orm::*;
 use serde::Deserialize;
 use url::Url;
@@ -14,10 +18,6 @@ use url::Url;
 use crate::{
     AppData,
     AppError,
-    entities::{
-        prelude::*,
-        user::Model as DbUser,
-    },
 };
 
 #[derive(Deserialize)]

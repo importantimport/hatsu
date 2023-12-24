@@ -5,12 +5,12 @@ use axum::{
     response::IntoResponse,
     Json,
 };
+use hatsu_db_schema::prelude::*;
 use sea_orm::*;
 
 use crate::{
     AppData,
     AppError,
-    entities::prelude::*,
 };
 
 use super::create_account::{CreateRemoveAccount, CreateRemoveAccountResult};

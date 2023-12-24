@@ -11,6 +11,8 @@ use axum::{
     response::{IntoResponse, Redirect},
 };
 // use axum_extra::routing::TypedPath;
+use hatsu_apub::actors::{ApubUser, Service};
+use hatsu_db_schema::prelude::*;
 use sea_orm::*;
 // use serde::Deserialize;
 use serde_json::Value;
@@ -18,8 +20,6 @@ use serde_json::Value;
 use crate::{
     AppData,
     AppError,
-    entities::prelude::*,
-    protocol::actors::Person
 };
 
 // #[derive(TypedPath, Deserialize)]
@@ -39,7 +39,7 @@ pub async fn handler(
     // Users { name }: Users,
     Path(name): Path<String>,
     data: Data<AppData>,
-) -> Result<FederationJson<WithContext<Person>>, AppError> {
+) -> Result<FederationJson<WithContext<Service>>, AppError> {
     let id = format!("https://{}/u/{}", data.domain(), &name);
     // "@context": [
     //   "https://www.w3.org/ns/activitystreams",
@@ -50,7 +50,10 @@ pub async fn handler(
     match User::find_by_id(&id)
         .one(&data.conn)
         .await? {
-            Some(user) => Ok(FederationJson(WithContext::new(user.into_json(&data).await?, context))),
+            Some(db_user) => {
+                let apub_user: ApubUser = db_user.into();
+                Ok(FederationJson(WithContext::new(apub_user.into_json(&data).await?, context)))
+            },
             None => Err(AppError::not_found("User", &name))
         }
 }

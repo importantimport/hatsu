@@ -12,6 +12,15 @@ use axum::{
 //     extract::Query,
 //     routing::TypedPath,
 // };
+use hatsu_apub::{
+    activities::ApubActivity,
+    actors::ApubUser,
+    collections::{CollectionPage, Collection},
+};
+use hatsu_db_schema::{
+    prelude::*,
+    activity,
+};
 use sea_orm::*;
 use serde::Deserialize;
 use serde_json::Value;
@@ -20,12 +29,6 @@ use url::Url;
 use crate::{
     AppData,
     AppError,
-    entities::{
-        prelude::*,
-        activity,
-        user::Model as DbUser,
-    },
-    protocol::collections::{CollectionPage, Collection},
 };
 
 // #[derive(TypedPath, Deserialize)]
@@ -54,7 +57,7 @@ pub async fn handler(
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
     let Query(pagination) = pagination.unwrap_or_default();
 
-    let user_id: ObjectId<DbUser> = Url::parse(&format!("https://{}/u/{}", data.domain(), &name))?.into();
+    let user_id: ObjectId<ApubUser> = Url::parse(&format!("https://{}/u/{}", data.domain(), &name))?.into();
     let user = user_id.dereference_local(&data).await?;
 
     let activity_pages = user.find_related(Activity)
@@ -92,7 +95,10 @@ pub async fn handler(
                             .fetch_page(page - 1)
                             .await?
                             .into_iter()
-                            .map(|activity| activity.into_json().unwrap())
+                            .map(|activity| {
+                                let activity: ApubActivity = activity.into();
+                                activity.into_json().unwrap()
+                            })
                             .collect(),
                         total.number_of_pages,
                         page

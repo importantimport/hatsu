@@ -5,17 +5,16 @@ use axum::{
     response::IntoResponse,
     Json,
 };
+use hatsu_apub::actors::ApubUser;
+use hatsu_db_schema::prelude::*;
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
+use std::ops::Deref;
 use utoipa::ToSchema;
 
 use crate::{
     AppData,
     AppError,
-    entities::{
-        prelude::*,
-        user::Model as DbUser,
-    },
 };
 
 #[derive(Deserialize, ToSchema)]
@@ -54,8 +53,8 @@ pub async fn create_account(
             Some(StatusCode::BAD_REQUEST),
             )),
             _ => {
-                let account = DbUser::new(data.domain(), &payload.name).await?;
-                let account = account.into_active_model().insert(&data.conn).await?;
+                let account = ApubUser::new(data.domain(), &payload.name).await?;
+                let account = account.deref().clone().into_active_model().insert(&data.conn).await?;
                 Ok((StatusCode::CREATED, Json(CreateRemoveAccountResult {
                     name: account.name.clone(),
                     message: format!("The account was successfully created: {}", account.name),

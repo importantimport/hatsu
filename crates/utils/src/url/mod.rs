@@ -25,3 +25,12 @@ pub fn generate_activity_url(domain: &str, id: Option<String>) -> Result<Url, Ap
         id.unwrap_or_else(|| Uuid::now_v7().to_string())
     ))?)
 }
+
+// pub fn remove_https(url: String) -> String {
+//     if str::starts_with(&url, "https://") {
+//         let url_without_https = url.trim_start_matches("https://").to_string();
+//         url_without_https
+//     } else {
+//         url
+//     }
+// }

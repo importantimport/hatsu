@@ -11,6 +11,14 @@ use axum::{
 //     extract::Query,
 //     routing::TypedPath,
 // };
+use hatsu_apub::{
+    actors::ApubUser,
+    collections::{Collection, CollectionPage},
+};
+use hatsu_db_schema::{
+    prelude::*,
+    received_follow,
+};
 use sea_orm::*;
 use serde::Deserialize;
 use serde_json::Value;
@@ -19,12 +27,6 @@ use url::Url;
 use crate::{
     AppData,
     AppError,
-    entities::{
-        prelude::*,
-        received_follow,
-        user::Model as DbUser,
-    },
-    protocol::collections::{Collection, CollectionPage},
 };
 
 // #[derive(TypedPath, Deserialize)]
@@ -53,7 +55,7 @@ pub async fn handler(
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
     let Query(pagination) = pagination.unwrap_or_default();
 
-    let user_id: ObjectId<DbUser> = Url::parse(&format!("https://{}/u/{}", data.domain(), &name))?.into();
+    let user_id: ObjectId<ApubUser> = Url::parse(&format!("https://{}/u/{}", data.domain(), &name))?.into();
     let user = user_id.dereference_local(&data).await?;
 
     let follower_pages = user.find_related(ReceivedFollow)

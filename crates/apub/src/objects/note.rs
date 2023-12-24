@@ -29,21 +29,21 @@ use crate::{
 #[serde(rename_all = "camelCase")]
 pub struct Note {
     #[serde(rename = "type")]
-    pub(crate) kind: NoteType,
-    pub(crate) id: ObjectId<ApubPost>,
-    pub(crate) attributed_to: ObjectId<ApubUser>,
+    pub kind: NoteType,
+    pub id: ObjectId<ApubPost>,
+    pub attributed_to: ObjectId<ApubUser>,
     #[serde(deserialize_with = "deserialize_one_or_many")]
-    pub(crate) to: Vec<Url>,
+    pub to: Vec<Url>,
     #[serde(deserialize_with = "deserialize_one_or_many")]
-    pub(crate) cc: Vec<Url>,
-    pub(crate) content: String,
+    pub cc: Vec<Url>,
+    pub content: String,
     /// TODO: customization via item._hatsu.source
-    pub(crate) source: NoteSource,
-    pub(crate) in_reply_to: Option<ObjectId<ApubPost>>,
+    pub source: NoteSource,
+    pub in_reply_to: Option<ObjectId<ApubPost>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub(crate) tag: Option<Vec<Hashtag>>,
-    pub(crate) published: Option<String>,
-    pub(crate) updated: Option<String>,
+    pub tag: Option<Vec<Hashtag>>,
+    pub published: Option<String>,
+    pub updated: Option<String>,
     // TODO:
     // sensitive (default: false) (extension: _hatsu.sensitive)
     // attachment
