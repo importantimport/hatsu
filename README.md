@@ -21,9 +21,13 @@ cd hatsu
 cp .env.example .env
 # create database
 touch hatsu.sqlite3
+# install just
+cargo install just
+# list just recipes
+just
 ```
 
-###### Cargo
+<!-- ###### Cargo
 
 ```bash
 # run
@@ -60,7 +64,7 @@ cargo install sea-orm-cli
 sea-orm-cli migrate up
 # generate entity
 sea-orm-cli generate entity -o src/entities/models
-```
+``` -->
 
 The goal of this project is to provide a self-hosted and easy-to-use alternative to [Bridgy Fed](https://github.com/snarfed/bridgy-fed).
 
