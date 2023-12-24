@@ -7,15 +7,11 @@ use axum::{
 };
 use hatsu_apub::actors::ApubUser;
 use hatsu_db_schema::prelude::*;
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use std::ops::Deref;
 use utoipa::ToSchema;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 #[derive(Deserialize, ToSchema)]
 pub struct CreateRemoveAccount {

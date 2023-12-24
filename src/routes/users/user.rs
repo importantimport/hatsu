@@ -13,14 +13,10 @@ use axum::{
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::actors::{ApubUser, Service};
 use hatsu_db_schema::prelude::*;
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 // use serde::Deserialize;
 use serde_json::Value;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 // #[derive(TypedPath, Deserialize)]
 // #[typed_path("/u/:name")]

@@ -11,14 +11,10 @@ use hatsu_db_schema::{
     prelude::*,
     user::Model as DbUser,
 };
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::Deserialize;
 use url::Url;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 #[derive(Deserialize)]
 pub struct WebfingerQuery {

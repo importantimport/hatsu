@@ -1,11 +1,7 @@
 use activitypub_federation::config::FederationConfig;
+use hatsu_utils::{AppData, AppError};
 use tokio_cron_scheduler::{JobScheduler, Job};
 use tokio_graceful_shutdown::SubsystemHandle;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 mod update;
 use update::fast_update;

@@ -21,7 +21,7 @@ use utoipa_swagger_ui::SwaggerUi;
     ),
     components(
         schemas(
-            crate::AppError,
+            hatsu_utils::AppError,
             super::api::v0::admin::create_account::CreateRemoveAccount,
             super::api::v0::admin::create_account::CreateRemoveAccountResult,
             hatsu_api_mastodon::entities::Account,

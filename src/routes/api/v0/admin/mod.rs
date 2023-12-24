@@ -6,8 +6,7 @@ use axum::{
     routing::post,
     Router,
 };
-
-use crate::AppData;
+use hatsu_utils::AppData;
 
 pub mod create_account;
 use create_account::create_account;

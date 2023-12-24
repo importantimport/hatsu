@@ -15,6 +15,7 @@ use axum::{
         Redirect
     },
 };
+use hatsu_utils::AppData;
 use serde::Serialize;
 
 #[derive(Serialize)]
@@ -29,8 +30,6 @@ struct Link {
     kind: String,
     template: String,
 }
-
-use crate::AppData;
 
 pub async fn host_meta(
     // TODO: use axum_extra::TypedHeader

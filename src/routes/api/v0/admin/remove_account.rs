@@ -6,12 +6,8 @@ use axum::{
     Json,
 };
 use hatsu_db_schema::prelude::*;
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 use super::create_account::{CreateRemoveAccount, CreateRemoveAccountResult};
 

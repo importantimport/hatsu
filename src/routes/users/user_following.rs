@@ -13,14 +13,10 @@ use axum::{
 //     routing::TypedPath,
 // };
 use hatsu_apub::collections::{Collection, CollectionPage};
+use hatsu_utils::{AppData, AppError};
 use serde::Deserialize;
 use serde_json::Value;
 use url::Url;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 // #[derive(TypedPath, Deserialize)]
 // #[typed_path("/u/:name/following")]

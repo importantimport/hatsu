@@ -21,15 +21,11 @@ use hatsu_db_schema::{
     prelude::*,
     activity,
 };
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::Deserialize;
 use serde_json::Value;
 use url::Url;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 // #[derive(TypedPath, Deserialize)]
 // #[typed_path("/u/:name/outbox")]

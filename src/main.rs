@@ -9,15 +9,13 @@ use hatsu_db_schema::{
     prelude::User,
     user::Model as DbUser,
 };
+use hatsu_utils::{AppData, AppEnv, AppError};
 use sea_orm::*;
 use std::{env, ops::Deref};
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
 use tracing_error::ErrorLayer;
 use tracing_subscriber::prelude::*;
-
-// TODO: remove this
-pub use hatsu_utils::{AppData, AppEnv, AppError};
 
 mod routes;
 

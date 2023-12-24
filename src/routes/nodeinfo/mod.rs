@@ -12,13 +12,9 @@ use hatsu_db_schema::{
     prelude::User,
     user,
 };
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 async fn nodeinfo_usage(
     data: Data<AppData>,

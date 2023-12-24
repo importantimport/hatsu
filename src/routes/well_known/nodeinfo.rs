@@ -4,9 +4,8 @@ use axum::{
     http::StatusCode,
     Json
 };
+use hatsu_utils::AppData;
 use serde::{Deserialize, Serialize};
-
-use crate::AppData;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct NodeInfoWellKnown {

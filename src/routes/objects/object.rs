@@ -12,13 +12,9 @@ use axum::{
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::prelude::Post;
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 // use serde::Deserialize;
-
-use crate::{
-    AppData,
-    AppError,
-};
 
 // #[derive(TypedPath, Deserialize)]
 // #[typed_path("/o/*object")]
