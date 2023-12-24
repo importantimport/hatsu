@@ -17,6 +17,47 @@ pub struct Model {
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
-pub enum Relation {}
+pub enum Relation {
+    #[sea_orm(
+        belongs_to = "super::user::Entity",
+        from = "Column::AttributedTo",
+        to = "super::user::Column::Id"
+    )]
+    User,
+    #[sea_orm(has_one = "super::user_feed_item::Entity")]
+    UserFeedItem,
+    #[sea_orm(
+        belongs_to = "Entity",
+        from = "Column::InReplyTo",
+        to = "Column::Id"
+    )]
+    /// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+    SelfReferencing,
+}
+
+/// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+pub struct SelfReferencingLink;
 
 impl ActiveModelBehavior for ActiveModel {}
+
+impl Related<super::user::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::User.def()
+    }
+}
+
+impl Related<super::user_feed_item::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::UserFeedItem.def()
+    }
+}
+
+/// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+impl Linked for SelfReferencingLink {
+    type FromEntity = Entity;
+    type ToEntity = Entity;
+
+    fn link(&self) -> Vec<sea_orm::LinkDef> {
+        vec![Relation::SelfReferencing.def()]
+    }
+}
