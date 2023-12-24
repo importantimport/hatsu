@@ -79,6 +79,7 @@ tokio = { version = "1.0", features = ["full"] }
 tracing = { version = "0.1" }
 tracing-error = "0.2"
 url = { version = "2.4", features = ["serde"] }
+urlencoding = "2"
 utoipa = { version = "4", features = ["axum_extras", "url", "uuid"] }
 uuid = { version = "1.4", features = ["v4", "v7", "fast-rng", "macro-diagnostics"] }
 
@@ -112,7 +113,7 @@ tracing = { workspace = true }
 tracing-error = { workspace = true }
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 url = { workspace = true }
-urlencoding = "2"
+urlencoding = { workspace = true}
 utoipa = { workspace = true }
 # TODO: dev-dependencies
 utoipa-swagger-ui = { version = "4", features = ["axum"] }

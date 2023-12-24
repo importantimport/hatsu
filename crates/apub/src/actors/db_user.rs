@@ -5,7 +5,7 @@ use activitypub_federation::{
 };
 use chrono::{DateTime, Local, NaiveDateTime};
 use hatsu_db_schema::{
-    prelude::*,
+    prelude::User,
     user::{self, Model as DbUser},
 };
 use hatsu_utils::{AppData, AppError};
@@ -51,10 +51,10 @@ impl Object for ApubUser {
             .map(Into::into))
     }
 
-    async fn delete(self, _data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        // let _delete_user = User::delete_by_id(&self.id.to_string())
-        //     .exec(&data.conn)
-        //     .await?;
+    async fn delete(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+        let _delete_user = User::delete_by_id(&self.id.to_string())
+            .exec(&data.conn)
+            .await?;
         Ok(())
     }
 
