@@ -31,7 +31,7 @@ impl Context {
             .await? {
                 Some(_post) => {
                     // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
-                    // let descendants = post
+                    // let handles = post
                     //     .find_linked(post::SelfReferencingLink)
                     //     .all(&data.conn)
                     //     .await?
@@ -39,9 +39,16 @@ impl Context {
                     //     .map(|post| async move{
                     //         let apub_post: ApubPost = post.clone().into();
                     //         // TODO: remove unwrap
-                    //         let note: Note = apub_post.into_json(data).await.unwrap();
-                    //         Status::from_json(note, data).await.unwrap();
+                    //         let note: Note = apub_post.into_json(data).await?;
+                            
+                    //         Ok::<Status, AppError>(Status::from_json(note, data).await?)
                     //     })
+                    //     .collect::<Vec<_>>();
+
+                    // let descendants = futures::future::join_all(handles)
+                    //     .await
+                    //     .into_iter()
+                    //     .map(|result| result.unwrap())
                     //     .collect::<Vec<Status>>();
 
                     Ok(Self {
