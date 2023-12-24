@@ -26,6 +26,8 @@ use utoipa_swagger_ui::SwaggerUi;
             super::api::v0::admin::create_account::CreateRemoveAccountResult,
             hatsu_api_mastodon::entities::Account,
             hatsu_api_mastodon::entities::Context,
+            hatsu_api_mastodon::entities::CustomEmoji,
+            hatsu_api_mastodon::entities::Status,
         )
     ),
     modifiers(&SecurityAddon),

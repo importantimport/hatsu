@@ -1,4 +1,14 @@
-use hatsu_utils::AppError;
+use activitypub_federation::{
+    config::Data,
+    // traits::Object,
+};
+// use hatsu_apub::objects::{ApubPost, Note};
+use hatsu_db_schema::{
+    prelude::*,
+    // post
+};
+use hatsu_utils::{AppData, AppError};
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
@@ -15,15 +25,32 @@ pub struct Context {
 
 impl Context {
     // TODO: String => ObjectId<DbPost>
-    pub fn find_by_id(_post_id: String) -> Result<Self, AppError> {
-        Ok(Self {
-            ancestors: vec![],
-            // TODO
-            descendants: vec![]
-        })
-        // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
-        // let post = find_by_id(post_id)
-        // let replies = post.find_linked(post::SelfReferencingLink)
-        // let statuses = replies.map(|reply| Status::from(reply))
+    pub async fn find_by_id(post_id: String, data: &Data<AppData>) -> Result<Self, AppError> {
+        match Post::find_by_id(&post_id)
+            .one(&data.conn)
+            .await? {
+                Some(_post) => {
+                    // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
+                    // let descendants = post
+                    //     .find_linked(post::SelfReferencingLink)
+                    //     .all(&data.conn)
+                    //     .await?
+                    //     .iter()
+                    //     .map(|post| async move{
+                    //         let apub_post: ApubPost = post.clone().into();
+                    //         // TODO: remove unwrap
+                    //         let note: Note = apub_post.into_json(data).await.unwrap();
+                    //         Status::from_json(note, data).await.unwrap();
+                    //     })
+                    //     .collect::<Vec<Status>>();
+
+                    Ok(Self {
+                        ancestors: vec![],
+                        // descendants,
+                        descendants: vec![],
+                    })
+                },
+                _ => Err(AppError::not_found("Record", &post_id))
+            }
     }
 }
