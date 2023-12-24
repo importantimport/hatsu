@@ -1,11 +1,11 @@
 use activitypub_federation::{
     config::Data,
-    // traits::Object,
+    traits::Object,
 };
-// use hatsu_apub::objects::{ApubPost, Note};
+use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::{
     prelude::*,
-    // post
+    post
 };
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
@@ -29,32 +29,31 @@ impl Context {
         match Post::find_by_id(&post_id)
             .one(&data.conn)
             .await? {
-                Some(_post) => {
+                Some(post) => {
                     // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
-                    // let handles = post
-                    //     .find_linked(post::SelfReferencingLink)
-                    //     .all(&data.conn)
-                    //     .await?
-                    //     .iter()
-                    //     .map(|post| async move{
-                    //         let apub_post: ApubPost = post.clone().into();
-                    //         // TODO: remove unwrap
-                    //         let note: Note = apub_post.into_json(data).await?;
+                    // let descendants = post
+                    let handles = post
+                        .find_linked(post::SelfReferencingLink)
+                        .all(&data.conn)
+                        .await?
+                        .into_iter()
+                        .map(|post| async move{
+                            let apub_post: ApubPost = post.clone().into();
+                            // TODO: remove unwrap
+                            let note: Note = apub_post.into_json(data).await.unwrap();
                             
-                    //         Ok::<Status, AppError>(Status::from_json(note, data).await?)
-                    //     })
-                    //     .collect::<Vec<_>>();
+                            let status = Status::from_json(note, data).await.unwrap();
 
-                    // let descendants = futures::future::join_all(handles)
-                    //     .await
-                    //     .into_iter()
-                    //     .map(|result| result.unwrap())
-                    //     .collect::<Vec<Status>>();
+                            status
+                        })
+                        .collect::<Vec<_>>();
+
+                    let descendants: Vec<Status> = futures::future::join_all(handles).await;
 
                     Ok(Self {
                         ancestors: vec![],
-                        // descendants,
-                        descendants: vec![],
+                        descendants,
+                        // descendants: vec![],
                     })
                 },
                 _ => Err(AppError::not_found("Record", &post_id))
