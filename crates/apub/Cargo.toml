@@ -16,9 +16,11 @@ name = "hatsu_apub"
 path = "src/lib.rs"
 
 [dependencies]
+hatsu_db_migration = { workspace = true }
 hatsu_db_schema = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
+anyhow = { workspace = true }
 async-trait = { workspace = true }
 chrono = { workspace = true }
 enum_delegate = { workspace = true }
