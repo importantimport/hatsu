@@ -5,7 +5,7 @@ use activitypub_federation::{
     protocol::helpers::deserialize_skip_error,
     traits::ActivityHandler,
 };
-use hatsu_db_schema::prelude::*;
+use hatsu_db_schema::prelude::ReceivedFollow;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};

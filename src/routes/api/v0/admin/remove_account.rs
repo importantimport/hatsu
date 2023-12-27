@@ -5,7 +5,7 @@ use axum::{
     response::IntoResponse,
     Json,
 };
-use hatsu_db_schema::prelude::*;
+use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 

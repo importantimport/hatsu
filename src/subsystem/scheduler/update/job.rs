@@ -1,7 +1,7 @@
 use activitypub_federation::config::Data;
 use hatsu_apub::actors::{ApubUser, ApubUserFeedItem, JsonUserFeed};
 use hatsu_db_schema::{
-    prelude::*,
+    prelude::User,
     user::{self, Model as DbUser},
 };
 use hatsu_utils::{AppData, AppError};

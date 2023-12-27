@@ -5,13 +5,12 @@ use hatsu_apub::{
     objects::Note,
 };
 use hatsu_db_schema::{
-    prelude::*,
+    prelude::UserFeedItem,
     post::Model as DbPost,
     user_feed_item::Model as DbUserFeedItem,
 };
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
-// use url::Url;
 
 pub async fn check_feed_item(data: &Data<AppData>, user: &ApubUser, item: DbUserFeedItem) -> Result<(), AppError> {
     match UserFeedItem::find_by_id(&item.id)

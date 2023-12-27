@@ -8,7 +8,7 @@ use axum::{
     Json
 };
 use hatsu_db_schema::{
-    prelude::*,
+    prelude::User,
     user::Model as DbUser,
 };
 use hatsu_utils::{AppData, AppError};

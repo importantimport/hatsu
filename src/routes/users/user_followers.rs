@@ -16,7 +16,7 @@ use hatsu_apub::{
     collections::{Collection, CollectionPage},
 };
 use hatsu_db_schema::{
-    prelude::*,
+    prelude::ReceivedFollow,
     received_follow,
 };
 use hatsu_utils::{AppData, AppError};

@@ -9,7 +9,7 @@ use axum::{
 };
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::activities::ApubActivity;
-use hatsu_db_schema::prelude::*;
+use hatsu_db_schema::prelude::Activity;
 use hatsu_utils::{
     AppData,
     AppError,

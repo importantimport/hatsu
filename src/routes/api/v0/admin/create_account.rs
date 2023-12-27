@@ -6,7 +6,7 @@ use axum::{
     Json,
 };
 use hatsu_apub::actors::ApubUser;
-use hatsu_db_schema::prelude::*;
+use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};

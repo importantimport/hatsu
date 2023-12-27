@@ -4,7 +4,7 @@ use activitypub_federation::{
 };
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::{
-    prelude::*,
+    prelude::Post,
     post
 };
 use hatsu_utils::{AppData, AppError};

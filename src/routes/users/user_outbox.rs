@@ -18,7 +18,7 @@ use hatsu_apub::{
     collections::{CollectionPage, Collection},
 };
 use hatsu_db_schema::{
-    prelude::*,
+    prelude::Activity,
     activity,
 };
 use hatsu_utils::{AppData, AppError};
