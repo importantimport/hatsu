@@ -10,6 +10,7 @@ pub struct Model {
     pub object: String,
     pub attributed_to: String,
     pub in_reply_to: Option<String>,
+    pub in_reply_to_root: Option<String>,
     pub published: Option<String>,
     pub updated: Option<String>,
     pub last_refreshed_at: String,
@@ -28,7 +29,7 @@ pub enum Relation {
     UserFeedItem,
     #[sea_orm(
         belongs_to = "Entity",
-        from = "Column::InReplyTo",
+        from = "Column::InReplyToRoot",
         to = "Column::Id"
     )]
     /// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/

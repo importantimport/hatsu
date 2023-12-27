@@ -17,6 +17,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Post::Object).json().not_null())
                     .col(ColumnDef::new(Post::AttributedTo).string().not_null())
                     .col(ColumnDef::new(Post::InReplyTo).string())
+                    .col(ColumnDef::new(Post::InReplyToRoot).string())
                     .col(ColumnDef::new(Post::Published).date_time())
                     .col(ColumnDef::new(Post::Updated).date_time())
                     .col(ColumnDef::new(Post::LastRefreshedAt).date_time().not_null())
@@ -50,6 +51,8 @@ enum Post {
     AttributedTo,
     // 回复帖文
     InReplyTo,
+    // 顶层回复帖文
+    InReplyToRoot,
     // 发布时间
     Published,
     // 更新时间

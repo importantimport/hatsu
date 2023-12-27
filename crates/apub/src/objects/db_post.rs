@@ -80,6 +80,8 @@ impl Object for ApubPost {
             published: json.published,
             updated: json.updated,
             in_reply_to: json.in_reply_to.and_then(|url| Some(url.to_string())),
+            // TODO
+            in_reply_to_root: None,
             last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
             local: false,
         }.into_active_model().insert(&data.conn).await?;

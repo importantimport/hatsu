@@ -62,6 +62,7 @@ async fn create_feed_item(data: &Data<AppData>, user: &ApubUser, item: DbUserFee
         id: note.id.to_string(),
         attributed_to: note.attributed_to.to_string(),
         in_reply_to: None,
+        in_reply_to_root: None,
         object: serde_json::to_string(&note)?,
         published: note.published.clone(),
         updated: note.updated.clone(),
