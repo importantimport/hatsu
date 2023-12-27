@@ -62,24 +62,7 @@ pub struct NoteSource {
 }
 
 impl Note {
-    pub fn new(note_id: String, actor: &ApubUser, source: String) -> Result<Self, AppError> {
-        Ok(Self {
-            kind: Default::default(),
-            id: Url::parse(&note_id)?.into(),
-            attributed_to: actor.id().into(),
-            to: vec![public()],
-            cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
-            content: markdown_to_html(&source),
-            source: NoteSource::new(source),
-            in_reply_to: None,
-            tag: None,
-            published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
-            updated: None,
-        })
-    }
-
-    // TODO: replace Note::new()
-    pub fn new_default(actor: &ApubUser, json: JsonUserFeedItem, data: &Data<AppData>) -> Result<Self, AppError> {
+    pub fn new(actor: &ApubUser, json: JsonUserFeedItem, data: &Data<AppData>) -> Result<Self, AppError> {
         // TODO: match json._hatsu.source (string)
         let mut sources: Vec<Option<String>> = vec![json.title, json.summary];
 
