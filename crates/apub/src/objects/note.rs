@@ -6,14 +6,16 @@ use activitypub_federation::{
     fetch::object_id::ObjectId,
     kinds::{public, object::NoteType},
     protocol::helpers::deserialize_one_or_many,
-    traits::Actor,
+    traits::{Actor, Object},
 };
 use chrono::{Local, SecondsFormat};
+use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{
     AppData,
     AppError,
     markdown::markdown_to_html,
 };
+use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 use urlencoding::encode;
@@ -146,6 +148,27 @@ impl Note {
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
         })
+    }
+
+    #[async_recursion::async_recursion]
+    pub async fn check_in_reply_to_root(self, data: &Data<AppData>) -> Result<Option<String>, AppError> {
+        match self.in_reply_to.and_then(|url| Some(url.to_string())) {
+            Some(in_reply_to) if in_reply_to.starts_with(&format!("https://{}", data.domain())) => Ok(Some(in_reply_to)),
+            Some(in_reply_to) => {
+                match Post::find_by_id(&in_reply_to)
+                    .one(&data.conn)
+                    .await? {
+                        Some(db_post) => {
+                            let apub_post: ApubPost = db_post.into();
+                            let note = apub_post.into_json(data).await?;
+
+                            Self::check_in_reply_to_root(note, data).await
+                        },
+                        _ => Ok(None),
+                    }
+            },
+            _ => Ok(None),
+        }
     }
 }
 

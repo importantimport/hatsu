@@ -70,9 +70,10 @@ impl Object for ApubPost {
     async fn from_json(json: Self::Kind, data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
         tracing::info!("Received post with content {} and id {}", &json.content, &json.id);
 
+        let note = json.clone();
+
         // let creator = json.attributed_to.dereference(data).await?;
         // 转换为数据库格式并保存到数据库
-        // TODO: 存放到 received_note
         let post = DbPost {
             id: json.id.to_string(),
             attributed_to: json.attributed_to.to_string(),
@@ -80,8 +81,7 @@ impl Object for ApubPost {
             published: json.published,
             updated: json.updated,
             in_reply_to: json.in_reply_to.and_then(|url| Some(url.to_string())),
-            // TODO
-            in_reply_to_root: None,
+            in_reply_to_root: Note::check_in_reply_to_root(note, data).await?,
             last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
             local: false,
         }.into_active_model().insert(&data.conn).await?;

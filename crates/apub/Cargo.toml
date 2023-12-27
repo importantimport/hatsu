@@ -21,6 +21,7 @@ hatsu_db_schema = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
 anyhow = { workspace = true }
+async-recursion = { workspace = true }
 async-trait = { workspace = true }
 chrono = { workspace = true }
 enum_delegate = { workspace = true }
