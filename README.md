@@ -21,7 +21,7 @@ cd hatsu
 cp .env.example .env
 # create database
 touch hatsu.sqlite3
-# install just
+# install just (https://github.com/casey/just)
 cargo install just
 # list just recipes
 just
