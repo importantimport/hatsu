@@ -96,10 +96,9 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 
 ### TODO
 
-- Use Service type for local actors
-  - https://www.w3.org/ns/activitystreams#Service
 - Upgrade dependencies
   - axum 0.7
+    - https://github.com/LemmyNet/activitypub-federation-rust/issues/87
     - utoipa-swagger-ui 5.0
   - axum-extra 0.9
     - use typed-routing (https://github.com/tokio-rs/axum/issues/2218, https://github.com/ibraheemdev/matchit/issues/13)
