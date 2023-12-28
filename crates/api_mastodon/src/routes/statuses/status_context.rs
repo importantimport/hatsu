@@ -2,7 +2,6 @@ use activitypub_federation::config::Data;
 use axum::{
     debug_handler,
     extract::Path,
-    response::IntoResponse,
     Json,
 };
 use hatsu_utils::{AppData, AppError};
@@ -26,9 +25,22 @@ use crate::entities::Context;
 )]
 #[debug_handler]
 pub async fn status_context(
-    Path(status_id): Path<String>,
+    Path(base64_url): Path<String>,
     data: Data<AppData>,
-) -> Result<impl IntoResponse, AppError> {
-    let context = Context::find_by_id(status_id, &data).await?;
-    Ok(Json(context))
+) -> Result<Json<Context>, AppError> {
+    let base64 = base64_simd::URL_SAFE;
+
+    match base64.decode_to_vec(&base64_url) {
+        Ok(utf8_url) => {
+            match String::from_utf8(utf8_url) {
+                Ok(url) if url.starts_with("https://") => {
+                    let id = format!("https://{}/o/{}", data.domain(), url);
+                    let context = Context::find_by_id(id, &data).await?;
+                    Ok(Json(context))
+                },
+                _ => Err(AppError::not_found("Record", &format!("{}", &base64_url)))
+            }
+        },
+        _ => Err(AppError::not_found("Record", &base64_url))
+    }
 }
