@@ -1,6 +1,6 @@
 # Backfeed based on Mastodon Comments
 
-> This section is not yet implemented in Hatsu.
+> This section is still a work in progress. ([#5](https://github.com/importantimport/hatsu/issues/5))
 
 ## Examples
 
@@ -61,3 +61,5 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 ```
 
 Upon receiving a request, Hatsu's corresponding API will attempt to decode the base64url ID and return the data.
+
+If you're interested in the code, you can also take a look at [routes/statuses/status_context.rs](https://github.com/importantimport/hatsu/blob/main/crates/api_mastodon/src/routes/statuses/status_context.rs) and [entities/context.rs](https://github.com/importantimport/hatsu/blob/main/crates/api_mastodon/src/entities/context.rs).
