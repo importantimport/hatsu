@@ -4,6 +4,12 @@ use std::ops::Deref;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubActivity(pub(crate) DbActivity);
 
+impl AsRef<DbActivity> for ApubActivity {
+    fn as_ref(&self) -> &DbActivity {
+        &self.0
+    }
+}
+
 impl Deref for ApubActivity {
     type Target = DbActivity;
     fn deref(&self) -> &Self::Target {

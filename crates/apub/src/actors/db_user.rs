@@ -18,6 +18,12 @@ use crate::actors::{Service, ServiceImage};
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubUser(pub(crate) DbUser);
 
+impl AsRef<DbUser> for ApubUser {
+    fn as_ref(&self) -> &DbUser {
+        &self.0
+    }
+}
+
 impl Deref for ApubUser {
     type Target = DbUser;
     fn deref(&self) -> &Self::Target {

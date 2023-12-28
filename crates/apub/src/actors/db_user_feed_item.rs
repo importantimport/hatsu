@@ -13,6 +13,12 @@ use super::ApubUser;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubUserFeedItem(pub(crate) DbUserFeedItem);
 
+impl AsRef<DbUserFeedItem> for ApubUserFeedItem {
+    fn as_ref(&self) -> &DbUserFeedItem {
+        &self.0
+    }
+}
+
 impl Deref for ApubUserFeedItem {
     type Target = DbUserFeedItem;
     fn deref(&self) -> &Self::Target {

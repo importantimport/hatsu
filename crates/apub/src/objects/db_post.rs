@@ -21,6 +21,12 @@ use crate::objects::Note;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubPost(pub(crate) DbPost);
 
+impl AsRef<DbPost> for ApubPost {
+    fn as_ref(&self) -> &DbPost {
+        &self.0
+    }
+}
+
 impl Deref for ApubPost {
     type Target = DbPost;
     fn deref(&self) -> &Self::Target {
