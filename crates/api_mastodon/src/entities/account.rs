@@ -33,7 +33,7 @@ impl Account {
             Some(icon) => icon.url.to_string(),
             // fallback
             // TODO: update this
-            _ => format!("https://ui-avatars.com/api/?name={}&background=random&format=svg", user.preferred_username),
+            _ => format!("https://ui-avatars.com/api/?name={}&background=random&format=svg", urlencoding::encode(&user.preferred_username)),
         };
 
         Ok(Self {

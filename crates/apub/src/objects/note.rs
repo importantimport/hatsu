@@ -18,7 +18,6 @@ use hatsu_utils::{
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
-use urlencoding::encode;
 
 use crate::{
     actors::{ApubUser, JsonUserFeedItem},
@@ -101,7 +100,7 @@ impl Note {
                     .unwrap()
                     .iter()
                     // TODO: test urlencoding::encode()
-                    .map(|tag| format!("<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>", data.domain(), encode(tag), tag))
+                    .map(|tag| format!("<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>", data.domain(), urlencoding::encode(tag), tag))
                     .collect::<Vec<String>>()
                     .join(" ")
             ));
@@ -124,7 +123,7 @@ impl Note {
                 .iter()
                 .map(|tag| Hashtag {
                     kind: Default::default(),
-                    href: Url::parse(&format!("https://{}/t/{}", data.domain(), encode(tag))).unwrap(),
+                    href: Url::parse(&format!("https://{}/t/{}", data.domain(), urlencoding::encode(tag))).unwrap(),
                     name: "#".to_owned() + tag,
                 })
                 .collect()),

@@ -27,4 +27,5 @@ sea-orm = { workspace = true }
 serde = { workspace = true }
 tokio = { workspace = true }
 url = { workspace = true }
+urlencoding = { workspace = true }
 utoipa = { workspace = true }
