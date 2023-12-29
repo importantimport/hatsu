@@ -87,7 +87,7 @@ impl Object for ApubPost {
             published: json.published,
             updated: json.updated,
             in_reply_to: json.in_reply_to.and_then(|url| Some(url.to_string())),
-            in_reply_to_root: Note::check_in_reply_to_root(note, data).await?,
+            in_reply_to_root: note.check_in_reply_to_root(data).await?,
             last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
             local: false,
         }.into_active_model().insert(&data.conn).await?;
