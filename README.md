@@ -8,7 +8,7 @@ Self-hosted & Fully-automated ActivityPub Bridge for Static Sites. [WIP]
 
 ## Development
 
-Hatsu is in the early stages of development, PR welcome.
+Hatsu has the basic functionality of a bridge, PR welcome.
 
 ###### Setup
 
