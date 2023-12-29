@@ -78,7 +78,7 @@ It will crawl the feed ([JSON Feed 1.1](https://jsonfeed.org/version/1.1) / [Ato
 | `HATSU_DOMAIN`          |                          | `hatsu.local`            | The domain name you assigned to this Hatsu instance. For example, `hatsu.example.com`                                                                     |
 | `HATSU_LISTEN_HOST`     | `localhost`              | `0.0.0.0`                | The hostname on which Hatsu is listening.                                                                                                                 |
 | `HATSU_LISTEN_PORT`     | `3939`                   | `3939`                   | The port on which Hatsu is listening.                                                                                                                     |
-| `HATSU_PRIMARY_ACCOUNT` |                          | `example.com`            | The primary account for this Hatsu instance, which cannot be removed and is used as a `signed_fetch_actor`.                                               |
+| `HATSU_PRIMARY_ACCOUNT` |                          | `www.jsonfeed.org`       | The primary account for this Hatsu instance, which cannot be removed and is used as a `signed_fetch_actor`.                                               |
 | `HATSU_ACCESS_TOKEN`    |                          |                          | For accessing Admin API. (optional)                                                                                                                       |
 
 ### Fediverse compatibility
