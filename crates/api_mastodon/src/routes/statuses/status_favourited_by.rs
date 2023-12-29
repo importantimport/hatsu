@@ -1,8 +1,9 @@
+use activitypub_federation::config::Data;
 use axum::{
     debug_handler,
-    response::IntoResponse,
     Json,
 };
+use hatsu_utils::{AppData, AppError};
 
 use crate::entities::Account;
 
@@ -24,6 +25,8 @@ use crate::entities::Account;
     )
 )]
 #[debug_handler]
-pub async fn status_favourited_by() -> impl IntoResponse {
-    Json(vec![Account {}])
+pub async fn status_favourited_by(
+    data: Data<AppData>,
+) -> Result<Json<Vec<Account>>, AppError> {
+    Ok(Json(vec![Account::primary_account(&data).await?]))
 }

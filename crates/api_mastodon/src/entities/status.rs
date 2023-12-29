@@ -1,13 +1,10 @@
-use activitypub_federation::config::Data;
-use hatsu_apub::{
-    // actors::ApubUser, 
-    // objects::{ApubPost, Note}
-    objects::Note,
+use activitypub_federation::{
+    config::Data,
+    traits::Object,
 };
-// use hatsu_db_schema::post::Model as DbPost;
+use hatsu_apub::objects::Note;
 use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
-// use std::ops::Deref;
 use url::Url;
 use utoipa::ToSchema;
 
@@ -36,9 +33,10 @@ pub struct Status {
 impl Status {
     pub async fn from_json(
         note: Note,
-        _data: &Data<AppData>
+        data: &Data<AppData>
     ) -> Result<Self, AppError> {
-        // let user = note.attributed_to.dereference_local(data).await?;
+        let apub_user = note.attributed_to.dereference_local(data).await?;
+        let service = apub_user.into_json(data).await?;
 
         Ok(Self {
             id: note.id.clone().into(),
@@ -47,8 +45,7 @@ impl Status {
             uri: note.id.clone().into(),
             // TODO: replace
             url: note.id.clone().into(),
-            // TODO: Account::from_json()
-            account: Account {  },
+            account: Account::from_json(service)?,
             // TODO: remove unwrap
             created_at: note.published.unwrap(),
             content: note.content,
