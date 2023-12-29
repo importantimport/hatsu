@@ -111,7 +111,6 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
   - https://github.com/TechEmpower/FrameworkBenchmarks/issues/8501#issuecomment-1780275745
   - sonic-rs (required nightly) / simd-json
   - uuid-simd
-  - base64-simd
 - GitHub Actions
   - [setup-mold](https://github.com/rui314/setup-mold)
   - [sccache-action](https://github.com/Mozilla-Actions/sccache-action)
