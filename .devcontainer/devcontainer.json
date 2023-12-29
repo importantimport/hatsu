@@ -1,0 +1,15 @@
+{
+    "name": "Hatsu",
+    "image": "mcr.microsoft.com/devcontainers/rust:bookworm",
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "rust-lang.rust-analyzer"
+        ],
+        "settings": {
+          "editor.formatOnSave": true,
+        }
+      }
+    }
+  }
