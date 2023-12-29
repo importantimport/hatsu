@@ -33,14 +33,14 @@ impl Account {
             Some(icon) => icon.url.to_string(),
             // fallback
             // TODO: update this
-            _ => format!("https://ui-avatars.com/api/?name={}&background=random&format=svg", urlencoding::encode(&user.preferred_username)),
+            _ => format!("https://ui-avatars.com/api/?name={}&background=random&format=svg", urlencoding::encode(&user.name)),
         };
 
         Ok(Self {
             id: user.id.clone().into(),
-            username: user.name,
+            username: user.preferred_username,
             url: user.id.clone().into(),
-            display_name: user.preferred_username,
+            display_name: user.name,
             avatar: avatar.clone(),
             avatar_static: avatar,
             emojis: vec![],
