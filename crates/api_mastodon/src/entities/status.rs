@@ -8,6 +8,7 @@ use hatsu_apub::{
 use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
 // use std::ops::Deref;
+use url::Url;
 use utoipa::ToSchema;
 
 use crate::entities::{Account, CustomEmoji};
@@ -15,10 +16,10 @@ use crate::entities::{Account, CustomEmoji};
 /// https://docs.joinmastodon.org/entities/Status/
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct Status {
-    pub id: String,
-    pub in_reply_to_id: Option<String>,
-    pub uri: String,
-    pub url: String,
+    pub id: Url,
+    pub in_reply_to_id: Option<Url>,
+    pub uri: Url,
+    pub url: Url,
     pub account: Account,
     pub created_at: String,
     pub content: String,
@@ -40,12 +41,12 @@ impl Status {
         // let user = note.attributed_to.dereference_local(data).await?;
 
         Ok(Self {
-            id: note.id.to_string(),
-            in_reply_to_id: note.in_reply_to.and_then(|url| Some(url.to_string())),
+            id: note.id.clone().into(),
+            in_reply_to_id: note.in_reply_to.and_then(|in_reply_to| Some(in_reply_to.into())),
             // TODO: replace
-            uri: note.id.to_string(),
+            uri: note.id.clone().into(),
             // TODO: replace
-            url: note.id.to_string(),
+            url: note.id.clone().into(),
             // TODO: Account::from_json()
             account: Account {  },
             // TODO: remove unwrap
