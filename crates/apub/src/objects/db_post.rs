@@ -36,7 +36,7 @@ impl Deref for ApubPost {
 
 impl From<DbPost> for ApubPost {
     fn from (p: DbPost) -> Self {
-        ApubPost(p)
+        Self(p)
     }
 }
 

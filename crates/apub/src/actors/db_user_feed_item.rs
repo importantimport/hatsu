@@ -28,7 +28,7 @@ impl Deref for ApubUserFeedItem {
 
 impl From<DbUserFeedItem> for ApubUserFeedItem {
     fn from (u: DbUserFeedItem) -> Self {
-        ApubUserFeedItem(u)
+        Self(u)
     }
 }
 
@@ -76,7 +76,7 @@ impl ApubUserFeedItem {
 /// JSON Feed 1.1
 /// 
 /// https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeed {
     #[serde(rename = "_hatsu")]
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -97,7 +97,7 @@ pub struct JsonUserFeed {
 /// Hatsu JSON Feed Extension
 /// 
 /// https://github.com/importantimport/hatsu/issues/1
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeedHatsu {
     pub about: Option<Url>,
     pub banner_image: Option<Url>,
@@ -106,7 +106,7 @@ pub struct JsonUserFeedHatsu {
 /// JSON Feed Item
 /// 
 /// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeedItem {
     pub id: String,
     #[serde(skip_serializing_if = "Option::is_none")]

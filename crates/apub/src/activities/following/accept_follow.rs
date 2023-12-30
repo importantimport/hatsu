@@ -51,7 +51,7 @@ impl AcceptFollow {
         // 关注者
         let person = follow.actor.clone().dereference(data).await?;
         // 接受关注
-        let activity = AcceptFollow {
+        let activity = Self {
             actor: Url::parse(&user.id)?.into(),
             to: Some([Url::parse(&person.id)?.into()]),
             object: follow,

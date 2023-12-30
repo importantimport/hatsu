@@ -19,6 +19,6 @@ impl Deref for ApubReceivedFollow {
 
 impl From<DbReceivedFollow> for ApubReceivedFollow {
     fn from (u: DbReceivedFollow) -> Self {
-        ApubReceivedFollow(u)
+        Self(u)
     }
 }

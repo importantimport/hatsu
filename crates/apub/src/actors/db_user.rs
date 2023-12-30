@@ -33,7 +33,7 @@ impl Deref for ApubUser {
 
 impl From<DbUser> for ApubUser {
     fn from (u: DbUser) -> Self {
-        ApubUser(u)
+        Self(u)
     }
 }
 

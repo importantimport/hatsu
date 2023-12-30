@@ -14,8 +14,8 @@ pub enum CreateOrUpdateType {
 impl Display for CreateOrUpdateType {
     fn fmt(&self, f: &mut Formatter) -> Result {
         match self {
-            CreateOrUpdateType::Create => f.write_str("Create"),
-            CreateOrUpdateType::Update => f.write_str("Update"),
+            Self::Create => f.write_str("Create"),
+            Self::Update => f.write_str("Update"),
         }
     }
 }

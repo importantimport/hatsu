@@ -41,7 +41,7 @@ impl JsonUserFeed {
                 title: entry.title.clone().map(|text| text.content),
                 summary: entry.summary.clone().map(|text| text.content),
                 language: None,
-                tags: entry.categories.iter().map(|category| Some(category.label.clone().unwrap_or(category.term.clone()))).collect(),
+                tags: entry.categories.iter().map(|category| Some(category.label.clone().unwrap_or_else(|| category.term.clone()))).collect(),
                 date_published: entry.published.map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
                 date_modified: entry.updated.map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
             })
