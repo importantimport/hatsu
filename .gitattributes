@@ -1,8 +1,2 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-
-# Ignore .sh files
-*.sh linguist-vendored=false
-
-# Ignore Dockerfile
-Dockerfile linguist-vendored=false

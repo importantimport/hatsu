@@ -1,7 +1,7 @@
 {
     "name": "Hatsu",
     "image": "mcr.microsoft.com/devcontainers/rust:bookworm",
-    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "postCreateCommand": "sudo apt update && sudo apt install -y mold && cargo install just",
     "customizations": {
       "vscode": {
         "extensions": [
