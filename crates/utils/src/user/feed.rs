@@ -1,5 +1,6 @@
 use scraper::{Html, Selector, ElementRef};
 use serde::{Deserialize, Serialize};
+use url::Url;
 
 use crate::{
     AppError,
@@ -7,14 +8,14 @@ use crate::{
 };
 
 /// User Site Feed
-#[derive(Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Feed {
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub json: Option<String>,
+    pub json: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub atom: Option<String>,
+    pub atom: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub rss: Option<String>,
+    pub rss: Option<Url>,
 }
 
 /// 从网站获取 Feed 链接
@@ -24,12 +25,12 @@ pub async fn get_site_feed(domain: String) -> Result<Feed, AppError> {
     let document = Html::parse_document(&text);
     let head = document.select(&Selector::parse("head").unwrap()).next().unwrap();
 
-    fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Result<Option<String>, AppError> {
+    fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Result<Option<Url>, AppError> {
         let selector = Selector::parse(&format!("link[rel=\"alternate\"][type=\"{}\"]", kind)).unwrap();
         let link_href = head.select(&selector)
             .next()
             .and_then(|link| link.value().attr("href"))
-            .map(|href| absolutize_relative_url(href.to_string(), domain.to_string()).unwrap().to_string());
+            .map(|href| absolutize_relative_url(href.to_string(), domain.to_string()).unwrap());
 
         Ok(link_href)
     }

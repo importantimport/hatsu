@@ -1,3 +1,4 @@
+mod db_user_feed_item_impl;
 mod db_user_feed_item;
 mod db_user_impl;
 mod db_user;

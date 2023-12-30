@@ -5,12 +5,12 @@ use uuid::Uuid;
 
 use crate::AppError;
 
-pub fn absolutize_relative_url(url: String, domain: String) -> Result<String, AppError> {
-    if str::starts_with(&url, "https://") {
-        Ok(url)
+pub fn absolutize_relative_url(relative_url: String, domain: String) -> Result<Url, AppError> {
+    if str::starts_with(&relative_url, "https://") {
+        Ok(Url::parse(&relative_url)?)
     } else {
         let origin = Url::parse(&format!("https://{}", domain))?;
-        let absolute_url = origin.join(url.as_str())?.to_string();
+        let absolute_url = origin.join(relative_url.as_str())?;
         Ok(absolute_url)
     }
 }
