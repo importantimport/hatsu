@@ -9,7 +9,7 @@ use hatsu_db_schema::user::Model as DbUser;
 use hatsu_utils::{
     AppData,
     AppError,
-    user::feed::{Feed, get_site_feed},
+    user::feed::Feed,
 };
 use serde::Serialize;
 use url::Url;
@@ -20,14 +20,9 @@ impl ApubUser {
     pub async fn new(domain: &str, preferred_username: &str) -> Result<Self, AppError> {
         let keypair = generate_actor_keypair()?;
 
-        let user_feed = get_site_feed(preferred_username.to_string()).await?;
+        let user_feed = Feed::get_site_feed(preferred_username.to_string()).await?;
 
-        let feed = match user_feed.clone() {
-            Feed { json: Some(url), .. } => Ok(JsonUserFeed::parse_json_feed(url).await?),
-            Feed { atom: Some(url), .. } => Ok(JsonUserFeed::parse_xml_feed(url).await?),
-            Feed { rss: Some(url), .. } => Ok(JsonUserFeed::parse_xml_feed(url).await?),
-            Feed { json: None, atom: None, rss: None, .. } => Err(AppError::not_found("Feed Url", &preferred_username))
-        }?;
+        let feed = JsonUserFeed::get_feed(user_feed.clone(), preferred_username).await?;
 
         let user = DbUser {
             id: format!("https://{}/u/{}", domain, preferred_username),

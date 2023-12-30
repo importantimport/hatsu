@@ -1,10 +1,22 @@
 use chrono::SecondsFormat;
-use hatsu_utils::AppError;
+use hatsu_utils::{
+    AppError,
+    user::feed::Feed
+};
 use url::Url;
 
 use super::{JsonUserFeed, JsonUserFeedItem};
 
 impl JsonUserFeed {
+    pub async fn get_feed(feed: Feed, name: &str) -> Result<Self, AppError> {
+        match feed {
+            Feed { json: Some(url), .. } => Ok(Self::parse_json_feed(url).await?),
+            Feed { atom: Some(url), .. } => Ok(Self::parse_xml_feed(url).await?),
+            Feed { rss: Some(url), .. } => Ok(Self::parse_xml_feed(url).await?),
+            Feed { json: None, atom: None, rss: None, .. } => Err(AppError::not_found("Feed Url", name))
+        }
+    }
+
     pub async fn parse_json_feed(url: Url) -> Result<Self, AppError> {
         Ok(reqwest::get(url)
             .await?
