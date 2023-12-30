@@ -195,8 +195,31 @@
 &lt;/html&gt;
 </code></pre>
 <p>Hatsu detects all available feeds and prioritizes them in order of <code>JSON &gt; Atom &gt; RSS</code>.</p>
+<h2 id="json-feed"><a class="header" href="#json-feed">JSON Feed</a></h2>
+<p>Hatsu uses <code>serde</code> to parse JSON Feed directly, so you can expect it to have first-class support.</p>
+<p>Please make sure your feed is valid in <a href="https://validator.jsonfeed.org/">JSON Feed Validator</a> first.</p>
+<h3 id="json-feed-items"><a class="header" href="#json-feed-items">JSON Feed Items</a></h3>
+<p>Hatsu infers object id from <code>item.url</code> and <code>item.id</code>.</p>
+<p>It will use the <code>item.url</code> first, and if it doesn't exist, it will try to convert the <code>item.id</code> to an absolute url.</p>
+<pre><code class="language-text">https://example.com/foo/bar =&gt; https://example.com/foo/bar
+/foo/bar =&gt; https://example.com/foo/bar 
+foo/bar =&gt; https://example.com/foo/bar
+</code></pre>
+<p>Ideally, your <code>item.id</code> and <code>item.url</code> should be consistent absolute links:</p>
+<pre><code class="language-json">{
+	&quot;id&quot;: &quot;https://example.com/foo/bar&quot;,
+    &quot;url&quot;: &quot;https://example.com/foo/bar&quot;,
+	&quot;title&quot;: &quot;...&quot;,
+	&quot;content_html&quot;: &quot;...&quot;,
+	&quot;date_published&quot;: &quot;...&quot;
+}
+</code></pre>
+<h3 id="json-feed-extension"><a class="header" href="#json-feed-extension">JSON Feed Extension</a></h3>
 <p>If you can customize your site's JSON Feed,
 you might also want to check out the <a href="../others/json-feed-extension.html">Hatsu JSON Feed Extension</a>.</p>
+<h2 id="atom--rss"><a class="header" href="#atom--rss">Atom / RSS</a></h2>
+<p>Hatsu uses <code>feed-rs</code> to parse XML feeds and convert them manually.</p>
+<p>This section is currently lacking testing, so feel free to report bugs.</p>
 
                     </main>
 
