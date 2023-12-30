@@ -42,9 +42,9 @@ impl Context {
                             // TODO: remove unwrap
                             let note: Note = apub_post.into_json(data).await.unwrap();
                             
-                            let status = Status::from_json(note, data).await.unwrap();
+                            
 
-                            status
+                            Status::from_json(note, data).await.unwrap()
                         })
                         .collect::<Vec<_>>();
 

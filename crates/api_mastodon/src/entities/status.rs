@@ -40,7 +40,7 @@ impl Status {
 
         Ok(Self {
             id: note.id.clone().into(),
-            in_reply_to_id: note.in_reply_to.and_then(|in_reply_to| Some(in_reply_to.into())),
+            in_reply_to_id: note.in_reply_to.map(|in_reply_to| in_reply_to.into()),
             // TODO: replace
             uri: note.id.clone().into(),
             // TODO: replace

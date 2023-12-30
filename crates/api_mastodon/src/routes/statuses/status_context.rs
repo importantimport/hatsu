@@ -38,7 +38,7 @@ pub async fn status_context(
                     let context = Context::find_by_id(id, &data).await?;
                     Ok(Json(context))
                 },
-                _ => Err(AppError::not_found("Record", &format!("{}", &base64_url)))
+                _ => Err(AppError::not_found("Record", &base64_url))
             }
         },
         _ => Err(AppError::not_found("Record", &base64_url))
