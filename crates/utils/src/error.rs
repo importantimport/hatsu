@@ -32,7 +32,7 @@ impl AppError {
             error,
             error_details,
             error_id: Uuid::new_v4(),
-            status: status.unwrap_or_else(|| StatusCode::INTERNAL_SERVER_ERROR),
+            status: status.unwrap_or(StatusCode::INTERNAL_SERVER_ERROR),
             context: SpanTrace::capture(),
         }
     }
