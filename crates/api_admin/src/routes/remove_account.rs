@@ -9,7 +9,7 @@ use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 
-use super::create_account::{CreateRemoveAccount, CreateRemoveAccountResult};
+use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 
 /// Remove Account
 #[utoipa::path(

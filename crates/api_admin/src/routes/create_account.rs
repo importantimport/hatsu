@@ -9,20 +9,9 @@ use hatsu_apub::actors::ApubUser;
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
-use serde::{Deserialize, Serialize};
 use std::ops::Deref;
-use utoipa::ToSchema;
 
-#[derive(Deserialize, ToSchema)]
-pub struct CreateRemoveAccount {
-    pub name: String,
-}
-
-#[derive(Serialize, ToSchema)]
-pub struct CreateRemoveAccountResult {
-    pub name: String,
-    pub message: String,
-}
+use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 
 /// Create Account
 #[utoipa::path(

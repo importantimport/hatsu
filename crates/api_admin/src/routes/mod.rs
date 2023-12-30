@@ -9,9 +9,9 @@ use axum::{
 use hatsu_utils::AppData;
 
 pub mod create_account;
-use create_account::create_account;
-
 pub mod remove_account;
+
+use create_account::create_account;
 use remove_account::remove_account;
 
 pub fn handler() -> Router {

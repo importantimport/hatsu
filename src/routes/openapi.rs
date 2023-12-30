@@ -13,8 +13,8 @@ use utoipa_swagger_ui::SwaggerUi;
 #[derive(OpenApi)]
 #[openapi(
     paths(
-        super::api::v0::admin::create_account::create_account,
-        super::api::v0::admin::remove_account::remove_account,
+        hatsu_api_admin::routes::create_account::create_account,
+        hatsu_api_admin::routes::remove_account::remove_account,
         hatsu_api_mastodon::routes::statuses::status_context::status_context,
         hatsu_api_mastodon::routes::statuses::status_favourited_by::status_favourited_by,
         hatsu_api_mastodon::routes::statuses::status_reblogged_by::status_reblogged_by,
@@ -22,8 +22,8 @@ use utoipa_swagger_ui::SwaggerUi;
     components(
         schemas(
             hatsu_utils::AppError,
-            super::api::v0::admin::create_account::CreateRemoveAccount,
-            super::api::v0::admin::create_account::CreateRemoveAccountResult,
+            hatsu_api_admin::entities::CreateRemoveAccount,
+            hatsu_api_admin::entities::CreateRemoveAccountResult,
             hatsu_api_mastodon::entities::Account,
             hatsu_api_mastodon::entities::Context,
             hatsu_api_mastodon::entities::CustomEmoji,
