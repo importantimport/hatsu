@@ -134,7 +134,7 @@ impl Note {
 
     #[async_recursion::async_recursion]
     pub async fn check_in_reply_to_root(self, data: &Data<AppData>) -> Result<Option<String>, AppError> {
-        match self.in_reply_to.and_then(|url| Some(url.to_string())) {
+        match self.in_reply_to.map(|url| url.to_string()) {
             Some(in_reply_to) if in_reply_to.starts_with(&format!("https://{}", data.domain())) => Ok(Some(in_reply_to)),
             Some(in_reply_to) => {
                 match Post::find_by_id(&in_reply_to)

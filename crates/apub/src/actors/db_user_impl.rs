@@ -38,9 +38,9 @@ impl ApubUser {
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
-            feed_json: user_feed.json.and_then(|url| Some(url.to_string())),
-            feed_atom: user_feed.atom.and_then(|url| Some(url.to_string())),
-            feed_rss: user_feed.rss.and_then(|url| Some(url.to_string())),
+            feed_json: user_feed.json.map(|url| url.to_string()),
+            feed_atom: user_feed.atom.map(|url| url.to_string()),
+            feed_rss: user_feed.rss.map(|url| url.to_string()),
             last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
         };
 
