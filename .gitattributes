@@ -3,3 +3,6 @@
 
 # Ignore .sh files
 *.sh linguist-vendored=false
+
+# Ignore docker-compose.yaml files
+docker-compose.yaml linguist-vendored=false
