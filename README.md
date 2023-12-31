@@ -127,6 +127,7 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 
 - https://www.sea-ql.org/SeaORM/docs/basic-crud/basic-schema/
 - https://github.com/SeaQL/sea-orm/tree/master/examples/axum_example/
+- https://github.com/SeaQL/sea-orm/blob/master/tests/basic.rs
 
 #### OpenAPI
 
