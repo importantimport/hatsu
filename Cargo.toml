@@ -46,6 +46,7 @@ members = [
     "crates/apub",
     "crates/db_migration",
     "crates/db_schema",
+    "crates/scheduler",
     "crates/utils",
 ]
 
@@ -55,6 +56,7 @@ hatsu_api_mastodon = { path = "./crates/api_mastodon" }
 hatsu_apub = { path = "./crates/apub" }
 hatsu_db_migration = { path = "./crates/db_migration" }
 hatsu_db_schema = { path = "./crates/db_schema" }
+hatsu_scheduler = { path = "./crates/scheduler" }
 hatsu_utils = { path = "./crates/utils" }
 activitypub_federation = { version = "0.4", default-features = false, features = ["axum"] }
 anyhow = "1.0"
@@ -82,6 +84,8 @@ sea-orm = { version = "0.12", features = [
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tokio = { version = "1.0", features = ["full"] }
+tokio-cron-scheduler = "*"
+tokio-graceful-shutdown = "0.13"
 tracing = { version = "0.1" }
 tracing-error = "0.2"
 url = { version = "2.4", features = ["serde"] }
@@ -97,32 +101,24 @@ hatsu_api_admin = { workspace = true }
 hatsu_api_mastodon = { workspace = true }
 hatsu_apub = { workspace = true }
 hatsu_db_migration = { workspace = true }
-hatsu_db_schema = { workspace = true}
+hatsu_db_schema = { workspace = true }
+hatsu_scheduler = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
-anyhow = { workspace = true }
 async-trait = { workspace = true }
 axum = { workspace = true }
 axum-extra = { workspace = true }
-chrono = { workspace = true }
 dotenvy = "0.15"
-enum_delegate = { workspace = true }
-markdown = { workspace = true }
-reqwest = { workspace = true }
-scraper = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 snmalloc-rs = "0.3"
 tokio = { workspace = true }
-tokio-cron-scheduler = "*"
-tokio-graceful-shutdown = "0.13"
+tokio-graceful-shutdown = { workspace = true }
 tracing = { workspace = true }
 tracing-error = { workspace = true }
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 url = { workspace = true }
-urlencoding = { workspace = true}
 utoipa = { workspace = true }
 # TODO: dev-dependencies
 utoipa-swagger-ui = { version = "4", features = ["axum"] }
-uuid = { workspace = true }

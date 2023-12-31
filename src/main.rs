@@ -101,8 +101,7 @@ async fn main() -> Result<(), AppError> {
         .await?;
 
     // 创建服务
-    // let migrator = subsystem::Migrator { data: federation_config.to_request_data() };
-    let scheduler = subsystem::Scheduler { config: federation_config.clone() };
+    let scheduler = hatsu_scheduler::Scheduler { config: federation_config.clone() };
     let server = subsystem::Server {
         federation_config,
         env: env.clone(),

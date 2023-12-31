@@ -9,7 +9,7 @@ use sea_orm::*;
 use std::ops::Deref;
 use url::Url;
 
-use crate::subsystem::scheduler::update::get_user_feed;
+use crate::update::get_user_feed;
 
 use super::check_feed_item;
 
