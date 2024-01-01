@@ -42,7 +42,7 @@ async fn main() -> Result<(), AppError> {
     // 环境变量
     // Environments
     let env = AppEnv {
-        database_url: env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite://hatsu.sqlite3".to_string()),
+        database_url: env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite::memory:".to_string()),
         hatsu_access_token: env::var_os("HATSU_ACCESS_TOKEN").map(|env| env.into_string().unwrap()),
         hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
         hatsu_listen_host: env::var("HATSU_LISTEN_HOST").unwrap_or_else(|_| "localhost".to_string()),
