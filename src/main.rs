@@ -62,7 +62,7 @@ async fn main() -> Result<(), AppError> {
     tracing::info!("checking primary account");
     // 尝试读取数据库中的主要账户，如果不存在则创建
     // Try to read primary account in the database, if it doesn't exist then create
-    let test_account: DbUser = match User::find_by_id(format!("https://{}/u/{}", env.hatsu_domain, env.hatsu_primary_account))
+    let test_account: DbUser = match User::find_by_id(hatsu_utils::url::generate_user_url(&env.hatsu_domain, &env.hatsu_primary_account)?.to_string())
         .one(&conn)
         .await? {
             Some(test_account) => test_account,

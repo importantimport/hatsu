@@ -48,7 +48,7 @@ pub async fn handler(
         None => {
             Ok(FederationJson(WithContext::new_default(
                 serde_json::to_value(Collection::new(
-                    Url::parse(&format!("https://{}/u/{}/following", data.domain(), name))?,
+                    hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/following", name))?,
                     0,
                     Some(0),
                 )?)?
@@ -57,7 +57,7 @@ pub async fn handler(
         Some(page) => {
             Ok(FederationJson(WithContext::new_default(
                 serde_json::to_value(CollectionPage::<Url>::new(
-                    Url::parse(&format!("https://{}/u/{}/following", data.domain(), name))?,
+                    hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/following", name))?,
                     0,
                     vec![],
                     0,

@@ -106,7 +106,7 @@ impl Note {
             ));
         }
 
-        let id = Url::parse(&format!("https://{}/o/{}", data.domain(), json.id))?.into();
+        let id = hatsu_utils::url::generate_object_url(data.domain(), json.id)?.into();
 
         Ok(Self {
             kind: Default::default(),

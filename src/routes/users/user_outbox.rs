@@ -25,7 +25,6 @@ use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::Deserialize;
 use serde_json::Value;
-use url::Url;
 
 // #[derive(TypedPath, Deserialize)]
 // #[typed_path("/u/:name/outbox")]
@@ -53,7 +52,7 @@ pub async fn handler(
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
     let Query(pagination) = pagination.unwrap_or_default();
 
-    let user_id: ObjectId<ApubUser> = Url::parse(&format!("https://{}/u/{}", data.domain(), &name))?.into();
+    let user_id: ObjectId<ApubUser> = hatsu_utils::url::generate_user_url(data.domain(), &name)?.into();
     let user = user_id.dereference_local(&data).await?;
 
     let activity_pages = user.find_related(Activity)
@@ -70,7 +69,7 @@ pub async fn handler(
         None => {
             Ok(FederationJson(WithContext::new_default(
                 serde_json::to_value(Collection::new(
-                    Url::parse(&format!("https://{}/u/{}/outbox", data.domain(), name))?,
+                    hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/outbox", name))?,
                     total.number_of_items,
                     Some(total.number_of_pages),
                 )?)?
@@ -85,7 +84,7 @@ pub async fn handler(
             } else {
                 Ok(FederationJson(WithContext::new_default(
                     serde_json::to_value(CollectionPage::<Value>::new(
-                        Url::parse(&format!("https://{}/u/{}/outbox", data.domain(), name))?,
+                        hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/outbox", name))?,
                         total.number_of_items,
                         activity_pages
                             .fetch_page(page - 1)

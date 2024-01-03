@@ -26,6 +26,34 @@ pub fn generate_activity_url(domain: &str, id: Option<String>) -> Result<Url, Ap
     ))?)
 }
 
+/// 创建一个 Object URL
+/// 
+/// Example: https://hatsu.local/o/https://example.com/foo/bar
+pub fn generate_object_url(domain: &str, id: String) -> Result<Url, AppError> {
+    match id {
+        id if id.starts_with("https://") => Ok(Url::parse(&format!(
+            "https://{}/o/{}",
+            domain,
+            id,
+        ))?),
+        _ => Err(AppError::new(format!("Invalid Object ID {}", id), None, None))
+    }
+}
+
+/// 创建一个 User URL
+/// 
+/// Example: https://hatsu.local/u/example.com
+pub fn generate_user_url(domain: &str, id: &str) -> Result<Url, AppError> {
+    match id {
+        id if !id.starts_with("https://") => Ok(Url::parse(&format!(
+            "https://{}/u/{}",
+            domain,
+            id,
+        ))?),
+        _ => Err(AppError::new(format!("Invalid User ID {}", id), None, None))
+    }
+}
+
 // pub fn remove_https(url: String) -> String {
 //     if str::starts_with(&url, "https://") {
 //         let url_without_https = url.trim_start_matches("https://").to_string();

@@ -36,16 +36,16 @@ pub async fn handler(
 ) -> Result<Json<WithContext<Note>>, AppError> {
     tracing::info!("Reading object {}", object);
 
-    let object_id = format!("https://{}/o/{}", data.domain(), object);
+    let object_url = hatsu_utils::url::generate_object_url(data.domain(), object)?;
 
-    match Post::find_by_id(&object_id)
+    match Post::find_by_id(&object_url.to_string())
         .one(&data.conn)
         .await? {
             Some(db_post) => {
                 let apub_post: ApubPost = db_post.into();
                 Ok(Json(WithContext::new_default(apub_post.into_json(&data).await?)))
             },
-            None => Err(AppError::not_found("Object", &object_id))
+            None => Err(AppError::not_found("Object", &object_url.to_string()))
         }
 }
 

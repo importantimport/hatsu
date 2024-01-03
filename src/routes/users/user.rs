@@ -36,14 +36,15 @@ pub async fn handler(
     Path(name): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Service>>, AppError> {
-    let id = format!("https://{}/u/{}", data.domain(), &name);
+    // let id = format!("https://{}/u/{}", data.domain(), &name);
+    let url = hatsu_utils::url::generate_user_url(data.domain(), &name)?;
     // "@context": [
     //   "https://www.w3.org/ns/activitystreams",
     //   "https://w3id.org/security/v1"
     // ]
     let context = vec![Value::String(context().to_string()), Value::String(security().to_string())];
 
-    match User::find_by_id(&id)
+    match User::find_by_id(&url.to_string())
         .one(&data.conn)
         .await? {
             Some(db_user) => {

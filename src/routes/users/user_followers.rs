@@ -51,7 +51,7 @@ pub async fn handler(
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
     let Query(pagination) = pagination.unwrap_or_default();
 
-    let user_id: ObjectId<ApubUser> = Url::parse(&format!("https://{}/u/{}", data.domain(), &name))?.into();
+    let user_id: ObjectId<ApubUser> = hatsu_utils::url::generate_user_url(data.domain(), &name)?.into();
     let user = user_id.dereference_local(&data).await?;
 
     let follower_pages = user.find_related(ReceivedFollow)
@@ -66,7 +66,7 @@ pub async fn handler(
         None => {
             Ok(FederationJson(WithContext::new_default(
                 serde_json::to_value(Collection::new(
-                    Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
+                    hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/followers", name))?,
                     total.number_of_items,
                     // TODO: last (maybe)
                     None,
@@ -82,7 +82,7 @@ pub async fn handler(
             } else {
                 Ok(FederationJson(WithContext::new_default(
                     serde_json::to_value(CollectionPage::<Url>::new(
-                        Url::parse(&format!("https://{}/u/{}/followers", data.domain(), name))?,
+                        hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/followers", name))?,
                         total.number_of_items,
                         follower_pages
                             .fetch_page(page - 1)

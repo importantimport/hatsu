@@ -25,17 +25,20 @@ impl ApubUser {
 
         let feed = JsonUserFeed::get_feed(user_feed.clone(), preferred_username).await?;
 
+        let user_url = hatsu_utils::url::generate_user_url(domain, preferred_username)?;
+
         let user = DbUser {
-            id: format!("https://{}/u/{}", domain, preferred_username),
+            id: user_url.to_string(),
             name: feed.title,
             preferred_username: preferred_username.to_string(),
             summary: feed.description,
             icon: feed.icon.map(|url| url.to_string()),
             image: feed.hatsu.and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
-            inbox: format!("https://{}/u/{}/inbox", domain, preferred_username),
-            outbox: format!("https://{}/u/{}/outbox", domain, preferred_username),
-            followers: format!("https://{}/u/{}/followers", domain, preferred_username),
-            following: format!("https://{}/u/{}/following", domain, preferred_username),
+            // TODO: test this
+            inbox: user_url.join(&format!("{}/inbox", preferred_username))?.to_string(),
+            outbox: user_url.join(&format!("{}/outbox", preferred_username))?.to_string(),
+            followers: user_url.join(&format!("{}/followers", preferred_username))?.to_string(),
+            following: user_url.join(&format!("{}/following", preferred_username))?.to_string(),
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),

@@ -43,7 +43,9 @@ pub async fn webfinger(
         }
     };
 
-    match User::find_by_id(&format!("https://{}/u/{}", data.domain(), name))
+    let url = hatsu_utils::url::generate_user_url(data.domain(), &name)?;
+
+    match User::find_by_id(&url.to_string())
         .one(&data.conn)
         .await? {
             Some(user) => Ok(Json(build_webfinger_response(

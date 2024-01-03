@@ -51,7 +51,7 @@ impl Account {
     pub async fn primary_account(
         data: &Data<AppData>
     ) -> Result<Self, AppError> {
-        match User::find_by_id(format!("https://{}/u/{}", data.domain(), data.env.hatsu_primary_account))
+        match User::find_by_id(hatsu_utils::url::generate_user_url(data.domain(), &data.env.hatsu_primary_account)?.to_string())
             .one(&data.conn)
             .await? {
                 Some(db_user) => {

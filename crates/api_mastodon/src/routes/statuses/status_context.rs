@@ -4,7 +4,7 @@ use axum::{
     extract::Path,
     Json,
 };
-use hatsu_utils::{AppData, AppError};
+use hatsu_utils::{AppData, AppError, url};
 
 use crate::entities::Context;
 
@@ -34,8 +34,8 @@ pub async fn status_context(
         Ok(utf8_url) => {
             match String::from_utf8(utf8_url) {
                 Ok(url) if url.starts_with("https://") => {
-                    let id = format!("https://{}/o/{}", data.domain(), url);
-                    let context = Context::find_by_id(id, &data).await?;
+                    let object_url = url::generate_object_url(data.domain(), url)?;
+                    let context = Context::find_by_id(object_url.to_string(), &data).await?;
                     Ok(Json(context))
                 },
                 _ => Err(AppError::not_found("Record", &base64_url))

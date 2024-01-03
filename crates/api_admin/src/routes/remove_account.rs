@@ -27,7 +27,7 @@ pub async fn remove_account(
     data: Data<AppData>,
     Json(payload): Json<CreateRemoveAccount>,
 ) -> Result<impl IntoResponse, AppError> {
-    match User::find_by_id(format!("https://{}/u/{}", data.domain(), payload.name))
+    match User::find_by_id(hatsu_utils::url::generate_user_url(data.domain(), &payload.name)?.to_string())
         .one(&data.conn)
         .await? {
             Some(account) => {
