@@ -34,7 +34,7 @@ pub async fn webfinger(
             // extract webfinger domain
             // acct:any@example.com (extract example.com)
             let vec: Vec<&str> = query.resource.split('@').collect();
-            vec[1].to_string()
+            vec[1]
             // TODO:
             // match vec.get(1) {
             //     Some(domain) => domain,
@@ -45,7 +45,7 @@ pub async fn webfinger(
             // }
         }
     };
-    let id = format!("https://{}/u/{}", data.domain(), &name);
+    let id = format!("https://{}/u/{}", data.domain(), name);
 
     let db_user: Option<DbUser> = User::find_by_id(&id)
         .one(&data.conn)

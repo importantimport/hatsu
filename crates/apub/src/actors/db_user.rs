@@ -3,7 +3,7 @@ use activitypub_federation::{
     protocol::verification::verify_domains_match,
     traits::{Actor, Object},
 };
-use chrono::{DateTime, Local, NaiveDateTime};
+use chrono::{DateTime, Utc};
 use hatsu_db_schema::{
     prelude::User,
     user::{self, Model as DbUser},
@@ -43,8 +43,8 @@ impl Object for ApubUser {
     type Kind = Service;
     type Error = AppError;
 
-    fn last_refreshed_at(&self) -> Option<NaiveDateTime> {
-        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().naive_local())
+    fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
+        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().into())
     }
 
     async fn read_from_id(
@@ -85,13 +85,13 @@ impl Object for ApubUser {
             outbox: json.outbox.to_string(),
             followers: json.followers.to_string(),
             following: json.following.to_string(),
+            local: false,
             public_key: json.public_key.public_key_pem,
             private_key: None,
             feed_json: None,
             feed_atom: None,
             feed_rss: None,
-            last_refreshed_at: Local::now().naive_local().format("%Y-%m-%d %H:%M:%S").to_string(),
-            local: false,
+            last_refreshed_at: Utc::now().to_rfc3339(),
         };
 
         // 写入数据库

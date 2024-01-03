@@ -1,10 +1,10 @@
 use activitypub_federation::{
-    activity_queue::send_activity,
+    activity_sending::SendActivityTask,
     config::Data,
     http_signatures::generate_actor_keypair,
     traits::ActivityHandler,
 };
-use chrono::{Local, SecondsFormat};
+use chrono::Utc;
 use hatsu_db_schema::user::Model as DbUser;
 use hatsu_utils::{
     AppData,
@@ -12,6 +12,7 @@ use hatsu_utils::{
     user::feed::Feed,
 };
 use serde::Serialize;
+use std::fmt::Debug;
 use url::Url;
 
 use super::{ApubUser, JsonUserFeed};
@@ -41,7 +42,7 @@ impl ApubUser {
             feed_json: user_feed.json.map(|url| url.to_string()),
             feed_atom: user_feed.atom.map(|url| url.to_string()),
             feed_rss: user_feed.rss.map(|url| url.to_string()),
-            last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
+            last_refreshed_at: Utc::now().to_rfc3339(),
         };
 
         Ok(user.into())
@@ -59,10 +60,9 @@ impl ApubUser {
         activity: Activity,
         inboxes: Vec<Url>,
         data: &Data<AppData>,
-    ) -> Result<(), <Activity as ActivityHandler>::Error>
+    ) -> Result<(), AppError>
     where
-        Activity: ActivityHandler + Serialize,
-        <Activity as ActivityHandler>::Error: From<anyhow::Error> + From<serde_json::Error> + From<hatsu_db_migration::DbErr>
+        Activity: ActivityHandler + Serialize + Debug,
     {
         // 从 Activity URL 提取 UUID
         // let activity_id: String = activity
@@ -88,7 +88,12 @@ impl ApubUser {
         //     .await?;
 
         // 发送
-        send_activity(activity, self, inboxes, data).await?;
+        let sends = SendActivityTask::prepare(&activity, self, inboxes, data).await?;
+
+        for send in sends {
+            send.sign_and_send(data).await?;
+        }
+
         Ok(())
     }
 }

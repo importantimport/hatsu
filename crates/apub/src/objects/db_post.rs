@@ -6,7 +6,7 @@ use activitypub_federation::{
     protocol::verification::verify_domains_match,
     traits::Object,
 };
-use chrono::{DateTime, Local, NaiveDateTime, SecondsFormat};
+use chrono::{DateTime, Utc};
 use hatsu_db_schema::{
     prelude::Post,
     post::Model as DbPost,
@@ -88,7 +88,7 @@ impl Object for ApubPost {
             updated: json.updated,
             in_reply_to: json.in_reply_to.map(|url| url.to_string()),
             in_reply_to_root: note.check_in_reply_to_root(data).await?,
-            last_refreshed_at: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
+            last_refreshed_at: Utc::now().to_rfc3339(),
             local: false,
         }.into_active_model().insert(&data.conn).await?;
 
@@ -144,7 +144,7 @@ impl Object for ApubPost {
         Ok(())
     }
 
-    fn last_refreshed_at(&self) -> Option<NaiveDateTime> {
-        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().naive_local())
+    fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
+        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().into())
     }
 }

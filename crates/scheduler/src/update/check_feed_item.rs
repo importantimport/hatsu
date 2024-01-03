@@ -61,6 +61,7 @@ async fn create_feed_item(data: &Data<AppData>, user: &ApubUser, item: DbUserFee
         .await?;
         
     // 发送 Note
+    // TODO: check public()?
     user.send_activity(CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, data).await?, vec![public()], data).await?;
         
     Ok(())

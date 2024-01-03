@@ -48,7 +48,7 @@ pub async fn handler(
         .await? {
             Some(db_user) => {
                 let apub_user: ApubUser = db_user.into();
-                Ok(FederationJson(WithContext::new(apub_user.into_json(&data).await?, context)))
+                Ok(FederationJson(WithContext::new(apub_user.into_json(&data).await?, Value::Array(context))))
             },
             None => Err(AppError::not_found("User", &name))
         }
