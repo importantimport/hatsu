@@ -7,10 +7,7 @@ use axum::{
     extract::Query,
     Json
 };
-use hatsu_db_schema::{
-    prelude::User,
-    user::Model as DbUser,
-};
+use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::Deserialize;
@@ -45,14 +42,14 @@ pub async fn webfinger(
             // }
         }
     };
-    let id = format!("https://{}/u/{}", data.domain(), name);
 
-    let db_user: Option<DbUser> = User::find_by_id(&id)
+    match User::find_by_id(&format!("https://{}/u/{}", data.domain(), name))
         .one(&data.conn)
-        .await?;
-
-    Ok(Json(build_webfinger_response(
-        query.resource,
-        Url::parse(&db_user.unwrap().id)?
-    )))
+        .await? {
+            Some(user) => Ok(Json(build_webfinger_response(
+                query.resource,
+                Url::parse(&user.id)?
+            ))),
+            None => Err(AppError::not_found("Subject", &query.resource))
+        }
 }
