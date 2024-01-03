@@ -6,12 +6,6 @@ use crate::activities::Follow;
 
 use super::ApubReceivedFollow;
 
-// use crate::{
-//     AppError,
-//     entities::received_follow::Model as DbReceivedFollow,
-//     protocol::activities::Follow,
-// };
-
 impl ApubReceivedFollow {
     // 转换为ActivityStreams JSON
     pub fn into_json(self) -> Result<Follow, AppError> {
