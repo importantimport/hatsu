@@ -36,7 +36,7 @@ pub fn generate_object_url(domain: &str, id: String) -> Result<Url, AppError> {
             domain,
             id,
         ))?),
-        _ => Err(AppError::new(format!("Invalid Object ID {}", id), None, None))
+        _ => Err(AppError::new(format!("Invalid Object ID {}", id), serde_json::from_str("Object ID need to starts with https://")?, None))
     }
 }
 
@@ -50,7 +50,7 @@ pub fn generate_user_url(domain: &str, id: &str) -> Result<Url, AppError> {
             domain,
             id,
         ))?),
-        _ => Err(AppError::new(format!("Invalid User ID {}", id), None, None))
+        _ => Err(AppError::new(format!("Invalid User ID {}", id), serde_json::from_str("User ID cannot starts with https://")?, None))
     }
 }
 
