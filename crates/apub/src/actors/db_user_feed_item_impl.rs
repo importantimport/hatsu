@@ -49,7 +49,7 @@ impl JsonUserFeed {
     
         Ok(Self {
             hatsu: None,
-            feed_url: Url::parse(&feed.id).unwrap(),
+            feed_url: Url::parse(&feed.id)?,
             next_url: None,
             title: feed.title.unwrap().content,
             description: feed.description.map(|text| text.content),

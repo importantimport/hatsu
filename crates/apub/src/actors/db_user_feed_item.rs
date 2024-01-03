@@ -60,7 +60,7 @@ impl ApubUserFeedItem {
             id: id.clone(),
             user_id: user_id.inner().to_string(),
             // object_id: object_id.map(|object_id| object_id.inner().to_string()),
-            object_id: Some(Url::parse(&format!("https://{}/o/{}", data.domain(), id)).unwrap().to_string()),
+            object_id: Some(Url::parse(&format!("https://{}/o/{}", data.domain(), id))?.to_string()),
             title: json.title,
             summary: json.summary,
             language: json.language,
