@@ -6,7 +6,7 @@ use activitypub_federation::{
     traits::ActivityHandler,
 };
 use hatsu_db_schema::activity::Model as DbActivity;
-use hatsu_utils::{AppData, AppError, url::generate_activity_url};
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -15,17 +15,6 @@ use crate::{
     activities::Follow,
     actors::ApubUser,
 };
-
-// use crate::{
-//     AppData,
-//     AppError,
-//     protocol::activities::Follow,
-//     entities::{
-//         activity::Model as DbActivity,
-//         user::Model as DbUser,
-//     },
-//     utilities::generate_activity_url
-// };
 
 /// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/accept.rs
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -57,7 +46,7 @@ impl AcceptFollow {
             object: follow,
             kind: AcceptType::Accept,
             // 使用 UUID v7 作为 ID
-            id: generate_activity_url(data.domain(), None)?
+            id: hatsu_utils::url::generate_activity_url(data.domain(), None)?
         };
 
         let _insert_activity = DbActivity {

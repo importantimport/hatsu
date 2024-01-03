@@ -10,11 +10,7 @@ use axum::{
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::activities::ApubActivity;
 use hatsu_db_schema::prelude::Activity;
-use hatsu_utils::{
-    AppData,
-    AppError,
-    url::generate_activity_url,
-};
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 // use serde::Deserialize;
 use serde_json::Value;
@@ -39,7 +35,7 @@ pub async fn handler(
 ) -> Result<FederationJson<Value>, AppError> {
     tracing::info!("Reading activity {}", activity_id);
 
-    match Activity::find_by_id(generate_activity_url(data.domain(), Some(activity_id.clone()))?)
+    match Activity::find_by_id(hatsu_utils::url::generate_activity_url(data.domain(), Some(activity_id.clone()))?)
         .one(&data.conn)
         .await? {
             Some(activity) => {

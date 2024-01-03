@@ -9,7 +9,7 @@ use activitypub_federation::{
 };
 use chrono::{Local, SecondsFormat};
 use hatsu_db_schema::activity::Model as DbActivity;
-use hatsu_utils::{AppData, AppError, url::generate_activity_url};
+use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -42,7 +42,7 @@ impl CreateOrUpdateNote {
         data: &Data<AppData>
     ) -> Result<WithContext<Self>, AppError> {
         let activity = Self {
-            id: generate_activity_url(data.domain(), None)?,
+            id: hatsu_utils::url::generate_activity_url(data.domain(), None)?,
             actor: note.attributed_to.clone(),
             to: note.to.clone(),
             cc: note.cc.clone(),

@@ -4,7 +4,7 @@ use axum::{
     extract::Path,
     Json,
 };
-use hatsu_utils::{AppData, AppError, url};
+use hatsu_utils::{AppData, AppError};
 
 use crate::entities::Context;
 
@@ -34,7 +34,7 @@ pub async fn status_context(
         Ok(utf8_url) => {
             match String::from_utf8(utf8_url) {
                 Ok(url) if url.starts_with("https://") => {
-                    let object_url = url::generate_object_url(data.domain(), url)?;
+                    let object_url = hatsu_utils::url::generate_object_url(data.domain(), url)?;
                     let context = Context::find_by_id(object_url.to_string(), &data).await?;
                     Ok(Json(context))
                 },
