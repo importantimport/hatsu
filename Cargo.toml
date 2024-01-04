@@ -108,6 +108,7 @@ activitypub_federation = { workspace = true }
 async-trait = { workspace = true }
 axum = { workspace = true }
 axum-extra = { workspace = true }
+base64-simd = { workspace = true }
 dotenvy = "0.15"
 sea-orm = { workspace = true }
 serde = { workspace = true }
