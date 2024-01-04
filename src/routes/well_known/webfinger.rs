@@ -48,6 +48,7 @@ pub async fn webfinger(
     match User::find_by_id(&url.to_string())
         .one(&data.conn)
         .await? {
+            // TODO: (optional) http://webfinger.net/rel/avatar
             Some(user) => Ok(Json(build_webfinger_response(
                 query.resource,
                 Url::parse(&user.id)?
