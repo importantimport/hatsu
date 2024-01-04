@@ -17,6 +17,23 @@ impl JsonUserFeed {
         }
     }
 
+    #[async_recursion::async_recursion]
+    pub async fn get_full_feed(self) -> Result<Self, AppError> {
+        match self.next_url {
+            Some(url) => {
+                let next_feed = Self::parse_json_feed(url).await?;
+                let feed = Self {
+                    next_url: next_feed.next_url,
+                    items: [self.items, next_feed.items].concat(),
+                    ..self
+                };
+
+                Ok(Self::get_full_feed(feed).await?)
+            },
+            None => Ok(self)
+        }
+    }
+
     pub async fn parse_json_feed(url: Url) -> Result<Self, AppError> {
         Ok(reqwest::get(url)
             .await?

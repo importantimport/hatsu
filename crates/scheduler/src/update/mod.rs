@@ -5,4 +5,4 @@ mod feed;
 pub use feed::get_user_feed;
 
 mod job;
-pub use job::fast_update;
+pub use job::{fast_update, full_update};

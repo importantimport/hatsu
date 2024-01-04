@@ -30,7 +30,29 @@ pub async fn fast_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<
     let user: ApubUser = user.into();
 
     for item in feed.items {
-        // check_feed_item(data, &user, DbUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), None).await?).await?;
+        check_feed_item(data, &user, ApubUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), data)?.deref().clone()).await?;
+    }
+
+    Ok(())
+}
+
+pub async fn full_update(data: &Data<AppData>) -> Result<(), AppError> {
+    for user in User::find()
+        .filter(user::Column::Local.eq(true))
+        .order_by_asc(user::Column::Id)
+        .all(&data.conn)
+        .await? {
+            full_update_per_user(data, user).await?;
+        }
+
+    Ok(())
+}
+
+pub async fn full_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<(), AppError> {
+    let feed = JsonUserFeed::get_full_feed(get_user_feed(user.clone()).await?).await?;
+    let user: ApubUser = user.into();
+
+    for item in feed.items {
         check_feed_item(data, &user, ApubUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), data)?.deref().clone()).await?;
     }
 
