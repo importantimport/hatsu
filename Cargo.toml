@@ -1,14 +1,15 @@
 [workspace.package]
 version = "0.1.0"
-edition = "2021"
-publish = false
-readme = "README.md"
-license = "AGPL-3.0"
 authors = ["藍+85CD"]
+edition = "2021"
+rust-version = "1.75"
 description = "Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
 documentation = "https://hatsu.cli.rs"
+readme = "README.md"
 homepage = "https://hatsu.cli.rs"
 repository = "https://github.com/importantimport/hatsu"
+license = "AGPL-3.0"
+publish = false
 
 [package]
 name = "hatsu"
