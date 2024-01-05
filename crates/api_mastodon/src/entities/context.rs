@@ -56,7 +56,7 @@ impl Context {
                         // descendants: vec![],
                     })
                 },
-                _ => Err(AppError::not_found("Record", &post_id))
+                None => Err(AppError::not_found("Record", &post_id))
             }
     }
 }

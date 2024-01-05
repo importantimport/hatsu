@@ -49,7 +49,10 @@ pub async fn full_update(data: &Data<AppData>) -> Result<(), AppError> {
 }
 
 pub async fn full_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<(), AppError> {
-    let feed = JsonUserFeed::get_full_feed(get_user_feed(user.clone()).await?).await?;
+    let feed: JsonUserFeed = get_user_feed(user.clone())
+        .await?
+        .get_full_feed()
+        .await?;
     let user: ApubUser = user.into();
 
     for item in feed.items {

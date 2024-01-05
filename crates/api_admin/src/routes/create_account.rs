@@ -37,7 +37,7 @@ pub async fn create_account(
             None,
             Some(StatusCode::BAD_REQUEST),
             )),
-            _ => {
+            None => {
                 let account = ApubUser::new(data.domain(), &payload.name).await?;
                 let account = account.deref().clone().into_active_model().insert(&data.conn).await?;
                 Ok((StatusCode::CREATED, Json(CreateRemoveAccountResult {

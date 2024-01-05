@@ -45,7 +45,7 @@ pub async fn remove_account(
                     })))
                 }
             },
-            _ => {
+            None => {
                 Err(AppError::new(
                 format!("The account does not exist: {}", payload.name), 
                 None,

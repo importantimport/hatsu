@@ -146,10 +146,10 @@ impl Note {
 
                             Self::check_in_reply_to_root(note, data).await
                         },
-                        _ => Ok(None),
+                        None => Ok(None),
                     }
             },
-            _ => Ok(None),
+            None => Ok(None),
         }
     }
 }

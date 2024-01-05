@@ -34,6 +34,6 @@ async fn auth<B>(
                 _ => Err(StatusCode::BAD_REQUEST)
             }
         },
-        _ => Err(StatusCode::UNAUTHORIZED)
+        None => Err(StatusCode::UNAUTHORIZED)
     }
 }
