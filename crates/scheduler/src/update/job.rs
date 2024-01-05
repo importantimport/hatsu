@@ -7,7 +7,6 @@ use hatsu_db_schema::{
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use std::ops::Deref;
-use url::Url;
 
 use crate::update::get_user_feed;
 
@@ -30,7 +29,7 @@ pub async fn fast_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<
     let user: ApubUser = user.into();
 
     for item in feed.items {
-        check_feed_item(data, &user, ApubUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), data)?.deref().clone()).await?;
+        check_feed_item(data, &user, ApubUserFeedItem::from_json(item, &user, data)?.deref().clone()).await?;
     }
 
     Ok(())
@@ -56,7 +55,7 @@ pub async fn full_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<
     let user: ApubUser = user.into();
 
     for item in feed.items {
-        check_feed_item(data, &user, ApubUserFeedItem::from_json(item, Url::parse(&user.id)?.into(), data)?.deref().clone()).await?;
+        check_feed_item(data, &user, ApubUserFeedItem::from_json(item, &user, data)?.deref().clone()).await?;
     }
 
     Ok(())

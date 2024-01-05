@@ -1,6 +1,6 @@
 use activitypub_federation::{
     config::Data,
-    fetch::object_id::ObjectId
+    traits::Actor,
 };
 use hatsu_db_schema::user_feed_item::Model as DbUserFeedItem;
 use hatsu_utils::{AppData, AppError};
@@ -37,7 +37,7 @@ impl ApubUserFeedItem {
     pub fn into_json(self) -> Result<JsonUserFeedItem, AppError> {
         Ok(JsonUserFeedItem {
             id: self.id.clone(),
-            url: None,
+            url: Some(Url::parse(&self.id)?),
             title: self.title.clone(),
             summary: self.summary.clone(),
             language: self.language.clone(),
@@ -50,16 +50,14 @@ impl ApubUserFeedItem {
     // 从 JSON 转换为本地格式
     pub fn from_json(
         json: JsonUserFeedItem,
-        user_id: ObjectId<ApubUser>,
+        user: &ApubUser,
         data: &Data<AppData>
-        // object_id: Option<ObjectId<DbPost>>
     ) -> Result<Self, AppError> {
-        let id = json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string();
+        let id = json.url.unwrap_or_else(|| hatsu_utils::url::absolutize_relative_url(&json.id, &user.name).unwrap()).to_string();
 
         let user_feed_item = DbUserFeedItem {
             id: id.clone(),
-            user_id: user_id.inner().to_string(),
-            // object_id: object_id.map(|object_id| object_id.inner().to_string()),
+            user_id: user.id().to_string(),
             object_id: Some(hatsu_utils::url::generate_object_url(data.domain(), id)?.to_string()),
             title: json.title,
             summary: json.summary,
