@@ -31,7 +31,7 @@ impl Feed {
             let link_href = head.select(&selector)
                 .next()
                 .and_then(|link| link.value().attr("href"))
-                .map(|href| absolutize_relative_url(href.to_string(), domain.to_string()).unwrap());
+                .map(|href| absolutize_relative_url(href, domain).unwrap());
 
             Ok(link_href)
         }
