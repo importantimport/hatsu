@@ -2,7 +2,6 @@
 static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 
 use activitypub_federation::config::FederationConfig;
-use dotenvy::dotenv;
 use hatsu_apub::actors::ApubUser;
 use hatsu_db_migration::{Migrator, MigratorTrait};
 use hatsu_db_schema::prelude::User;
@@ -34,7 +33,11 @@ async fn main() -> Result<(), AppError> {
 
     // Load environment variables from .env file.
     tracing::info!("loading environment variables");
-    dotenv()?;
+    // dotenvy::dotenv()?;
+    match dotenvy::dotenv() {
+        Ok(_) => (),
+        Err(_) => tracing::debug!("No .env file found"),
+    }
 
     // 环境变量
     // Environments
