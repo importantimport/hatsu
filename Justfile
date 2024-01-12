@@ -12,6 +12,12 @@ run:
 build:
   cargo build --release
 
+fmt:
+  cargo fmt --all
+
+lint *args='':
+  cargo clippy {{args}} -- -Wpedantic -Wnursery
+
 # cross-build:
 #   cross build --release --target aarch64-unknown-linux-gnu
 #   cross build --release --target aarch64-unknown-linux-musl
