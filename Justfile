@@ -16,7 +16,7 @@ fmt:
   cargo fmt --all
 
 lint *args='':
-  cargo clippy {{args}} -- -Wpedantic -Wnursery
+  cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery
 
 # cross-build:
 #   cross build --release --target aarch64-unknown-linux-gnu
