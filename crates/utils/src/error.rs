@@ -11,6 +11,7 @@ use tracing_error::SpanTrace;
 use utoipa::ToSchema;
 use uuid::Uuid;
 
+#[allow(clippy::module_name_repetitions)]
 #[derive(Debug, Serialize, ToSchema)]
 pub struct AppError {
     /// An error message.

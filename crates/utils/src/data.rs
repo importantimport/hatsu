@@ -1,5 +1,6 @@
 use sea_orm::DatabaseConnection;
 
+#[allow(clippy::module_name_repetitions)]
 #[derive(Clone, Debug)]
 pub struct AppData {
     pub conn: DatabaseConnection,
