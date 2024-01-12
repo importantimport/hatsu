@@ -34,9 +34,7 @@ Make your posts searchable on Fediverse by setting up auto-discovery.
 Since Hatsu's object URLs are predictable, you just need to make sure:
 
 - The page you want to set up for auto-discovery is in the Feed.
-- The actual URL of the page is the same as in the Feed. Hatsu handles it this way:
-    - `https://example.com/posts/foo => https://example.com/posts/foo`
-    - `foo/bar` => `https://example.com/foo/bar`
+- The actual URL of the page is the same as in the Feed. (see [./feed](./feed.md))
 
 That's it! For `https://example.com/foo/bar`, just add the following tag to the `document.head`:
 
