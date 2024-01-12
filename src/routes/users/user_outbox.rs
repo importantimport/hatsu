@@ -1,7 +1,8 @@
 use activitypub_federation::{
     axum::json::FederationJson,
-    config::Data, protocol::context::WithContext,
+    config::Data,
     fetch::object_id::ObjectId,
+    protocol::context::WithContext,
 };
 use axum::{
     debug_handler,
@@ -15,12 +16,9 @@ use axum::{
 use hatsu_apub::{
     activities::ApubActivity,
     actors::ApubUser,
-    collections::{CollectionPage, Collection},
+    collections::{Collection, CollectionPage},
 };
-use hatsu_db_schema::{
-    prelude::Activity,
-    activity,
-};
+use hatsu_db_schema::{activity, prelude::Activity};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::Deserialize;
@@ -52,10 +50,12 @@ pub async fn handler(
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
     let Query(pagination) = pagination.unwrap_or_default();
 
-    let user_id: ObjectId<ApubUser> = hatsu_utils::url::generate_user_url(data.domain(), &name)?.into();
+    let user_id: ObjectId<ApubUser> =
+        hatsu_utils::url::generate_user_url(data.domain(), &name)?.into();
     let user = user_id.dereference_local(&data).await?;
 
-    let activity_pages = user.find_related(Activity)
+    let activity_pages = user
+        .find_related(Activity)
         .filter(activity::Column::Kind.eq("Create"))
         // TODO: order by last_refreshed_at
         .order_by_desc(activity::Column::Published)
@@ -66,25 +66,25 @@ pub async fn handler(
     let total = activity_pages.num_items_and_pages().await?;
 
     match pagination.page {
-        None => {
-            Ok(FederationJson(WithContext::new_default(
-                serde_json::to_value(Collection::new(
-                    hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/outbox", name))?,
-                    total.number_of_items,
-                    Some(total.number_of_pages),
-                )?)?
-            )))
-        },
+        None => Ok(FederationJson(WithContext::new_default(
+            serde_json::to_value(Collection::new(
+                hatsu_utils::url::generate_user_url(data.domain(), &name)?
+                    .join(&format!("{}/outbox", name))?,
+                total.number_of_items,
+                Some(total.number_of_pages),
+            )?)?,
+        ))),
         Some(page) => {
             if page > 1 && page > total.number_of_pages {
                 Err(AppError::not_found(
                     &format!("user {}", name),
-                    &format!("outbox page {}", page) )
-                )
+                    &format!("outbox page {}", page),
+                ))
             } else {
                 Ok(FederationJson(WithContext::new_default(
                     serde_json::to_value(CollectionPage::<Value>::new(
-                        hatsu_utils::url::generate_user_url(data.domain(), &name)?.join(&format!("{}/outbox", name))?,
+                        hatsu_utils::url::generate_user_url(data.domain(), &name)?
+                            .join(&format!("{}/outbox", name))?,
                         total.number_of_items,
                         activity_pages
                             .fetch_page(page - 1)
@@ -96,8 +96,8 @@ pub async fn handler(
                             })
                             .collect(),
                         total.number_of_pages,
-                        page
-                    )?)?
+                        page,
+                    )?)?,
                 )))
             }
         }

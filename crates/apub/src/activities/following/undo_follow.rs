@@ -11,10 +11,7 @@ use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{
-    activities::Follow,
-    actors::ApubUser,
-};
+use crate::{activities::Follow, actors::ApubUser};
 
 // https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/undo_follow.rs
 #[derive(Clone, Debug, Deserialize, Serialize)]

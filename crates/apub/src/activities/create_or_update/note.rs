@@ -1,10 +1,7 @@
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
-    protocol::{
-        helpers::deserialize_one_or_many,
-        context::WithContext
-    },
+    protocol::{context::WithContext, helpers::deserialize_one_or_many},
     traits::{ActivityHandler, Object},
 };
 use chrono::{Local, SecondsFormat};
@@ -39,7 +36,7 @@ impl CreateOrUpdateNote {
     pub async fn new(
         note: Note,
         kind: CreateOrUpdateType,
-        data: &Data<AppData>
+        data: &Data<AppData>,
     ) -> Result<WithContext<Self>, AppError> {
         let activity = Self {
             id: hatsu_utils::url::generate_activity_url(data.domain(), None)?,
@@ -48,7 +45,7 @@ impl CreateOrUpdateNote {
             cc: note.cc.clone(),
             object: note.clone(),
             kind,
-            published: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)
+            published: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
         };
 
         let _insert_activity = DbActivity {
@@ -58,9 +55,9 @@ impl CreateOrUpdateNote {
             kind: activity.kind.to_string(),
             published: Some(activity.published.clone()),
         }
-            .into_active_model()
-            .insert(&data.conn)
-            .await?;
+        .into_active_model()
+        .insert(&data.conn)
+        .await?;
 
         Ok(WithContext::new_default(activity))
     }
@@ -91,4 +88,3 @@ impl ActivityHandler for CreateOrUpdateNote {
         Ok(())
     }
 }
-

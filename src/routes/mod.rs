@@ -1,9 +1,4 @@
-use axum::{
-    routing::get,
-    response::IntoResponse,
-    http::Response,
-    Router
-};
+use axum::{http::Response, response::IntoResponse, routing::get, Router};
 
 mod activities;
 mod api;

@@ -1,12 +1,8 @@
-use activitypub_federation::{
-    config::Data,
-    protocol::context::WithContext,
-    traits::Object,
-};
+use activitypub_federation::{config::Data, protocol::context::WithContext, traits::Object};
 use axum::{
     debug_handler,
     extract::Path,
-    response::{Redirect, IntoResponse},
+    response::{IntoResponse, Redirect},
     Json,
 };
 // use axum_extra::routing::TypedPath;
@@ -40,13 +36,16 @@ pub async fn handler(
 
     match Post::find_by_id(&object_url.to_string())
         .one(&data.conn)
-        .await? {
-            Some(db_post) => {
-                let apub_post: ApubPost = db_post.into();
-                Ok(Json(WithContext::new_default(apub_post.into_json(&data).await?)))
-            },
-            None => Err(AppError::not_found("Object", &object_url.to_string()))
+        .await?
+    {
+        Some(db_post) => {
+            let apub_post: ApubPost = db_post.into();
+            Ok(Json(WithContext::new_default(
+                apub_post.into_json(&data).await?,
+            )))
         }
+        None => Err(AppError::not_found("Object", &object_url.to_string())),
+    }
 }
 
 #[debug_handler]

@@ -4,17 +4,13 @@
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
-    kinds::{public, object::NoteType},
+    kinds::{object::NoteType, public},
     protocol::helpers::deserialize_one_or_many,
     traits::{Actor, Object},
 };
 use chrono::{Local, SecondsFormat};
 use hatsu_db_schema::prelude::Post;
-use hatsu_utils::{
-    AppData,
-    AppError,
-    markdown::markdown_to_html,
-};
+use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -61,15 +57,22 @@ pub struct NoteSource {
 }
 
 impl Note {
-    pub fn new(actor: &ApubUser, json: JsonUserFeedItem, data: &Data<AppData>) -> Result<Self, AppError> {
+    pub fn new(
+        actor: &ApubUser,
+        json: JsonUserFeedItem,
+        data: &Data<AppData>,
+    ) -> Result<Self, AppError> {
         // TODO: match json._hatsu.source (string)
         let mut sources: Vec<Option<String>> = vec![json.title, json.summary];
 
         // TODO: parse_item_id (check url)
         // https://example.com/foo/bar => https://example.com/foo/bar
-        // /foo/bar => https://example.com/foo/bar 
+        // /foo/bar => https://example.com/foo/bar
         // foo/bar => https://example.com/foo/bar
-        let json_id = json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap()).to_string();
+        let json_id = json
+            .url
+            .unwrap_or_else(|| Url::parse(&json.id).unwrap())
+            .to_string();
         sources.push(Some(json_id));
 
         let mut source = sources
@@ -100,7 +103,12 @@ impl Note {
                     .unwrap()
                     .iter()
                     // TODO: test urlencoding::encode()
-                    .map(|tag| format!("<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>", data.domain(), urlencoding::encode(tag), tag))
+                    .map(|tag| format!(
+                        "<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>",
+                        data.domain(),
+                        urlencoding::encode(tag),
+                        tag
+                    ))
                     .collect::<Vec<String>>()
                     .join(" ")
             ));
@@ -119,35 +127,42 @@ impl Note {
             // TODO: remove
             in_reply_to: None,
             // TODO: test this
-            tag: json.tags.map(|tags: Vec<String>| tags
-                .iter()
-                .map(|tag| Hashtag {
-                    kind: Default::default(),
-                    href: Url::parse(&format!("https://{}/t/{}", data.domain(), urlencoding::encode(tag))).unwrap(),
-                    name: "#".to_owned() + tag,
-                })
-                .collect()),
+            tag: json.tags.map(|tags: Vec<String>| {
+                tags.iter()
+                    .map(|tag| Hashtag {
+                        kind: Default::default(),
+                        href: Url::parse(&format!(
+                            "https://{}/t/{}",
+                            data.domain(),
+                            urlencoding::encode(tag)
+                        ))
+                        .unwrap(),
+                        name: "#".to_owned() + tag,
+                    })
+                    .collect()
+            }),
             published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
             updated: None,
         })
     }
 
     #[async_recursion::async_recursion]
-    pub async fn check_in_reply_to_root(self, data: &Data<AppData>) -> Result<Option<String>, AppError> {
+    pub async fn check_in_reply_to_root(
+        self,
+        data: &Data<AppData>,
+    ) -> Result<Option<String>, AppError> {
         match self.in_reply_to.map(|url| url.to_string()) {
-            Some(in_reply_to) if in_reply_to.starts_with(&format!("https://{}", data.domain())) => Ok(Some(in_reply_to)),
-            Some(in_reply_to) => {
-                match Post::find_by_id(&in_reply_to)
-                    .one(&data.conn)
-                    .await? {
-                        Some(db_post) => {
-                            let apub_post: ApubPost = db_post.into();
-                            let note = apub_post.into_json(data).await?;
+            Some(in_reply_to) if in_reply_to.starts_with(&format!("https://{}", data.domain())) => {
+                Ok(Some(in_reply_to))
+            }
+            Some(in_reply_to) => match Post::find_by_id(&in_reply_to).one(&data.conn).await? {
+                Some(db_post) => {
+                    let apub_post: ApubPost = db_post.into();
+                    let note = apub_post.into_json(data).await?;
 
-                            Self::check_in_reply_to_root(note, data).await
-                        },
-                        None => Ok(None),
-                    }
+                    Self::check_in_reply_to_root(note, data).await
+                }
+                None => Ok(None),
             },
             None => Ok(None),
         }
@@ -158,7 +173,7 @@ impl NoteSource {
     pub fn new(source: String) -> Self {
         Self {
             content: source,
-            media_type: "text/markdown".to_string()
+            media_type: "text/markdown".to_string(),
         }
     }
 }

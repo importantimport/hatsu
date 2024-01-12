@@ -1,9 +1,5 @@
 use activitypub_federation::config::Data;
-use axum::{
-    debug_handler,
-    extract::Path,
-    Json,
-};
+use axum::{debug_handler, extract::Path, Json};
 use hatsu_utils::{AppData, AppError};
 
 use crate::entities::Context;
@@ -31,16 +27,14 @@ pub async fn status_context(
     let base64 = base64_simd::URL_SAFE;
 
     match base64.decode_to_vec(&base64_url) {
-        Ok(utf8_url) => {
-            match String::from_utf8(utf8_url) {
-                Ok(url) if url.starts_with("https://") => {
-                    let object_url = hatsu_utils::url::generate_object_url(data.domain(), url)?;
-                    let context = Context::find_by_id(object_url.to_string(), &data).await?;
-                    Ok(Json(context))
-                },
-                _ => Err(AppError::not_found("Record", &base64_url))
+        Ok(utf8_url) => match String::from_utf8(utf8_url) {
+            Ok(url) if url.starts_with("https://") => {
+                let object_url = hatsu_utils::url::generate_object_url(data.domain(), url)?;
+                let context = Context::find_by_id(object_url.to_string(), &data).await?;
+                Ok(Json(context))
             }
+            _ => Err(AppError::not_found("Record", &base64_url)),
         },
-        _ => Err(AppError::not_found("Record", &base64_url))
+        _ => Err(AppError::not_found("Record", &base64_url)),
     }
 }

@@ -18,7 +18,7 @@ impl Deref for ApubActivity {
 }
 
 impl From<DbActivity> for ApubActivity {
-    fn from (u: DbActivity) -> Self {
+    fn from(u: DbActivity) -> Self {
         Self(u)
     }
 }

@@ -1,10 +1,13 @@
-use activitypub_federation::kinds::collection::{OrderedCollectionType, OrderedCollectionPageType};
+use activitypub_federation::kinds::collection::{OrderedCollectionPageType, OrderedCollectionType};
 use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
 pub fn generate_collection_page_url(collection_id: &Url, page: u64) -> Result<Url, AppError> {
-    Ok(Url::parse_with_params(collection_id.as_ref(), &[("page", page.to_string())])?)
+    Ok(Url::parse_with_params(
+        collection_id.as_ref(),
+        &[("page", page.to_string())],
+    )?)
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -22,7 +25,7 @@ pub struct Collection {
     last: Option<Url>,
 
     // collection count
-    total_items: u64
+    total_items: u64,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -46,11 +49,15 @@ pub struct CollectionPage<T> {
     // collection item list
     ordered_items: Vec<T>,
     // collection count
-    total_items: u64
+    total_items: u64,
 }
 
 impl Collection {
-    pub fn new(collection_id: Url, total_items: u64, total_pages: Option<u64>) -> Result<Self, AppError> {
+    pub fn new(
+        collection_id: Url,
+        total_items: u64,
+        total_pages: Option<u64>,
+    ) -> Result<Self, AppError> {
         Ok(Self {
             kind: OrderedCollectionType::OrderedCollection,
             id: collection_id.clone(),
@@ -62,7 +69,7 @@ impl Collection {
                     match total_pages {
                         page if total_pages > 0 => page + 1,
                         _ => 1,
-                    }
+                    },
                 )?),
                 None => None,
             },
@@ -72,7 +79,13 @@ impl Collection {
 }
 
 impl<T> CollectionPage<T> {
-    pub fn new(collection_id: Url, total_items: u64, ordered_items: Vec<T>, total_pages: u64, page: u64) -> Result<Self, AppError> {
+    pub fn new(
+        collection_id: Url,
+        total_items: u64,
+        ordered_items: Vec<T>,
+        total_pages: u64,
+        page: u64,
+    ) -> Result<Self, AppError> {
         Ok(Self {
             kind: OrderedCollectionPageType::OrderedCollectionPage,
             id: Url::parse_with_params(collection_id.as_ref(), &[("page", page.to_string())])?,
@@ -83,7 +96,9 @@ impl<T> CollectionPage<T> {
             },
             // 如果当前页数小于总页数，则提供下一页
             next: match page {
-                page if page < total_pages => Some(generate_collection_page_url(&collection_id, page + 1)?),
+                page if page < total_pages => {
+                    Some(generate_collection_page_url(&collection_id, page + 1)?)
+                }
                 _ => None,
             },
             part_of: collection_id,

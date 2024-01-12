@@ -12,6 +12,12 @@ use status_reblogged_by::status_reblogged_by;
 pub fn handler() -> Router {
     Router::new()
         .route("/api/v1/statuses/:status/context", get(status_context))
-        .route("/api/v1/statuses/:status/favourited_by", get(status_favourited_by))
-        .route("/api/v1/statuses/:status/reblogged_by", get(status_reblogged_by))
+        .route(
+            "/api/v1/statuses/:status/favourited_by",
+            get(status_favourited_by),
+        )
+        .route(
+            "/api/v1/statuses/:status/reblogged_by",
+            get(status_reblogged_by),
+        )
 }

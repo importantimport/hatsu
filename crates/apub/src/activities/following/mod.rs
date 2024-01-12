@@ -1,5 +1,5 @@
-mod db_received_follow_impl;
 mod db_received_follow;
+mod db_received_follow_impl;
 
 mod accept_follow;
 mod follow;

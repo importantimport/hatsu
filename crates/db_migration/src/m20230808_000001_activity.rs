@@ -16,7 +16,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Activity::Actor).string().not_null())
                     .col(ColumnDef::new(Activity::Kind).string().not_null())
                     .col(ColumnDef::new(Activity::Published).string())
-                    .to_owned()
+                    .to_owned(),
             )
             .await?;
 
@@ -45,5 +45,5 @@ enum Activity {
     // Activity Type
     Kind,
     // Activity Publish Date (optional)
-    Published
+    Published,
 }

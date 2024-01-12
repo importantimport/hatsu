@@ -6,13 +6,17 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-
         manager
             .create_table(
                 Table::create()
                     .table(UserFeedItem::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(UserFeedItem::Id).string().not_null().primary_key())
+                    .col(
+                        ColumnDef::new(UserFeedItem::Id)
+                            .string()
+                            .not_null()
+                            .primary_key(),
+                    )
                     .col(ColumnDef::new(UserFeedItem::UserId).string().not_null())
                     .col(ColumnDef::new(UserFeedItem::ObjectId).string())
                     .col(ColumnDef::new(UserFeedItem::Title).string())
@@ -21,7 +25,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(UserFeedItem::Tags).string())
                     .col(ColumnDef::new(UserFeedItem::DatePublished).string())
                     .col(ColumnDef::new(UserFeedItem::DateModified).string())
-                    .to_owned()
+                    .to_owned(),
             )
             .await?;
 
@@ -59,4 +63,3 @@ enum UserFeedItem {
     /// JSON Feed Item `date_modified`
     DateModified,
 }
-

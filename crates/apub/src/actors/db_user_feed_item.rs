@@ -1,7 +1,4 @@
-use activitypub_federation::{
-    config::Data,
-    traits::Actor,
-};
+use activitypub_federation::{config::Data, traits::Actor};
 use hatsu_db_schema::user_feed_item::Model as DbUserFeedItem;
 use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
@@ -27,7 +24,7 @@ impl Deref for ApubUserFeedItem {
 }
 
 impl From<DbUserFeedItem> for ApubUserFeedItem {
-    fn from (u: DbUserFeedItem) -> Self {
+    fn from(u: DbUserFeedItem) -> Self {
         Self(u)
     }
 }
@@ -41,7 +38,10 @@ impl ApubUserFeedItem {
             title: self.title.clone(),
             summary: self.summary.clone(),
             language: self.language.clone(),
-            tags: self.tags.clone().map(|tags| serde_json::from_str(&tags).unwrap()),
+            tags: self
+                .tags
+                .clone()
+                .map(|tags| serde_json::from_str(&tags).unwrap()),
             date_published: self.date_published.clone(),
             date_modified: self.date_modified.clone(),
         })
@@ -51,9 +51,14 @@ impl ApubUserFeedItem {
     pub fn from_json(
         json: JsonUserFeedItem,
         user: &ApubUser,
-        data: &Data<AppData>
+        data: &Data<AppData>,
     ) -> Result<Self, AppError> {
-        let id = json.url.unwrap_or_else(|| hatsu_utils::url::absolutize_relative_url(&json.id, &user.name).unwrap()).to_string();
+        let id = json
+            .url
+            .unwrap_or_else(|| {
+                hatsu_utils::url::absolutize_relative_url(&json.id, &user.name).unwrap()
+            })
+            .to_string();
 
         let user_feed_item = DbUserFeedItem {
             id: id.clone(),
@@ -62,7 +67,9 @@ impl ApubUserFeedItem {
             title: json.title,
             summary: json.summary,
             language: json.language,
-            tags: json.tags.map(|tags| serde_json::to_string::<Vec<String>>(&tags).unwrap()),
+            tags: json
+                .tags
+                .map(|tags| serde_json::to_string::<Vec<String>>(&tags).unwrap()),
             date_published: json.date_published,
             date_modified: json.date_modified,
         };
@@ -72,7 +79,7 @@ impl ApubUserFeedItem {
 }
 
 /// JSON Feed 1.1
-/// 
+///
 /// https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeed {
@@ -93,7 +100,7 @@ pub struct JsonUserFeed {
 }
 
 /// Hatsu JSON Feed Extension
-/// 
+///
 /// https://github.com/importantimport/hatsu/issues/1
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeedHatsu {
@@ -102,7 +109,7 @@ pub struct JsonUserFeedHatsu {
 }
 
 /// JSON Feed Item
-/// 
+///
 /// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeedItem {

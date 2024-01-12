@@ -6,7 +6,7 @@ use axum::{
 use utoipa::{
     openapi::security::{ApiKey, ApiKeyValue, SecurityScheme},
     Modify,
-    OpenApi
+    OpenApi,
 };
 use utoipa_swagger_ui::SwaggerUi;
 
@@ -46,11 +46,7 @@ impl Modify for SecurityAddon {
         if let Some(components) = openapi.components.as_mut() {
             components.add_security_scheme(
                 "api_key",
-                SecurityScheme::ApiKey(
-                    ApiKey::Query(
-                        ApiKeyValue::new("token")
-                    )
-                )
+                SecurityScheme::ApiKey(ApiKey::Query(ApiKeyValue::new("token"))),
             )
         }
     }
@@ -59,6 +55,5 @@ impl Modify for SecurityAddon {
 pub fn handler() -> Router {
     Router::new()
         // .route("/openapi.json", get(|| async move { Json(ApiDoc::openapi()) }))
-        .merge(SwaggerUi::new("/swagger-ui")
-            .url("/openapi.json", ApiDoc::openapi()))
+        .merge(SwaggerUi::new("/swagger-ui").url("/openapi.json", ApiDoc::openapi()))
 }

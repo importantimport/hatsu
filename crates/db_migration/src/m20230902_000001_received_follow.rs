@@ -11,11 +11,16 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(ReceivedFollow::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(ReceivedFollow::Id).string().not_null().primary_key())
+                    .col(
+                        ColumnDef::new(ReceivedFollow::Id)
+                            .string()
+                            .not_null()
+                            .primary_key(),
+                    )
                     .col(ColumnDef::new(ReceivedFollow::Actor).string().not_null())
                     .col(ColumnDef::new(ReceivedFollow::To).json())
                     .col(ColumnDef::new(ReceivedFollow::Object).string().not_null())
-                    .to_owned()
+                    .to_owned(),
             )
             .await?;
 

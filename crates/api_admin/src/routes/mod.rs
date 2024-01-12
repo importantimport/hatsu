@@ -24,16 +24,14 @@ pub fn handler() -> Router {
 async fn auth<B>(
     data: Data<AppData>,
     request: Request<B>,
-    next: Next<B>
+    next: Next<B>,
 ) -> Result<Response, StatusCode> {
     match &data.env.hatsu_access_token {
-        Some(token) => {
-            match request.uri().query() {
-                Some(query) if query == format!("token={}", token) => Ok(next.run(request).await),
-                Some(query) if query != format!("token={}", token) => Err(StatusCode::UNAUTHORIZED),
-                _ => Err(StatusCode::BAD_REQUEST)
-            }
+        Some(token) => match request.uri().query() {
+            Some(query) if query == format!("token={}", token) => Ok(next.run(request).await),
+            Some(query) if query != format!("token={}", token) => Err(StatusCode::UNAUTHORIZED),
+            _ => Err(StatusCode::BAD_REQUEST),
         },
-        None => Err(StatusCode::UNAUTHORIZED)
+        None => Err(StatusCode::UNAUTHORIZED),
     }
 }

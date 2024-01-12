@@ -3,10 +3,7 @@ use activitypub_federation::{
     fetch::object_id::ObjectId,
     kinds::activity::FollowType,
     protocol::helpers::deserialize_skip_error,
-    traits::{
-        Actor,
-        ActivityHandler
-    },
+    traits::{ActivityHandler, Actor},
 };
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
@@ -15,7 +12,7 @@ use std::ops::Deref;
 use url::Url;
 
 use crate::{
-    activities::{ApubReceivedFollow, AcceptFollow},
+    activities::{AcceptFollow, ApubReceivedFollow},
     actors::ApubUser,
 };
 
@@ -72,7 +69,13 @@ impl ActivityHandler for Follow {
             .await;
 
         // 发送接受关注
-        object.send_activity(AcceptFollow::new(self, data).await?, vec![actor.shared_inbox_or_inbox()], data).await?;
+        object
+            .send_activity(
+                AcceptFollow::new(self, data).await?,
+                vec![actor.shared_inbox_or_inbox()],
+                data,
+            )
+            .await?;
 
         Ok(())
     }

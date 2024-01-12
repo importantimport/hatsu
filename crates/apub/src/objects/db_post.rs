@@ -7,10 +7,7 @@ use activitypub_federation::{
     traits::Object,
 };
 use chrono::{DateTime, Utc};
-use hatsu_db_schema::{
-    prelude::Post,
-    post::Model as DbPost,
-};
+use hatsu_db_schema::{post::Model as DbPost, prelude::Post};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use std::ops::Deref;
@@ -35,7 +32,7 @@ impl Deref for ApubPost {
 }
 
 impl From<DbPost> for ApubPost {
-    fn from (p: DbPost) -> Self {
+    fn from(p: DbPost) -> Self {
         Self(p)
     }
 }
@@ -49,7 +46,7 @@ impl Object for ApubPost {
     // 从 ID 读取
     async fn read_from_id(
         object_id: Url,
-        data: &Data<Self::DataType>
+        data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
         Ok(Post::find_by_id(&object_id.to_string())
             .one(&data.conn)
@@ -66,7 +63,7 @@ impl Object for ApubPost {
     async fn verify(
         json: &Self::Kind,
         expected_domain: &Url,
-        _data: &Data<Self::DataType>
+        _data: &Data<Self::DataType>,
     ) -> Result<(), Self::Error> {
         verify_domains_match(json.id.inner(), expected_domain)?;
         Ok(())
@@ -74,7 +71,11 @@ impl Object for ApubPost {
 
     // 转换为本地格式
     async fn from_json(json: Self::Kind, data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
-        tracing::info!("Received post with content {} and id {}", &json.content, &json.id);
+        tracing::info!(
+            "Received post with content {} and id {}",
+            &json.content,
+            &json.id
+        );
 
         let note = json.clone();
 
@@ -90,7 +91,10 @@ impl Object for ApubPost {
             in_reply_to_root: note.check_in_reply_to_root(data).await?,
             last_refreshed_at: Utc::now().to_rfc3339(),
             local: false,
-        }.into_active_model().insert(&data.conn).await?;
+        }
+        .into_active_model()
+        .insert(&data.conn)
+        .await?;
 
         // let mention = Mention {
         //     href: Url::parse(&creator.id)?,
@@ -145,6 +149,10 @@ impl Object for ApubPost {
     }
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
-        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().into())
+        Some(
+            DateTime::parse_from_rfc3339(&self.last_refreshed_at)
+                .unwrap()
+                .into(),
+        )
     }
 }

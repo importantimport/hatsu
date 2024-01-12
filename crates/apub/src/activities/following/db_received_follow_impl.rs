@@ -13,7 +13,10 @@ impl ApubReceivedFollow {
             kind: Default::default(),
             id: Url::parse(&self.id)?,
             actor: Url::parse(&self.actor)?.into(),
-            to: self.to.clone().and_then(|to| serde_json::from_str(&to).unwrap()),
+            to: self
+                .to
+                .clone()
+                .and_then(|to| serde_json::from_str(&to).unwrap()),
             object: Url::parse(&self.object)?.into(),
         })
     }
@@ -24,7 +27,7 @@ impl ApubReceivedFollow {
             id: json.id.to_string(),
             actor: json.actor.to_string(),
             to: json.to.map(|to| serde_json::to_string(&to).unwrap()),
-            object: json.object.to_string()
+            object: json.object.to_string(),
         };
 
         Ok(received_follow.into())

@@ -2,11 +2,7 @@ use activitypub_federation::{
     config::Data,
     fetch::webfinger::{build_webfinger_response, extract_webfinger_name, Webfinger},
 };
-use axum::{
-    debug_handler,
-    extract::Query,
-    Json
-};
+use axum::{debug_handler, extract::Query, Json};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
@@ -45,14 +41,12 @@ pub async fn webfinger(
 
     let url = hatsu_utils::url::generate_user_url(data.domain(), &name)?;
 
-    match User::find_by_id(&url.to_string())
-        .one(&data.conn)
-        .await? {
-            // TODO: (optional) http://webfinger.net/rel/avatar
-            Some(user) => Ok(Json(build_webfinger_response(
-                query.resource,
-                Url::parse(&user.id)?
-            ))),
-            None => Err(AppError::not_found("Subject", &query.resource))
-        }
+    match User::find_by_id(&url.to_string()).one(&data.conn).await? {
+        // TODO: (optional) http://webfinger.net/rel/avatar
+        Some(user) => Ok(Json(build_webfinger_response(
+            query.resource,
+            Url::parse(&user.id)?,
+        ))),
+        None => Err(AppError::not_found("Subject", &query.resource)),
+    }
 }

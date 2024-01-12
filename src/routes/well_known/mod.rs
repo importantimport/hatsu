@@ -1,10 +1,7 @@
-use axum::{
-    routing::get,
-    Router,
-};
+use axum::{routing::get, Router};
 
 mod host_meta;
-pub use host_meta::{host_meta, host_meta_xrd, host_meta_json};
+pub use host_meta::{host_meta, host_meta_json, host_meta_xrd};
 
 mod nodeinfo;
 pub use nodeinfo::nodeinfo;

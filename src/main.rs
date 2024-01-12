@@ -47,9 +47,11 @@ async fn main() -> Result<(), AppError> {
         database_url: env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite::memory:".to_string()),
         hatsu_access_token: env::var_os("HATSU_ACCESS_TOKEN").map(|env| env.into_string().unwrap()),
         hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
-        hatsu_listen_host: env::var("HATSU_LISTEN_HOST").unwrap_or_else(|_| "localhost".to_string()),
+        hatsu_listen_host: env::var("HATSU_LISTEN_HOST")
+            .unwrap_or_else(|_| "localhost".to_string()),
         hatsu_listen_port: env::var("HATSU_LISTEN_PORT").unwrap_or_else(|_| "3939".to_string()),
-        hatsu_primary_account: env::var("HATSU_PRIMARY_ACCOUNT").expect("env HATSU_PRIMARY_ACCOUNT must be set"),
+        hatsu_primary_account: env::var("HATSU_PRIMARY_ACCOUNT")
+            .expect("env HATSU_PRIMARY_ACCOUNT must be set"),
     };
 
     // 连接数据库
@@ -64,24 +66,31 @@ async fn main() -> Result<(), AppError> {
     tracing::info!("checking primary account");
     // 尝试读取数据库中的主要账户，如果不存在则创建
     // Try to read primary account in the database, if it doesn't exist then create
-    let primary_account: ApubUser = match User::find_by_id(hatsu_utils::url::generate_user_url(&env.hatsu_domain, &env.hatsu_primary_account)?.to_string())
-        .one(&conn)
-        .await? {
-            Some(db_user) => db_user.into(),
-            // 根据域名创建一个 user::ActiveModel
-            // Create a user::ActiveModel based on the domain
-            None => ApubUser::new(&env.hatsu_domain, &env.hatsu_primary_account)
-                .await?
-                .deref()
-                .clone()
-                .into_active_model()
-                .insert(&conn)
-                .await?
-                .into()
-        };
+    let primary_account: ApubUser = match User::find_by_id(
+        hatsu_utils::url::generate_user_url(&env.hatsu_domain, &env.hatsu_primary_account)?
+            .to_string(),
+    )
+    .one(&conn)
+    .await?
+    {
+        Some(db_user) => db_user.into(),
+        // 根据域名创建一个 user::ActiveModel
+        // Create a user::ActiveModel based on the domain
+        None => ApubUser::new(&env.hatsu_domain, &env.hatsu_primary_account)
+            .await?
+            .deref()
+            .clone()
+            .into_active_model()
+            .insert(&conn)
+            .await?
+            .into(),
+    };
 
     // 创建 AppData
-    let data = AppData { conn, env: env.clone() };
+    let data = AppData {
+        conn,
+        env: env.clone(),
+    };
 
     tracing::info!("setup configuration");
     let federation_config = FederationConfig::builder()
@@ -103,7 +112,9 @@ async fn main() -> Result<(), AppError> {
         .await?;
 
     // 创建服务
-    let scheduler = hatsu_scheduler::Scheduler { config: federation_config.clone() };
+    let scheduler = hatsu_scheduler::Scheduler {
+        config: federation_config.clone(),
+    };
     let server = subsystem::Server {
         federation_config,
         env: env.clone(),

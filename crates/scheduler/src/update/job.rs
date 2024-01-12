@@ -17,9 +17,10 @@ pub async fn fast_update(data: &Data<AppData>) -> Result<(), AppError> {
         .filter(user::Column::Local.eq(true))
         .order_by_asc(user::Column::Id)
         .all(&data.conn)
-        .await? {
-            fast_update_per_user(data, user).await?;
-        }
+        .await?
+    {
+        fast_update_per_user(data, user).await?;
+    }
 
     Ok(())
 }
@@ -29,7 +30,14 @@ pub async fn fast_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<
     let user: ApubUser = user.into();
 
     for item in feed.items {
-        check_feed_item(data, &user, ApubUserFeedItem::from_json(item, &user, data)?.deref().clone()).await?;
+        check_feed_item(
+            data,
+            &user,
+            ApubUserFeedItem::from_json(item, &user, data)?
+                .deref()
+                .clone(),
+        )
+        .await?;
     }
 
     Ok(())
@@ -40,22 +48,27 @@ pub async fn full_update(data: &Data<AppData>) -> Result<(), AppError> {
         .filter(user::Column::Local.eq(true))
         .order_by_asc(user::Column::Id)
         .all(&data.conn)
-        .await? {
-            full_update_per_user(data, user).await?;
-        }
+        .await?
+    {
+        full_update_per_user(data, user).await?;
+    }
 
     Ok(())
 }
 
 pub async fn full_update_per_user(data: &Data<AppData>, user: DbUser) -> Result<(), AppError> {
-    let feed: JsonUserFeed = get_user_feed(user.clone())
-        .await?
-        .get_full_feed()
-        .await?;
+    let feed: JsonUserFeed = get_user_feed(user.clone()).await?.get_full_feed().await?;
     let user: ApubUser = user.into();
 
     for item in feed.items {
-        check_feed_item(data, &user, ApubUserFeedItem::from_json(item, &user, data)?.deref().clone()).await?;
+        check_feed_item(
+            data,
+            &user,
+            ApubUserFeedItem::from_json(item, &user, data)?
+                .deref()
+                .clone(),
+        )
+        .await?;
     }
 
     Ok(())

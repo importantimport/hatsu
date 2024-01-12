@@ -42,17 +42,21 @@ pub async fn handler(
     //   "https://www.w3.org/ns/activitystreams",
     //   "https://w3id.org/security/v1"
     // ]
-    let context = vec![Value::String(context().to_string()), Value::String(security().to_string())];
+    let context = vec![
+        Value::String(context().to_string()),
+        Value::String(security().to_string()),
+    ];
 
-    match User::find_by_id(&url.to_string())
-        .one(&data.conn)
-        .await? {
-            Some(db_user) => {
-                let apub_user: ApubUser = db_user.into();
-                Ok(FederationJson(WithContext::new(apub_user.into_json(&data).await?, Value::Array(context))))
-            },
-            None => Err(AppError::not_found("User", &name))
+    match User::find_by_id(&url.to_string()).one(&data.conn).await? {
+        Some(db_user) => {
+            let apub_user: ApubUser = db_user.into();
+            Ok(FederationJson(WithContext::new(
+                apub_user.into_json(&data).await?,
+                Value::Array(context),
+            )))
         }
+        None => Err(AppError::not_found("User", &name)),
+    }
 }
 
 #[debug_handler]

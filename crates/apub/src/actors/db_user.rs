@@ -32,7 +32,7 @@ impl Deref for ApubUser {
 }
 
 impl From<DbUser> for ApubUser {
-    fn from (u: DbUser) -> Self {
+    fn from(u: DbUser) -> Self {
         Self(u)
     }
 }
@@ -44,7 +44,11 @@ impl Object for ApubUser {
     type Error = AppError;
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
-        Some(DateTime::parse_from_rfc3339(&self.last_refreshed_at).unwrap().into())
+        Some(
+            DateTime::parse_from_rfc3339(&self.last_refreshed_at)
+                .unwrap()
+                .into(),
+        )
     }
 
     async fn read_from_id(
@@ -100,7 +104,7 @@ impl Object for ApubUser {
             .on_conflict(
                 sea_query::OnConflict::column(user::Column::Id)
                     .do_nothing()
-                    .to_owned()
+                    .to_owned(),
             )
             .do_nothing()
             .exec(&data.conn)
@@ -118,11 +122,11 @@ impl Object for ApubUser {
             summary: self.summary.clone(),
             icon: self.icon.clone().map(|icon| ServiceImage {
                 kind: Default::default(),
-                url: Url::parse(&icon).unwrap()
+                url: Url::parse(&icon).unwrap(),
             }),
             image: self.image.clone().map(|image| ServiceImage {
                 kind: Default::default(),
-                url: Url::parse(&image).unwrap()
+                url: Url::parse(&image).unwrap(),
             }),
             // TODO: User Attachment
             attachment: vec![],

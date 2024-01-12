@@ -22,10 +22,13 @@ impl Server {
 
         // axum 0.6
         // run our app with hyper
-        let addr = format!("{}:{}", self.env.hatsu_listen_host, self.env.hatsu_listen_port)
-            .to_socket_addrs()?
-            .next()
-            .expect("Failed to lookup domain name");
+        let addr = format!(
+            "{}:{}",
+            self.env.hatsu_listen_host, self.env.hatsu_listen_port
+        )
+        .to_socket_addrs()?
+        .next()
+        .expect("Failed to lookup domain name");
 
         tracing::debug!("listening on http://{}", addr);
         axum::Server::bind(&addr)
