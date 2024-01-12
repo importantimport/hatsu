@@ -1,10 +1,11 @@
+use std::ops::Deref;
+
 use activitypub_federation::config::Data;
 use axum::{debug_handler, http::StatusCode, response::IntoResponse, Json};
 use hatsu_apub::actors::ApubUser;
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
-use std::ops::Deref;
 
 use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 

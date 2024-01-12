@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
@@ -8,7 +10,6 @@ use activitypub_federation::{
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
 use serde::{Deserialize, Serialize};
-use std::ops::Deref;
 use url::Url;
 
 use crate::{

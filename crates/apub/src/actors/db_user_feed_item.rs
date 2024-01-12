@@ -1,8 +1,9 @@
+use std::ops::Deref;
+
 use activitypub_federation::{config::Data, traits::Actor};
 use hatsu_db_schema::user_feed_item::Model as DbUserFeedItem;
 use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
-use std::ops::Deref;
 use url::Url;
 
 use super::ApubUser;
@@ -18,6 +19,7 @@ impl AsRef<DbUserFeedItem> for ApubUserFeedItem {
 
 impl Deref for ApubUserFeedItem {
     type Target = DbUserFeedItem;
+
     fn deref(&self) -> &Self::Target {
         &self.0
     }

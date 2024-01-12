@@ -1,13 +1,14 @@
 #[global_allocator]
 static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 
+use std::{env, ops::Deref};
+
 use activitypub_federation::config::FederationConfig;
 use hatsu_apub::actors::ApubUser;
 use hatsu_db_migration::{Migrator, MigratorTrait};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppEnv, AppError};
 use sea_orm::{ActiveModelTrait, Database, EntityTrait, IntoActiveModel};
-use std::{env, ops::Deref};
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
 use tracing_subscriber::prelude::*;

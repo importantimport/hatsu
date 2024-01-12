@@ -1,6 +1,8 @@
 // https://github.com/LemmyNet/activitypub-federation-rust/blob/61085a643f05dbb70502b3c519fd666214b7e308/examples/live_federation/objects/post.rs
 // https://github.com/LemmyNet/lemmy/blob/main/crates/apub/assets
 
+use std::ops::Deref;
+
 use activitypub_federation::{
     config::Data,
     protocol::verification::verify_domains_match,
@@ -10,7 +12,6 @@ use chrono::{DateTime, Utc};
 use hatsu_db_schema::{post::Model as DbPost, prelude::Post};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
-use std::ops::Deref;
 use url::Url;
 
 use crate::objects::Note;
@@ -26,6 +27,7 @@ impl AsRef<DbPost> for ApubPost {
 
 impl Deref for ApubPost {
     type Target = DbPost;
+
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -40,8 +42,8 @@ impl From<DbPost> for ApubPost {
 #[async_trait::async_trait]
 impl Object for ApubPost {
     type DataType = AppData;
-    type Kind = Note;
     type Error = AppError;
+    type Kind = Note;
 
     // 从 ID 读取
     async fn read_from_id(

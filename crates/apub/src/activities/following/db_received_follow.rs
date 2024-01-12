@@ -1,5 +1,6 @@
-use hatsu_db_schema::received_follow::Model as DbReceivedFollow;
 use std::ops::Deref;
+
+use hatsu_db_schema::received_follow::Model as DbReceivedFollow;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubReceivedFollow(pub(crate) DbReceivedFollow);
@@ -12,6 +13,7 @@ impl AsRef<DbReceivedFollow> for ApubReceivedFollow {
 
 impl Deref for ApubReceivedFollow {
     type Target = DbReceivedFollow;
+
     fn deref(&self) -> &Self::Target {
         &self.0
     }

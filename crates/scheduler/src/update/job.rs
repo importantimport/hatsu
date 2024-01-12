@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use activitypub_federation::config::Data;
 use hatsu_apub::actors::{ApubUser, ApubUserFeedItem, JsonUserFeed};
 use hatsu_db_schema::{
@@ -6,11 +8,8 @@ use hatsu_db_schema::{
 };
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
-use std::ops::Deref;
 
-use crate::update::get_user_feed;
-
-use super::check_feed_item;
+use crate::update::{check_feed_item, get_user_feed};
 
 pub async fn fast_update(data: &Data<AppData>) -> Result<(), AppError> {
     for user in User::find()

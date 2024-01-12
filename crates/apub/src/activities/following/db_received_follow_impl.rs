@@ -2,9 +2,7 @@ use hatsu_db_schema::received_follow::Model as DbReceivedFollow;
 use hatsu_utils::AppError;
 use url::Url;
 
-use crate::activities::Follow;
-
-use super::ApubReceivedFollow;
+use crate::activities::{ApubReceivedFollow, Follow};
 
 impl ApubReceivedFollow {
     // 转换为ActivityStreams JSON

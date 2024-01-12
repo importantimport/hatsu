@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+
 use activitypub_federation::{
     activity_sending::SendActivityTask,
     config::Data,
@@ -8,7 +10,6 @@ use chrono::Utc;
 use hatsu_db_schema::user::Model as DbUser;
 use hatsu_utils::{user::feed::Feed, AppData, AppError};
 use serde::Serialize;
-use std::fmt::Debug;
 use url::Url;
 
 use super::{ApubUser, JsonUserFeed};

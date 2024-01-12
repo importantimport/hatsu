@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use activitypub_federation::{
     config::Data,
     protocol::verification::verify_domains_match,
@@ -10,7 +12,6 @@ use hatsu_db_schema::{
 };
 use hatsu_utils::{AppData, AppError};
 use sea_orm::*;
-use std::ops::Deref;
 use url::Url;
 
 use crate::actors::{Service, ServiceImage};
@@ -26,6 +27,7 @@ impl AsRef<DbUser> for ApubUser {
 
 impl Deref for ApubUser {
     type Target = DbUser;
+
     fn deref(&self) -> &Self::Target {
         &self.0
     }
@@ -40,8 +42,8 @@ impl From<DbUser> for ApubUser {
 #[async_trait::async_trait]
 impl Object for ApubUser {
     type DataType = AppData;
-    type Kind = Service;
     type Error = AppError;
+    type Kind = Service;
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
         Some(
