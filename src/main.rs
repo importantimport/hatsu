@@ -22,7 +22,7 @@ async fn main() -> Result<(), AppError> {
     // TODO: tracing_opentelemetry
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
-        .with(tracing_error::ErrorLayer::new(tracing_subscriber::fmt::format::DefaultFields::new()))
+        .with(tracing_error::ErrorLayer::default())
         .init();
     // let subscriber = tracing_subscriber::Registry::default()
     //     .with(
