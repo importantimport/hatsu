@@ -37,9 +37,9 @@ async fn main() -> Result<(), AppError> {
     // Load environment variables from .env file.
     tracing::info!("loading environment variables");
     // dotenvy::dotenv()?;
-    match dotenvy::dotenv() {
-        Ok(_) => (),
-        Err(_) => tracing::debug!("No .env file found"),
+    if let Ok(_) = dotenvy::dotenv() {
+    } else {
+        tracing::debug!("No .env file found")
     }
 
     // 环境变量

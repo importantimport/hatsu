@@ -21,22 +21,21 @@ pub async fn webfinger(
 ) -> Result<Json<Webfinger>, AppError> {
     tracing::info!("{}", &query.resource);
 
-    let name = match extract_webfinger_name(&query.resource, &data) {
-        Ok(name) => name,
-        _ => {
-            // extract webfinger domain
-            // acct:any@example.com (extract example.com)
-            let vec: Vec<&str> = query.resource.split('@').collect();
-            vec[1]
-            // TODO:
-            // match vec.get(1) {
-            //     Some(domain) => domain,
-            //     None => AppError::NotFound {
-            //         kind: "User".to_string(),
-            //         name: query.resource,
-            //     }
-            // }
-        }
+    let name = if let Ok(name) = extract_webfinger_name(&query.resource, &data) {
+        name
+    } else {
+        // extract webfinger domain
+        // acct:any@example.com (extract example.com)
+        let vec: Vec<&str> = query.resource.split('@').collect();
+        vec[1]
+        // TODO:
+        // match vec.get(1) {
+        //     Some(domain) => domain,
+        //     None => AppError::NotFound {
+        //         kind: "User".to_string(),
+        //         name: query.resource,
+        //     }
+        // }
     };
 
     let url = hatsu_utils::url::generate_user_url(data.domain(), name)?;
