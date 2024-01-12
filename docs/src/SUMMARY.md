@@ -18,6 +18,7 @@
 # for Admins
 
 - [Install with Docker](./admins/install-with-docker.md)
+- [Create Account](./admins/create-account.md)
 
 # for Developers
 
