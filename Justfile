@@ -12,8 +12,8 @@ run:
 build:
   cargo build --release
 
-fmt:
-  cargo fmt --all
+fmt *args='':
+  cargo fmt --all {{args}}
 
 lint *args='':
   cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery
