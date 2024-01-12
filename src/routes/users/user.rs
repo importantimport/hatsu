@@ -14,7 +14,7 @@ use axum::{
 use hatsu_apub::actors::{ApubUser, Service};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelBehavior, EntityTrait, Iden};
 // use serde::Deserialize;
 use serde_json::Value;
 
@@ -64,5 +64,5 @@ pub async fn redirect(
     // UsersRedirect { name }: UsersRedirect,
     Path(name): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/u/{}", name)).into_response()
+    Redirect::permanent(&format!("/u/{name}")).into_response()
 }

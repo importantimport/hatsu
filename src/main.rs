@@ -6,7 +6,7 @@ use hatsu_apub::actors::ApubUser;
 use hatsu_db_migration::{Migrator, MigratorTrait};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppEnv, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelBehavior, ActiveModelTrait, Database, EntityTrait, Iden, IntoActiveModel, Iterable, QueryTrait, StatementBuilder};
 use std::{env, ops::Deref};
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;

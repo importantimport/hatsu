@@ -9,7 +9,7 @@ use axum::{
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelBehavior, EntityTrait, Iden, Iterable, QueryTrait, StatementBuilder};
 // use serde::Deserialize;
 
 // #[derive(TypedPath, Deserialize)]
@@ -53,5 +53,5 @@ pub async fn redirect(
     // ObjectsRedirect { object }: ObjectsRedirect
     Path(object): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/o/{}", object)).into_response()
+    Redirect::permanent(&format!("/o/{object}")).into_response()
 }

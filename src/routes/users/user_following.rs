@@ -48,7 +48,7 @@ pub async fn handler(
         None => Ok(FederationJson(WithContext::new_default(
             serde_json::to_value(Collection::new(
                 hatsu_utils::url::generate_user_url(data.domain(), &name)?
-                    .join(&format!("{}/following", name))?,
+                    .join(&format!("{name}/following"))?,
                 0,
                 Some(0),
             )?)?,
@@ -56,7 +56,7 @@ pub async fn handler(
         Some(page) => Ok(FederationJson(WithContext::new_default(
             serde_json::to_value(CollectionPage::<Url>::new(
                 hatsu_utils::url::generate_user_url(data.domain(), &name)?
-                    .join(&format!("{}/following", name))?,
+                    .join(&format!("{name}/following"))?,
                 0,
                 vec![],
                 0,
@@ -71,5 +71,5 @@ pub async fn redirect(
     // UsersFollowingRedirect { name }: UsersFollowingRedirect,
     Path(name): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/u/{}/followers", name)).into_response()
+    Redirect::permanent(&format!("/u/{name}/followers")).into_response()
 }

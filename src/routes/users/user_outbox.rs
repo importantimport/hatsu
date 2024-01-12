@@ -20,7 +20,7 @@ use hatsu_apub::{
 };
 use hatsu_db_schema::{activity, prelude::Activity};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelBehavior, ColumnTrait, ModelTrait, PaginatorTrait, QueryFilter, QueryOrder, QuerySelect, Related};
 use serde::Deserialize;
 use serde_json::Value;
 
@@ -69,7 +69,7 @@ pub async fn handler(
         None => Ok(FederationJson(WithContext::new_default(
             serde_json::to_value(Collection::new(
                 hatsu_utils::url::generate_user_url(data.domain(), &name)?
-                    .join(&format!("{}/outbox", name))?,
+                    .join(&format!("{name}/outbox"))?,
                 total.number_of_items,
                 Some(total.number_of_pages),
             )?)?,
@@ -77,14 +77,14 @@ pub async fn handler(
         Some(page) => {
             if page > 1 && page > total.number_of_pages {
                 Err(AppError::not_found(
-                    &format!("user {}", name),
-                    &format!("outbox page {}", page),
+                    &format!("user {name}"),
+                    &format!("outbox page {page}"),
                 ))
             } else {
                 Ok(FederationJson(WithContext::new_default(
                     serde_json::to_value(CollectionPage::<Value>::new(
                         hatsu_utils::url::generate_user_url(data.domain(), &name)?
-                            .join(&format!("{}/outbox", name))?,
+                            .join(&format!("{name}/outbox"))?,
                         total.number_of_items,
                         activity_pages
                             .fetch_page(page - 1)
@@ -109,5 +109,5 @@ pub async fn redirect(
     // UsersOutboxRedirect { name }: UsersOutboxRedirect,
     Path(name): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/u/{}/outbox", name)).into_response()
+    Redirect::permanent(&format!("/u/{name}/outbox")).into_response()
 }

@@ -12,7 +12,7 @@ pub async fn redirect(Path(base64_url): Path<String>) -> impl IntoResponse {
     match base64.decode_to_vec(&base64_url) {
         Ok(utf8_url) => match String::from_utf8(utf8_url) {
             Ok(url) if url.starts_with("https://") => {
-                Ok(Redirect::permanent(&format!("/o/{}", url)).into_response())
+                Ok(Redirect::permanent(&format!("/o/{url}")).into_response())
             }
             _ => Err(AppError::not_found("Record", &base64_url)),
         },

@@ -8,7 +8,7 @@ use axum::{
 use hatsu_apub::activities::ApubActivity;
 use hatsu_db_schema::prelude::Activity;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelBehavior, EntityTrait, Iterable, QueryTrait, StatementBuilder};
 // use serde::Deserialize;
 use serde_json::Value;
 
@@ -52,5 +52,5 @@ pub async fn redirect(
     // ActivitiesRedirect { activity_id }: ActivitiesRedirect,
     Path(activity_id): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/a/{}", activity_id)).into_response()
+    Redirect::permanent(&format!("/a/{activity_id}")).into_response()
 }

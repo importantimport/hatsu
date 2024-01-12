@@ -19,7 +19,7 @@ use hatsu_apub::{
 };
 use hatsu_db_schema::{prelude::ReceivedFollow, received_follow};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelBehavior, ModelTrait, PaginatorTrait, QueryOrder, QuerySelect, Related};
 use serde::Deserialize;
 use serde_json::Value;
 use url::Url;
@@ -68,7 +68,7 @@ pub async fn handler(
             Ok(FederationJson(WithContext::new_default(
                 serde_json::to_value(Collection::new(
                     hatsu_utils::url::generate_user_url(data.domain(), &name)?
-                        .join(&format!("{}/followers", name))?,
+                        .join(&format!("{name}/followers"))?,
                     total.number_of_items,
                     // TODO: last (maybe)
                     None,
@@ -78,14 +78,14 @@ pub async fn handler(
         Some(page) => {
             if page > 1 && page > total.number_of_pages {
                 Err(AppError::not_found(
-                    &format!("user {}", name),
-                    &format!("followers page {}", page),
+                    &format!("user {name}"),
+                    &format!("followers page {page}"),
                 ))
             } else {
                 Ok(FederationJson(WithContext::new_default(
                     serde_json::to_value(CollectionPage::<Url>::new(
                         hatsu_utils::url::generate_user_url(data.domain(), &name)?
-                            .join(&format!("{}/followers", name))?,
+                            .join(&format!("{name}/followers"))?,
                         total.number_of_items,
                         follower_pages
                             .fetch_page(page - 1)
@@ -107,5 +107,5 @@ pub async fn redirect(
     // UsersFollowersRedirect { name }: UsersFollowersRedirect,
     Path(name): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/u/{}/followers", name)).into_response()
+    Redirect::permanent(&format!("/u/{name}/followers")).into_response()
 }

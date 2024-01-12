@@ -5,7 +5,7 @@ use activitypub_federation::{
 use axum::{debug_handler, extract::Query, Json};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelBehavior, EntityTrait, Iden, Iterable, QueryTrait, StatementBuilder};
 use serde::Deserialize;
 use url::Url;
 
