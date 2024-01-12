@@ -10,7 +10,6 @@ use sea_orm::*;
 use std::{env, ops::Deref};
 use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
-use tracing_error::ErrorLayer;
 use tracing_subscriber::prelude::*;
 
 mod routes;
@@ -20,16 +19,19 @@ mod subsystem;
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
     // initialize tracing
-    let subscriber = tracing_subscriber::Registry::default()
-        .with(
-            tracing_subscriber::fmt::layer()
-                .with_ansi(false)
-                .json()
-        )
-        .with(ErrorLayer::default());
-    
     // TODO: tracing_opentelemetry
-    tracing::subscriber::set_global_default(subscriber)?;
+    tracing_subscriber::registry()
+        .with(tracing_subscriber::fmt::layer())
+        .with(tracing_error::ErrorLayer::new(tracing_subscriber::fmt::format::DefaultFields::new()))
+        .init();
+    // let subscriber = tracing_subscriber::Registry::default()
+    //     .with(
+    //         tracing_subscriber::fmt::layer()
+    //             .with_ansi(false)
+    //             .json()
+    //     )
+    //     .with(ErrorLayer::default());
+    // tracing::subscriber::set_global_default(subscriber)?;
 
     // Load environment variables from .env file.
     tracing::info!("loading environment variables");

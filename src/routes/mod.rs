@@ -1,5 +1,4 @@
 use axum::{
-    body::Body,
     routing::get,
     response::IntoResponse,
     http::Response,
@@ -20,10 +19,10 @@ async fn root() -> impl IntoResponse {
     let version = env!("CARGO_PKG_VERSION");
     let codename = "01_ballade";
 
-    Response::new(Body::from(format!("Hatsu v{} \"{}\"", version, codename)))
+    Response::new(format!("Hatsu v{} \"{}\"", version, codename))
 }
 
-pub fn handler() -> Router<(), Body> {
+pub fn handler() -> Router {
     Router::new()
         .merge(activities::handler())
         .merge(api::handler())
