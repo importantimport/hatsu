@@ -44,7 +44,7 @@ pub async fn handler(
                 apub_post.into_json(&data).await?,
             )))
         }
-        None => Err(AppError::not_found("Object", &object_url.to_string())),
+        None => Err(AppError::not_found("Object", object_url.as_ref())),
     }
 }
 
