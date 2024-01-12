@@ -19,7 +19,7 @@ use hatsu_apub::{
 };
 use hatsu_db_schema::{prelude::ReceivedFollow, received_follow};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{ActiveModelBehavior, ModelTrait, PaginatorTrait, QueryOrder, QuerySelect, Related};
+use sea_orm::{ModelTrait, PaginatorTrait, QueryOrder};
 use serde::Deserialize;
 use serde_json::Value;
 use url::Url;

@@ -9,7 +9,7 @@ use axum::{
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{ActiveModelBehavior, EntityTrait, Iden, Iterable, QueryTrait, StatementBuilder};
+use sea_orm::EntityTrait;
 // use serde::Deserialize;
 
 // #[derive(TypedPath, Deserialize)]

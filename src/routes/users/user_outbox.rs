@@ -20,7 +20,7 @@ use hatsu_apub::{
 };
 use hatsu_db_schema::{activity, prelude::Activity};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{ActiveModelBehavior, ColumnTrait, ModelTrait, PaginatorTrait, QueryFilter, QueryOrder, QuerySelect, Related};
+use sea_orm::{ColumnTrait, ModelTrait, PaginatorTrait, QueryFilter, QueryOrder};
 use serde::Deserialize;
 use serde_json::Value;
 

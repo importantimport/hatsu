@@ -5,7 +5,7 @@ use activitypub_federation::config::Data;
 use axum::{debug_handler, routing::get, Json, Router};
 use hatsu_db_schema::{prelude::User, user};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{ActiveEnum, ActiveModelBehavior, ColumnTrait, EntityTrait, Iden, PaginatorTrait, QueryFilter};
+use sea_orm::{ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter};
 use serde::{Deserialize, Serialize};
 
 async fn nodeinfo_usage(data: Data<AppData>) -> Result<NodeInfoUsage, AppError> {

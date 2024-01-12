@@ -8,7 +8,7 @@ use axum::{
 use hatsu_apub::activities::ApubActivity;
 use hatsu_db_schema::prelude::Activity;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{ActiveModelBehavior, EntityTrait, Iterable, QueryTrait, StatementBuilder};
+use sea_orm::EntityTrait;
 // use serde::Deserialize;
 use serde_json::Value;
 

@@ -14,7 +14,7 @@ use axum::{
 use hatsu_apub::actors::{ApubUser, Service};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{ActiveModelBehavior, EntityTrait, Iden};
+use sea_orm::EntityTrait;
 // use serde::Deserialize;
 use serde_json::Value;
 
