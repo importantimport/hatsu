@@ -1,3 +1,10 @@
+[unstable]
+codegen-backend = true
+# profile-rustflags = true
+
+[profile.dev]
+codegen-backend = "cranelift"
+
 # Enable UUID Unstable Features
 # https://docs.rs/uuid/1.4.0/uuid/index.html#unstable-features
 [target.'cfg(all())']
@@ -7,10 +14,10 @@ rustflags = ["--cfg", "uuid_unstable"]
 [target.'cfg(target_os = "linux")']
 rustflags = ["-C", "link-arg=-fuse-ld=mold"]
 
-# x86_64-v3 (Intel Haswell / AMD Excavator and above)
+# x86_64-v2 (Intel Nehalem / AMD Jaguar and above)
 # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
 [target.'cfg(target_arch = "x86_64")']
-rustflags = ["-C", "target-cpu=x86-64-v3"]
+rustflags = ["-C", "target-cpu=x86-64-v2"]
 
 # aarch64 (ARM Neon)
 [target.'cfg(target_arch = "aarch64")']

@@ -108,7 +108,6 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
     - https://github.com/hyperium/hyper-util/pull/66
   - Using AFIT / RPITIT instead of `async-trait`
 - Performance improvements
-  - https://github.com/rust-lang/rustc_codegen_cranelift
   - https://github.com/TechEmpower/FrameworkBenchmarks/issues/8501#issuecomment-1780275745
   - sonic-rs (required nightly) / simd-json
   - uuid-simd

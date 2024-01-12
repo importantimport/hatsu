@@ -1,5 +1,8 @@
 # https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file
+# https://taplo.tamasfe.dev/configuration/directives.html#the-schema-directive
+#:schema undefined
 
 [toolchain]
 channel = "nightly"
+components = ["rustc-codegen-cranelift"]
 profile = "default"
