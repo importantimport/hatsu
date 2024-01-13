@@ -77,7 +77,8 @@ pub struct ServiceAttachment {
 }
 
 impl ServiceImage {
-    pub fn new(url: Url) -> Self {
+    #[must_use]
+    pub const fn new(url: Url) -> Self {
         Self {
             kind: ImageType::Image,
             url,

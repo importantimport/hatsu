@@ -54,7 +54,7 @@ pub struct CollectionPage<T> {
 
 impl Collection {
     pub fn new(
-        collection_id: Url,
+        collection_id: &Url,
         total_items: u64,
         total_pages: Option<u64>,
     ) -> Result<Self, AppError> {

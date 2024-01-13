@@ -67,7 +67,7 @@ pub async fn handler(
         None => {
             Ok(FederationJson(WithContext::new_default(
                 serde_json::to_value(Collection::new(
-                    hatsu_utils::url::generate_user_url(data.domain(), &name)?
+                    &hatsu_utils::url::generate_user_url(data.domain(), &name)?
                         .join(&format!("{name}/followers"))?,
                     total.number_of_items,
                     // TODO: last (maybe)

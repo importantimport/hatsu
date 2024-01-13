@@ -15,7 +15,8 @@ pub struct Hashtag {
 }
 
 impl Hashtag {
-    pub fn new(href: Url, name: String) -> Self {
+    #[must_use]
+    pub const fn new(href: Url, name: String) -> Self {
         Self {
             kind: HashtagType::Hashtag,
             href,

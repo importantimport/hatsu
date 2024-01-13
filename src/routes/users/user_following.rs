@@ -47,7 +47,7 @@ pub async fn handler(
     match pagination.page {
         None => Ok(FederationJson(WithContext::new_default(
             serde_json::to_value(Collection::new(
-                hatsu_utils::url::generate_user_url(data.domain(), &name)?
+                &hatsu_utils::url::generate_user_url(data.domain(), &name)?
                     .join(&format!("{name}/following"))?,
                 0,
                 Some(0),
