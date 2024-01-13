@@ -35,16 +35,16 @@ impl ApubUser {
                 .and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
             // TODO: test this
             inbox: user_url
-                .join(&format!("{}/inbox", preferred_username))?
+                .join(&format!("{preferred_username}/inbox"))?
                 .to_string(),
             outbox: user_url
-                .join(&format!("{}/outbox", preferred_username))?
+                .join(&format!("{preferred_username}/outbox"))?
                 .to_string(),
             followers: user_url
-                .join(&format!("{}/followers", preferred_username))?
+                .join(&format!("{preferred_username}/followers"))?
                 .to_string(),
             following: user_url
-                .join(&format!("{}/following", preferred_username))?
+                .join(&format!("{preferred_username}/following"))?
                 .to_string(),
             local: true,
             public_key: keypair.public_key,
@@ -60,9 +60,9 @@ impl ApubUser {
 
     /// 发送动态 / Send Activity
     ///
-    /// activitypub_federation::activity_queue::send_activity 的简单封装
+    /// `activitypub_federation::activity_queue::send_activity` 的简单封装
     ///
-    /// 遇到类型问题加不上去，不要忘了用 WithContext::new_default(activity) 套一层
+    /// 遇到类型问题加不上去，不要忘了用 `WithContext::new_default(activity`) 套一层
     ///
     /// https://github.com/LemmyNet/activitypub-federation-rust/blob/35bf29ae73e33a537a9fdb2d2bb8bb1ba4842991/examples/federation/objects/person.rs#L111-L132
     pub async fn send_activity<Activity>(

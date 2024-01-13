@@ -11,7 +11,7 @@ use activitypub_federation::{
 use chrono::{DateTime, Utc};
 use hatsu_db_schema::{post::Model as DbPost, prelude::Post};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelTrait, EntityTrait, IntoActiveModel};
 use url::Url;
 
 use crate::objects::Note;

@@ -7,7 +7,7 @@ use activitypub_federation::{
 };
 use hatsu_db_schema::prelude::ReceivedFollow;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
 use url::Url;
 

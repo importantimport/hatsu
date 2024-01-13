@@ -11,7 +11,7 @@ use activitypub_federation::{
 use chrono::{Local, SecondsFormat};
 use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
-use sea_orm::*;
+use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -77,7 +77,7 @@ impl Note {
 
         let mut source = sources
             .iter()
-            .filter_map(|source| source.clone())
+            .filter_map(std::clone::Clone::clone)
             .collect::<Vec<String>>()
             .join("\n\n");
 
@@ -117,7 +117,7 @@ impl Note {
         let id = hatsu_utils::url::generate_object_url(data.domain(), json.id)?.into();
 
         Ok(Self {
-            kind: Default::default(),
+            kind: NoteType::default(),
             id,
             attributed_to: actor.id().into(),
             to: vec![public()],

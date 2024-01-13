@@ -8,7 +8,7 @@ use activitypub_federation::{
     traits::{ActivityHandler, Actor},
 };
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelTrait, IntoActiveModel};
 use serde::{Deserialize, Serialize};
 use url::Url;
 

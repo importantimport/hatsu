@@ -7,7 +7,7 @@ use activitypub_federation::{
 use chrono::{Local, SecondsFormat};
 use hatsu_db_schema::activity::Model as DbActivity;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelTrait, IntoActiveModel};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
