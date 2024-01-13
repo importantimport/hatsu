@@ -87,8 +87,7 @@ impl Note {
         if let Some(ref tags) = json.tags {
             source.push_str(&format!(
                 "\n\n{}",
-                tags
-                    .iter()
+                tags.iter()
                     .map(|tag| "#".to_owned() + tag)
                     .collect::<Vec<String>>()
                     .join(" ")
@@ -125,15 +124,16 @@ impl Note {
             // TODO: test this
             tag: json.tags.map(|tags: Vec<String>| {
                 tags.iter()
-                    .map(|tag| Hashtag {
-                        kind: Default::default(),
-                        href: Url::parse(&format!(
-                            "https://{}/t/{}",
-                            data.domain(),
-                            urlencoding::encode(tag)
-                        ))
-                        .unwrap(),
-                        name: "#".to_owned() + tag,
+                    .map(|tag| {
+                        Hashtag::new(
+                            Url::parse(&format!(
+                                "https://{}/t/{}",
+                                data.domain(),
+                                urlencoding::encode(tag),
+                            ))
+                            .unwrap(),
+                            format!("#{tag}"),
+                        )
                     })
                     .collect()
             }),

@@ -13,3 +13,13 @@ pub struct Hashtag {
     /// #foo
     pub name: String,
 }
+
+impl Hashtag {
+    pub fn new(href: Url, name: String) -> Self {
+        Self {
+            kind: HashtagType::Hashtag,
+            href,
+            name,
+        }
+    }
+}
