@@ -30,22 +30,18 @@ impl Feed {
             head: &ElementRef,
             domain: &str,
             kind: &str,
-        ) -> Result<Option<Url>, AppError> {
-            let selector =
-                Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap();
-            let link_href = head
-                .select(&selector)
+        ) -> Option<Url> {
+            head
+                .select(&Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap())
                 .next()
                 .and_then(|link| link.value().attr("href"))
-                .map(|href| absolutize_relative_url(href, domain).unwrap());
-
-            Ok(link_href)
+                .map(|href| absolutize_relative_url(href, domain).unwrap())
         }
 
         Ok(Self {
-            json: feed_auto_discovery(&head, &domain, "application/feed+json")?,
-            atom: feed_auto_discovery(&head, &domain, "application/atom+xml")?,
-            rss: feed_auto_discovery(&head, &domain, "application/rss+xml")?,
+            json: feed_auto_discovery(&head, &domain, "application/feed+json"),
+            atom: feed_auto_discovery(&head, &domain, "application/atom+xml"),
+            rss: feed_auto_discovery(&head, &domain, "application/rss+xml"),
         })
     }
 }

@@ -24,14 +24,13 @@ pub struct Account {
 
 impl Account {
     pub fn from_json(user: Service) -> Result<Self, AppError> {
-        let avatar = match user.icon {
-            Some(icon) => icon.url.to_string(),
-            // fallback
-            // TODO: update this
-            None => format!(
+        let avatar = if let Some(icon) = user.icon {
+            icon.url.to_string()
+        } else {
+            format!(
                 "https://ui-avatars.com/api/?name={}&background=random&format=svg",
                 urlencoding::encode(&user.name)
-            ),
+            )
         };
 
         Ok(Self {
