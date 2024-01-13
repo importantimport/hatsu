@@ -2,7 +2,7 @@ use activitypub_federation::{config::Data, traits::Object};
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::{post, prelude::Post};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{EntityTrait, ModelTrait};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 

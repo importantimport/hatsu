@@ -5,7 +5,7 @@ use axum::{debug_handler, http::StatusCode, response::IntoResponse, Json};
 use hatsu_apub::actors::ApubUser;
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelTrait, EntityTrait, IntoActiveModel};
 
 use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 

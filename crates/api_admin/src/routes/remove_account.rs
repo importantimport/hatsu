@@ -2,7 +2,7 @@ use activitypub_federation::config::Data;
 use axum::{debug_handler, http::StatusCode, response::IntoResponse, Json};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::EntityTrait;
 
 use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 
