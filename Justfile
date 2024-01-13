@@ -18,7 +18,7 @@ fmt *args='':
 
 # lint code. (args example: just lint --fix)
 lint *args='':
-  cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc
+  cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions
 
 # cross-build:
 #   cross build --release --target aarch64-unknown-linux-gnu

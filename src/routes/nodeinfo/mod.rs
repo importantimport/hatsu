@@ -26,7 +26,6 @@ async fn nodeinfo_usage(data: Data<AppData>) -> Result<NodeInfoUsage, AppError> 
 }
 
 /// <https://github.com/jhass/nodeinfo/blob/main/schemas/2.0/schema.json>
-#[allow(clippy::module_name_repetitions)]
 #[debug_handler]
 pub async fn nodeinfo_2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
     Ok(Json(NodeInfo {
@@ -49,7 +48,6 @@ pub async fn nodeinfo_2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppErro
 }
 
 /// <https://github.com/jhass/nodeinfo/blob/main/schemas/2.1/schema.json>
-#[allow(clippy::module_name_repetitions)]
 #[debug_handler]
 pub async fn nodeinfo_2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
     Ok(Json(NodeInfo {
