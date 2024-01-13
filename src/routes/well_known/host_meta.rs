@@ -3,7 +3,7 @@
 use activitypub_federation::config::Data;
 use axum::{
     body::Body,
-    http::{header::ACCEPT, HeaderMap, Response, StatusCode},
+    http::{header::ACCEPT, HeaderMap, HeaderValue, Response, StatusCode},
     response::{IntoResponse, Redirect},
     Json,
 };
@@ -30,15 +30,21 @@ pub async fn host_meta(
     headers: HeaderMap,
 ) -> impl IntoResponse {
     match headers.get(ACCEPT) {
-        Some(accept) => {
-            match accept.to_str() {
-                Ok(accept) if accept.contains("application/jrd+json") => Redirect::temporary("/.well-known/host-meta.json"),
-                Ok(accept) if accept.contains("application/xrd+xml") => Redirect::temporary("/.well-known/host-meta.xrd"),
-                Ok(accept) if accept.contains("application/json") => Redirect::temporary("/.well-known/host-meta.json"),
-                Ok(accept) if accept.contains("application/xml") => Redirect::temporary("/.well-known/host-meta.xrd"),
-                _ => Redirect::temporary("/.well-known/host-meta.xrd"),
+        Some(accept) => match accept.to_str() {
+            Ok(accept) if accept.contains("application/jrd+json") => {
+                Redirect::temporary("/.well-known/host-meta.json")
             }
-        }
+            Ok(accept) if accept.contains("application/xrd+xml") => {
+                Redirect::temporary("/.well-known/host-meta.xrd")
+            }
+            Ok(accept) if accept.contains("application/json") => {
+                Redirect::temporary("/.well-known/host-meta.json")
+            }
+            Ok(accept) if accept.contains("application/xml") => {
+                Redirect::temporary("/.well-known/host-meta.xrd")
+            }
+            _ => Redirect::temporary("/.well-known/host-meta.xrd"),
+        },
         None => Redirect::temporary("/.well-known/host-meta.xrd"),
     }
 }
@@ -55,7 +61,10 @@ pub async fn host_meta_xrd(data: Data<AppData>) -> impl IntoResponse {
         data.domain()
     );
     let mut headers = HeaderMap::new();
-    headers.insert("Content-Type", "application/xml+xrd".parse().unwrap());
+    headers.insert(
+        "Content-Type",
+        HeaderValue::from_static("application/xml+xrd"),
+    );
     (headers, Response::new(Body::from(host_meta)))
 }
 
