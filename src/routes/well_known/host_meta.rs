@@ -29,8 +29,9 @@ pub async fn host_meta(
     // https://github.com/hyperium/headers/issues/53
     headers: HeaderMap,
 ) -> impl IntoResponse {
-    match headers.get(ACCEPT) {
-        Some(accept) => match accept.to_str() {
+    headers.get(ACCEPT).map_or_else(
+        || Redirect::temporary("/.well-known/host-meta.xrd"),
+        |accept| match accept.to_str() {
             Ok(accept) if accept.contains("application/jrd+json") => {
                 Redirect::temporary("/.well-known/host-meta.json")
             }
@@ -45,8 +46,7 @@ pub async fn host_meta(
             }
             _ => Redirect::temporary("/.well-known/host-meta.xrd"),
         },
-        None => Redirect::temporary("/.well-known/host-meta.xrd"),
-    }
+    )
 }
 
 // .well-known/host-meta.xrd

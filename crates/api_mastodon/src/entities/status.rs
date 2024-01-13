@@ -41,7 +41,7 @@ impl Status {
             // TODO: replace
             url: note.id.clone().into(),
             account: Account::from_json(service)?,
-            created_at: note.published.unwrap_or(Utc::now().to_rfc3339()),
+            created_at: note.published.unwrap_or_else(|| Utc::now().to_rfc3339()),
             content: note.content,
             emojis: vec![],
             replies_count: 0,
