@@ -32,7 +32,7 @@ impl Feed {
             kind: &str,
         ) -> Result<Option<Url>, AppError> {
             let selector =
-                Selector::parse(&format!("link[rel=\"alternate\"][type=\"{}\"]", kind)).unwrap();
+                Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap();
             let link_href = head
                 .select(&selector)
                 .next()

@@ -9,7 +9,7 @@ pub fn absolutize_relative_url(relative_url: &str, domain: &str) -> Result<Url, 
     if relative_url.starts_with("https://") {
         Ok(Url::parse(relative_url)?)
     } else {
-        Ok(Url::parse(&format!("https://{}", domain))?.join(relative_url)?)
+        Ok(Url::parse(&format!("https://{domain}"))?.join(relative_url)?)
     }
 }
 
@@ -30,10 +30,10 @@ pub fn generate_activity_url(domain: &str, id: Option<String>) -> Result<Url, Ap
 pub fn generate_object_url(domain: &str, id: String) -> Result<Url, AppError> {
     match id {
         id if id.starts_with("https://") => {
-            Ok(Url::parse(&format!("https://{}/o/{}", domain, id,))?)
+            Ok(Url::parse(&format!("https://{domain}/o/{id}",))?)
         }
         _ => Err(AppError::new(
-            format!("Invalid Object ID {}", id),
+            format!("Invalid Object ID {id}"),
             serde_json::from_str("Object ID need to starts with https://")?,
             None,
         )),
@@ -46,10 +46,10 @@ pub fn generate_object_url(domain: &str, id: String) -> Result<Url, AppError> {
 pub fn generate_user_url(domain: &str, id: &str) -> Result<Url, AppError> {
     match id {
         id if !id.starts_with("https://") => {
-            Ok(Url::parse(&format!("https://{}/u/{}", domain, id,))?)
+            Ok(Url::parse(&format!("https://{domain}/u/{id}",))?)
         }
         _ => Err(AppError::new(
-            format!("Invalid User ID {}", id),
+            format!("Invalid User ID {id}"),
             serde_json::from_str("User ID cannot starts with https://")?,
             None,
         )),
