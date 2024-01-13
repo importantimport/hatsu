@@ -10,6 +10,7 @@ use axum::{
 use hatsu_utils::AppData;
 use serde::Serialize;
 
+#[allow(clippy::module_name_repetitions)]
 #[derive(Serialize)]
 pub struct HostMetaJson {
     links: Vec<Link>,
@@ -47,6 +48,7 @@ pub async fn host_meta(
 
 // .well-known/host-meta.xrd
 // .well-known/host-meta.xml
+#[allow(clippy::module_name_repetitions)]
 pub async fn host_meta_xrd(data: Data<AppData>) -> impl IntoResponse {
     let host_meta = format!(
         r#"<?xml version="1.0" encoding="UTF-8"?>
@@ -63,6 +65,7 @@ pub async fn host_meta_xrd(data: Data<AppData>) -> impl IntoResponse {
 // .well-known/host-meta.jrd
 // .well-known/host-meta.json
 // TODO: application/jrd+json
+#[allow(clippy::module_name_repetitions)]
 pub async fn host_meta_json(data: Data<AppData>) -> impl IntoResponse {
     let host_meta_json = HostMetaJson {
         links: vec![Link {

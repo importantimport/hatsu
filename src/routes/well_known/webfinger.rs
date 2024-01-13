@@ -9,6 +9,7 @@ use sea_orm::EntityTrait;
 use serde::Deserialize;
 use url::Url;
 
+#[allow(clippy::module_name_repetitions)]
 #[derive(Deserialize)]
 pub struct WebfingerQuery {
     resource: String,
