@@ -12,9 +12,11 @@ run:
 build:
   cargo build --release
 
+# format code. (args example: just fmt --check)
 fmt *args='':
   cargo fmt --all {{args}}
 
+# lint code. (args example: just lint --fix)
 lint *args='':
   cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc
 
