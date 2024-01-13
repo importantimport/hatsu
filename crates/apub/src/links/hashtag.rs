@@ -8,7 +8,7 @@ kind!(HashtagType, Hashtag);
 pub struct Hashtag {
     #[serde(rename = "type")]
     pub kind: HashtagType,
-    /// https://hatsu.local/t/foo
+    /// <https://hatsu.local/t/foo>
     pub href: Url,
     /// #foo
     pub name: String,

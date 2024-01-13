@@ -44,7 +44,7 @@ enum Post {
     // Object ID
     Id,
     // Object JSON
-    /// https://www.w3.org/TR/activitystreams-vocabulary/#object-types
+    /// <https://www.w3.org/TR/activitystreams-vocabulary/#object-types>
     Object,
     // 作者
     // Author

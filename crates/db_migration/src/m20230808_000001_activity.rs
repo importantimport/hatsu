@@ -38,7 +38,7 @@ enum Activity {
     // Activity UUID
     Id,
     // Activity JSON
-    /// https://www.w3.org/TR/activitystreams-vocabulary/#activity-types
+    /// <https://www.w3.org/TR/activitystreams-vocabulary/#activity-types>
     Activity,
     // Activity Actor
     Actor,

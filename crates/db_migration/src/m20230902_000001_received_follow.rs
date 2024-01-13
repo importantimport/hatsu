@@ -36,7 +36,7 @@ impl MigrationTrait for Migration {
     }
 }
 
-/// https://www.w3.org/ns/activitystreams#Follow
+/// <https://www.w3.org/ns/activitystreams#Follow>
 #[derive(Iden)]
 enum ReceivedFollow {
     Table,

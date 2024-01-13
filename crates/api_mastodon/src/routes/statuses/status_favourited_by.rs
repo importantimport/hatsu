@@ -9,7 +9,7 @@ use crate::entities::Account;
 
 /// See who favourited a status
 ///
-/// https://docs.joinmastodon.org/methods/statuses/#favourited_by
+/// <https://docs.joinmastodon.org/methods/statuses/#favourited_by>
 #[utoipa::path(
     post,
     tag = "mastodon",

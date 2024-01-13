@@ -82,7 +82,7 @@ impl ApubUserFeedItem {
 
 /// JSON Feed 1.1
 ///
-/// https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a
+/// <https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeed {
     #[serde(rename = "_hatsu")]
@@ -103,7 +103,7 @@ pub struct JsonUserFeed {
 
 /// Hatsu JSON Feed Extension
 ///
-/// https://github.com/importantimport/hatsu/issues/1
+/// <https://github.com/importantimport/hatsu/issues/1>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeedHatsu {
     pub about: Option<Url>,
@@ -112,7 +112,7 @@ pub struct JsonUserFeedHatsu {
 
 /// JSON Feed Item
 ///
-/// https://www.jsonfeed.org/version/1.1/#items-a-name-items-a
+/// <https://www.jsonfeed.org/version/1.1/#items-a-name-items-a>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct JsonUserFeedItem {
     pub id: String,

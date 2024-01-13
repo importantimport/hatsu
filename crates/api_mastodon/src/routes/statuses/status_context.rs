@@ -6,7 +6,7 @@ use crate::entities::Context;
 
 /// Get parent and child statuses in context
 ///
-/// https://docs.joinmastodon.org/methods/statuses/#context
+/// <https://docs.joinmastodon.org/methods/statuses/#context>
 #[utoipa::path(
     post,
     tag = "mastodon",

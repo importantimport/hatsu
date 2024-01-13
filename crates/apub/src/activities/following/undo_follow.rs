@@ -30,7 +30,7 @@ pub struct UndoFollow {
 
 /// 只接收，不发送
 /// receive only, without send
-/// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/undo_follow.rs
+/// <https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/undo_follow.rs>
 #[async_trait::async_trait]
 impl ActivityHandler for UndoFollow {
     type DataType = AppData;

@@ -21,7 +21,7 @@ use crate::{
     objects::ApubPost,
 };
 
-/// https://www.w3.org/ns/activitystreams#Note
+/// <https://www.w3.org/ns/activitystreams#Note>
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Note {

@@ -13,7 +13,7 @@ use url::Url;
 
 use crate::{activities::Follow, actors::ApubUser};
 
-/// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/accept.rs
+/// <https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/accept.rs>
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AcceptFollow {
@@ -28,8 +28,8 @@ pub struct AcceptFollow {
     pub(crate) id: Url,
 }
 
-/// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/accept.rs
-/// https://github.com/LemmyNet/activitypub-federation-rust/blob/7bb17f21d59b0aed6126d8a8a0cd60897cb02e6d/examples/local_federation/activities/accept.rs
+/// <https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/accept.rs>
+/// <https://github.com/LemmyNet/activitypub-federation-rust/blob/7bb17f21d59b0aed6126d8a8a0cd60897cb02e6d/examples/local_federation/activities/accept.rs>
 impl AcceptFollow {
     pub async fn new(follow: Follow, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
         // 被关注者（本地账号），https://{}/u/{}
@@ -63,7 +63,7 @@ impl AcceptFollow {
 
 /// 只发送，不接收
 /// send only, without receive
-/// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/accept.rs
+/// <https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/accept.rs>
 #[async_trait::async_trait]
 impl ActivityHandler for AcceptFollow {
     type DataType = AppData;

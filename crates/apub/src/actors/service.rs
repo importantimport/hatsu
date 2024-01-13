@@ -10,7 +10,7 @@ use url::Url;
 use crate::actors::ApubUser;
 
 /// `ActivityPub` Service (Bot User)
-/// https://www.w3.org/ns/activitystreams#Service
+/// <https://www.w3.org/ns/activitystreams#Service>
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Service {

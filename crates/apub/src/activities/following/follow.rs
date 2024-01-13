@@ -17,7 +17,7 @@ use crate::{
     actors::ApubUser,
 };
 
-/// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/follow.rs
+/// <https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/follow.rs>
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Follow {
@@ -36,7 +36,7 @@ pub struct Follow {
 
 /// 只接收，不发送
 /// receive only, without send
-/// https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/follow.rs
+/// <https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/activities/following/follow.rs>
 #[async_trait::async_trait]
 impl ActivityHandler for Follow {
     type DataType = AppData;

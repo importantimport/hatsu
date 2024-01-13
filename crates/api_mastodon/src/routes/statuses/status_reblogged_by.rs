@@ -9,7 +9,7 @@ use crate::entities::Account;
 
 /// See who boosted a status
 ///
-/// https://docs.joinmastodon.org/methods/statuses/#reblogged_by
+/// <https://docs.joinmastodon.org/methods/statuses/#reblogged_by>
 #[utoipa::path(
     post,
     tag = "mastodon",

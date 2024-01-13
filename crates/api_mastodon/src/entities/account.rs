@@ -9,7 +9,7 @@ use utoipa::ToSchema;
 
 use crate::entities::CustomEmoji;
 
-/// https://docs.joinmastodon.org/entities/Account/
+/// <https://docs.joinmastodon.org/entities/Account/>
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct Account {
     pub id: Url,

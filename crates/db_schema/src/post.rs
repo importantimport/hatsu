@@ -32,11 +32,11 @@ pub enum Relation {
         from = "Column::InReplyToRoot",
         to = "Column::Id"
     )]
-    /// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+    /// <https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/>
     SelfReferencing,
 }
 
-/// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+/// <https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/>
 pub struct SelfReferencingLink;
 
 impl ActiveModelBehavior for ActiveModel {}
@@ -53,7 +53,7 @@ impl Related<super::user_feed_item::Entity> for Entity {
     }
 }
 
-/// https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/
+/// <https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/>
 impl Linked for SelfReferencingLink {
     type FromEntity = Entity;
     type ToEntity = Entity;
