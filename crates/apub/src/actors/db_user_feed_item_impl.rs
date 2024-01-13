@@ -81,7 +81,10 @@ impl JsonUserFeed {
             hatsu: None,
             feed_url: Url::parse(&feed.id)?,
             next_url: None,
-            title: feed.title.unwrap().content,
+            title: match feed.title {
+                Some(title) => title.content,
+                None => "untitled".to_string(),
+            },
             description: feed.description.map(|text| text.content),
             icon: feed.icon.map(|image| Url::parse(&image.uri).unwrap()),
             language: feed.language,

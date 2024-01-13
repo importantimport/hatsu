@@ -29,20 +29,17 @@ pub async fn host_meta(
     // https://github.com/hyperium/headers/issues/53
     headers: HeaderMap,
 ) -> impl IntoResponse {
-    match headers.get(ACCEPT).unwrap().to_str() {
-        Ok(accept) if accept.contains("application/jrd+json") => {
-            Redirect::temporary("/.well-known/host-meta.json")
+    match headers.get(ACCEPT) {
+        Some(accept) => {
+            match accept.to_str() {
+                Ok(accept) if accept.contains("application/jrd+json") => Redirect::temporary("/.well-known/host-meta.json"),
+                Ok(accept) if accept.contains("application/xrd+xml") => Redirect::temporary("/.well-known/host-meta.xrd"),
+                Ok(accept) if accept.contains("application/json") => Redirect::temporary("/.well-known/host-meta.json"),
+                Ok(accept) if accept.contains("application/xml") => Redirect::temporary("/.well-known/host-meta.xrd"),
+                _ => Redirect::temporary("/.well-known/host-meta.xrd"),
+            }
         }
-        Ok(accept) if accept.contains("application/xrd+xml") => {
-            Redirect::temporary("/.well-known/host-meta.xrd")
-        }
-        Ok(accept) if accept.contains("application/json") => {
-            Redirect::temporary("/.well-known/host-meta.json")
-        }
-        Ok(accept) if accept.contains("application/xml") => {
-            Redirect::temporary("/.well-known/host-meta.xrd")
-        }
-        _ => Redirect::temporary("/.well-known/host-meta.xrd"),
+        None => Redirect::temporary("/.well-known/host-meta.xrd"),
     }
 }
 

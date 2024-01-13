@@ -120,7 +120,7 @@ impl Object for ApubUser {
             kind: Default::default(),
             name: self.name.clone(),
             preferred_username: self.preferred_username.clone(),
-            id: Url::parse(&self.id).unwrap().into(),
+            id: Url::parse(&self.id)?.into(),
             summary: self.summary.clone(),
             icon: self.icon.clone().map(|icon| ServiceImage {
                 kind: Default::default(),

@@ -22,6 +22,7 @@ hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
 axum = { workspace = true }
 base64-simd = { workspace = true }
+chrono = { workspace = true }
 futures = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }

@@ -84,12 +84,10 @@ impl Note {
         let mut content = markdown_to_html(&source);
 
         // TODO: json._hatsu.tags (Option<false>)
-        if json.tags.is_some() {
+        if let Some(ref tags) = json.tags {
             source.push_str(&format!(
                 "\n\n{}",
-                json.tags
-                    .clone()
-                    .unwrap()
+                tags
                     .iter()
                     .map(|tag| "#".to_owned() + tag)
                     .collect::<Vec<String>>()
@@ -98,9 +96,7 @@ impl Note {
 
             content.push_str(&format!(
                 "\n\n{}",
-                json.tags
-                    .clone()
-                    .unwrap()
+                tags
                     .iter()
                     // TODO: test urlencoding::encode()
                     .map(|tag| format!(

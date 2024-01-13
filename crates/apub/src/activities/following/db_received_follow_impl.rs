@@ -14,7 +14,7 @@ impl ApubReceivedFollow {
             to: self
                 .to
                 .clone()
-                .and_then(|to| serde_json::from_str(&to).unwrap()),
+                .map(|to| serde_json::from_str(&to).unwrap()),
             object: Url::parse(&self.object)?.into(),
         })
     }
