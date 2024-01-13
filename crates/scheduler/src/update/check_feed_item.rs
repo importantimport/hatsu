@@ -10,7 +10,7 @@ use hatsu_db_schema::{
     user_feed_item::Model as DbUserFeedItem,
 };
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ActiveModelTrait, EntityTrait, IntoActiveModel};
 
 pub async fn check_feed_item(
     data: &Data<AppData>,

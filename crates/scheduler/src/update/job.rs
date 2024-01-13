@@ -7,7 +7,7 @@ use hatsu_db_schema::{
     user::{self, Model as DbUser},
 };
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{ColumnTrait, EntityTrait, QueryFilter, QueryOrder};
 
 use crate::update::{check_feed_item, get_user_feed};
 

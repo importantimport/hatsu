@@ -23,7 +23,7 @@ impl Scheduler {
                 let data = self.config.to_request_data();
                 Box::pin(async move {
                     match update::fast_update(&data).await {
-                        Ok(_) => tracing::info!("ok"),
+                        Ok(()) => tracing::info!("ok"),
                         Err(error) => tracing::warn!(%error, "error"),
                     }
                 })
@@ -36,7 +36,7 @@ impl Scheduler {
                 let data = full_config.to_request_data();
                 Box::pin(async move {
                     match update::full_update(&data).await {
-                        Ok(_) => tracing::info!("ok"),
+                        Ok(()) => tracing::info!("ok"),
                         Err(error) => tracing::warn!(%error, "error"),
                     }
                 })
