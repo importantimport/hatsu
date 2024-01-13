@@ -1,3 +1,4 @@
+use activitypub_federation::kinds::activity::FollowType;
 use hatsu_db_schema::received_follow::Model as DbReceivedFollow;
 use hatsu_utils::AppError;
 use url::Url;
@@ -8,13 +9,10 @@ impl ApubReceivedFollow {
     // 转换为ActivityStreams JSON
     pub fn into_json(self) -> Result<Follow, AppError> {
         Ok(Follow {
-            kind: Default::default(),
+            kind: FollowType::Follow,
             id: Url::parse(&self.id)?,
             actor: Url::parse(&self.actor)?.into(),
-            to: self
-                .to
-                .clone()
-                .map(|to| serde_json::from_str(&to).unwrap()),
+            to: self.to.clone().map(|to| serde_json::from_str(&to).unwrap()),
             object: Url::parse(&self.object)?.into(),
         })
     }

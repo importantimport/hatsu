@@ -112,7 +112,7 @@ impl Note {
         let id = hatsu_utils::url::generate_object_url(data.domain(), json.id)?.into();
 
         Ok(Self {
-            kind: NoteType::default(),
+            kind: NoteType::Note,
             id,
             attributed_to: actor.id().into(),
             to: vec![public()],

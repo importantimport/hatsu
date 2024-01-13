@@ -75,3 +75,12 @@ pub struct ServiceAttachment {
     /// "<a href="{url}">{url}</a>"
     value: String,
 }
+
+impl ServiceImage {
+    pub fn new(url: Url) -> Self {
+        Self {
+            kind: ImageType::Image,
+            url,
+        }
+    }
+}

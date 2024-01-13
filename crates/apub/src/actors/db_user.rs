@@ -2,6 +2,7 @@ use std::ops::Deref;
 
 use activitypub_federation::{
     config::Data,
+    kinds::actor::ServiceType,
     protocol::verification::verify_domains_match,
     traits::{Actor, Object},
 };
@@ -11,7 +12,7 @@ use hatsu_db_schema::{
     user::{self, Model as DbUser},
 };
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{EntityTrait, IntoActiveModel, sea_query};
+use sea_orm::{sea_query, EntityTrait, IntoActiveModel};
 use url::Url;
 
 use crate::actors::{Service, ServiceImage};
@@ -117,19 +118,13 @@ impl Object for ApubUser {
 
     async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
         Ok(Service {
-            kind: Default::default(),
+            kind: ServiceType::Service,
             name: self.name.clone(),
             preferred_username: self.preferred_username.clone(),
             id: Url::parse(&self.id)?.into(),
             summary: self.summary.clone(),
-            icon: self.icon.clone().map(|icon| ServiceImage {
-                kind: Default::default(),
-                url: Url::parse(&icon).unwrap(),
-            }),
-            image: self.image.clone().map(|image| ServiceImage {
-                kind: Default::default(),
-                url: Url::parse(&image).unwrap(),
-            }),
+            icon: self.icon.clone().map(|icon| ServiceImage::new(Url::parse(&icon).unwrap())),
+            image: self.image.clone().map(|image| ServiceImage::new(Url::parse(&image).unwrap())),
             // TODO: User Attachment
             attachment: vec![],
             inbox: Url::parse(&self.inbox)?,
