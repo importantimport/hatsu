@@ -39,6 +39,7 @@ enum Activity {
     Id,
     // Activity JSON
     /// <https://www.w3.org/TR/activitystreams-vocabulary/#activity-types>
+    #[allow(clippy::enum_variant_names)]
     Activity,
     // Activity Actor
     Actor,
