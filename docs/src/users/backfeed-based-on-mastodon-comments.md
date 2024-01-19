@@ -7,7 +7,11 @@
 "Mastodon Comments" refers to the [`@oom/mastodon-components`](https://github.com/oom-components/mastodon-comments) library.
 
 ```html
-<script type="module" src="https://esm.run/@oom/mastodon-comments"></script>
+<script type="module">
+    import Comments from 'https://esm.run/@oom/mastodon-comments'
+    customElements.define('oom-comments', Comments)
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css" />`
 <oom-comments src="https://mastodon.gal/@misteroom/110810445656343599">
   No comments yet
 </oom-comments>
