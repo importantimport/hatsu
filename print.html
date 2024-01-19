@@ -474,7 +474,11 @@ app.use('/posts/*', hatsuObject({ instance }))
 </blockquote>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <p>&quot;Mastodon Comments&quot; refers to the <a href="https://github.com/oom-components/mastodon-comments"><code>@oom/mastodon-components</code></a> library.</p>
-<pre><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;https://esm.run/@oom/mastodon-comments&quot;&gt;&lt;/script&gt;
+<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+    import Comments from 'https://esm.run/@oom/mastodon-comments'
+    customElements.define('oom-comments', Comments)
+&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot; /&gt;`
 &lt;oom-comments src=&quot;https://mastodon.gal/@misteroom/110810445656343599&quot;&gt;
   No comments yet
 &lt;/oom-comments&gt;
