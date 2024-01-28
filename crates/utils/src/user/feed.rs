@@ -26,16 +26,13 @@ impl Feed {
             .next()
             .unwrap();
 
-        fn feed_auto_discovery(
-            head: &ElementRef,
-            domain: &str,
-            kind: &str,
-        ) -> Option<Url> {
-            head
-                .select(&Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap())
-                .next()
-                .and_then(|link| link.value().attr("href"))
-                .map(|href| absolutize_relative_url(href, domain).unwrap())
+        fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Option<Url> {
+            head.select(
+                &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap(),
+            )
+            .next()
+            .and_then(|link| link.value().attr("href"))
+            .map(|href| absolutize_relative_url(href, domain).unwrap())
         }
 
         Ok(Self {

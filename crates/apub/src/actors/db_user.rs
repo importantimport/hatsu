@@ -123,8 +123,14 @@ impl Object for ApubUser {
             preferred_username: self.preferred_username.clone(),
             id: Url::parse(&self.id)?.into(),
             summary: self.summary.clone(),
-            icon: self.icon.clone().map(|icon| ServiceImage::new(Url::parse(&icon).unwrap())),
-            image: self.image.clone().map(|image| ServiceImage::new(Url::parse(&image).unwrap())),
+            icon: self
+                .icon
+                .clone()
+                .map(|icon| ServiceImage::new(Url::parse(&icon).unwrap())),
+            image: self
+                .image
+                .clone()
+                .map(|image| ServiceImage::new(Url::parse(&image).unwrap())),
             // TODO: User Attachment
             attachment: vec![],
             inbox: Url::parse(&self.inbox)?,
