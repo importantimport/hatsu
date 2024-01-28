@@ -1,23 +1,48 @@
 name: Rust
 
 on:
-#   push:
-#     branches: [ "main" ]
-#   pull_request:
-#     branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+  pull_request:
   workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  fmt:
+    name: just fmt --check
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+      - uses: rui314/setup-mold@v1
+      - uses: taiki-e/install-action@just
+      - uses: mozilla-actions/sccache-action@v0.0.3
+      - run: just fmt --check
+
+  lint:
+    name: just lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+      - uses: rui314/setup-mold@v1
+      - uses: taiki-e/install-action@just
+      - uses: mozilla-actions/sccache-action@v0.0.3
+      - run: just lint
+
+  build:
+    name: just build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+      - uses: rui314/setup-mold@v1
+      - uses: taiki-e/install-action@just
+      - uses: mozilla-actions/sccache-action@v0.0.3
+      - run: just build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hatsu
+          path: target/release/hatsu
