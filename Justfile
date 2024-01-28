@@ -20,12 +20,6 @@ fmt *args='':
 lint *args='':
   cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions
 
-# cross-build:
-#   cross build --release --target aarch64-unknown-linux-gnu
-#   cross build --release --target aarch64-unknown-linux-musl
-#   cross build --release --target x86_64-unknown-linux-gnu
-#   cross build --release --target x86_64-unknown-linux-musl
-
 # docker-build name='importantimport/hatsu' version='latest':
 #   docker build . \
 #   --tag "{{name}}:{{version}}"
@@ -86,20 +80,8 @@ setup-docker target-arch='amd64':
   just setup-debian
   cargo install cargo-chef
 
-# rustup install nightly
-# rustup override set nightly
-# rustup component add rustc-codegen-cranelift-preview --toolchain nightly
-# TODO: cargo-pgo
-# rustup component add llvm-tools-preview
-_setup-rustup target-arch='amd64':
-  @echo "TODO"
-
 # TODO: cargo-pgo
 # cargo install cargo-pgo
 # (distro: undefined/arch/debian)
 _setup-cargo distro='undefined':
   {{ if distro == 'arch' { "sudo pacman -S cargo-watch" } else { "cargo install cargo-watch" } }}
-
-# cargo install cross --git https://github.com/cross-rs/cross
-_setup-cross:
-  @echo "TODO"
