@@ -1,7 +1,7 @@
 ARG PROFILE="release"
 
 ########## CHEF ##########
-FROM --platform=$BUILDPLATFORM rust:slim-bookworm AS chef
+FROM --platform=$BUILDPLATFORM rustlang/rust:nightly-bookworm-slim AS chef
 
 RUN cargo install cargo-chef && \
   # Install mold linker
