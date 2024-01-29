@@ -34,6 +34,10 @@ _cross *args:
 fmt *args='':
   cargo fmt --all {{args}}
 
+# check code. (args example: just check --quiet)
+check *args='':
+  cargo check --all {{args}}
+
 # lint code. (args example: just lint --fix)
 lint *args='':
   cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions
