@@ -98,7 +98,6 @@ uuid = { version = "1.4", features = ["v4", "v7", "fast-rng", "macro-diagnostics
 # See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
 
 [dependencies]
-openssl = { version = "0.10.62", features = ["vendored"] }
 hatsu_api_admin = { workspace = true }
 hatsu_api_mastodon = { workspace = true }
 hatsu_apub = { workspace = true }
