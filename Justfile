@@ -10,7 +10,12 @@ run:
 
 # building production.
 build:
-  cargo build --release
+  #!/bin/sh
+  if [ -z $(which mold) ]; then
+    RUSTFLAGS=-Clink-arg=-fuse-ld=lld cargo build --release
+  else
+    RUSTFLAGS=-Clink-arg=-fuse-ld=mold cargo build --release
+  fi
 
 buildx:
   just _cross build --release --target x86_64-unknown-linux-musl

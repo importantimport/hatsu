@@ -10,10 +10,6 @@ codegen-backend = "cranelift"
 [target.'cfg(all())']
 rustflags = ["--cfg", "uuid_unstable"]
 
-# linux (mold)
-[target.'cfg(target_os = "linux")']
-rustflags = ["-C", "link-arg=-fuse-ld=mold"]
-
 # x86_64-v2 (Intel Nehalem / AMD Jaguar and above)
 # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
 [target.'cfg(target_arch = "x86_64")']
