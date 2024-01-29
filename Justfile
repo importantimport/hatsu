@@ -18,9 +18,9 @@ build:
   fi
 
 buildx:
-  just _cross build --release --target x86_64-unknown-linux-musl
+#   just _cross build --release --target x86_64-unknown-linux-musl
   just _cross build --release --target aarch64-unknown-linux-gnu
-  just _cross build --release --target aarch64-unknown-linux-musl
+#   just _cross build --release --target aarch64-unknown-linux-musl
 
 # detect before running sea-orm-cli and install it if it doesn't exist.
 _cross *args:
