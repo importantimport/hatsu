@@ -12,6 +12,19 @@ run:
 build:
   cargo build --release
 
+buildx:
+  just _cross build --release --target x86_64-unknown-linux-musl
+  just _cross build --release --target aarch64-unknown-linux-gnu
+  just _cross build --release --target aarch64-unknown-linux-musl
+
+# detect before running sea-orm-cli and install it if it doesn't exist.
+_cross *args:
+  #!/bin/sh
+  if [ -z $(which cross) ]; then
+    cargo install cross
+  fi
+  cross {{args}}
+
 # format code. (args example: just fmt --check)
 fmt *args='':
   cargo fmt --all {{args}}
@@ -20,14 +33,14 @@ fmt *args='':
 lint *args='':
   cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions
 
-# docker-build name='importantimport/hatsu' version='latest':
+# docker-build version='nightly':
 #   docker build . \
-#   --tag "{{name}}:{{version}}"
+#   --tag "importantimport/hatsu:{{version}}"
 
-# docker-buildx name='importantimport/hatsu' version='latest':
+# docker-buildx version='nightly':
 #   docker buildx build . \
-#   --tag "{{name}}:{{version}}"
-#   --platform "linux/amd64,linux/arm64"
+#   --platform "linux/amd64,linux/arm64" \
+#   --tag "importantimport/hatsu:{{version}}"
 
 # create and remove account (method: create/remove) (name: example.com)
 account method name:
