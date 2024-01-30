@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.description="Self-hosted & Fully-automated Activi
 
 ARG TARGETARCH
 
-COPY target/${TARGETARCH}/hatsu /usr/bin/hatsu
+COPY target_${TARGETARCH}/hatsu /usr/bin/hatsu
 
 ENTRYPOINT [ "hatsu" ]
 
