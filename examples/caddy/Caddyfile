@@ -1,0 +1,6 @@
+# or just `caddy reverse-proxy --from hatsu.example.com --to :3939`
+:443, hatsu.example.com {
+    tls me@example.com
+    encode zstd gzip
+    reverse_proxy :3939
+}
