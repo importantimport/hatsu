@@ -2,9 +2,11 @@ FROM bitnami/minideb:bookworm
 
 ARG TARGETARCH
 
-COPY target_${TARGETARCH}/hatsu /usr/bin/hatsu
+WORKDIR /app
 
-ENTRYPOINT [ "hatsu" ]
+COPY target_${TARGETARCH}/hatsu /app/hatsu
+
+ENTRYPOINT [ "/app/hatsu" ]
 
 EXPOSE 3939
 
