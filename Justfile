@@ -10,12 +10,7 @@ run:
 
 # building production.
 build:
-  #!/bin/sh
-  if [ -z $(which mold) ]; then
-    RUSTFLAGS=-Clink-arg=-fuse-ld=lld cargo build --release
-  else
-    RUSTFLAGS=-Clink-arg=-fuse-ld=mold cargo build --release
-  fi
+  cargo build --release
 
 buildx:
   just _cross build --release --target aarch64-unknown-linux-gnu
