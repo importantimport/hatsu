@@ -45,7 +45,10 @@ pub async fn remove_account(
                     Json(CreateRemoveAccountResult {
                         name: payload.name.clone(),
                         // message: format!("Successfully removed account: {}", payload.name),
-                        message: format!("Remove account API not yet implemented: {}", payload.name),
+                        message: format!(
+                            "Remove account API not yet implemented: {}",
+                            payload.name
+                        ),
                     }),
                 ))
             }
