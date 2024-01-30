@@ -6,6 +6,8 @@ WORKDIR /app
 
 COPY target_${TARGETARCH}/hatsu /app/hatsu
 
+RUN chmod +x /app/hatsu
+
 ENTRYPOINT [ "/app/hatsu" ]
 
 EXPOSE 3939
