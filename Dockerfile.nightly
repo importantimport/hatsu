@@ -1,10 +1,5 @@
 FROM bitnami/minideb:bookworm
 
-LABEL org.opencontainers.image.authors="藍+85CD"
-LABEL org.opencontainers.image.source = "https://github.com/importantimport/hatsu"
-LABEL org.opencontainers.image.licenses="AGPL-3.0-or-later"
-LABEL org.opencontainers.image.description="Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
-
 ARG TARGETARCH
 
 COPY target_${TARGETARCH}/hatsu /usr/bin/hatsu
