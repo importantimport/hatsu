@@ -6,6 +6,7 @@ on:
       - "**.rs"
       - ".github/workflows/nightly.yml"
       - "Cross.toml"
+      - "Dockerfile.nightly"
   workflow_dispatch:
 
 env:
