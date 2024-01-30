@@ -1,0 +1,34 @@
+version: "3"
+
+# volumes:
+#   hatsu_database:
+
+services:
+  hatsu:
+    container_name: hatsu
+    image: ghcr.io/importantimport/hatsu:nightly
+    restart: unless-stopped
+    ports:
+      - 3939:3939
+    # env_file:
+    #   - .env
+    environment:
+      - DATABASE_URL=sqlite://hatsu.sqlite3
+      - HATSU_LISTEN_HOST=0.0.0.0
+      - HATSU_DOMAIN={{your-domain-here}}
+      - HATSU_PRIMARY_ACCOUNT={{your-domain-here}}
+    volumes:
+      # - ./.env:/app/.env
+      - ./hatsu.sqlite3:/app/hatsu.sqlite3
+
+  # https://litestream.io/getting-started/
+  # litestream:
+  #   container_name: hatsu_litestream
+  #   image: litestream/litestream
+  #   tty: true
+  #   environment:
+  #     - LITESTREAM_ACCESS_KEY_ID=minioadmin
+  #     - LITESTREAM_SECRET_ACCESS_KEY=minioadmin
+  #   volumes_from:
+  #     - hatsu:rw
+  #   command: ["replicate", "/data/hatsu.sqlite3", "s3://mybkt.localhost:9000/hatsu.sqlite3"]
