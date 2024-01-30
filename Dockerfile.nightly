@@ -6,7 +6,11 @@ WORKDIR /app
 
 COPY target_${TARGETARCH}/hatsu /app/hatsu
 
-RUN chmod +x /app/hatsu
+RUN apt update && \
+  apt install -y openssl libssl-dev pkg-config ca-certificates curl && \
+  # https://github.com/casey/just#pre-built-binaries
+  curl -sSf https://just.systems/install.sh | bash -s -- --tag 1.23.0 --to /usr/local/bin && \
+  chmod +x /app/hatsu
 
 ENTRYPOINT [ "/app/hatsu" ]
 
