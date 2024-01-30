@@ -43,6 +43,8 @@ jobs:
       # - uses: taiki-e/install-action@cross
       - uses: mozilla-actions/sccache-action@v0.0.3
       - run: cargo install cross --git https://github.com/cross-rs/cross
+      # https://github.com/cross-rs/cross/wiki/FAQ#exec-format-error
+      - run: docker run --privileged --rm tonistiigi/binfmt --install all
       - run: just buildx
       - uses: actions/upload-artifact@v4
         with:
