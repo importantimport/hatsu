@@ -7,17 +7,20 @@
 - [Getting Started](./users/getting-started.md)
 - [Feed](./users/feed.md)
 - [Redirecting](./users/redirecting.md)
-    - [with Static files and Markup](./users/redirecting-with-static-files-and-markup.md)
-    - [with Redirects file](./users/redirecting-with-redirects-file.md)
-    - [with Platform-Specific Configuration](./users/redirecting-with-platform-specific-config.md)
-    - [with Aoba (Lume & Hono)](./users/redirecting-with-aoba.md)
+  - [with Static files and Markup](./users/redirecting-with-static-files-and-markup.md)
+  - [with Redirects file](./users/redirecting-with-redirects-file.md)
+  - [with Platform-Specific Configuration](./users/redirecting-with-platform-specific-config.md)
+  - [with Aoba (Lume & Hono)](./users/redirecting-with-aoba.md)
 - [Backfeed](./users/backfeed.md)
-    - [based on Webmention (TODO)](./users/backfeed-based-on-webmention.md)
-    - [based on Mastodon Comments (WIP)](./users/backfeed-based-on-mastodon-comments.md)
+  - [based on Webmention (TODO)](./users/backfeed-based-on-webmention.md)
+  - [based on Mastodon Comments (WIP)](./users/backfeed-based-on-mastodon-comments.md)
 
 # for Admins
 
-- [Install with Docker](./admins/install-with-docker.md)
+- [Install](./admins/install.md)
+  - [Docker Installation](./admins/install-docker.md)
+  - [Binary Installation](./admins/install-binary.md)
+- [Environments](./admins/environments.md)
 - [Create Account](./admins/create-account.md)
 
 # for Developers
