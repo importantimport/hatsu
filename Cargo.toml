@@ -76,7 +76,7 @@ scraper = "0.17"
 sea-orm = { version = "0.12", features = [
   "sqlx-postgres",
   "sqlx-sqlite",
-  "runtime-tokio-native-tls",
+  "runtime-tokio-rustls",
   "macros",
   "with-chrono",
   "with-json",
@@ -93,9 +93,6 @@ url = { version = "2.4", features = ["serde"] }
 urlencoding = "2"
 utoipa = { version = "4", features = ["axum_extras", "url", "uuid"] }
 uuid = { version = "1.4", features = ["v4", "v7", "fast-rng", "macro-diagnostics"] }
-
-# TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
-# See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
 
 [dependencies]
 openssl = { version = "*", features = ["vendored"]}

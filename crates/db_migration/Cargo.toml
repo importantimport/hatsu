@@ -18,9 +18,6 @@ path = "src/lib.rs"
 [dependencies.tokio]
 workspace = true
 
-# TODO: sea-orm "rumtime-tokio-native-tls" => "runtime-tokio-rustls"
-# See https://github.com/LemmyNet/activitypub-federation-rust/issues/49
-
 [dependencies.sea-orm-migration]
 version = "0.12"
 features = [
@@ -29,7 +26,7 @@ features = [
   # e.g.
   # "runtime-tokio-rustls",  # `ASYNC_RUNTIME` feature
   # "sqlx-postgres",         # `DATABASE_DRIVER` feature
-  "runtime-tokio-native-tls",
+  "runtime-tokio-rustls",
   "sqlx-postgres",
   "sqlx-sqlite"
 ]
