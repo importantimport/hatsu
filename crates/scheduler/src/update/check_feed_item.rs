@@ -1,4 +1,4 @@
-use activitypub_federation::{config::Data, kinds::public};
+use activitypub_federation::config::Data;
 use hatsu_apub::{
     activities::{CreateOrUpdateNote, CreateOrUpdateType},
     actors::{ApubUser, ApubUserFeedItem},
@@ -70,7 +70,7 @@ async fn create_feed_item(
     // TODO: check public()?
     user.send_activity(
         CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, data).await?,
-        vec![public()],
+        None,
         data,
     )
     .await?;

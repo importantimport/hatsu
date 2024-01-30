@@ -73,7 +73,7 @@ impl ActivityHandler for Follow {
         object
             .send_activity(
                 AcceptFollow::new(self, data).await?,
-                vec![actor.shared_inbox_or_inbox()],
+                Some(vec![actor.shared_inbox_or_inbox()]),
                 data,
             )
             .await?;

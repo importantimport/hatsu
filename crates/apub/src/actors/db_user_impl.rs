@@ -3,12 +3,14 @@ use std::fmt::Debug;
 use activitypub_federation::{
     activity_sending::SendActivityTask,
     config::Data,
+    fetch::object_id::ObjectId,
     http_signatures::generate_actor_keypair,
-    traits::ActivityHandler,
+    traits::{ActivityHandler, Actor},
 };
 use chrono::Utc;
-use hatsu_db_schema::user::Model as DbUser;
+use hatsu_db_schema::{prelude::ReceivedFollow, user::Model as DbUser};
 use hatsu_utils::{user::feed::Feed, AppData, AppError};
+use sea_orm::ModelTrait;
 use serde::Serialize;
 use url::Url;
 
@@ -68,34 +70,32 @@ impl ApubUser {
     pub async fn send_activity<Activity>(
         &self,
         activity: Activity,
-        inboxes: Vec<Url>,
+        inboxes: Option<Vec<Url>>,
         data: &Data<AppData>,
     ) -> Result<(), AppError>
     where
         Activity: ActivityHandler + Serialize + Debug,
     {
-        // 从 Activity URL 提取 UUID
-        // let activity_id: String = activity
-        //     .id()
-        //     .path()
-        //     .split('/')
-        //     .last()
-        //     .unwrap()
-        //     .to_string();
+        let inboxes = match inboxes {
+            Some(inboxes) => inboxes,
+            None => {
+                // 获取 followers inbox
+                let handles = self
+                    .find_related(ReceivedFollow)
+                    .all(&data.conn)
+                    .await?
+                    .into_iter()
+                    .map(|received_follow| async move {
+                        let follower: ObjectId<ApubUser> =
+                            Url::parse(&received_follow.actor).unwrap().into();
+                        let follower: ApubUser = follower.dereference_local(data).await.unwrap();
+                        follower.shared_inbox_or_inbox()
+                    })
+                    .collect::<Vec<_>>();
 
-        // 验证这个 UUID
-        // let uuid = Uuid::try_parse(&activity_id)?;
-
-        // 保存到数据库
-        // activity::Entity::insert(DbActivity {
-        //     id: activity_id,
-        //     activity: to_string(&activity)?,
-        //     actor: activity.actor().to_string(),
-        //     kind: activity.kind,
-
-        // }.into_active_model())
-        //     .exec(&data.conn)
-        //     .await?;
+                futures::future::join_all(handles).await
+            }
+        };
 
         // 发送
         let sends = SendActivityTask::prepare(&activity, self, inboxes, data).await?;

@@ -26,6 +26,7 @@ async-trait = { workspace = true }
 chrono = { workspace = true }
 enum_delegate = { workspace = true }
 feed-rs = { workspace = true }
+futures = { workspace = true }
 reqwest = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }
