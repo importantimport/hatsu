@@ -11,7 +11,7 @@
     import Comments from 'https://esm.run/@oom/mastodon-comments'
     customElements.define('oom-comments', Comments)
 </script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css" />`
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css" />
 <oom-comments src="https://mastodon.gal/@misteroom/110810445656343599">
   No comments yet
 </oom-comments>
