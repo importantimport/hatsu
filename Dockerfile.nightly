@@ -1,0 +1,11 @@
+FROM bitnami/minideb:bookworm
+
+ARG TARGETARCH
+
+COPY target_${TARGETARCH}/hatsu /usr/bin/hatsu
+
+ENTRYPOINT [ "hatsu" ]
+
+EXPOSE 3939
+
+STOPSIGNAL SIGTERM
