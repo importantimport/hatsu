@@ -8,7 +8,7 @@ pre-build = [
     # https://github.com/cross-rs/cross/wiki/Recipes#pre-build
     "dpkg --add-architecture arm64",
     "apt update",
-    "apt install -y libssl-dev:arm64"
+    "apt install -y build-essential:arm64 pkg-config:arm64 libssl-dev:arm64"
 ]
 
 # [target.x86_64-unknown-linux-musl]
