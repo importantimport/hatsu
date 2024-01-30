@@ -7,7 +7,8 @@ image.toolchain = ["aarch64-unknown-linux-gnu"]
 pre-build = [
     # https://github.com/cross-rs/cross/wiki/Recipes#pre-build
     "dpkg --add-architecture arm64",
-    "apt update && apt install -y libssl-dev:arm64"
+    "apt update",
+    "apt install -y libssl-dev:arm64"
 ]
 
 # [target.x86_64-unknown-linux-musl]
