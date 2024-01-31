@@ -4,26 +4,35 @@ set dotenv-load
 list:
   @just --list
 
+# detect before running cli and install it if it doesn't exist.
+_cargo_ cli *args:
+  #!/bin/sh
+  if [ -z $(which {{cli}}) ]; then
+    cargo install {{cli}}
+  fi
+  case {{cli}} in
+    cargo-*) cargo $(echo {{cli}} | sed "s/^cargo-//") {{args}} ;;
+    * ) {{cli}} {{args}} ;;
+  esac
+
 # running dev server.
 run:
-  cargo watch -x run
+  just _cargo_ cargo-watch -x run
 
 # building production.
 build:
   cargo build --release
 
+# building multi-arch production.
 buildx:
-  just _cross build --release --target aarch64-unknown-linux-gnu
+  just _zigbuild aarch64-unknown-linux-gnu
+#   just _cross build --release --target aarch64-unknown-linux-gnu
 #   just _cross build --release --target x86_64-unknown-linux-musl
 #   just _cross build --release --target aarch64-unknown-linux-musl
 
-# detect before running sea-orm-cli and install it if it doesn't exist.
-_cross *args:
-  #!/bin/sh
-  if [ -z $(which cross) ]; then
-    cargo install cross
-  fi
-  cross {{args}}
+_zigbuild target:
+  rustup target add {{target}}
+  just _cargo_ cargo-zigbuild --release --target {{target}}
 
 # format code. (args example: just fmt --check)
 fmt *args='':
@@ -66,39 +75,8 @@ db *args='migration up':
 
 # apply migrations to database.
 db_migration *args='up':
-  just _sea-orm-cli migrate {{args}} -d crates/db_migration
+  just _cargo_ sea-orm-cli migrate {{args}} -d crates/db_migration
 
 # generate entities from database.
 db_schema: (db_migration 'fresh')
-  just _sea-orm-cli generate entity -l -o crates/db_schema/src
-
-# detect before running sea-orm-cli and install it if it doesn't exist.
-_sea-orm-cli *args:
-  #!/bin/sh
-  if [ -z $(which sea-orm-cli) ]; then
-    cargo install sea-orm-cli
-  fi
-  sea-orm-cli {{args}}
-
-# setup dev environment for arch linux (target-arch: amd64/arm64)
-setup-arch target-arch='amd64':
-  sudo pacman -S mold rustup
-  just _setup-rustup {{target-arch}}
-  just _setup-cargo arch
-
-# setup dev environment for debian sid (target-arch: amd64/arm64)
-setup-debian target-arch='amd64':
-  sudo apt install mold rustup
-  just _setup-rustup {{target-arch}}
-  just _setup-cargo debian
-
-# setup dev environment for docker (target-arch: amd64/arm64)
-setup-docker target-arch='amd64':
-  just setup-debian
-  cargo install cargo-chef
-
-# TODO: cargo-pgo
-# cargo install cargo-pgo
-# (distro: undefined/arch/debian)
-_setup-cargo distro='undefined':
-  {{ if distro == 'arch' { "sudo pacman -S cargo-watch" } else { "cargo install cargo-watch" } }}
+  just _cargo_ sea-orm-cli generate entity -l -o crates/db_schema/src
