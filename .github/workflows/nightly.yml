@@ -44,7 +44,7 @@ jobs:
       - uses: korandoru/setup-zig@v1
         with:
           zig-version: master
-      - run: cargo install zigbuild
+      - run: cargo install cargo-zigbuild
       - run: just buildx
       - uses: actions/upload-artifact@v4
         with:
