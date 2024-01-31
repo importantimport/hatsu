@@ -33,10 +33,7 @@ pub struct CreateNote {
 }
 
 impl CreateNote {
-    pub async fn new(
-        note: Note,
-        data: &Data<AppData>,
-    ) -> Result<WithContext<Self>, AppError> {
+    pub async fn new(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
         let activity = Self {
             id: hatsu_utils::url::generate_activity_url(data.domain(), None)?,
             actor: note.attributed_to.clone(),

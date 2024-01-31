@@ -68,12 +68,8 @@ async fn create_feed_item(
 
     // 发送 Note
     // TODO: check public()?
-    user.send_activity(
-        CreateNote::new(note, data).await?,
-        None,
-        data,
-    )
-    .await?;
+    user.send_activity(CreateNote::new(note, data).await?, None, data)
+        .await?;
 
     Ok(())
 }

@@ -8,7 +8,10 @@ use hatsu_apub::{activities::ServiceInboxActivities, actors::ApubUser};
 use hatsu_utils::{AppData, AppError};
 
 #[debug_handler]
-pub async fn handler(data: Data<AppData>, activity_data: ActivityData) -> Result<impl IntoResponse, AppError> {
+pub async fn handler(
+    data: Data<AppData>,
+    activity_data: ActivityData,
+) -> Result<impl IntoResponse, AppError> {
     receive_activity::<WithContext<ServiceInboxActivities>, ApubUser, AppData>(activity_data, &data)
         .await
 }
