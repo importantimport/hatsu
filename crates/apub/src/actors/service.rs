@@ -1,6 +1,9 @@
 use activitypub_federation::{
     fetch::object_id::ObjectId,
-    kinds::{actor::{ServiceType, PersonType}, object::ImageType},
+    kinds::{
+        actor::{PersonType, ServiceType},
+        object::ImageType,
+    },
     protocol::public_key::PublicKey,
 };
 // use hatsu_db_schema::user::Model as DbUser;
