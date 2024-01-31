@@ -22,21 +22,19 @@ pub async fn webfinger(
     tracing::info!("{}", &query.resource);
 
     let name = if let Ok(name) = extract_webfinger_name(&query.resource, &data) {
-        name
+        Ok(name)
     } else {
         // extract webfinger domain
-        // acct:any@example.com (extract example.com)
         let vec: Vec<&str> = query.resource.split('@').collect();
-        vec[1]
-        // TODO:
-        // match vec.get(1) {
-        //     Some(domain) => domain,
-        //     None => AppError::NotFound {
-        //         kind: "User".to_string(),
-        //         name: query.resource,
-        //     }
-        // }
-    };
+        match vec[1] {
+            // acct:example.com@hatsu.local => example.com
+            domain if domain == data.domain() => Ok(vec[0].trim_start_matches("acct:")),
+            // acct:example.com@example.com => example.com
+            domain if Url::parse(&format!("https://{domain}")).is_ok() => Ok(domain),
+            // acct:example.com@unknown => Err
+            _ => Err(AppError::not_found("Subject", &query.resource)),
+        }
+    }?;
 
     let url = hatsu_utils::url::generate_user_url(data.domain(), name)?;
 
