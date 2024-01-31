@@ -5,10 +5,10 @@ use activitypub_federation::{
 };
 use axum::{debug_handler, response::IntoResponse};
 use hatsu_apub::{activities::ServiceInboxActivities, actors::ApubUser};
-use hatsu_utils::AppData;
+use hatsu_utils::{AppData, AppError};
 
 #[debug_handler]
-pub async fn handler(data: Data<AppData>, activity_data: ActivityData) -> impl IntoResponse {
+pub async fn handler(data: Data<AppData>, activity_data: ActivityData) -> Result<impl IntoResponse, AppError> {
     receive_activity::<WithContext<ServiceInboxActivities>, ApubUser, AppData>(activity_data, &data)
         .await
 }
