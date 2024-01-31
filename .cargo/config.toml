@@ -8,9 +8,9 @@ lld = true
 [profile.dev]
 codegen-backend = "cranelift"
 
-# linux (lld)
-[target.'cfg(target_os = "linux")']
-rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+# x86_64-unknown-linux-gnu (lld)
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld"]
 
 # Enable UUID Unstable Features
 # https://docs.rs/uuid/1.4.0/uuid/index.html#unstable-features
