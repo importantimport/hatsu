@@ -1,5 +1,6 @@
 use std::fmt::{Display, Formatter, Result};
 
+use activitypub_federation::kinds::activity::{CreateType, UpdateType};
 use serde::{Deserialize, Serialize};
 
 mod note;
@@ -7,15 +8,15 @@ pub use note::CreateOrUpdateNote;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub enum CreateOrUpdateType {
-    Create,
-    Update,
+    CreateType(CreateType),
+    UpdateType(UpdateType),
 }
 
 impl Display for CreateOrUpdateType {
     fn fmt(&self, f: &mut Formatter) -> Result {
         match self {
-            Self::Create => f.write_str("Create"),
-            Self::Update => f.write_str("Update"),
+            Self::CreateType(_) => f.write_str(&CreateType::Create.to_string()),
+            Self::UpdateType(_) => f.write_str(&UpdateType::Update.to_string()),
         }
     }
 }

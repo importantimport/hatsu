@@ -1,6 +1,7 @@
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
+    kinds::activity::{CreateType, UpdateType},
     protocol::{context::WithContext, helpers::deserialize_one_or_many},
     traits::{ActivityHandler, Object},
 };
@@ -60,6 +61,24 @@ impl CreateOrUpdateNote {
         .await?;
 
         Ok(WithContext::new_default(activity))
+    }
+
+    pub async fn create(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
+        Self::new(
+            note,
+            CreateOrUpdateType::CreateType(CreateType::Create),
+            data,
+        )
+        .await
+    }
+
+    pub async fn update(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
+        Self::new(
+            note,
+            CreateOrUpdateType::UpdateType(UpdateType::Update),
+            data,
+        )
+        .await
     }
 }
 
