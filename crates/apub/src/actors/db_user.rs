@@ -15,7 +15,7 @@ use hatsu_utils::{AppData, AppError};
 use sea_orm::{sea_query, EntityTrait, IntoActiveModel};
 use url::Url;
 
-use crate::actors::{Service, ServiceImage};
+use crate::actors::{Service, ServiceImage, ServiceOrPersonType};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubUser(pub(crate) DbUser);
@@ -118,7 +118,7 @@ impl Object for ApubUser {
 
     async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
         Ok(Service {
-            kind: ServiceType::Service,
+            kind: ServiceOrPersonType::ServiceType(ServiceType::Service),
             name: self.name.clone(),
             preferred_username: self.preferred_username.clone(),
             id: Url::parse(&self.id)?.into(),

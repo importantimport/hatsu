@@ -1,6 +1,6 @@
 use activitypub_federation::{
     fetch::object_id::ObjectId,
-    kinds::{actor::ServiceType, object::ImageType},
+    kinds::{actor::{ServiceType, PersonType}, object::ImageType},
     protocol::public_key::PublicKey,
 };
 // use hatsu_db_schema::user::Model as DbUser;
@@ -9,6 +9,12 @@ use url::Url;
 
 use crate::actors::ApubUser;
 
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub enum ServiceOrPersonType {
+    ServiceType(ServiceType),
+    PersonType(PersonType),
+}
+
 /// `ActivityPub` Service (Bot User)
 /// <https://www.w3.org/ns/activitystreams#Service>
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -16,9 +22,9 @@ use crate::actors::ApubUser;
 pub struct Service {
     // 用户 ID，应为域名 + 用户名（运行时生成）
     pub id: ObjectId<ApubUser>,
-    // 类型，应始终为 Person
+    // 类型
     #[serde(rename = "type")]
-    pub kind: ServiceType,
+    pub kind: ServiceOrPersonType,
     // 用户名（应为域名）
     // `example.com`
     pub name: String,
