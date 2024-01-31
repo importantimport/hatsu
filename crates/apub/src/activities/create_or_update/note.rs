@@ -5,7 +5,7 @@ use activitypub_federation::{
     protocol::{context::WithContext, helpers::deserialize_one_or_many},
     traits::{ActivityHandler, Object},
 };
-use chrono::{Local, SecondsFormat};
+use chrono::Utc;
 use hatsu_db_schema::activity::Model as DbActivity;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ActiveModelTrait, IntoActiveModel};
@@ -46,7 +46,7 @@ impl CreateOrUpdateNote {
             cc: note.cc.clone(),
             object: note.clone(),
             kind,
-            published: Local::now().to_rfc3339_opts(SecondsFormat::Secs, true),
+            published: Utc::now().to_rfc3339(),
         };
 
         let _insert_activity = DbActivity {

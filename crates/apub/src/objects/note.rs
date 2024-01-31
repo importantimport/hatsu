@@ -8,7 +8,7 @@ use activitypub_federation::{
     protocol::helpers::deserialize_one_or_many,
     traits::{Actor, Object},
 };
-use chrono::{Local, SecondsFormat};
+use chrono::Utc;
 use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
 use sea_orm::EntityTrait;
@@ -36,10 +36,12 @@ pub struct Note {
     pub content: String,
     /// TODO: customization via item._hatsu.source
     pub source: NoteSource,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub in_reply_to: Option<ObjectId<ApubPost>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tag: Option<Vec<Hashtag>>,
-    pub published: Option<String>,
+    pub published: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub updated: Option<String>,
     // TODO:
     // sensitive (default: false) (extension: _hatsu.sensitive)
@@ -137,7 +139,7 @@ impl Note {
                     })
                     .collect()
             }),
-            published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
+            published: Utc::now().to_rfc3339(),
             updated: None,
         })
     }

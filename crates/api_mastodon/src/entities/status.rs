@@ -1,5 +1,4 @@
 use activitypub_federation::{config::Data, traits::Object};
-use chrono::Utc;
 use hatsu_apub::objects::Note;
 use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
@@ -41,7 +40,7 @@ impl Status {
             // TODO: replace
             url: note.id.clone().into(),
             account: Account::from_json(service)?,
-            created_at: note.published.unwrap_or_else(|| Utc::now().to_rfc3339()),
+            created_at: note.published,
             content: note.content,
             emojis: vec![],
             replies_count: 0,
