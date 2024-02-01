@@ -30,7 +30,6 @@ pub async fn status_context(
         Ok(utf8_url) => match String::from_utf8(utf8_url) {
             Ok(url) if url.starts_with("https://") => {
                 let object_url = hatsu_utils::url::generate_object_url(data.domain(), url)?;
-                tracing::debug!("object_url: {object_url}");
                 let context = Context::find_by_id(object_url.to_string(), &data).await?;
                 Ok(Json(context))
             }
