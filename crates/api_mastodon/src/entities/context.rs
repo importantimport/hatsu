@@ -19,6 +19,7 @@ pub struct Context {
 impl Context {
     // TODO: String => ObjectId<DbPost>
     pub async fn find_by_id(post_id: String, data: &Data<AppData>) -> Result<Self, AppError> {
+        tracing::debug!("post_id: {post_id}");
         match Post::find_by_id(&post_id).one(&data.conn).await? {
             Some(post) => {
                 // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
@@ -29,6 +30,7 @@ impl Context {
                     .await?
                     .into_iter()
                     .map(|post| async move {
+                        tracing::debug!("find linked post: {}", post.id);
                         let apub_post: ApubPost = post.clone().into();
                         // TODO: remove unwrap
                         let note: Note = apub_post.into_json(data).await.unwrap();
