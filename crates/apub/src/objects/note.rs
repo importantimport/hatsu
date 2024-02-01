@@ -130,17 +130,16 @@ impl Note {
             tag: json.tags.map(|tags: Vec<String>| {
                 tags.iter()
                     .map(|tag| {
-                        serde_json::to_value(
-                            Hashtag::new(
-                                Url::parse(&format!(
-                                    "https://{}/t/{}",
-                                    data.domain(),
-                                    urlencoding::encode(tag),
-                                ))
-                                .unwrap(),
-                                format!("#{tag}"),
-                            )
-                        ).unwrap()
+                        serde_json::to_value(Hashtag::new(
+                            Url::parse(&format!(
+                                "https://{}/t/{}",
+                                data.domain(),
+                                urlencoding::encode(tag),
+                            ))
+                            .unwrap(),
+                            format!("#{tag}"),
+                        ))
+                        .unwrap()
                     })
                     .collect()
             }),
