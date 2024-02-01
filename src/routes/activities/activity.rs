@@ -1,4 +1,8 @@
-use activitypub_federation::{axum::json::FederationJson, config::Data};
+use activitypub_federation::{
+    axum::json::FederationJson,
+    config::Data,
+    protocol::context::WithContext,
+};
 use axum::{
     debug_handler,
     extract::Path,
@@ -29,7 +33,7 @@ pub async fn handler(
     // Activities { activity_id }: Activities,
     Path(activity_id): Path<String>,
     data: Data<AppData>,
-) -> Result<FederationJson<Value>, AppError> {
+) -> Result<FederationJson<WithContext<Value>>, AppError> {
     tracing::info!("Reading activity {}", activity_id);
 
     match Activity::find_by_id(hatsu_utils::url::generate_activity_url(
@@ -41,7 +45,9 @@ pub async fn handler(
     {
         Some(activity) => {
             let activity: ApubActivity = activity.into();
-            Ok(FederationJson(activity.into_json()?))
+            Ok(FederationJson(WithContext::new_default(
+                activity.into_json()?,
+            )))
         }
         None => Err(AppError::not_found("Activity", &activity_id)),
     }
