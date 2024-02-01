@@ -27,5 +27,5 @@ pub fn handler() -> Router {
         .route("/u/:user/outbox", get(user_outbox::handler))
         .route("/users/:user/outbox", get(user_outbox::redirect))
         .route("/u/:user/inbox", post(user_inbox::handler))
-        // .route("/users/:user/inbox", post(user_inbox::handler))
+        .route("/users/:user/inbox", post(user_inbox::handler))
 }
