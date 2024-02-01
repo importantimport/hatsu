@@ -1,9 +1,13 @@
-use activitypub_federation::{config::Data, protocol::context::WithContext, traits::Object};
+use activitypub_federation::{
+    axum::json::FederationJson,
+    config::Data,
+    protocol::context::WithContext,
+    traits::Object,
+};
 use axum::{
     debug_handler,
     extract::Path,
     response::{IntoResponse, Redirect},
-    Json,
 };
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::objects::{ApubPost, Note};
@@ -29,7 +33,7 @@ pub async fn handler(
     // Objects { object }: Objects,
     Path(object): Path<String>,
     data: Data<AppData>,
-) -> Result<Json<WithContext<Note>>, AppError> {
+) -> Result<FederationJson<WithContext<Note>>, AppError> {
     tracing::info!("Reading object {}", object);
 
     let object_url = hatsu_utils::url::generate_object_url(data.domain(), object)?;
@@ -40,7 +44,7 @@ pub async fn handler(
     {
         Some(db_post) => {
             let apub_post: ApubPost = db_post.into();
-            Ok(Json(WithContext::new_default(
+            Ok(FederationJson(WithContext::new_default(
                 apub_post.into_json(&data).await?,
             )))
         }
