@@ -20,6 +20,7 @@ impl Server {
         let app = Router::new()
             .merge(routes::handler())
             .layer(FederationMiddleware::new(self.federation_config))
+            .layer(TraceLayer::new_for_http())
             .fallback_service(ServeDir::new("assets"));
 
         // axum 0.6
@@ -34,7 +35,7 @@ impl Server {
 
         tracing::debug!("listening on http://{}", addr);
         axum::Server::bind(&addr)
-            .serve(app.layer(TraceLayer::new_for_http()).into_make_service())
+            .serve(app.into_make_service())
             .with_graceful_shutdown(subsys.on_shutdown_requested())
             .await?;
 
