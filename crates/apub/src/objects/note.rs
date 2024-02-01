@@ -13,6 +13,7 @@ use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
 use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use url::Url;
 
 use crate::{
@@ -25,9 +26,13 @@ use crate::{
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Note {
+    pub id: ObjectId<ApubPost>,
     #[serde(rename = "type")]
     pub kind: NoteType,
-    pub id: ObjectId<ApubPost>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub in_reply_to: Option<ObjectId<ApubPost>>,
+    pub published: String,
+    // pub url: String,
     pub attributed_to: ObjectId<ApubUser>,
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub to: Vec<Url>,
@@ -35,12 +40,10 @@ pub struct Note {
     pub cc: Vec<Url>,
     pub content: String,
     /// TODO: customization via item._hatsu.source
-    pub source: NoteSource,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub in_reply_to: Option<ObjectId<ApubPost>>,
+    pub source: Option<Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub tag: Option<Vec<Hashtag>>,
-    pub published: String,
+    pub tag: Option<Vec<Value>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub updated: Option<String>,
     // TODO:
@@ -120,22 +123,24 @@ impl Note {
             to: vec![public()],
             cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
             content,
-            source: NoteSource::new(source),
+            source: Some(serde_json::to_value(NoteSource::new(source))?),
             // TODO: remove
             in_reply_to: None,
             // TODO: test this
             tag: json.tags.map(|tags: Vec<String>| {
                 tags.iter()
                     .map(|tag| {
-                        Hashtag::new(
-                            Url::parse(&format!(
-                                "https://{}/t/{}",
-                                data.domain(),
-                                urlencoding::encode(tag),
-                            ))
-                            .unwrap(),
-                            format!("#{tag}"),
-                        )
+                        serde_json::to_value(
+                            Hashtag::new(
+                                Url::parse(&format!(
+                                    "https://{}/t/{}",
+                                    data.domain(),
+                                    urlencoding::encode(tag),
+                                ))
+                                .unwrap(),
+                                format!("#{tag}"),
+                            )
+                        ).unwrap()
                     })
                     .collect()
             }),
