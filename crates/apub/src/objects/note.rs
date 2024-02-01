@@ -120,8 +120,8 @@ impl Note {
             kind: NoteType::Note,
             id,
             attributed_to: actor.id().into(),
-            to: vec![public()],
-            cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
+            to: vec![Url::parse(&format!("{}/followers", actor.id()))?],
+            cc: vec![public()],
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             // TODO: remove
