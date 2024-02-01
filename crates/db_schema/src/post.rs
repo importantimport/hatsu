@@ -29,8 +29,8 @@ pub enum Relation {
     UserFeedItem,
     #[sea_orm(
         belongs_to = "Entity",
-        from = "Column::InReplyToRoot",
-        to = "Column::Id"
+        from = "Column::Id",
+        to = "Column::InReplyToRoot"
     )]
     /// <https://www.sea-ql.org/SeaORM/docs/relation/self-referencing/>
     SelfReferencing,
