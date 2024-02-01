@@ -7,8 +7,16 @@ use activitypub_federation::{
     protocol::helpers::deserialize_skip_error,
     traits::{ActivityHandler, Actor},
 };
+use hatsu_db_schema::{prelude::ReceivedFollow, received_follow};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{ActiveModelTrait, IntoActiveModel};
+use sea_orm::{
+    ActiveModelTrait,
+    ColumnTrait,
+    Condition,
+    EntityTrait,
+    IntoActiveModel,
+    QueryFilter,
+};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -61,13 +69,24 @@ impl ActivityHandler for Follow {
         // 关注者, follower
         let actor = self.actor.dereference(data).await?;
 
-        // 添加关注记录
-        let _insert_follow = ApubReceivedFollow::from_json(self.clone())?
-            .deref()
-            .clone()
-            .into_active_model()
-            .insert(&data.conn)
-            .await;
+        // 检测关注是否重复，如果不重复则添加到数据库
+        if ReceivedFollow::find()
+            .filter(
+                Condition::all()
+                    .add(received_follow::Column::Object.eq(&object.id))
+                    .add(received_follow::Column::Actor.eq(&actor.id)),
+            )
+            .one(&data.conn)
+            .await?
+            .is_none()
+        {
+            ApubReceivedFollow::from_json(self.clone())?
+                .deref()
+                .clone()
+                .into_active_model()
+                .insert(&data.conn)
+                .await?;
+        }
 
         // 发送接受关注
         object
