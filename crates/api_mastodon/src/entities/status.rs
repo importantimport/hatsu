@@ -25,6 +25,8 @@ pub struct Status {
     pub reblogs_count: u64,
     /// should always be 0
     pub favourites_count: u64,
+    /// should always be "public"
+    pub visibility: String,
 }
 
 impl Status {
@@ -46,6 +48,7 @@ impl Status {
             replies_count: 0,
             reblogs_count: 0,
             favourites_count: 0,
+            visibility: "public".to_string(),
         })
     }
 }
