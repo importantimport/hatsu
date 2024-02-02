@@ -11,7 +11,8 @@ use crate::entities::{Account, CustomEmoji};
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct Status {
     pub id: Url,
-    pub in_reply_to_id: Option<Url>,
+    // pub in_reply_to_id: Option<Url>,
+    pub in_reply_to_id: Option<String>,
     pub uri: Url,
     pub url: Url,
     pub account: Account,
@@ -36,7 +37,7 @@ impl Status {
 
         Ok(Self {
             id: note.id.clone().into(),
-            in_reply_to_id: note.in_reply_to.map(std::convert::Into::into),
+            in_reply_to_id: note.in_reply_to.map(|url| url.to_string()),
             // TODO: replace
             uri: note.id.clone().into(),
             // TODO: replace

@@ -2,7 +2,7 @@ use activitypub_federation::config::Data;
 use axum::{debug_handler, extract::Path, Json};
 use hatsu_utils::{AppData, AppError};
 
-use crate::entities::Context;
+use crate::entities::{Context, Status};
 
 /// Get parent and child statuses in context
 ///
@@ -31,7 +31,21 @@ pub async fn status_context(
             Ok(url) if url.starts_with("https://") => {
                 let object_url = hatsu_utils::url::generate_object_url(data.domain(), url)?;
                 let context = Context::find_by_id(object_url.to_string(), &data).await?;
-                Ok(Json(context))
+
+                Ok(Json(Context {
+                    descendants: context
+                        .descendants
+                        .into_iter()
+                        .map(|status| match status.in_reply_to_id {
+                            Some(id) if id == object_url.to_string() => Status {
+                                in_reply_to_id: Some(base64_url.clone()),
+                                ..status
+                            },
+                            _ => status,
+                        })
+                        .collect(),
+                    ..context
+                }))
             }
             _ => Err(AppError::not_found("Record", &base64_url)),
         },
