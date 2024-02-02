@@ -7,6 +7,5 @@ pub fn now() -> String {
 }
 
 pub fn parse(date: &str) -> Result<DateTime<Utc>, AppError> {
-    Ok(DateTime::parse_from_rfc3339(date)?
-        .with_timezone(&Utc))
+    Ok(DateTime::parse_from_rfc3339(date)?.with_timezone(&Utc))
 }

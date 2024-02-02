@@ -1,6 +1,6 @@
 mod data;
-mod error;
 pub mod date;
+mod error;
 pub mod markdown;
 pub mod url;
 pub mod user;
