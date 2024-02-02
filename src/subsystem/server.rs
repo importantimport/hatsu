@@ -4,7 +4,7 @@ use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use axum::Router;
 use hatsu_utils::{AppData, AppEnv, AppError};
 use tokio_graceful_shutdown::SubsystemHandle;
-use tower_http::{services::ServeDir, trace::TraceLayer};
+use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 
 use crate::routes;
 
@@ -20,6 +20,7 @@ impl Server {
         let app = Router::new()
             .merge(routes::handler())
             .layer(FederationMiddleware::new(self.federation_config))
+            .layer(CorsLayer::permissive())
             .layer(TraceLayer::new_for_http())
             .fallback_service(ServeDir::new("assets"));
 
