@@ -4,7 +4,7 @@ Works with [Netlify](https://docs.netlify.com/routing/redirects/#syntax-for-the-
 
 ## Well Known
 
-### Netlify `netlify.toml`
+### Netlify (`netlify.toml`)
 
 Create a `netlify.toml` file in the root directory containing the following:
 
@@ -25,7 +25,7 @@ Create a `netlify.toml` file in the root directory containing the following:
   status = 307
 ```
 
-### Vercel `vercel.json`
+### Vercel (`vercel.json`)
 
 Create a `vercel.json` file in the root directory containing the following:
 
