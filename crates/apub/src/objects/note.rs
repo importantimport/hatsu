@@ -8,7 +8,6 @@ use activitypub_federation::{
     protocol::helpers::deserialize_one_or_many,
     traits::{Actor, Object},
 };
-use chrono::Utc;
 use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
 use sea_orm::EntityTrait;
@@ -143,7 +142,7 @@ impl Note {
                     })
                     .collect()
             }),
-            published: Utc::now().to_rfc3339(),
+            published: hatsu_utils::date::now(),
             updated: None,
         })
     }

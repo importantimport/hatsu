@@ -1,5 +1,6 @@
 mod data;
 mod error;
+pub mod date;
 pub mod markdown;
 pub mod url;
 pub mod user;

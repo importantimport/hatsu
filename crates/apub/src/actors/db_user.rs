@@ -47,11 +47,7 @@ impl Object for ApubUser {
     type Kind = Service;
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
-        Some(
-            DateTime::parse_from_rfc3339(&self.last_refreshed_at)
-                .unwrap()
-                .into(),
-        )
+        Some(hatsu_utils::date::parse(&self.last_refreshed_at).unwrap())
     }
 
     async fn read_from_id(
@@ -98,7 +94,7 @@ impl Object for ApubUser {
             feed_json: None,
             feed_atom: None,
             feed_rss: None,
-            last_refreshed_at: Utc::now().to_rfc3339(),
+            last_refreshed_at: hatsu_utils::date::now(),
         };
 
         // 写入数据库

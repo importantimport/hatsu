@@ -46,7 +46,7 @@ impl CreateOrUpdateNote {
             cc: note.cc.clone(),
             object: note.clone(),
             kind,
-            published: Utc::now().to_rfc3339(),
+            published: hatsu_utils::date::now(),
         };
 
         let _insert_activity = DbActivity {

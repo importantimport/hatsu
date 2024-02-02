@@ -5,7 +5,6 @@ use activitypub_federation::{
     protocol::{context::WithContext, helpers::deserialize_one_or_many},
     traits::{ActivityHandler, Object},
 };
-use chrono::Utc;
 use hatsu_db_schema::activity::Model as DbActivity;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ActiveModelTrait, IntoActiveModel};
@@ -37,7 +36,7 @@ impl CreateNote {
         let activity = Self {
             id: hatsu_utils::url::generate_activity_url(data.domain(), None)?,
             kind: CreateType::Create,
-            published: Utc::now().to_rfc3339(),
+            published: hatsu_utils::date::now(),
             actor: note.attributed_to.clone(),
             to: note.to.clone(),
             cc: note.cc.clone(),

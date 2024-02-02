@@ -7,7 +7,6 @@ use activitypub_federation::{
     http_signatures::generate_actor_keypair,
     traits::{ActivityHandler, Actor},
 };
-use chrono::Utc;
 use hatsu_db_schema::{prelude::ReceivedFollow, user::Model as DbUser};
 use hatsu_utils::{user::feed::Feed, AppData, AppError};
 use sea_orm::ModelTrait;
@@ -54,7 +53,7 @@ impl ApubUser {
             feed_json: user_feed.json.map(|url| url.to_string()),
             feed_atom: user_feed.atom.map(|url| url.to_string()),
             feed_rss: user_feed.rss.map(|url| url.to_string()),
-            last_refreshed_at: Utc::now().to_rfc3339(),
+            last_refreshed_at: hatsu_utils::date::now(),
         };
 
         Ok(user.into())

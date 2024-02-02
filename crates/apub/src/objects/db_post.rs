@@ -92,7 +92,7 @@ impl Object for ApubPost {
             updated: json.updated,
             in_reply_to: json.in_reply_to.map(|url| url.to_string()),
             in_reply_to_root: note.check_in_reply_to_root(data).await?,
-            last_refreshed_at: Utc::now().to_rfc3339(),
+            last_refreshed_at: hatsu_utils::date::now(),
             local: false,
         }
         .into_active_model()
@@ -152,10 +152,6 @@ impl Object for ApubPost {
     }
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
-        Some(
-            DateTime::parse_from_rfc3339(&self.last_refreshed_at)
-                .unwrap()
-                .into(),
-        )
+        Some(hatsu_utils::date::parse(&self.last_refreshed_at).unwrap())
     }
 }
