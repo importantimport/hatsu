@@ -26,11 +26,11 @@ pub async fn webfinger(
     } else {
         // extract webfinger domain
         let vec: Vec<&str> = query.resource.split('@').collect();
-        match vec[1] {
+        match vec.get(1) {
             // acct:example.com@hatsu.local => example.com
-            domain if domain == data.domain() => Ok(vec[0].trim_start_matches("acct:")),
+            Some(domain) if *domain == data.domain() => Ok(vec[0].trim_start_matches("acct:")),
             // acct:example.com@example.com => example.com
-            domain if Url::parse(&format!("https://{domain}")).is_ok() => Ok(domain),
+            Some(domain) if Url::parse(&format!("https://{domain}")).is_ok() => Ok(*domain),
             // acct:example.com@unknown => Err
             _ => Err(AppError::not_found("Subject", &query.resource)),
         }
