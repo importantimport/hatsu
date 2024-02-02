@@ -179,32 +179,21 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Hatsu is a self-hosted application that brings your static site to the Fediverse.</p>
-<p>It makes everything as automated as possible:
-All you have to do is enter a website URL with a valid feed and set up a redirect, and Hatsu does the rest.</p>
-<p>It automatically checks for feed updates to create/update posts
-and forwards the received responses back to the site in a Webmention.</p>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<p>Hatsu is a self-hosted bridge that interacts with Fediverse on behalf of your static site.</p>
+<p>Normally it can do all that:</p>
 <ul>
-<li>Written in Rust.
-<ul>
-<li>It's fast and suitable for running on a low-provisioned VPS.</li>
+<li>When a Fediverse user searches for your site URL (<code>https://example.com/hello-world</code>), <a href="./users/redirecting-with-static-files-and-markup.html#as2-alternate">redirects</a> to the corresponding post on the Hatsu instance</li>
+<li>When a Fediverse user searches for a user of your site (<code>@catch-all@example.com</code>), <a href="./users/redirecting-with-static-files-and-markup.html#well-known">redirects</a> to the corresponding user of the Hatsu instance</li>
+<li>Receive replies from Fediverse users and <a href="./users/backfeed.html">backfeed</a> to your static site</li>
 </ul>
-</li>
-<li>Supports both SQLite and Postgres.
-<ul>
-<li>If you don't want to use Postgres, SQLite would be an easy solution.</li>
-</ul>
-<!-- - Also works well with [Litestream](https://litestream.io/) or [LiteFS](https://fly.io/docs/litefs/)! -->
-</li>
-</ul>
+<p>Best of all, these are fully automated! Just set it up once and you won't need to do anything else.</p>
 <h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
 <p>Hatsu is still a Work-In-Progress. It is similar to Bridgy Fed but different:</p>
 <ul>
 <li>Hatsu uses Feed (JSON / Atom / RSS) as a data source instead of HTML pages with microformats2.</li>
 <li>Hatsu doesn't require you to automatically or manually send Webmention reminders for create and update, it's all fully automated.</li>
 </ul>
-<p>If you don't want to self-host, you may still want to use Bridgy or Bridgy Fed in some cases:</p>
+<p>If you don't want to self-host, you may still want to use Bridgy Fed or Bridgy in some cases:</p>
 <h3 id="bridgy-fed"><a class="header" href="#bridgy-fed">Bridgy Fed</a></h3>
 <ul>
 <li>You don't mind compatibility with platforms other than Mastodon.</li>
@@ -350,7 +339,7 @@ for AS2 redirects, you need to use <a href="users/./redirecting-with-static-file
 <div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-platform-specific-configuration"><a class="header" href="#redirecting-with-platform-specific-configuration">Redirecting with Platform-Specific Configuration</a></h1>
 <p>Works with <a href="https://docs.netlify.com/routing/redirects/#syntax-for-the-netlify-configuration-file">Netlify</a> and <a href="https://vercel.com/docs/projects/project-configuration#redirects">Vercel</a>.</p>
 <h2 id="well-known-2"><a class="header" href="#well-known-2">Well Known</a></h2>
-<h3 id="netlify-netlifytoml"><a class="header" href="#netlify-netlifytoml">Netlify <code>netlify.toml</code></a></h3>
+<h3 id="netlify-netlifytoml"><a class="header" href="#netlify-netlifytoml">Netlify (<code>netlify.toml</code>)</a></h3>
 <p>Create a <code>netlify.toml</code> file in the root directory containing the following:</p>
 <blockquote>
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
@@ -368,7 +357,7 @@ for AS2 redirects, you need to use <a href="users/./redirecting-with-static-file
   to = &quot;https://hatsu.local/.well-known/webfinger&quot;
   status = 307
 </code></pre>
-<h3 id="vercel-verceljson"><a class="header" href="#vercel-verceljson">Vercel <code>vercel.json</code></a></h3>
+<h3 id="vercel-verceljson"><a class="header" href="#vercel-verceljson">Vercel (<code>vercel.json</code>)</a></h3>
 <p>Create a <code>vercel.json</code> file in the root directory containing the following:</p>
 <blockquote>
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
@@ -551,6 +540,7 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 <p>Hatsu provides nightly Binary builds.</p>
 <p>Please note that it is unstable and may contain breaking changes.</p>
 <p>You can find the latest artifacts on the <a href="https://github.com/importantimport/hatsu/actions/workflows/nightly.yml">Workflow runs page</a> (containing <code>x86_64-unknown-linux-gnu</code> and <code>aarch64-unknown-linux-gnu</code>).</p>
+<p>GitHub has a document that tells you how to download artifact: <a href="https://docs.github.com/en/actions/managing-workflow-runs/downloading-workflow-artifacts">https://docs.github.com/en/actions/managing-workflow-runs/downloading-workflow-artifacts</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="environments"><a class="header" href="#environments">Environments</a></h1>
 <p>Hatsu supports dotenv, and you can set environment variables via the <code>.env</code> file.</p>
 <p>It is required unless it has a suffix (optional).</p>
@@ -694,7 +684,7 @@ which caches dependencies to avoid duplicate build dependencies.</p>
 <p>Hatsu is primarily geared towards the micro-blogging platform in the Fediverse.</p>
 <p>Currently I've created a chart for all the platforms I expect to be compatible with, and hopefully it will be filled in later:</p>
 <h2 id="send"><a class="header" href="#send">Send</a></h2>
-<div class="table-wrapper"><table><thead><tr><th></th><th><a href="https://www.w3.org/ns/activitystreams#Note">Note</a></th><th><a href="https://www.w3.org/ns/activitystreams#Accept">Accept</a></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th><a href="https://www.w3.org/ns/activitystreams#Note">Create</a> (Note)</th><th><a href="https://www.w3.org/ns/activitystreams#Accept">Accept</a> (Follow)</th></tr></thead><tbody>
 <tr><td>Mastodon</td><td>✅</td><td>✅</td></tr>
 <tr><td>GoToSocial</td><td></td><td></td></tr>
 <tr><td>Misskey</td><td></td><td></td></tr>
