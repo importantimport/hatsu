@@ -1,7 +1,5 @@
 # Backfeed based on Mastodon Comments
 
-> This section is still a work in progress. ([#5](https://github.com/importantimport/hatsu/issues/5))
-
 ## Examples
 
 "Mastodon Comments" refers to the [`@oom/mastodon-components`](https://github.com/oom-components/mastodon-comments) library.
