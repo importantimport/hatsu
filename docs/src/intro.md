@@ -2,11 +2,12 @@
 
 Hatsu is a self-hosted bridge that interacts with Fediverse on behalf of your static site.
 
-Normally it can do all that:
+Normally it can do all the:
 
-- When a Fediverse user searches for your site URL (`https://example.com/hello-world`), [redirects](./users/redirecting-with-static-files-and-markup.md#as2-alternate) to the corresponding post on the Hatsu instance
-- When a Fediverse user searches for a user of your site (`@catch-all@example.com`), [redirects](./users/redirecting-with-static-files-and-markup.md#well-known) to the corresponding user of the Hatsu instance
-- Receive replies from Fediverse users and [backfeed](./users/backfeed.md) to your static site
+- When a Fediverse user searches for a user of your site (`@catch-all@example.com`), [redirects](./users/redirecting-with-static-files-and-markup.md#well-known) to the corresponding user of the Hatsu instance.
+- When a Fediverse user searches for your site URL (`https://example.com/hello-world`), [redirects](./users/redirecting-with-static-files-and-markup.md#as2-alternate) to the corresponding post on the Hatsu instance.
+- Accepts follow requests and pushes new posts to the follower's homepage as they become available.
+- Receive replies from Fediverse users and [backfeed](./users/backfeed.md) to your static site.
 
 Best of all, these are fully automated! Just set it up once and you won't need to do anything else.
 
