@@ -6,30 +6,36 @@
 
 Self-hosted & Fully-automated ActivityPub Bridge for Static Sites. [WIP]
 
-## Development
+## About
 
-Hatsu has the basic functionality of a bridge, PR welcome.
+Hatsu is a self-hosted bridge that interacts with Fediverse on behalf of your static site.
 
-###### Setup
+Normally it can do all the:
 
-```bash
-# clone project
-git clone https://github.com/importantimport/hatsu.git
-# change directory
-cd hatsu
-# copy env example
-cp .env.example .env
-# create database
-touch hatsu.sqlite3
-# install just (https://github.com/casey/just)
-cargo install just
-# list just recipes
-just
-```
+- When a Fediverse user searches for a user of your site (`@catch-all@example.com`), redirects to the corresponding user of the Hatsu instance.
+- When a Fediverse user searches for your site URL (`https://example.com/hello-world`), redirects to the corresponding post on the Hatsu instance.
+- Accepts follow requests and pushes new posts to the follower's homepage as they become available.
+- Receive replies from Fediverse users and backfeed to your static site.
 
-The goal of this project is to provide a self-hosted and easy-to-use alternative to [Bridgy Fed](https://github.com/snarfed/bridgy-fed).
+Best of all, these are fully automated! Just set it up once and you won't need to do anything else.
 
-It will crawl the feed ([JSON Feed 1.1](https://jsonfeed.org/version/1.1) / [Atom 1.0](https://validator.w3.org/feed/docs/atom.html) / [RSS 2.0](https://www.rssboard.org/rss-specification)) to get the data instead of going through Webmention / Microformats, but the response from Fediverse will still be converted to a Webmention back to the source.
+### Features
+
+- Self hostable, easy to deploy.
+  - Comes with [Docker](https://hatsu.cli.rs/admins/install-docker.html).
+- Works with any SSGs and most static hosting services.
+  - Use Feed instead of Webmention to check updates.
+  - It is not required that the site support microformats2.
+  - Redirection in many ways, including purely static files.
+  - Backfeed in many ways. [WIP]
+- High performance.
+  - Backend is written in Rust.
+  - Supports aarch64.
+  <!-- - Frontend is written in Rust. -->
+
+### Installation
+
+Read the [documentation](https://hatsu.cli.rs) to get started.
 
 ### Fediverse compatibility
 
@@ -44,7 +50,7 @@ In addition to this, Hatsu is also enabled:
 
 If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility issue, you should open new issue in Hatsu first.
 
-### TODO
+<!-- ### TODO
 
 - Upgrade dependencies
   - axum 0.7
@@ -60,9 +66,9 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 - Performance improvements
   - https://github.com/TechEmpower/FrameworkBenchmarks/issues/8501#issuecomment-1780275745
   - sonic-rs (required nightly) / simd-json
-  - uuid-simd
+  - uuid-simd -->
 
-### Useful links
+<!-- ### Useful links
 
 #### ActivityPub
 
@@ -88,7 +94,7 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
 #### Shuttle
 
 - https://docs.shuttle.rs/migration/migrating-to-shuttle
-- https://github.com/shuttle-hq/shuttle/issues/179#issuecomment-1203536025
+- https://github.com/shuttle-hq/shuttle/issues/179#issuecomment-1203536025 -->
 
 ## License
 
