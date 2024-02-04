@@ -40,6 +40,19 @@ const id = btoa(url)
 const src = new URL(`/notice/${id}`, 'https://hatsu.local')
 ```
 
+So eventually it will look like this:
+
+```html
+<script type="module">
+    import Comments from 'https://esm.run/@oom/mastodon-comments'
+    customElements.define('oom-comments', Comments)
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css" />
+<oom-comments src="https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy">
+  No comments yet
+</oom-comments>
+```
+
 It's a real pain in the ass, but you can try to automate it.
 
 <!-- ### [lume_theme_simple_blog](https://deno.land/x/lume_theme_simple_blog) -->
