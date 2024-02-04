@@ -25,9 +25,14 @@ build:
 
 # building multi-arch production.
 buildx:
+  just _build x86_64-unknown-linux-gnu
+  just _build x86_64-unknown-linux-musl
   just _zigbuild aarch64-unknown-linux-gnu
   just _zigbuild aarch64-unknown-linux-musl
-  just _zigbuild x86_64-unknown-linux-musl
+
+_build target:
+  rustup target add {{target}}
+  cargo build --release --target {{target}}
 
 _zigbuild target:
   rustup target add {{target}}
