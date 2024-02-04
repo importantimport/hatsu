@@ -19,15 +19,18 @@ jobs:
   build:
     strategy:
       matrix:
+        musl: [false]
         include:
           - target: x86_64-unknown-linux-gnu
             command: _build
           - target: x86_64-unknown-linux-musl
             command: _build
+            musl: true
           - target: aarch64-unknown-linux-gnu
             command: _zigbuild
           - target: aarch64-unknown-linux-musl
             command: _zigbuild
+            musl: true
     name: build ${{ matrix.target }}
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +42,8 @@ jobs:
         uses: korandoru/setup-zig@v1
         with:
           zig-version: master
-      - run: sudo apt update && sudo apt install -y musl-tools
+      - if: matrix.musl == true
+        run: sudo apt update && sudo apt install -y musl-tools && sudo ln -s /bin/g++ /bin/musl-g++
       - run: just ${{ matrix.command }} ${{ matrix.target }}
       - uses: actions/upload-artifact@v4
         with:
