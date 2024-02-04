@@ -38,7 +38,7 @@ const id = btoa(url).replaceAll('+', '-').replaceAll('/', '_')
 
 // oom-comments src
 // https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
-const src = new URL(`/notice/${id}`, 'https://hatsu.local')
+const src = new URL(`/notice/${id}`, 'https://hatsu.local').href
 ```
 
 So eventually it will look like this:
