@@ -459,10 +459,13 @@ app.use('/posts/*', hatsuObject({ instance }))
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <p>&quot;Mastodon Comments&quot; refers to the <a href="https://github.com/oom-components/mastodon-comments"><code>@oom/mastodon-components</code></a> library.</p>
 <pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
-    import Comments from 'https://esm.run/@oom/mastodon-comments'
-    customElements.define('oom-comments', Comments)
+  import Comments from 'https://esm.run/@oom/mastodon-comments'
+  customElements.define('oom-comments', Comments)
 &lt;/script&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot; /&gt;
+&lt;link
+  rel=&quot;stylesheet&quot;
+  href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot;
+/&gt;
 &lt;oom-comments src=&quot;https://mastodon.gal/@misteroom/110810445656343599&quot;&gt;
   No comments yet
 &lt;/oom-comments&gt;
@@ -480,16 +483,57 @@ const url = new URL(pathname, origin).href
 
 // get id (base64url encode)
 // aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
-const id = btoa(url)
-  .replaceAll('+', '-')
-  .replaceAll('/', '_')
+const id = btoa(url).replaceAll('+', '-').replaceAll('/', '_')
 
 // oom-comments src
 // https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
-const src = new URL(`/notice/${id}`, 'https://hatsu.local')
+const src = new URL(`/notice/${id}`, 'https://hatsu.local').href
+</code></pre>
+<p>So eventually it will look like this:</p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+  import Comments from 'https://esm.run/@oom/mastodon-comments'
+  customElements.define('oom-comments', Comments)
+&lt;/script&gt;
+&lt;link
+  rel=&quot;stylesheet&quot;
+  href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot;
+/&gt;
+&lt;oom-comments
+  src=&quot;https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy&quot;
+&gt;
+  No comments yet
+&lt;/oom-comments&gt;
 </code></pre>
 <p>It's a real pain in the ass, but you can try to automate it.</p>
-<!-- ### [lume_theme_simple_blog](https://deno.land/x/lume_theme_simple_blog) -->
+<h3 id="lume-1"><a class="header" href="#lume-1">Lume</a></h3>
+<p>If you're using <a href="https://github.com/lumeland/lume">Lume</a> and <a href="https://github.com/lumeland/theme-simple-blog">Theme Simple Blog</a>, it will read <code>data.comments.src</code>.</p>
+<p>So you can do this:</p>
+<pre><code class="language-ts">// _config.ts
+import lume from 'lume/mod.ts'
+import blog from 'https://deno.land/x/lume_theme_simple_blog@v0.14.0/mod.ts'
+
+const site = lume()
+
+site.use(blog())
+
+// add this:
+site.preprocess(['.md'], (pages) =&gt;
+  pages
+    .filter((page) =&gt; page.type === 'post')
+    .forEach((page) =&gt; {
+      page.data.comments = {
+        src: new URL(
+          `/notice/${btoa(site.url(page.data.url, true))
+            .replaceAll('+', '-')
+            .replaceAll('/', '_')}`,
+          'https://hatsu.local' // your hatsu instance
+        ).href,
+      }
+    })
+)
+
+export default site
+</code></pre>
 <h2 id="how-it-works"><a class="header" href="#how-it-works">How it works?</a></h2>
 <p>Hatsu mimics Pleroma's URL format.</p>
 <p><code>@oom/mastodon-components</code> will extract the ID from the URL and query the corresponding API for the data.</p>
