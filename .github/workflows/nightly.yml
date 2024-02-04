@@ -19,15 +19,16 @@ jobs:
   build:
     strategy:
       matrix:
-        musl: [false]
         include:
           - target: x86_64-unknown-linux-gnu
             command: _build
+            musl: false
           - target: x86_64-unknown-linux-musl
             command: _build
             musl: true
           - target: aarch64-unknown-linux-gnu
             command: _zigbuild
+            musl: false
           - target: aarch64-unknown-linux-musl
             command: _zigbuild
             musl: true
