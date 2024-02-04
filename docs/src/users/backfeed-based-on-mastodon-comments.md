@@ -6,10 +6,13 @@
 
 ```html
 <script type="module">
-    import Comments from 'https://esm.run/@oom/mastodon-comments'
-    customElements.define('oom-comments', Comments)
+  import Comments from 'https://esm.run/@oom/mastodon-comments'
+  customElements.define('oom-comments', Comments)
 </script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css"
+/>
 <oom-comments src="https://mastodon.gal/@misteroom/110810445656343599">
   No comments yet
 </oom-comments>
@@ -31,9 +34,7 @@ const url = new URL(pathname, origin).href
 
 // get id (base64url encode)
 // aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
-const id = btoa(url)
-  .replaceAll('+', '-')
-  .replaceAll('/', '_')
+const id = btoa(url).replaceAll('+', '-').replaceAll('/', '_')
 
 // oom-comments src
 // https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy
@@ -44,18 +45,55 @@ So eventually it will look like this:
 
 ```html
 <script type="module">
-    import Comments from 'https://esm.run/@oom/mastodon-comments'
-    customElements.define('oom-comments', Comments)
+  import Comments from 'https://esm.run/@oom/mastodon-comments'
+  customElements.define('oom-comments', Comments)
 </script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css" />
-<oom-comments src="https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy">
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css"
+/>
+<oom-comments
+  src="https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy"
+>
   No comments yet
 </oom-comments>
 ```
 
 It's a real pain in the ass, but you can try to automate it.
 
-<!-- ### [lume_theme_simple_blog](https://deno.land/x/lume_theme_simple_blog) -->
+### Lume
+
+If you're using [Lume](https://github.com/lumeland/lume) and [Theme Simple Blog](https://github.com/lumeland/theme-simple-blog), it will read `data.comments.src`.
+
+So you can do this:
+
+```ts
+// _config.ts
+import lume from 'lume/mod.ts'
+import blog from 'https://deno.land/x/lume_theme_simple_blog@v0.14.0/mod.ts'
+
+const site = lume()
+
+site.use(blog())
+
+// add this:
+site.preprocess(['.md'], (pages) =>
+  pages
+    .filter((page) => page.type === 'post')
+    .forEach((page) => {
+      page.data.comments = {
+        src: new URL(
+          `/notice/${btoa(site.url(page.data.url, true))
+            .replaceAll('+', '-')
+            .replaceAll('/', '_')}`,
+          'https://hatsu.local' // your hatsu instance
+        ).href,
+      }
+    })
+)
+
+export default site
+```
 
 ## How it works?
 
