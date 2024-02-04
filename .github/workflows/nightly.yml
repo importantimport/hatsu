@@ -39,6 +39,7 @@ jobs:
         uses: korandoru/setup-zig@v1
         with:
           zig-version: master
+      - run: sudo apt update && sudo apt install -y musl-tools
       - run: just ${{ matrix.command }} ${{ matrix.target }}
       - uses: actions/upload-artifact@v4
         with:
