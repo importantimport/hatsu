@@ -1,14 +1,8 @@
-use axum::{
-    // routing::get,
-    // Json,
-    Router,
-};
 use utoipa::{
     openapi::security::{ApiKey, ApiKeyValue, SecurityScheme},
     Modify,
     OpenApi,
 };
-use utoipa_swagger_ui::SwaggerUi;
 
 #[derive(OpenApi)]
 #[openapi(
@@ -50,10 +44,4 @@ impl Modify for SecurityAddon {
             );
         }
     }
-}
-
-pub fn handler() -> Router {
-    Router::new()
-        // .route("/openapi.json", get(|| async move { Json(ApiDoc::openapi()) }))
-        .merge(SwaggerUi::new("/swagger-ui").url("/openapi.json", ApiDoc::openapi()))
 }
