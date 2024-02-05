@@ -48,6 +48,11 @@ impl AppError {
             context: SpanTrace::capture(),
         }
     }
+
+    #[must_use]
+    pub fn anyhow(error: anyhow::Error) -> Self {
+        Self::new(error.to_string(), None, None)
+    }
 }
 
 impl IntoResponse for AppError {
@@ -69,12 +74,6 @@ where
     T: Into<anyhow::Error>,
 {
     fn from(t: T) -> Self {
-        Self {
-            error: t.into().to_string(),
-            error_id: Uuid::new_v4(),
-            error_details: None,
-            status: StatusCode::INTERNAL_SERVER_ERROR,
-            context: SpanTrace::capture(),
-        }
+        Self::anyhow(t.into())
     }
 }
