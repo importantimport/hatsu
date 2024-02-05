@@ -44,7 +44,7 @@ jobs:
         with:
           zig-version: master
       - if: matrix.musl == true
-        run: sudo apt update && sudo apt install -y musl-tools
+        run: sudo apt update && sudo apt install -y musl-tools && sudo ln -s /bin/g++ /bin/musl-g++
       - run: just ${{ matrix.command }} ${{ matrix.target }}
       - uses: actions/upload-artifact@v4
         with:
