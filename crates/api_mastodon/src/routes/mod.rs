@@ -1,2 +1,2 @@
 pub mod statuses;
-pub use statuses::handler;
+pub use statuses::routes;

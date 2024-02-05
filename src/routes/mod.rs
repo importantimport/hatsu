@@ -17,8 +17,8 @@ async fn root() -> impl IntoResponse {
 
 pub fn handler() -> Router {
     Router::new()
-        .merge(hatsu_api_admin::routes::handler())
-        .merge(hatsu_api_mastodon::routes::handler())
+        .merge(hatsu_api_admin::routes())
+        .merge(hatsu_api_mastodon::routes())
         .merge(hatsu_nodeinfo::routes())
         .merge(activities::handler())
         .merge(objects::handler())

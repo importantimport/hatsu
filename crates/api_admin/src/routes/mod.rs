@@ -14,7 +14,7 @@ pub mod remove_account;
 use create_account::create_account;
 use remove_account::remove_account;
 
-pub fn handler() -> Router {
+pub fn routes() -> Router {
     Router::new()
         .route("/api/v0/admin/create-account", post(create_account))
         .route("/api/v0/admin/remove-account", post(remove_account))

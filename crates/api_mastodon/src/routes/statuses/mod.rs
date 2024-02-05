@@ -9,7 +9,7 @@ use status_favourited_by::status_favourited_by;
 pub mod status_reblogged_by;
 use status_reblogged_by::status_reblogged_by;
 
-pub fn handler() -> Router {
+pub fn routes() -> Router {
     Router::new()
         .route("/api/v1/statuses/:status/context", get(status_context))
         .route(
