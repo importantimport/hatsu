@@ -1,8 +1,6 @@
 use axum::{http::Response, response::IntoResponse, routing::get, Router};
 
 mod activities;
-mod api;
-mod nodeinfo;
 mod objects;
 mod users;
 mod well_known;
@@ -19,9 +17,10 @@ async fn root() -> impl IntoResponse {
 
 pub fn handler() -> Router {
     Router::new()
+        .merge(hatsu_api_admin::routes::handler())
+        .merge(hatsu_api_mastodon::routes::handler())
+        .merge(hatsu_nodeinfo::routes())
         .merge(activities::handler())
-        .merge(api::handler())
-        .merge(nodeinfo::handler())
         .merge(objects::handler())
         .merge(users::handler())
         .merge(well_known::handler())

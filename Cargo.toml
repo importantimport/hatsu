@@ -47,6 +47,7 @@ members = [
     "crates/apub",
     "crates/db_migration",
     "crates/db_schema",
+    "crates/nodeinfo",
     "crates/scheduler",
     "crates/utils",
 ]
@@ -57,6 +58,7 @@ hatsu_api_mastodon = { path = "./crates/api_mastodon" }
 hatsu_apub = { path = "./crates/apub" }
 hatsu_db_migration = { path = "./crates/db_migration" }
 hatsu_db_schema = { path = "./crates/db_schema" }
+hatsu_nodeinfo = { path = "./crates/nodeinfo" }
 hatsu_scheduler = { path = "./crates/scheduler" }
 hatsu_utils = { path = "./crates/utils" }
 activitypub_federation = { version = "0.5", default-features = false, features = ["axum"] }
@@ -101,6 +103,7 @@ hatsu_api_mastodon = { workspace = true }
 hatsu_apub = { workspace = true }
 hatsu_db_migration = { workspace = true }
 hatsu_db_schema = { workspace = true }
+hatsu_nodeinfo = { workspace = true }
 hatsu_scheduler = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }

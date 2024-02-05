@@ -2,7 +2,7 @@
 // https://github.com/LemmyNet/lemmy/blob/main/crates/routes/src/nodeinfo.rs
 
 use activitypub_federation::config::Data;
-use axum::{debug_handler, routing::get, Json, Router};
+use axum::{debug_handler, Json};
 use hatsu_db_schema::{prelude::User, user};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter};
@@ -27,7 +27,7 @@ async fn nodeinfo_usage(data: Data<AppData>) -> Result<NodeInfoUsage, AppError> 
 
 /// <https://github.com/jhass/nodeinfo/blob/main/schemas/2.0/schema.json>
 #[debug_handler]
-pub async fn nodeinfo_2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
+pub async fn v2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
     Ok(Json(NodeInfo {
         version: "2.0".to_string(),
         software: NodeInfoSoftware {
@@ -49,7 +49,7 @@ pub async fn nodeinfo_2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppErro
 
 /// <https://github.com/jhass/nodeinfo/blob/main/schemas/2.1/schema.json>
 #[debug_handler]
-pub async fn nodeinfo_2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
+pub async fn v2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
     Ok(Json(NodeInfo {
         version: "2.1".to_string(),
         software: NodeInfoSoftware {
@@ -67,14 +67,6 @@ pub async fn nodeinfo_2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppErro
         usage: nodeinfo_usage(data).await?,
         metadata: NodeInfoMetadata {},
     }))
-}
-
-pub fn handler() -> Router {
-    Router::new()
-        .route("/nodeinfo/2.0", get(nodeinfo_2_0))
-        .route("/nodeinfo/2.0.json", get(nodeinfo_2_0))
-        .route("/nodeinfo/2.1", get(nodeinfo_2_1))
-        .route("/nodeinfo/2.1.json", get(nodeinfo_2_1))
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
