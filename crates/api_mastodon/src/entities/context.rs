@@ -4,6 +4,7 @@ use hatsu_db_schema::{post, prelude::Post};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{EntityTrait, ModelTrait};
 use serde::{Deserialize, Serialize};
+use url::Url;
 use utoipa::ToSchema;
 
 use crate::entities::Status;
@@ -17,9 +18,8 @@ pub struct Context {
 }
 
 impl Context {
-    // TODO: String => ObjectId<DbPost>
-    pub async fn find_by_id(post_id: String, data: &Data<AppData>) -> Result<Self, AppError> {
-        match Post::find_by_id(&post_id).one(&data.conn).await? {
+    pub async fn find_by_id(post_id: &Url, data: &Data<AppData>) -> Result<Self, AppError> {
+        match Post::find_by_id(&post_id.to_string()).one(&data.conn).await? {
             Some(post) => {
                 // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
                 // let descendants = post
@@ -42,10 +42,9 @@ impl Context {
                 Ok(Self {
                     ancestors: vec![],
                     descendants,
-                    // descendants: vec![],
                 })
             }
-            None => Err(AppError::not_found("Record", &post_id)),
+            None => Err(AppError::not_found("Record", &post_id.to_string())),
         }
     }
 }

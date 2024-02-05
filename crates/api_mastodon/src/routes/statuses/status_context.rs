@@ -30,9 +30,10 @@ pub async fn status_context(
         Ok(utf8_url) => match String::from_utf8(utf8_url) {
             Ok(url) if url.starts_with("https://") => {
                 let object_url = hatsu_utils::url::generate_object_url(data.domain(), url)?;
-                let context = Context::find_by_id(object_url.to_string(), &data).await?;
+                let context = Context::find_by_id(&object_url, &data).await?;
 
                 Ok(Json(Context {
+                    ancestors: vec![],
                     descendants: context
                         .descendants
                         .into_iter()
@@ -44,7 +45,6 @@ pub async fn status_context(
                             _ => status,
                         })
                         .collect(),
-                    ..context
                 }))
             }
             _ => Err(AppError::not_found("Record", &base64_url)),
