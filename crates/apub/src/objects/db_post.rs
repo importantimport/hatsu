@@ -110,6 +110,6 @@ impl Object for ApubPost {
     }
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
-        hatsu_utils::date::parse(&self.last_refreshed_at).map_or(None, |date| Some(date))
+        hatsu_utils::date::parse(&self.last_refreshed_at).map_or(None, Some)
     }
 }
