@@ -21,24 +21,34 @@ impl Feed {
         let response = reqwest::get(format!("https://{}", &domain)).await?;
         let text = response.text().await?;
         let document = Html::parse_document(&text);
-        let head = document
-            .select(&Selector::parse("head").unwrap())
-            .next()
-            .unwrap();
+        let head = Selector::parse("head").expect("valid selector");
 
         fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Option<Url> {
             head.select(
-                &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap(),
+                &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]"))
+                    .expect("missing selector"),
             )
             .next()
-            .and_then(|link| link.value().attr("href"))
-            .map(|href| absolutize_relative_url(href, domain).unwrap())
+            .and_then(|link| match link.value().attr("href") {
+                Some(href) => match absolutize_relative_url(href, domain) {
+                    Ok(url) => Some(url),
+                    Err(_) => None,
+                },
+                None => None,
+            })
         }
 
-        Ok(Self {
-            json: feed_auto_discovery(&head, &domain, "application/feed+json"),
-            atom: feed_auto_discovery(&head, &domain, "application/atom+xml"),
-            rss: feed_auto_discovery(&head, &domain, "application/rss+xml"),
-        })
+        match document.select(&head).next() {
+            Some(head) => Ok(Self {
+                json: feed_auto_discovery(&head, &domain, "application/feed+json"),
+                atom: feed_auto_discovery(&head, &domain, "application/atom+xml"),
+                rss: feed_auto_discovery(&head, &domain, "application/rss+xml"),
+            }),
+            None => Err(AppError::new(
+                format!("Unable to find the user's feed: {domain}"),
+                None,
+                None,
+            )),
+        }
     }
 }
