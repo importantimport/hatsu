@@ -11,7 +11,7 @@ pub struct Model {
     pub attributed_to: String,
     pub in_reply_to: Option<String>,
     pub in_reply_to_root: Option<String>,
-    pub published: Option<String>,
+    pub published: String,
     pub updated: Option<String>,
     pub last_refreshed_at: String,
     pub local: bool,

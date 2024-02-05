@@ -58,7 +58,7 @@ async fn create_feed_item(
         in_reply_to: None,
         in_reply_to_root: None,
         object: serde_json::to_string(&note)?,
-        published: Some(note.published.clone()),
+        published: note.published.clone(),
         updated: note.updated.clone(),
         last_refreshed_at: note.published.clone(),
         local: true,

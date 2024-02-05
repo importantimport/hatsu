@@ -87,8 +87,7 @@ impl Object for ApubPost {
             id: json.id.to_string(),
             attributed_to: json.attributed_to.to_string(),
             object: serde_json::to_string(&json)?,
-            // TODO: remove Some()
-            published: Some(json.published),
+            published: json.published,
             updated: json.updated,
             in_reply_to: json.in_reply_to.map(|url| url.to_string()),
             in_reply_to_root: note.check_in_reply_to_root(data).await?,

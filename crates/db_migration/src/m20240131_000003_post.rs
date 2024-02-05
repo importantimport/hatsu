@@ -18,7 +18,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Post::AttributedTo).string().not_null())
                     .col(ColumnDef::new(Post::InReplyTo).string())
                     .col(ColumnDef::new(Post::InReplyToRoot).string())
-                    .col(ColumnDef::new(Post::Published).date_time())
+                    .col(ColumnDef::new(Post::Published).date_time().not_null())
                     .col(ColumnDef::new(Post::Updated).date_time())
                     .col(ColumnDef::new(Post::LastRefreshedAt).date_time().not_null())
                     .col(ColumnDef::new(Post::Local).boolean().not_null())
