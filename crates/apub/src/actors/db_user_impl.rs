@@ -34,7 +34,6 @@ impl ApubUser {
             image: feed
                 .hatsu
                 .and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
-            // TODO: test this
             inbox: user_url
                 .join(&format!("{preferred_username}/inbox"))?
                 .to_string(),

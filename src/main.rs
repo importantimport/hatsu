@@ -21,19 +21,10 @@ mod subsystem;
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
     // initialize tracing
-    // TODO: tracing_opentelemetry
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
         .with(tracing_error::ErrorLayer::default())
         .init();
-    // let subscriber = tracing_subscriber::Registry::default()
-    //     .with(
-    //         tracing_subscriber::fmt::layer()
-    //             .with_ansi(false)
-    //             .json()
-    //     )
-    //     .with(ErrorLayer::default());
-    // tracing::subscriber::set_global_default(subscriber)?;
 
     // Load environment variables from .env file.
     tracing::info!("loading environment variables");

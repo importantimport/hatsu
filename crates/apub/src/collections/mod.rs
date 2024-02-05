@@ -65,7 +65,6 @@ impl Collection {
             last: match total_pages {
                 Some(total_pages) => Some(generate_collection_page_url(
                     &collection_id,
-                    // TODO: 测试效果
                     match total_pages {
                         page if total_pages > 0 => page + 1,
                         _ => 1,

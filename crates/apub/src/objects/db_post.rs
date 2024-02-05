@@ -99,47 +99,6 @@ impl Object for ApubPost {
         .insert(&data.conn)
         .await?;
 
-        // let mention = Mention {
-        //     href: Url::parse(&creator.id)?,
-        //     kind: Default::default()
-        // };
-        // let note = Note {
-        //     kind: Default::default(),
-        //     id: Url::parse(&format!("https://{}/o/{}", data.domain(), Uuid::now_v7()))?.into(),
-        //     // TODO: multiple user / 多用户
-        //     attributed_to: Url::parse(&format!("https://{}/u/{}", data.domain(), env::var("HATSU_PRIMARY_ACCOUNT")?))?.into(),
-        //     // 发送给提及的用户
-        //     // TODO: "to": ["https://{}/u/{}/followers"]
-        //     to: vec![json.attributed_to.clone().into()],
-        //     cc: vec![public()],
-        //     source: "".to_string(),
-        //     content: format!("Hello {}", creator.name),
-        //     in_reply_to: Some(json.id.clone()),
-        //     tag: Some(vec![mention]),
-        //     published: Some(Local::now().to_rfc3339_opts(SecondsFormat::Secs, true)),
-        //     updated: None,
-        // };
-
-        // 保存到数据库 / Save Note to Database
-        // let _insert_post = DbPost {
-        //     id: note.id.to_string(),
-        //     attributed_to: note.attributed_to.to_string(),
-        //     object: serde_json::to_string(&note)?,
-        //     published: note.published.clone(),
-        //     updated: note.updated.clone(),
-        //     last_refreshed_at: note.published.clone().unwrap(),
-        //     local: true,
-        // }
-        //     .into_active_model()
-        //     .insert(&data.conn)
-        //     .await?;
-
-        // // 获取本地用户
-        // let person = note.attributed_to.dereference_local(data).await?;
-
-        // // Send Activity
-        // person.send_activity(CreateOrUpdateNote::new(note, CreateOrUpdateType::Create, data).await?, vec![creator.shared_inbox_or_inbox()], data).await?;
-
         Ok(post.into())
     }
 

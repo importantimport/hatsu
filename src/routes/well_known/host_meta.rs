@@ -68,7 +68,6 @@ pub async fn host_meta_xrd(data: Data<AppData>) -> impl IntoResponse {
 
 // .well-known/host-meta.jrd
 // .well-known/host-meta.json
-// TODO: application/jrd+json
 pub async fn host_meta_json(data: Data<AppData>) -> impl IntoResponse {
     let host_meta_json = HostMetaJson {
         links: vec![Link {

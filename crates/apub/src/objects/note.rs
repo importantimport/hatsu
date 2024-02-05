@@ -123,7 +123,6 @@ impl Note {
             cc: vec![public()],
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
-            // TODO: remove
             in_reply_to: None,
             // TODO: test this
             tag: json.tags.map(|tags: Vec<String>| {
