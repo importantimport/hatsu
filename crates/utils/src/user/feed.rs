@@ -29,26 +29,28 @@ impl Feed {
                     .expect("missing selector"),
             )
             .next()
-            .and_then(|link| match link.value().attr("href") {
-                Some(href) => match absolutize_relative_url(href, domain) {
-                    Ok(url) => Some(url),
-                    Err(_) => None,
-                },
-                None => None,
+            .and_then(|link| {
+                link.value().attr("href").map_or(None, |href| {
+                    absolutize_relative_url(href, domain).map_or(None, |url| Some(url))
+                })
             })
         }
 
-        match document.select(&head).next() {
-            Some(head) => Ok(Self {
-                json: feed_auto_discovery(&head, &domain, "application/feed+json"),
-                atom: feed_auto_discovery(&head, &domain, "application/atom+xml"),
-                rss: feed_auto_discovery(&head, &domain, "application/rss+xml"),
-            }),
-            None => Err(AppError::new(
-                format!("Unable to find the user's feed: {domain}"),
-                None,
-                None,
-            )),
-        }
+        document.select(&head).next().map_or_else(
+            || {
+                Err(AppError::new(
+                    format!("Unable to find the user's feed: {domain}"),
+                    None,
+                    None,
+                ))
+            },
+            |head| {
+                Ok(Self {
+                    json: feed_auto_discovery(&head, &domain, "application/feed+json"),
+                    atom: feed_auto_discovery(&head, &domain, "application/atom+xml"),
+                    rss: feed_auto_discovery(&head, &domain, "application/rss+xml"),
+                })
+            },
+        )
     }
 }

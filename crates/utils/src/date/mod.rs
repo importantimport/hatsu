@@ -2,6 +2,7 @@ use chrono::{DateTime, SecondsFormat, Utc};
 
 use crate::AppError;
 
+#[must_use]
 pub fn now() -> String {
     Utc::now().to_rfc3339_opts(SecondsFormat::Secs, true)
 }

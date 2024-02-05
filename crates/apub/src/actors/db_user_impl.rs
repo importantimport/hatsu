@@ -74,25 +74,24 @@ impl ApubUser {
     where
         Activity: ActivityHandler + Serialize + Debug,
     {
-        let inboxes = match inboxes {
-            Some(inboxes) => inboxes,
-            None => {
-                // 获取 followers inbox
-                let handles = self
-                    .find_related(ReceivedFollow)
-                    .all(&data.conn)
-                    .await?
-                    .into_iter()
-                    .map(|received_follow| async move {
-                        let follower: ObjectId<ApubUser> =
-                            Url::parse(&received_follow.actor).unwrap().into();
-                        let follower: ApubUser = follower.dereference_local(data).await.unwrap();
-                        follower.shared_inbox_or_inbox()
-                    })
-                    .collect::<Vec<_>>();
+        let inboxes = if let Some(inboxes) = inboxes {
+            inboxes
+        } else {
+            // 获取 followers inbox
+            let handles = self
+                .find_related(ReceivedFollow)
+                .all(&data.conn)
+                .await?
+                .into_iter()
+                .map(|received_follow| async move {
+                    let follower: ObjectId<Self> =
+                        Url::parse(&received_follow.actor).unwrap().into();
+                    let follower: Self = follower.dereference_local(data).await.unwrap();
+                    follower.shared_inbox_or_inbox()
+                })
+                .collect::<Vec<_>>();
 
-                futures::future::join_all(handles).await
-            }
+            futures::future::join_all(handles).await
         };
 
         // 发送

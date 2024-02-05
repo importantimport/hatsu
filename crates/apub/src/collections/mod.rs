@@ -61,10 +61,10 @@ impl Collection {
         Ok(Self {
             kind: OrderedCollectionType::OrderedCollection,
             id: collection_id.clone(),
-            first: generate_collection_page_url(&collection_id, 1)?,
+            first: generate_collection_page_url(collection_id, 1)?,
             last: match total_pages {
                 Some(total_pages) => Some(generate_collection_page_url(
-                    &collection_id,
+                    collection_id,
                     match total_pages {
                         page if total_pages > 0 => page + 1,
                         _ => 1,

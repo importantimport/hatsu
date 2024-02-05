@@ -44,7 +44,7 @@ impl Context {
                     descendants,
                 })
             }
-            None => Err(AppError::not_found("Record", &post_id.as_ref())),
+            None => Err(AppError::not_found("Record", post_id.as_ref())),
         }
     }
 }
