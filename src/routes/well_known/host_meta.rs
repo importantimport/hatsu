@@ -31,26 +31,16 @@ pub async fn host_meta(
     headers.get(ACCEPT).map_or_else(
         || Redirect::temporary("/.well-known/host-meta.xrd"),
         |accept| match accept.to_str() {
-            Ok(accept) if accept.contains("application/jrd+json") => {
+            Ok(accept) if accept.contains("json") => {
                 Redirect::temporary("/.well-known/host-meta.json")
             }
-            Ok(accept) if accept.contains("application/xrd+xml") => {
-                Redirect::temporary("/.well-known/host-meta.xrd")
-            }
-            Ok(accept) if accept.contains("application/json") => {
-                Redirect::temporary("/.well-known/host-meta.json")
-            }
-            Ok(accept) if accept.contains("application/xml") => {
-                Redirect::temporary("/.well-known/host-meta.xrd")
-            }
-            _ => Redirect::temporary("/.well-known/host-meta.xrd"),
+            _ => Redirect::temporary("/.well-known/host-meta.xml"),
         },
     )
 }
 
-// .well-known/host-meta.xrd
 // .well-known/host-meta.xml
-pub async fn host_meta_xrd(data: Data<AppData>) -> impl IntoResponse {
+pub async fn host_meta_xml(data: Data<AppData>) -> impl IntoResponse {
     let host_meta = format!(
         r#"<?xml version="1.0" encoding="UTF-8"?>
         <XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">
@@ -66,7 +56,6 @@ pub async fn host_meta_xrd(data: Data<AppData>) -> impl IntoResponse {
     (headers, Response::new(Body::from(host_meta)))
 }
 
-// .well-known/host-meta.jrd
 // .well-known/host-meta.json
 pub async fn host_meta_json(data: Data<AppData>) -> impl IntoResponse {
     let host_meta_json = HostMetaJson {
