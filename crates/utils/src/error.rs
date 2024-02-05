@@ -50,7 +50,7 @@ impl AppError {
     }
 
     #[must_use]
-    pub fn anyhow(error: anyhow::Error) -> Self {
+    pub fn anyhow(error: &anyhow::Error) -> Self {
         Self::new(error.to_string(), None, None)
     }
 }
@@ -74,6 +74,6 @@ where
     T: Into<anyhow::Error>,
 {
     fn from(t: T) -> Self {
-        Self::anyhow(t.into())
+        Self::anyhow(&t.into())
     }
 }
