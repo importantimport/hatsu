@@ -32,7 +32,7 @@ impl Feed {
             .and_then(|link| {
                 link.value()
                     .attr("href")
-                    .and_then(|href| absolutize_relative_url(href, domain).map_or(None, Some))
+                    .and_then(|href| absolutize_relative_url(href, domain).ok())
             })
         }
 

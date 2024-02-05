@@ -47,7 +47,7 @@ impl Object for ApubUser {
     type Kind = Service;
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
-        hatsu_utils::date::parse(&self.last_refreshed_at).map_or(None, Some)
+        hatsu_utils::date::parse(&self.last_refreshed_at).ok()
     }
 
     async fn read_from_id(
