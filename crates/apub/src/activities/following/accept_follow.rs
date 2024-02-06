@@ -51,7 +51,7 @@ impl AcceptFollow {
             activity: serde_json::to_string(&activity)?,
             actor: activity.actor().to_string(),
             kind: activity.kind.to_string(),
-            published: None,
+            published: Some(hatsu_utils::date::now()),
         }
         .into_active_model()
         .insert(&data.conn)
