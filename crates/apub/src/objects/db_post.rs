@@ -47,10 +47,10 @@ impl Object for ApubPost {
 
     // 从 ID 读取
     async fn read_from_id(
-        object_id: Url,
+        post_id: Url,
         data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
-        Ok(Post::find_by_id(&object_id.to_string())
+        Ok(Post::find_by_id(&post_id.to_string())
             .one(&data.conn)
             .await?
             .map(Into::into))

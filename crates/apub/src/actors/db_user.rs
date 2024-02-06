@@ -51,10 +51,10 @@ impl Object for ApubUser {
     }
 
     async fn read_from_id(
-        object_id: Url,
+        user_id: Url,
         data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
-        Ok(User::find_by_id(&object_id.to_string())
+        Ok(User::find_by_id(&user_id.to_string())
             .one(&data.conn)
             .await?
             .map(Into::into))
