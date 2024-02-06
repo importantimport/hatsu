@@ -16,7 +16,6 @@ name = "hatsu_apub"
 path = "src/lib.rs"
 
 [dependencies]
-hatsu_db_migration = { workspace = true }
 hatsu_db_schema = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }

@@ -68,7 +68,7 @@ anyhow = "1.0"
 async-recursion = "1"
 async-trait = "0.1"
 axum = { version = "0.6", features = ["tokio", "macros"] }
-axum-extra = { version = "0.8", features = ["query", "typed-routing"] }
+# axum-extra = { version = "0.8", features = ["query", "typed-routing"] }
 base64-simd = "0.8"
 chrono = "0.4"
 enum_delegate = "0.2"
@@ -112,7 +112,6 @@ hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
 async-trait = { workspace = true }
 axum = { workspace = true }
-axum-extra = { workspace = true }
 base64-simd = { workspace = true }
 dotenvy = "0.15"
 sea-orm = { workspace = true }
