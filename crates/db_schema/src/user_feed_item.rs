@@ -8,7 +8,7 @@ pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub id: String,
     pub user_id: String,
-    pub object_id: Option<String>,
+    pub post_id: Option<String>,
     pub title: Option<String>,
     pub summary: Option<String>,
     pub language: Option<String>,
@@ -27,7 +27,7 @@ pub enum Relation {
     User,
     #[sea_orm(
         belongs_to = "super::post::Entity",
-        from = "Column::ObjectId",
+        from = "Column::PostId",
         to = "super::post::Column::Id"
     )]
     Post,

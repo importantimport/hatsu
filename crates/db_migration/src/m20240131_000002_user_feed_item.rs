@@ -18,7 +18,7 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(UserFeedItem::UserId).string().not_null())
-                    .col(ColumnDef::new(UserFeedItem::ObjectId).string())
+                    .col(ColumnDef::new(UserFeedItem::PostId).string())
                     .col(ColumnDef::new(UserFeedItem::Title).string())
                     .col(ColumnDef::new(UserFeedItem::Summary).string())
                     .col(ColumnDef::new(UserFeedItem::Language).string())
@@ -48,8 +48,8 @@ enum UserFeedItem {
     Id,
     /// User ID associated with this feed item.
     UserId,
-    /// Object ID associated with this feed item.
-    ObjectId,
+    /// Post ID associated with this feed item.
+    PostId,
     /// JSON Feed Item `title`
     Title,
     /// JSON Feed Item `summary`
