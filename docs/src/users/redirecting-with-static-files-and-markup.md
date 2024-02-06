@@ -41,5 +41,5 @@ That's it! For `https://example.com/foo/bar`, just add the following tag to the 
 > Replace `hatsu.local` with your Hatsu instance.
 
 ```html
-<link rel="alternate" type="application/activity+json" href="https://hatsu.local/o/https://example.com/foo/bar" />
+<link rel="alternate" type="application/activity+json" href="https://hatsu.local/posts/https://example.com/foo/bar" />
 ```

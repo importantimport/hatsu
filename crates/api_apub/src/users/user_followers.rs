@@ -107,5 +107,5 @@ pub async fn redirect(
     // UsersFollowersRedirect { name }: UsersFollowersRedirect,
     Path(name): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/u/{name}/followers")).into_response()
+    Redirect::permanent(&format!("/users/{name}/followers")).into_response()
 }

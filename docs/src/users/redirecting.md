@@ -9,7 +9,7 @@ There are two types of redirects required by Hatsu:
 
 2. Requests accept of type `application/activity+json`, redirecting them to make your page searchable.
     - before: `https://example.com/foo/bar`
-    - after: `https://hatsu.local/o/https://example.com/foo/bar`
+    - after: `https://hatsu.local/posts/https://example.com/foo/bar`
 
 There are many ways to redirect them and you can pick one you like:
 

@@ -7,6 +7,6 @@ pub fn routes() -> Router {
     Router::new()
         // .typed_get(activity::handler)
         // .typed_get(activity::redirect)
-        .route("/a/:activity", get(activity::handler))
-        .route("/activities/:activity", get(activity::redirect))
+        .route("/activities/:activity", get(activity::handler))
+        .route("/a/:activity", get(activity::redirect))
 }

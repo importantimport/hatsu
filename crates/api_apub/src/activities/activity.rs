@@ -58,5 +58,5 @@ pub async fn redirect(
     // ActivitiesRedirect { activity_id }: ActivitiesRedirect,
     Path(activity_id): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/a/{activity_id}")).into_response()
+    Redirect::permanent(&format!("/activities/{activity_id}")).into_response()
 }

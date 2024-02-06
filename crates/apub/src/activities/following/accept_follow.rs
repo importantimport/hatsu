@@ -32,7 +32,7 @@ pub struct AcceptFollow {
 /// <https://github.com/LemmyNet/activitypub-federation-rust/blob/7bb17f21d59b0aed6126d8a8a0cd60897cb02e6d/examples/local_federation/activities/accept.rs>
 impl AcceptFollow {
     pub async fn new(follow: Follow, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
-        // 被关注者（本地账号），https://{}/u/{}
+        // 被关注者（本地账号），https://{}/users/{}
         let user: ApubUser = follow.object.dereference_local(data).await?;
         // 关注者
         let person = follow.actor.clone().dereference(data).await?;

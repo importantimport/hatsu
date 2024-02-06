@@ -62,7 +62,7 @@ const instance = new URL('https://hatsu.local')
 
 // https://example.com/.well-known/* => https://hatsu.local/.well-known/*
 app.use('/.well-known/*'， hatsuWellKnown({ instance }))
-// https://example.com/posts/foo => https://hatsu.local/o/https://example.com/posts/foo
+// https://example.com/posts/foo => https://hatsu.local/posts/https://example.com/posts/foo
 app.use('/posts/*', hatsuObject({ instance }))
 ```
 

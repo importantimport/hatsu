@@ -109,5 +109,5 @@ pub async fn redirect(
     // UsersOutboxRedirect { name }: UsersOutboxRedirect,
     Path(name): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/u/{name}/outbox")).into_response()
+    Redirect::permanent(&format!("/users/{name}/outbox")).into_response()
 }

@@ -36,7 +36,6 @@ pub async fn handler(
     Path(name): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Service>>, AppError> {
-    // let id = format!("https://{}/u/{}", data.domain(), &name);
     let url = hatsu_utils::url::generate_user_url(data.domain(), &name)?;
     // "@context": [
     //   "https://www.w3.org/ns/activitystreams",
@@ -64,5 +63,5 @@ pub async fn redirect(
     // UsersRedirect { name }: UsersRedirect,
     Path(name): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/u/{name}")).into_response()
+    Redirect::permanent(&format!("/users/{name}")).into_response()
 }

@@ -15,12 +15,12 @@ pub fn generate_collection_page_url(collection_id: &Url, page: u64) -> Result<Ur
 pub struct Collection {
     #[serde(rename = "type")]
     kind: OrderedCollectionType,
-    // example: https://hatsu.local/u/example.com/collection
+    // example: https://hatsu.local/users/example.com/collection
     id: Url,
 
-    // example: https://hatsu.local/u/example.com/collection?page=1
+    // example: https://hatsu.local/users/example.com/collection?page=1
     first: Url,
-    // example: https://hatsu.local/u/example.com/collection?page=64
+    // example: https://hatsu.local/users/example.com/collection?page=64
     #[serde(skip_serializing_if = "Option::is_none")]
     last: Option<Url>,
 
@@ -33,19 +33,16 @@ pub struct Collection {
 pub struct CollectionPage<T> {
     #[serde(rename = "type")]
     kind: OrderedCollectionPageType,
-    // example: https://hatsu.local/u/example.com/collection?page=2
+    // example: https://hatsu.local/users/example.com/collection?page=2
     id: Url,
-
-    // example: https://hatsu.local/u/example.com/collection?page=1
+    // example: https://hatsu.local/users/example.com/collection?page=1
     #[serde(skip_serializing_if = "Option::is_none")]
     prev: Option<Url>,
-    // example: https://hatsu.local/u/example.com/collection?page=3
+    // example: https://hatsu.local/users/example.com/collection?page=3
     #[serde(skip_serializing_if = "Option::is_none")]
     next: Option<Url>,
-
-    // example: https://hatsu.local/u/example.com/collection
+    // example: https://hatsu.local/users/example.com/collection
     part_of: Url,
-
     // collection item list
     ordered_items: Vec<T>,
     // collection count

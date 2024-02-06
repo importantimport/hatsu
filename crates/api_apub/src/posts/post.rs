@@ -31,14 +31,14 @@ use sea_orm::EntityTrait;
 #[debug_handler]
 pub async fn handler(
     // Objects { object }: Objects,
-    Path(object): Path<String>,
+    Path(post_id): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Note>>, AppError> {
-    tracing::info!("Reading object {}", object);
+    tracing::info!("Reading post {}", post_id);
 
-    let object_url = hatsu_utils::url::generate_object_url(data.domain(), object)?;
+    let post_url = hatsu_utils::url::generate_post_url(data.domain(), post_id)?;
 
-    match Post::find_by_id(&object_url.to_string())
+    match Post::find_by_id(&post_url.to_string())
         .one(&data.conn)
         .await?
     {
@@ -55,7 +55,7 @@ pub async fn handler(
 #[debug_handler]
 pub async fn redirect(
     // ObjectsRedirect { object }: ObjectsRedirect
-    Path(object): Path<String>,
+    Path(post_id): Path<String>,
 ) -> impl IntoResponse {
-    Redirect::permanent(&format!("/o/{object}")).into_response()
+    Redirect::permanent(&format!("/posts/{post_id}")).into_response()
 }
