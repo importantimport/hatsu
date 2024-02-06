@@ -10,7 +10,7 @@ mod user_following;
 mod user_inbox;
 mod user_outbox;
 
-pub fn handler() -> Router {
+pub fn routes() -> Router {
     Router::new()
         // .typed_get(user::handler)
         // .typed_get(user::redirect)

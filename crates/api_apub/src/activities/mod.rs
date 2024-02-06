@@ -3,7 +3,7 @@ use axum::{routing::get, Router};
 
 mod activity;
 
-pub fn handler() -> Router {
+pub fn routes() -> Router {
     Router::new()
         // .typed_get(activity::handler)
         // .typed_get(activity::redirect)

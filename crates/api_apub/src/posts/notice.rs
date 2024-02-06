@@ -6,7 +6,7 @@ use axum::{
 use hatsu_utils::AppError;
 
 #[debug_handler]
-pub async fn redirect(Path(base64_url): Path<String>) -> impl IntoResponse {
+pub async fn notice(Path(base64_url): Path<String>) -> impl IntoResponse {
     let base64 = base64_simd::URL_SAFE;
 
     base64.decode_to_vec(&base64_url).map_or_else(
