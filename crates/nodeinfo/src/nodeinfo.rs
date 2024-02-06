@@ -29,14 +29,14 @@ async fn nodeinfo_usage(data: Data<AppData>) -> Result<NodeInfoUsage, AppError> 
 #[debug_handler]
 pub async fn v2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
     Ok(Json(NodeInfo {
-        version: "2.0".to_string(),
+        version: String::from("2.0"),
         software: NodeInfoSoftware {
-            name: "hatsu".to_string(),
-            version: env!("CARGO_PKG_VERSION").to_string(),
+            name: String::from("hatsu"),
+            version: String::from(env!("CARGO_PKG_VERSION")),
             repository: None,
             homepage: None,
         },
-        protocols: vec!["activitypub".to_string()],
+        protocols: vec![String::from("activitypub")],
         services: NodeInfoServices {
             inbound: vec![],
             outbound: vec![],
@@ -51,14 +51,14 @@ pub async fn v2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
 #[debug_handler]
 pub async fn v2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
     Ok(Json(NodeInfo {
-        version: "2.1".to_string(),
+        version: String::from("2.1"),
         software: NodeInfoSoftware {
-            name: "hatsu".to_string(),
-            version: env!("CARGO_PKG_VERSION").to_string(),
-            repository: Some("https://github.com/importantimport/hatsu".to_string()),
-            homepage: Some("https://github.com/importantimport/hatsu".to_string()),
+            name: String::from("hatsu"),
+            version: String::from(env!("CARGO_PKG_VERSION")),
+            repository: Some(String::from("https://github.com/importantimport/hatsu")),
+            homepage: Some(String::from("https://github.com/importantimport/hatsu")),
         },
-        protocols: vec!["activitypub".to_string()],
+        protocols: vec![String::from("activitypub")],
         services: NodeInfoServices {
             inbound: vec![],
             outbound: vec![],

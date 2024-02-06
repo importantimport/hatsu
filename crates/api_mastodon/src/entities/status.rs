@@ -49,7 +49,7 @@ impl Status {
             replies_count: 0,
             reblogs_count: 0,
             favourites_count: 0,
-            visibility: "public".to_string(),
+            visibility: String::from("public"),
         })
     }
 }

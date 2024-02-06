@@ -18,11 +18,11 @@ pub async fn nodeinfo(data: Data<AppData>) -> impl IntoResponse {
     let nodeinfo = NodeInfoWellKnown {
         links: vec![
             NodeInfoWellKnownLink {
-                rel: "http://nodeinfo.diaspora.software/ns/schema/2.0".to_string(),
+                rel: String::from("http://nodeinfo.diaspora.software/ns/schema/2.0"),
                 href: format!("https://{}/nodeinfo/2.0.json", data.domain()),
             },
             NodeInfoWellKnownLink {
-                rel: "http://nodeinfo.diaspora.software/ns/schema/2.1".to_string(),
+                rel: String::from("http://nodeinfo.diaspora.software/ns/schema/2.1"),
                 href: format!("https://{}/nodeinfo/2.1.json", data.domain()),
             },
         ],

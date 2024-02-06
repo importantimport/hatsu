@@ -192,7 +192,7 @@ impl NoteSource {
     pub fn new(source: String) -> Self {
         Self {
             content: source,
-            media_type: "text/markdown".to_string(),
+            media_type: String::from("text/markdown"),
         }
     }
 }

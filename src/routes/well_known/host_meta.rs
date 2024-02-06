@@ -60,8 +60,8 @@ pub async fn host_meta_xml(data: Data<AppData>) -> impl IntoResponse {
 pub async fn host_meta_json(data: Data<AppData>) -> impl IntoResponse {
     let host_meta_json = HostMetaJson {
         links: vec![Link {
-            rel: "lrdd".to_string(),
-            kind: "application/json".to_string(),
+            rel: String::from("lrdd"),
+            kind: String::from("application/json"),
             template: format!(
                 "https://{}/.well-known/webfinger?resource={{uri}}",
                 data.domain()

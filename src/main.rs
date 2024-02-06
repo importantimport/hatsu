@@ -36,12 +36,12 @@ async fn main() -> Result<(), AppError> {
     // 环境变量
     // Environments
     let env = AppEnv {
-        database_url: env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite::memory:".to_string()),
+        database_url: env::var("DATABASE_URL").unwrap_or_else(|_| String::from("sqlite::memory:")),
         hatsu_access_token: env::var_os("HATSU_ACCESS_TOKEN").map(|env| env.into_string().unwrap()),
         hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
         hatsu_listen_host: env::var("HATSU_LISTEN_HOST")
-            .unwrap_or_else(|_| "127.0.0.1".to_string()),
-        hatsu_listen_port: env::var("HATSU_LISTEN_PORT").unwrap_or_else(|_| "3939".to_string()),
+            .unwrap_or_else(|_| String::from("127.0.0.1")),
+        hatsu_listen_port: env::var("HATSU_LISTEN_PORT").unwrap_or_else(|_| String::from("3939")),
         hatsu_primary_account: env::var("HATSU_PRIMARY_ACCOUNT")
             .expect("env HATSU_PRIMARY_ACCOUNT must be set"),
     };

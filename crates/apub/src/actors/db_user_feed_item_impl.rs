@@ -83,7 +83,7 @@ impl JsonUserFeed {
             next_url: None,
             title: match feed.title {
                 Some(title) => title.content,
-                None => "untitled".to_string(),
+                None => String::from("untitled"),
             },
             description: feed.description.map(|text| text.content),
             icon: feed.icon.map(|image| Url::parse(&image.uri).unwrap()),
