@@ -4,7 +4,7 @@
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
-    kinds::{object::NoteType, public},
+    kinds::{link::LinkType, object::NoteType, public},
     protocol::helpers::deserialize_one_or_many,
     traits::{Actor, Object},
 };
@@ -31,7 +31,8 @@ pub struct Note {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub in_reply_to: Option<ObjectId<ApubPost>>,
     pub published: String,
-    // pub url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub updated: Option<String>,
     pub attributed_to: ObjectId<ApubUser>,
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub to: Vec<Url>,
@@ -43,21 +44,15 @@ pub struct Note {
     pub source: Option<Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tag: Option<Vec<Value>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub updated: Option<String>,
+    /// https://www.w3.org/ns/activitystreams#url
+    /// https://codeberg.org/fediverse/fep/src/branch/main/fep/fffd/fep-fffd.md
+    pub url: Option<Value>,
     // TODO:
     // sensitive (default: false) (extension: _hatsu.sensitive)
     // attachment
     // context (?)
     // conversation (?)
     // license (default: undefined) (extension: _hatsu.license)
-}
-
-#[derive(Deserialize, Serialize, Clone, Debug)]
-#[serde(rename_all = "camelCase")]
-pub struct NoteSource {
-    pub content: String,
-    pub media_type: String,
 }
 
 impl Note {
@@ -73,11 +68,8 @@ impl Note {
         // https://example.com/foo/bar => https://example.com/foo/bar
         // /foo/bar => https://example.com/foo/bar
         // foo/bar => https://example.com/foo/bar
-        let json_id = json
-            .url
-            .unwrap_or_else(|| Url::parse(&json.id).unwrap())
-            .to_string();
-        sources.push(Some(json_id));
+        let json_id = json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap());
+        sources.push(Some(json_id.to_string()));
 
         let mut source = sources
             .iter()
@@ -116,14 +108,16 @@ impl Note {
         let id = hatsu_utils::url::generate_object_url(data.domain(), json.id)?.into();
 
         Ok(Self {
-            kind: NoteType::Note,
             id,
+            kind: NoteType::Note,
+            in_reply_to: None,
+            published: hatsu_utils::date::now(),
+            updated: None,
             attributed_to: actor.id().into(),
             to: vec![Url::parse(&format!("{}/followers", actor.id()))?],
             cc: vec![public()],
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
-            in_reply_to: None,
             // TODO: test this
             tag: json.tags.map(|tags: Vec<String>| {
                 tags.iter()
@@ -141,8 +135,7 @@ impl Note {
                     })
                     .collect()
             }),
-            published: hatsu_utils::date::now(),
-            updated: None,
+            url: Some(serde_json::to_value(NoteUrl::new(json_id))?),
         })
     }
 
@@ -167,6 +160,32 @@ impl Note {
             None => Ok(None),
         }
     }
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct NoteUrl {
+    #[serde(rename = "type")]
+    pub kind: LinkType,
+    pub rel: String,
+    pub href: Url,
+}
+
+impl NoteUrl {
+    pub fn new(href: Url) -> Self {
+        Self {
+            kind: LinkType::Link,
+            rel: String::from("canonical"),
+            href,
+        }
+    }
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct NoteSource {
+    pub content: String,
+    pub media_type: String,
 }
 
 impl NoteSource {
