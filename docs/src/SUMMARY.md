@@ -32,4 +32,5 @@
 # Others
 
 - [Compatibility Chart](./others/compatibility-chart.md)
+- [Federation](./others/federation.md)
 - [JSON Feed Extension](./others/json-feed-extension.md)
