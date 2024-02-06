@@ -14,10 +14,6 @@ use tokio::time::Duration;
 use tokio_graceful_shutdown::Toplevel;
 use tracing_subscriber::prelude::*;
 
-mod routes;
-
-mod subsystem;
-
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
     // initialize tracing
@@ -107,7 +103,7 @@ async fn main() -> Result<(), AppError> {
     let scheduler = hatsu_scheduler::Scheduler {
         config: federation_config.clone(),
     };
-    let server = subsystem::Server {
+    let server = hatsu_backend::Server {
         federation_config,
         env: env.clone(),
     };

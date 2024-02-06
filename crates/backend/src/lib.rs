@@ -1,12 +1,11 @@
 use std::net::ToSocketAddrs;
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
-use axum::Router;
 use hatsu_utils::{AppData, AppEnv, AppError};
 use tokio_graceful_shutdown::SubsystemHandle;
 use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 
-use crate::routes;
+mod routes;
 
 pub struct Server {
     pub federation_config: FederationConfig<AppData>,
@@ -17,8 +16,7 @@ impl Server {
     pub async fn run(self, subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
         // build our application with a route
         tracing::info!("creating app");
-        let app = Router::new()
-            .merge(routes::handler())
+        let app = routes::routes()
             .layer(FederationMiddleware::new(self.federation_config))
             .layer(CorsLayer::permissive())
             .layer(TraceLayer::new_for_http())

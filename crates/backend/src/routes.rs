@@ -8,7 +8,7 @@ async fn root() -> impl IntoResponse {
     Response::new(format!("Hatsu v{version} \"{codename}\""))
 }
 
-pub fn handler() -> Router {
+pub fn routes() -> Router {
     Router::new()
         .merge(hatsu_api_admin::routes())
         .merge(hatsu_api_apub::routes())
