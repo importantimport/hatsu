@@ -29,3 +29,7 @@ Activities are implemented in way that is compatible with Mastodon and other pop
 ### Notable differences
 
 - No shared inbox.
+
+## Additional documentation
+
+- [Hatsu Documentation](https://hatsu.cli.rs)
