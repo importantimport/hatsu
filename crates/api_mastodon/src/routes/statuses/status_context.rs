@@ -29,8 +29,8 @@ pub async fn status_context(
     match base64.decode_to_vec(&base64_url) {
         Ok(utf8_url) => match String::from_utf8(utf8_url) {
             Ok(url) if url.starts_with("https://") => {
-                let object_url = hatsu_utils::url::generate_object_url(data.domain(), url)?;
-                let context = Context::find_by_id(&object_url, &data).await?;
+                let post_url = hatsu_utils::url::generate_post_url(data.domain(), url)?;
+                let context = Context::find_by_id(&post_url, &data).await?;
 
                 Ok(Json(Context {
                     ancestors: vec![],
@@ -38,7 +38,7 @@ pub async fn status_context(
                         .descendants
                         .into_iter()
                         .map(|status| match status.in_reply_to_id {
-                            Some(id) if id == object_url.to_string() => Status {
+                            Some(id) if id == post_url.to_string() => Status {
                                 in_reply_to_id: Some(base64_url.clone()),
                                 ..status
                             },
