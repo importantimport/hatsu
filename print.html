@@ -272,7 +272,7 @@ you might also want to check out the <a href="users/../others/json-feed-extensio
 <p>Requests accept of type <code>application/activity+json</code>, redirecting them to make your page searchable.</p>
 <ul>
 <li>before: <code>https://example.com/foo/bar</code></li>
-<li>after: <code>https://hatsu.local/o/https://example.com/foo/bar</code></li>
+<li>after: <code>https://hatsu.local/posts/https://example.com/foo/bar</code></li>
 </ul>
 </li>
 </ol>
@@ -319,7 +319,7 @@ which you need to save to the SSG equivalent of the static files directory and m
 <blockquote>
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
 </blockquote>
-<pre><code class="language-html">&lt;link rel=&quot;alternate&quot; type=&quot;application/activity+json&quot; href=&quot;https://hatsu.local/o/https://example.com/foo/bar&quot; /&gt;
+<pre><code class="language-html">&lt;link rel=&quot;alternate&quot; type=&quot;application/activity+json&quot; href=&quot;https://hatsu.local/posts/https://example.com/foo/bar&quot; /&gt;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-redirects-file"><a class="header" href="#redirecting-with-redirects-file">Redirecting with Redirects file</a></h1>
 <p>Works with <a href="https://docs.netlify.com/routing/redirects/#syntax-for-the-redirects-file">Netlify</a> and <a href="https://developers.cloudflare.com/pages/platform/redirects">Cloudflare Pages</a>.</p>
@@ -442,7 +442,7 @@ const instance = new URL('https://hatsu.local')
 
 // https://example.com/.well-known/* =&gt; https://hatsu.local/.well-known/*
 app.use('/.well-known/*'， hatsuWellKnown({ instance }))
-// https://example.com/posts/foo =&gt; https://hatsu.local/o/https://example.com/posts/foo
+// https://example.com/posts/foo =&gt; https://hatsu.local/posts/https://example.com/posts/foo
 app.use('/posts/*', hatsuObject({ instance }))
 </code></pre>
 <!-- ### Deno Deploy
