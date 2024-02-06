@@ -52,6 +52,7 @@ members = [
     "crates/openapi",
     "crates/scheduler",
     "crates/utils",
+    "crates/well_known"
 ]
 
 [workspace.dependencies]
@@ -65,6 +66,7 @@ hatsu_nodeinfo = { path = "./crates/nodeinfo" }
 hatsu_openapi = { path = "./crates/openapi" }
 hatsu_scheduler = { path = "./crates/scheduler" }
 hatsu_utils = { path = "./crates/utils" }
+hatsu_well_known = { path = "./crates/well_known" }
 activitypub_federation = { version = "0.5", default-features = false, features = ["axum"] }
 anyhow = "1.0"
 async-recursion = "1"
@@ -112,6 +114,7 @@ hatsu_nodeinfo = { workspace = true }
 hatsu_openapi = { workspace = true }
 hatsu_scheduler = { workspace = true }
 hatsu_utils = { workspace = true }
+hatsu_well_known = { workspace = true }
 activitypub_federation = { workspace = true }
 async-trait = { workspace = true }
 axum = { workspace = true }

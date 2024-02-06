@@ -1,7 +1,5 @@
 use axum::{http::Response, response::IntoResponse, routing::get, Router};
 
-mod well_known;
-
 // ./hatsu --version
 async fn root() -> impl IntoResponse {
     let version = env!("CARGO_PKG_VERSION");
@@ -17,6 +15,6 @@ pub fn handler() -> Router {
         .merge(hatsu_api_mastodon::routes())
         .merge(hatsu_nodeinfo::routes())
         .merge(hatsu_openapi::routes())
-        .merge(well_known::handler())
+        .merge(hatsu_well_known::routes())
         .route("/", get(root))
 }
