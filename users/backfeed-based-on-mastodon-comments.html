@@ -182,16 +182,16 @@
                     <main>
                         <h1 id="backfeed-based-on-mastodon-comments"><a class="header" href="#backfeed-based-on-mastodon-comments">Backfeed based on Mastodon Comments</a></h1>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
-<p>&quot;Mastodon Comments&quot; refers to the <a href="https://github.com/oom-components/mastodon-comments"><code>@oom/mastodon-components</code></a> library.</p>
-<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+<p>"Mastodon Comments" refers to the <a href="https://github.com/oom-components/mastodon-comments"><code>@oom/mastodon-components</code></a> library.</p>
+<pre><code class="language-html">&lt;script type="module"&gt;
   import Comments from 'https://esm.run/@oom/mastodon-comments'
   customElements.define('oom-comments', Comments)
 &lt;/script&gt;
 &lt;link
-  rel=&quot;stylesheet&quot;
-  href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot;
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css"
 /&gt;
-&lt;oom-comments src=&quot;https://mastodon.gal/@misteroom/110810445656343599&quot;&gt;
+&lt;oom-comments src="https://mastodon.gal/@misteroom/110810445656343599"&gt;
   No comments yet
 &lt;/oom-comments&gt;
 </code></pre>
@@ -215,16 +215,16 @@ const id = btoa(url).replaceAll('+', '-').replaceAll('/', '_')
 const src = new URL(`/notice/${id}`, 'https://hatsu.local').href
 </code></pre>
 <p>So eventually it will look like this:</p>
-<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+<pre><code class="language-html">&lt;script type="module"&gt;
   import Comments from 'https://esm.run/@oom/mastodon-comments'
   customElements.define('oom-comments', Comments)
 &lt;/script&gt;
 &lt;link
-  rel=&quot;stylesheet&quot;
-  href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot;
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css"
 /&gt;
 &lt;oom-comments
-  src=&quot;https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy&quot;
+  src="https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy"
 &gt;
   No comments yet
 &lt;/oom-comments&gt;

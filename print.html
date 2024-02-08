@@ -223,9 +223,9 @@
 <pre><code class="language-html">&lt;html&gt;
     &lt;head&gt;
         ...
-        &lt;link rel=&quot;alternate&quot; type=&quot;application/feed+json&quot; href=&quot;https://example.com/feed.json&quot; /&gt;
-        &lt;link rel=&quot;alternate&quot; type=&quot;application/atom+xml&quot; href=&quot;https://example.com/atom.xml&quot; /&gt;
-        &lt;link rel=&quot;alternate&quot; type=&quot;application/rss+xml&quot; href=&quot;https://example.com/rss.xml&quot; /&gt;
+        &lt;link rel="alternate" type="application/feed+json" href="https://example.com/feed.json" /&gt;
+        &lt;link rel="alternate" type="application/atom+xml" href="https://example.com/atom.xml" /&gt;
+        &lt;link rel="alternate" type="application/rss+xml" href="https://example.com/rss.xml" /&gt;
     &lt;/head&gt;
     &lt;body&gt;
         ...
@@ -245,11 +245,11 @@ foo/bar =&gt; https://example.com/foo/bar
 </code></pre>
 <p>Ideally, your <code>item.id</code> and <code>item.url</code> should be consistent absolute links:</p>
 <pre><code class="language-json">{
-	&quot;id&quot;: &quot;https://example.com/foo/bar&quot;,
-    &quot;url&quot;: &quot;https://example.com/foo/bar&quot;,
-	&quot;title&quot;: &quot;...&quot;,
-	&quot;content_html&quot;: &quot;...&quot;,
-	&quot;date_published&quot;: &quot;...&quot;
+	"id": "https://example.com/foo/bar",
+    "url": "https://example.com/foo/bar",
+	"title": "...",
+	"content_html": "...",
+	"date_published": "..."
 }
 </code></pre>
 <h3 id="json-feed-extension"><a class="header" href="#json-feed-extension">JSON Feed Extension</a></h3>
@@ -319,7 +319,7 @@ which you need to save to the SSG equivalent of the static files directory and m
 <blockquote>
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
 </blockquote>
-<pre><code class="language-html">&lt;link rel=&quot;alternate&quot; type=&quot;application/activity+json&quot; href=&quot;https://hatsu.local/posts/https://example.com/foo/bar&quot; /&gt;
+<pre><code class="language-html">&lt;link rel="alternate" type="application/activity+json" href="https://hatsu.local/posts/https://example.com/foo/bar" /&gt;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="redirecting-with-redirects-file"><a class="header" href="#redirecting-with-redirects-file">Redirecting with Redirects file</a></h1>
 <p>Works with <a href="https://docs.netlify.com/routing/redirects/#syntax-for-the-redirects-file">Netlify</a> and <a href="https://developers.cloudflare.com/pages/platform/redirects">Cloudflare Pages</a>.</p>
@@ -346,16 +346,16 @@ for AS2 redirects, you need to use <a href="users/./redirecting-with-static-file
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
 </blockquote>
 <pre><code class="language-toml">[[redirects]]
-  from = &quot;/.well-known/host-meta*&quot;
-  to = &quot;https://hatsu.local/.well-known/host-meta:splat&quot;
+  from = "/.well-known/host-meta*"
+  to = "https://hatsu.local/.well-known/host-meta:splat"
   status = 307
 [[redirects]]
-  from = &quot;/.well-known/nodeinfo*&quot;
-  to = &quot;https://hatsu.local/.well-known/nodeinfo&quot;
+  from = "/.well-known/nodeinfo*"
+  to = "https://hatsu.local/.well-known/nodeinfo"
   status = 307
 [[redirects]]
-  from = &quot;/.well-known/webfinger*&quot;
-  to = &quot;https://hatsu.local/.well-known/webfinger&quot;
+  from = "/.well-known/webfinger*"
+  to = "https://hatsu.local/.well-known/webfinger"
   status = 307
 </code></pre>
 <h3 id="vercel-verceljson"><a class="header" href="#vercel-verceljson">Vercel (<code>vercel.json</code>)</a></h3>
@@ -364,22 +364,22 @@ for AS2 redirects, you need to use <a href="users/./redirecting-with-static-file
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
 </blockquote>
 <pre><code class="language-json">{
-  &quot;redirects&quot;: [
+  "redirects": [
     {
-      &quot;source&quot;: &quot;/.well-known/host-meta&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/host-meta&quot;
+      "source": "/.well-known/host-meta",
+      "destination": "https://hatsu.local/.well-known/host-meta"
     },
     {
-      &quot;source&quot;: &quot;/.well-known/host-meta.json&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/host-meta.json&quot;
+      "source": "/.well-known/host-meta.json",
+      "destination": "https://hatsu.local/.well-known/host-meta.json"
     },
     {
-      &quot;source&quot;: &quot;/.well-known/nodeinfo&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/nodeinfo&quot;
+      "source": "/.well-known/nodeinfo",
+      "destination": "https://hatsu.local/.well-known/nodeinfo"
     },
     {
-      &quot;source&quot;: &quot;/.well-known/webfinger&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/webfinger&quot;
+      "source": "/.well-known/webfinger",
+      "destination": "https://hatsu.local/.well-known/webfinger"
     }
   ]
 }
@@ -457,16 +457,16 @@ app.use('/posts/*', hatsuObject({ instance }))
 <h2 id="based-on-webmention-todo"><a class="header" href="#based-on-webmention-todo"><a href="users/./backfeed-based-on-webmention.html">based on Webmention (TODO)</a></a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="backfeed-based-on-mastodon-comments"><a class="header" href="#backfeed-based-on-mastodon-comments">Backfeed based on Mastodon Comments</a></h1>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
-<p>&quot;Mastodon Comments&quot; refers to the <a href="https://github.com/oom-components/mastodon-comments"><code>@oom/mastodon-components</code></a> library.</p>
-<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+<p>"Mastodon Comments" refers to the <a href="https://github.com/oom-components/mastodon-comments"><code>@oom/mastodon-components</code></a> library.</p>
+<pre><code class="language-html">&lt;script type="module"&gt;
   import Comments from 'https://esm.run/@oom/mastodon-comments'
   customElements.define('oom-comments', Comments)
 &lt;/script&gt;
 &lt;link
-  rel=&quot;stylesheet&quot;
-  href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot;
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css"
 /&gt;
-&lt;oom-comments src=&quot;https://mastodon.gal/@misteroom/110810445656343599&quot;&gt;
+&lt;oom-comments src="https://mastodon.gal/@misteroom/110810445656343599"&gt;
   No comments yet
 &lt;/oom-comments&gt;
 </code></pre>
@@ -490,16 +490,16 @@ const id = btoa(url).replaceAll('+', '-').replaceAll('/', '_')
 const src = new URL(`/notice/${id}`, 'https://hatsu.local').href
 </code></pre>
 <p>So eventually it will look like this:</p>
-<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
+<pre><code class="language-html">&lt;script type="module"&gt;
   import Comments from 'https://esm.run/@oom/mastodon-comments'
   customElements.define('oom-comments', Comments)
 &lt;/script&gt;
 &lt;link
-  rel=&quot;stylesheet&quot;
-  href=&quot;https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css&quot;
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@oom/mastodon-comments/src/styles.css"
 /&gt;
 &lt;oom-comments
-  src=&quot;https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy&quot;
+  src="https://hatsu.local/notice/aHR0cHM6Ly9leGFtcGxlLmNvbS9mb28vYmFy"
 &gt;
   No comments yet
 &lt;/oom-comments&gt;
@@ -630,7 +630,7 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 <p>For accessing Admin API.</p>
 <p>If this value is not set, the Hatsu Admin API will not be available.</p>
 <p>This can be any string, but I recommend generating a random uuid v4.</p>
-<pre><code class="language-bash">echo &quot;\nHATSU_ACCESS_TOKEN = \&quot;$(cat /proc/sys/kernel/random/uuid)\&quot;&quot; &gt;&gt; .env
+<pre><code class="language-bash">echo "\nHATSU_ACCESS_TOKEN = \"$(cat /proc/sys/kernel/random/uuid)\"" &gt;&gt; .env
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="create-account"><a class="header" href="#create-account">Create Account</a></h1>
 <p>Ensure you set <code>HATSU_ACCESS_TOKEN</code> correctly in the <a href="admins/./environments.html#hatsu_access_token-optional">previous section</a> first, otherwise you will not be able to use the Hatsu Admin API.</p>
@@ -643,9 +643,9 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 </code></pre>
 <h2 id="curl"><a class="header" href="#curl">curl</a></h2>
 <p>You can also access the API via curl, as <code>Justfile</code> does.</p>
-<pre><code class="language-bash">curl -X POST &quot;http://localhost:$(echo $HATSU_LISTEN_PORT)/api/v0/admin/create-account?token=$(echo $HATSU_ACCESS_TOKEN)&quot; \
-  -H &quot;Content-Type: application/json&quot; \
-  -d &quot;{\&quot;name\&quot;: \&quot;example.com\&quot;}&quot;
+<pre><code class="language-bash">curl -X POST "http://localhost:$(echo $HATSU_LISTEN_PORT)/api/v0/admin/create-account?token=$(echo $HATSU_ACCESS_TOKEN)" \
+  -H "Content-Type: application/json" \
+  -d "{\"name\": \"example.com\"}"
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prepare"><a class="header" href="#prepare">Prepare</a></h1>
 <h2 id="clone-repository"><a class="header" href="#clone-repository">Clone Repository</a></h2>
@@ -769,7 +769,8 @@ which caches dependencies to avoid duplicate build dependencies.</p>
 <!-- - `Create(Note)`, `Update(Note)`, `Delete(Note)` -->
 <!-- - `Like(Note)`, `Undo(Like)` -->
 <!-- - `Announce(Note)`, `Undo(Announce)` -->
-<p>Activities are implemented in way that is compatible with Mastodon and other popular ActivityPub servers.</p>
+<p>Activities are implemented in way that is compatible with Mastodon and other
+popular ActivityPub servers.</p>
 <h3 id="notable-differences"><a class="header" href="#notable-differences">Notable differences</a></h3>
 <ul>
 <li>No shared inbox.</li>

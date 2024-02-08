@@ -189,16 +189,16 @@
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
 </blockquote>
 <pre><code class="language-toml">[[redirects]]
-  from = &quot;/.well-known/host-meta*&quot;
-  to = &quot;https://hatsu.local/.well-known/host-meta:splat&quot;
+  from = "/.well-known/host-meta*"
+  to = "https://hatsu.local/.well-known/host-meta:splat"
   status = 307
 [[redirects]]
-  from = &quot;/.well-known/nodeinfo*&quot;
-  to = &quot;https://hatsu.local/.well-known/nodeinfo&quot;
+  from = "/.well-known/nodeinfo*"
+  to = "https://hatsu.local/.well-known/nodeinfo"
   status = 307
 [[redirects]]
-  from = &quot;/.well-known/webfinger*&quot;
-  to = &quot;https://hatsu.local/.well-known/webfinger&quot;
+  from = "/.well-known/webfinger*"
+  to = "https://hatsu.local/.well-known/webfinger"
   status = 307
 </code></pre>
 <h3 id="vercel-verceljson"><a class="header" href="#vercel-verceljson">Vercel (<code>vercel.json</code>)</a></h3>
@@ -207,22 +207,22 @@
 <p>Replace <code>hatsu.local</code> with your Hatsu instance.</p>
 </blockquote>
 <pre><code class="language-json">{
-  &quot;redirects&quot;: [
+  "redirects": [
     {
-      &quot;source&quot;: &quot;/.well-known/host-meta&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/host-meta&quot;
+      "source": "/.well-known/host-meta",
+      "destination": "https://hatsu.local/.well-known/host-meta"
     },
     {
-      &quot;source&quot;: &quot;/.well-known/host-meta.json&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/host-meta.json&quot;
+      "source": "/.well-known/host-meta.json",
+      "destination": "https://hatsu.local/.well-known/host-meta.json"
     },
     {
-      &quot;source&quot;: &quot;/.well-known/nodeinfo&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/nodeinfo&quot;
+      "source": "/.well-known/nodeinfo",
+      "destination": "https://hatsu.local/.well-known/nodeinfo"
     },
     {
-      &quot;source&quot;: &quot;/.well-known/webfinger&quot;,
-      &quot;destination&quot;: &quot;https://hatsu.local/.well-known/webfinger&quot;
+      "source": "/.well-known/webfinger",
+      "destination": "https://hatsu.local/.well-known/webfinger"
     }
   ]
 }
