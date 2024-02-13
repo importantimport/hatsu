@@ -18,6 +18,15 @@
 
 The following activities and object types are supported:
 
+### Send
+
+- `Accept(Follow)`
+- `Create(Note)`
+
+<!-- - `Create(Note)`, `Update(Note)`, `Delete(Note)` -->
+
+### Receive
+
 - `Follow(Actor)`, `Undo(Follow)`
 - `Create(Note)`
 
