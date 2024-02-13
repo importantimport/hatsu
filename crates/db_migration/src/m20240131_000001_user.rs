@@ -29,7 +29,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(User::FeedJson).string())
                     .col(ColumnDef::new(User::FeedAtom).string())
                     .col(ColumnDef::new(User::FeedRss).string())
-                    .col(ColumnDef::new(User::LastRefreshedAt).date_time().not_null())
+                    .col(ColumnDef::new(User::LastRefreshedAt).string().not_null())
                     .to_owned(),
             )
             .await?;
