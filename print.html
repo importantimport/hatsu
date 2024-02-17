@@ -557,14 +557,12 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 <p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="install"><a class="header" href="#install">Install</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="docker-installation"><a class="header" href="#docker-installation">Docker Installation</a></h1>
-<h2 id="stable"><a class="header" href="#stable">Stable</a></h2>
-<p>Doesn't have a stable version yet.</p>
-<h2 id="nightly"><a class="header" href="#nightly">Nightly</a></h2>
-<p>Hatsu provides nightly Docker image builds.</p>
-<p>Please note that it is unstable and may contain breaking changes.</p>
-<pre><code class="language-bash">docker pull ghcr.io/importantimport/hatsu:nightly
-</code></pre>
-<p>Run with <code>docker run</code>:</p>
+<p>You can find images on GitHub: https://github.com/importantimport/hatsu/pkgs/container/hatsu</p>
+<p>Hatsu uses three primary tags: <code>latest</code> (stable), <code>beta</code> and <code>nightly</code>, literally.</p>
+<h2 id="docker-run"><a class="header" href="#docker-run">docker run</a></h2>
+<blockquote>
+<p>Replace <code>{{version}}</code> with the version you want to use.</p>
+</blockquote>
 <pre><code class="language-bash">docker run -d \
   --name hatsu \
   --restart unless-stopped \
@@ -575,17 +573,19 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
   -e HATSU_LISTEN_HOST=0.0.0.0 \
   -e HATSU_PRIMARY_ACCOUNT={{your-static-site}} \
   -e HATSU_ACCESS_TOKEN=123e4567-e89b-12d3-a456-426614174000 \
-  ghcr.io/importantimport/hatsu:nightly
+  ghcr.io/importantimport/hatsu:{{version}}
 </code></pre>
 <p>You need to specify all environment variables at once. For more information, see <a href="admins/./environments.html">Environments</a>.</p>
-<!-- You can also use the docker-compose example in examples. (TODO) -->
+<h2 id="docker-compose"><a class="header" href="#docker-compose">docker compose</a></h2>
+<p>The <a href="https://github.com/importantimport/hatsu/tree/main/examples">examples</a> folder contains some sample docker compose configurations,</p>
+<p>You can make your own modifications based on them.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="binary-installation"><a class="header" href="#binary-installation">Binary Installation</a></h1>
-<h2 id="stable-1"><a class="header" href="#stable-1">Stable</a></h2>
+<h2 id="stable"><a class="header" href="#stable">Stable</a></h2>
 <p>Doesn't have a stable version yet.</p>
-<h2 id="nightly-1"><a class="header" href="#nightly-1">Nightly</a></h2>
+<h2 id="nightly"><a class="header" href="#nightly">Nightly</a></h2>
 <p>Hatsu provides nightly Binary builds.</p>
 <p>Please note that it is unstable and may contain breaking changes.</p>
-<p>You can find the latest artifacts on the <a href="https://github.com/importantimport/hatsu/actions/workflows/nightly.yml">Workflow runs page</a> (containing <code>x86_64-unknown-linux-gnu</code> and <code>aarch64-unknown-linux-gnu</code>).</p>
+<p>You can find the latest artifacts on the <a href="https://github.com/importantimport/hatsu/actions/workflows/nightly.yml">Workflow runs page</a> (containing <code>{x86_64,aarch64}-unknown-linux-{gnu,musl}</code>).</p>
 <p>GitHub has a document that tells you how to download artifact: <a href="https://docs.github.com/en/actions/managing-workflow-runs/downloading-workflow-artifacts">https://docs.github.com/en/actions/managing-workflow-runs/downloading-workflow-artifacts</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="environments"><a class="header" href="#environments">Environments</a></h1>
 <p>Hatsu supports dotenv, and you can set environment variables via the <code>.env</code> file.</p>
