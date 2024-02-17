@@ -1,6 +1,6 @@
 # Docker Installation
 
-You can find images on GitHub: https://github.com/importantimport/hatsu/pkgs/container/hatsu
+You can find images on GitHub: [https://github.com/importantimport/hatsu/pkgs/container/hatsu](https://github.com/importantimport/hatsu/pkgs/container/hatsu)
 
 Hatsu uses three primary tags: `latest` (stable), `beta` and `nightly`, literally.
 
