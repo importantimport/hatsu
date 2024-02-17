@@ -3,27 +3,14 @@
 
 use activitypub_federation::config::Data;
 use axum::{debug_handler, Json};
-use hatsu_db_schema::{prelude::User, user};
+use hatsu_db_schema::{
+    post,
+    prelude::{Post, User},
+    user,
+};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter};
 use serde::{Deserialize, Serialize};
-
-async fn nodeinfo_usage(data: Data<AppData>) -> Result<NodeInfoUsage, AppError> {
-    Ok(NodeInfoUsage {
-        users: Some(NodeInfoUsers {
-            total: User::find()
-                .filter(user::Column::Local.eq(true))
-                .count(&data.conn)
-                .await?,
-            // TODO
-            active_halfyear: None,
-            active_month: None,
-        }),
-        // TODO
-        local_posts: None,
-        local_comments: None,
-    })
-}
 
 /// <https://github.com/jhass/nodeinfo/blob/main/schemas/2.0/schema.json>
 #[debug_handler]
@@ -37,12 +24,9 @@ pub async fn v2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
             homepage: None,
         },
         protocols: vec![String::from("activitypub")],
-        services: NodeInfoServices {
-            inbound: vec![],
-            outbound: vec![],
-        },
+        services: NodeInfoServices::new(),
         open_registrations: false,
-        usage: nodeinfo_usage(data).await?,
+        usage: NodeInfoUsage::new(&data).await?,
         metadata: NodeInfoMetadata {},
     }))
 }
@@ -59,12 +43,9 @@ pub async fn v2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
             homepage: Some(String::from("https://hatsu.cli.rs")),
         },
         protocols: vec![String::from("activitypub")],
-        services: NodeInfoServices {
-            inbound: vec![],
-            outbound: vec![],
-        },
+        services: NodeInfoServices::new(),
         open_registrations: false,
-        usage: nodeinfo_usage(data).await?,
+        usage: NodeInfoUsage::new(&data).await?,
         metadata: NodeInfoMetadata {},
     }))
 }
@@ -124,3 +105,34 @@ pub struct NodeInfoUsers {
 #[derive(Serialize, Deserialize, Debug, Default)]
 #[serde(rename_all = "camelCase", default)]
 pub struct NodeInfoMetadata {}
+
+impl NodeInfoServices {
+    fn new() -> Self {
+        Self {
+            inbound: vec![],
+            outbound: vec![],
+        }
+    }
+}
+
+impl NodeInfoUsage {
+    async fn new(data: &Data<AppData>) -> Result<Self, AppError> {
+        Ok(Self {
+            users: Some(NodeInfoUsers {
+                total: User::find()
+                    .filter(user::Column::Local.eq(true))
+                    .count(&data.conn)
+                    .await?,
+                active_halfyear: None,
+                active_month: None,
+            }),
+            local_posts: Some(
+                Post::find()
+                    .filter(post::Column::Local.eq(true))
+                    .count(&data.conn)
+                    .await?,
+            ),
+            local_comments: None,
+        })
+    }
+}
