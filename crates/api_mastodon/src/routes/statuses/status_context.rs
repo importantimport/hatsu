@@ -8,7 +8,7 @@ use crate::entities::{Context, Status};
 ///
 /// <https://docs.joinmastodon.org/methods/statuses/#context>
 #[utoipa::path(
-    post,
+    get,
     tag = "mastodon",
     path = "/api/v1/statuses/{id}/context",
     responses(

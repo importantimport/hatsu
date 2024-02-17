@@ -11,7 +11,7 @@ use crate::entities::Account;
 ///
 /// <https://docs.joinmastodon.org/methods/statuses/#reblogged_by>
 #[utoipa::path(
-    post,
+    get,
     tag = "mastodon",
     path = "/api/v1/statuses/{id}/reblogged_by",
     responses(
