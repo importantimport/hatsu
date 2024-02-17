@@ -34,7 +34,7 @@ impl AppEnv {
                 .expect("env HATSU_PRIMARY_ACCOUNT must be set"),
             hatsu_access_token: env::var("HATSU_ACCESS_TOKEN").ok(),
             hatsu_node_name: env::var("HATSU_NODE_NAME").ok(),
-            hatsu_node_description: env::var("HATSU_NODE_NAME").ok(),
+            hatsu_node_description: env::var("HATSU_NODE_DESCRIPTION").ok(),
         }
     }
 }
