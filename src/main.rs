@@ -32,8 +32,9 @@ async fn main() -> Result<(), AppError> {
     // 环境变量
     // Environments
     let env = AppEnv {
-        database_url: env::var("DATABASE_URL").unwrap_or_else(|_| String::from("sqlite::memory:")),
         hatsu_access_token: env::var_os("HATSU_ACCESS_TOKEN").map(|env| env.into_string().unwrap()),
+        hatsu_database_url: env::var("HATSU_DATABASE_URL")
+            .unwrap_or_else(|_| String::from("sqlite::memory:")),
         hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
         hatsu_listen_host: env::var("HATSU_LISTEN_HOST")
             .unwrap_or_else(|_| String::from("127.0.0.1")),
@@ -44,7 +45,7 @@ async fn main() -> Result<(), AppError> {
 
     // 连接数据库
     // Connecting to database
-    let conn = Database::connect(&env.database_url)
+    let conn = Database::connect(&env.hatsu_database_url)
         .await
         .expect("Database connection failed");
 

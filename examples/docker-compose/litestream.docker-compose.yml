@@ -13,9 +13,9 @@ services:
     # env_file:
     #   - .env
     environment:
-      - DATABASE_URL=sqlite://hatsu.sqlite3
-      - HATSU_LISTEN_HOST=0.0.0.0
+      - HATSU_DATABASE_URL=sqlite://hatsu.sqlite3
       - HATSU_DOMAIN=hatsu.example.com
+      - HATSU_LISTEN_HOST=0.0.0.0
       - HATSU_PRIMARY_ACCOUNT=blog.example.com
     volumes:
       # - ./.env:/app/.env

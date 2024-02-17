@@ -79,8 +79,8 @@ db *args='migration up':
 
 # apply migrations to database.
 db_migration *args='up':
-  just _cargo_ sea-orm-cli migrate {{args}} -d crates/db_migration
+  just _cargo_ sea-orm-cli migrate {{args}} -d crates/db_migration -u $HATSU_DATABASE_URL
 
 # generate entities from database.
 db_schema: (db_migration 'fresh')
-  just _cargo_ sea-orm-cli generate entity -l -o crates/db_schema/src
+  just _cargo_ sea-orm-cli generate entity -l -o crates/db_schema/src -u $HATSU_DATABASE_URL

@@ -6,7 +6,7 @@ It is required unless it has a suffix (optional).
 
 However, it may exist as a built-in preset (in the source code) or an example preset (in [`.env.example`](https://github.com/importantimport/hatsu/blob/main/.env.example))
 
-## DATABASE_URL
+## HATSU_DATABASE_URL
 
 - default: `sqlite::memory:`
 - example: `sqlite://hatsu.sqlite3`
