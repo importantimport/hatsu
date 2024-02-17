@@ -1,20 +1,12 @@
 # Docker Installation
 
-## Stable
+You can find images on GitHub: https://github.com/importantimport/hatsu/pkgs/container/hatsu
 
-Doesn't have a stable version yet.
+Hatsu uses three primary tags: `latest` (stable), `beta` and `nightly`, literally.
 
-## Nightly
+## docker run
 
-Hatsu provides nightly Docker image builds.
-
-Please note that it is unstable and may contain breaking changes.
-
-```bash
-docker pull ghcr.io/importantimport/hatsu:nightly
-```
-
-Run with `docker run`:
+> Replace `{{version}}` with the version you want to use.
 
 ```bash
 docker run -d \
@@ -27,9 +19,13 @@ docker run -d \
   -e HATSU_LISTEN_HOST=0.0.0.0 \
   -e HATSU_PRIMARY_ACCOUNT={{your-static-site}} \
   -e HATSU_ACCESS_TOKEN=123e4567-e89b-12d3-a456-426614174000 \
-  ghcr.io/importantimport/hatsu:nightly
+  ghcr.io/importantimport/hatsu:{{version}}
 ```
 
 You need to specify all environment variables at once. For more information, see [Environments](./environments.md).
 
-<!-- You can also use the docker-compose example in examples. (TODO) -->
+## docker compose
+
+The [examples](https://github.com/importantimport/hatsu/tree/main/examples) folder contains some sample docker compose configurations,
+
+You can make your own modifications based on them.
