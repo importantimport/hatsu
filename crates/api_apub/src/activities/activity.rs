@@ -28,6 +28,19 @@ use serde_json::Value;
 //     activity_id: String
 // }
 
+/// Get activity
+#[utoipa::path(
+    get,
+    tag = "apub",
+    path = "/activities/{activity}",
+    responses(
+        (status = OK, description = "Activity", body = Value),
+        (status = NOT_FOUND, description = "Activity does not exist", body = AppError)
+    ),
+    params(
+        ("activity" = String, Path, description = "The Uuid of the Activity in the database.")
+    )
+)]
 #[debug_handler]
 pub async fn handler(
     // Activities { activity_id }: Activities,

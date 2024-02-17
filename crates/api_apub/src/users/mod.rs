@@ -4,7 +4,7 @@ use axum::{
 };
 // use axum_extra::routing::RouterExt;
 
-mod user;
+pub mod user;
 mod user_followers;
 mod user_following;
 mod user_inbox;

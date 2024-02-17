@@ -30,6 +30,19 @@ use serde_json::Value;
 //     name: String
 // }
 
+/// Get user
+#[utoipa::path(
+    get,
+    tag = "apub",
+    path = "/users/{user}",
+    responses(
+        (status = OK, description = "User", body = Service),
+        (status = NOT_FOUND, description = "User does not exist", body = AppError)
+    ),
+    params(
+        ("user" = String, Path, description = "The Domain of the User in the database.")
+    )
+)]
 #[debug_handler]
 pub async fn handler(
     // Users { name }: Users,

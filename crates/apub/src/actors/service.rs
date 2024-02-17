@@ -6,15 +6,17 @@ use activitypub_federation::{
 // use hatsu_db_schema::user::Model as DbUser;
 use serde::{Deserialize, Serialize};
 use url::Url;
+use utoipa::ToSchema;
 
 use crate::actors::ApubUser;
 
 /// `ActivityPub` Service (Bot User)
 /// <https://www.w3.org/ns/activitystreams#Service>
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct Service {
     // 用户 ID，应为域名 + 用户名（运行时生成）
+    #[schema(value_type = Url)]
     pub id: ObjectId<ApubUser>,
     // 类型
     #[serde(rename = "type")]
@@ -47,15 +49,17 @@ pub struct Service {
     // 正在关注
     pub following: Url,
     // 公钥
+    #[schema(value_type = PublicKeySchema)]
     pub public_key: PublicKey,
     // TODO: (maybe) endpoints.sharedInbox (https://hatsu.local/inbox)
 }
 
 // ActivityPub Service Image
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct ServiceImage {
     // 类型，应始终为 Image
+    #[schema(value_type = String)]
     #[serde(rename = "type")]
     pub kind: ImageType,
     // 图片链接
@@ -63,10 +67,11 @@ pub struct ServiceImage {
 }
 
 // ActivityPub Service Attachment (Metadata)
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct ServiceAttachment {
     // 类型，应始终为 PropertyValue
+    #[schema(value_type = String)]
     #[serde(rename = "type")]
     kind: String,
     /// Website / JSON Feed / Atom Feed / RSS Feed
@@ -83,4 +88,13 @@ impl ServiceImage {
             url,
         }
     }
+}
+
+// impl ToSchema for PublicKey
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+pub struct PublicKeySchema {
+    pub id: String,
+    pub owner: Url,
+    pub public_key_pem: String,
 }

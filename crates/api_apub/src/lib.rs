@@ -1,8 +1,8 @@
 use axum::Router;
 
-mod activities;
-mod posts;
-mod users;
+pub mod activities;
+pub mod posts;
+pub mod users;
 
 pub fn routes() -> Router {
     Router::new()

@@ -2,7 +2,7 @@ use axum::{routing::get, Router};
 // use axum_extra::routing::RouterExt;
 
 mod notice;
-mod post;
+pub mod post;
 
 pub fn routes() -> Router {
     Router::new()

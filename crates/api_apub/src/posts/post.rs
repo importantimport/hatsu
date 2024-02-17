@@ -28,6 +28,19 @@ use sea_orm::EntityTrait;
 //     object: String
 // }
 
+/// Get post
+#[utoipa::path(
+    get,
+    tag = "apub",
+    path = "/posts/{post}",
+    responses(
+        (status = OK, description = "Post", body = Note),
+        (status = NOT_FOUND, description = "Post does not exist", body = AppError)
+    ),
+    params(
+        ("post" = String, Path, description = "The Url of the Post in the database.")
+    )
+)]
 #[debug_handler]
 pub async fn handler(
     // Objects { object }: Objects,

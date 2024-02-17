@@ -14,6 +14,7 @@ use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use url::Url;
+use utoipa::ToSchema;
 
 use crate::{
     actors::{ApubUser, JsonUserFeedItem},
@@ -22,17 +23,21 @@ use crate::{
 };
 
 /// <https://www.w3.org/ns/activitystreams#Note>
-#[derive(Deserialize, Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct Note {
+    #[schema(value_type = Url)]
     pub id: ObjectId<ApubPost>,
+    #[schema(value_type = String)]
     #[serde(rename = "type")]
     pub kind: NoteType,
+    #[schema(value_type = Option<Url>)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub in_reply_to: Option<ObjectId<ApubPost>>,
     pub published: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub updated: Option<String>,
+    #[schema(value_type = Url)]
     pub attributed_to: ObjectId<ApubUser>,
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub to: Vec<Url>,
