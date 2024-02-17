@@ -2,7 +2,7 @@
 #[global_allocator]
 static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 
-use std::{env, ops::Deref};
+use std::ops::Deref;
 
 use activitypub_federation::config::FederationConfig;
 use hatsu_apub::actors::ApubUser;
@@ -31,19 +31,7 @@ async fn main() -> Result<(), AppError> {
 
     // 环境变量
     // Environments
-    let env = AppEnv {
-        hatsu_database_url: env::var("HATSU_DATABASE_URL")
-            .unwrap_or_else(|_| String::from("sqlite::memory:")),
-        hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
-        hatsu_listen_host: env::var("HATSU_LISTEN_HOST")
-            .unwrap_or_else(|_| String::from("127.0.0.1")),
-        hatsu_listen_port: env::var("HATSU_LISTEN_PORT").unwrap_or_else(|_| String::from("3939")),
-        hatsu_primary_account: env::var("HATSU_PRIMARY_ACCOUNT")
-            .expect("env HATSU_PRIMARY_ACCOUNT must be set"),
-        hatsu_access_token: env::var("HATSU_ACCESS_TOKEN").ok(),
-        hatsu_node_name: env::var("HATSU_NODE_NAME").ok(),
-        hatsu_node_description: env::var("HATSU_NODE_NAME").ok(),
-    };
+    let env = AppEnv::init();
 
     // 连接数据库
     // Connecting to database
