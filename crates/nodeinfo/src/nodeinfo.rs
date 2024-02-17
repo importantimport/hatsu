@@ -56,7 +56,7 @@ pub async fn v2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
             name: String::from("hatsu"),
             version: String::from(env!("CARGO_PKG_VERSION")),
             repository: Some(String::from("https://github.com/importantimport/hatsu")),
-            homepage: Some(String::from("https://github.com/importantimport/hatsu")),
+            homepage: Some(String::from("https://hatsu.cli.rs")),
         },
         protocols: vec![String::from("activitypub")],
         services: NodeInfoServices {
