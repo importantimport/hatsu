@@ -27,7 +27,7 @@ pub async fn v2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
         services: NodeInfoServices::new(),
         open_registrations: false,
         usage: NodeInfoUsage::new(&data).await?,
-        metadata: NodeInfoMetadata {},
+        metadata: NodeInfoMetadata::new(&data),
     }))
 }
 
@@ -46,7 +46,7 @@ pub async fn v2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
         services: NodeInfoServices::new(),
         open_registrations: false,
         usage: NodeInfoUsage::new(&data).await?,
-        metadata: NodeInfoMetadata {},
+        metadata: NodeInfoMetadata::new(&data),
     }))
 }
 
@@ -82,6 +82,15 @@ pub struct NodeInfoServices {
     pub outbound: Vec<String>,
 }
 
+impl NodeInfoServices {
+    fn new() -> Self {
+        Self {
+            inbound: vec![],
+            outbound: vec![],
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, Default)]
 #[serde(rename_all = "camelCase", default)]
 pub struct NodeInfoUsage {
@@ -90,6 +99,21 @@ pub struct NodeInfoUsage {
     pub local_posts: Option<u64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub local_comments: Option<u64>,
+}
+
+impl NodeInfoUsage {
+    async fn new(data: &Data<AppData>) -> Result<Self, AppError> {
+        Ok(Self {
+            users: Some(NodeInfoUsers::new(data).await?),
+            local_posts: Some(
+                Post::find()
+                    .filter(post::Column::Local.eq(true))
+                    .count(&data.conn)
+                    .await?,
+            ),
+            local_comments: None,
+        })
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Default)]
@@ -102,37 +126,33 @@ pub struct NodeInfoUsers {
     pub active_month: Option<u64>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
-#[serde(rename_all = "camelCase", default)]
-pub struct NodeInfoMetadata {}
-
-impl NodeInfoServices {
-    fn new() -> Self {
-        Self {
-            inbound: vec![],
-            outbound: vec![],
-        }
+impl NodeInfoUsers {
+    async fn new(data: &Data<AppData>) -> Result<Self, AppError> {
+        Ok(Self {
+            total: User::find()
+                .filter(user::Column::Local.eq(true))
+                .count(&data.conn)
+                .await?,
+            active_halfyear: None,
+            active_month: None,
+        })
     }
 }
 
-impl NodeInfoUsage {
-    async fn new(data: &Data<AppData>) -> Result<Self, AppError> {
-        Ok(Self {
-            users: Some(NodeInfoUsers {
-                total: User::find()
-                    .filter(user::Column::Local.eq(true))
-                    .count(&data.conn)
-                    .await?,
-                active_halfyear: None,
-                active_month: None,
-            }),
-            local_posts: Some(
-                Post::find()
-                    .filter(post::Column::Local.eq(true))
-                    .count(&data.conn)
-                    .await?,
-            ),
-            local_comments: None,
-        })
+#[derive(Serialize, Deserialize, Debug, Default)]
+#[serde(rename_all = "camelCase", default)]
+pub struct NodeInfoMetadata {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub node_name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub node_description: Option<String>,
+}
+
+impl NodeInfoMetadata {
+    fn new(data: &Data<AppData>) -> Self {
+        Self {
+            node_name: data.env.hatsu_node_name.clone(),
+            node_description: data.env.hatsu_node_description.clone(),
+        }
     }
 }

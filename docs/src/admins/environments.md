@@ -59,3 +59,17 @@ This can be any string, but I recommend generating a random uuid v4.
 ```bash
 echo "\nHATSU_ACCESS_TOKEN = \"$(cat /proc/sys/kernel/random/uuid)\"" >> .env
 ```
+
+## HATSU_NODE_NAME (optional)
+
+- default: None
+- example: None
+
+Used for NodeInfo `metadata.nodeName`.
+
+## HATSU_NODE_DESCRIPTION (optional)
+
+- default: None
+- example: None
+
+Used for NodeInfo `metadata.nodeDescription`.

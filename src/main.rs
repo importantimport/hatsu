@@ -32,7 +32,6 @@ async fn main() -> Result<(), AppError> {
     // 环境变量
     // Environments
     let env = AppEnv {
-        hatsu_access_token: env::var_os("HATSU_ACCESS_TOKEN").map(|env| env.into_string().unwrap()),
         hatsu_database_url: env::var("HATSU_DATABASE_URL")
             .unwrap_or_else(|_| String::from("sqlite::memory:")),
         hatsu_domain: env::var("HATSU_DOMAIN").expect("env HATSU_DOMAIN must be set"),
@@ -41,6 +40,9 @@ async fn main() -> Result<(), AppError> {
         hatsu_listen_port: env::var("HATSU_LISTEN_PORT").unwrap_or_else(|_| String::from("3939")),
         hatsu_primary_account: env::var("HATSU_PRIMARY_ACCOUNT")
             .expect("env HATSU_PRIMARY_ACCOUNT must be set"),
+        hatsu_access_token: env::var("HATSU_ACCESS_TOKEN").ok(),
+        hatsu_node_name: env::var("HATSU_NODE_NAME").ok(),
+        hatsu_node_description: env::var("HATSU_NODE_NAME").ok(),
     };
 
     // 连接数据库
