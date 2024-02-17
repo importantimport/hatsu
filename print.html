@@ -632,6 +632,18 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 <p>This can be any string, but I recommend generating a random uuid v4.</p>
 <pre><code class="language-bash">echo "\nHATSU_ACCESS_TOKEN = \"$(cat /proc/sys/kernel/random/uuid)\"" &gt;&gt; .env
 </code></pre>
+<h2 id="hatsu_node_name-optional"><a class="header" href="#hatsu_node_name-optional">HATSU_NODE_NAME (optional)</a></h2>
+<ul>
+<li>default: None</li>
+<li>example: None</li>
+</ul>
+<p>Used for NodeInfo <code>metadata.nodeName</code>.</p>
+<h2 id="hatsu_node_description-optional"><a class="header" href="#hatsu_node_description-optional">HATSU_NODE_DESCRIPTION (optional)</a></h2>
+<ul>
+<li>default: None</li>
+<li>example: None</li>
+</ul>
+<p>Used for NodeInfo <code>metadata.nodeDescription</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="create-account"><a class="header" href="#create-account">Create Account</a></h1>
 <p>Ensure you set <code>HATSU_ACCESS_TOKEN</code> correctly in the <a href="admins/./environments.html#hatsu_access_token-optional">previous section</a> first, otherwise you will not be able to use the Hatsu Admin API.</p>
 <h2 id="just"><a class="header" href="#just">just</a></h2>
