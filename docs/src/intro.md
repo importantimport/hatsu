@@ -17,6 +17,7 @@ Hatsu is still a Work-In-Progress. It is similar to Bridgy Fed but different:
 
 - Hatsu uses Feed (JSON / Atom / RSS) as a data source instead of HTML pages with microformats2.
 - Hatsu doesn't require you to automatically or manually send Webmention reminders for create and update, it's all fully automated.
+- Hatsu is ActivityPub only, which means it doesn't handle Nostr, AT Protocol (Bluesky) or other protocols.
 
 If you don't want to self-host, you may still want to use Bridgy Fed or Bridgy in some cases:
 
