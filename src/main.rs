@@ -102,7 +102,7 @@ async fn main() -> Result<(), AppError> {
     let _result = Toplevel::<AppError>::new()
         // .start("Migrator", move |s| migrator.run(s))
         .start("Scheduler", move |s| scheduler.run(s))
-        .start("Web Server", move |s| server.run(s))
+        .start("Server", move |s| server.run(s))
         .catch_signals()
         .handle_shutdown_requests(Duration::from_millis(5000))
         .await;
