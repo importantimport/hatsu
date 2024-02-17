@@ -26,7 +26,7 @@ docker run -d \
   -e HATSU_DOMAIN={{hatsu-instance-domain}} \
   -e HATSU_LISTEN_HOST=0.0.0.0 \
   -e HATSU_PRIMARY_ACCOUNT={{your-static-site}} \
-  -e HATSU_ACCESS_TOKEN=edc7e5a7-f2ce-44a6-a57e-b7706503f642 \
+  -e HATSU_ACCESS_TOKEN=123e4567-e89b-12d3-a456-426614174000 \
   ghcr.io/importantimport/hatsu:nightly
 ```
 
