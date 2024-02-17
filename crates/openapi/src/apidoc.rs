@@ -6,6 +6,7 @@ use utoipa::{
 
 #[derive(OpenApi)]
 #[openapi(
+    info(title = "Hatsu"),
     paths(
         hatsu_api_admin::routes::create_account::create_account,
         hatsu_api_admin::routes::remove_account::remove_account,
