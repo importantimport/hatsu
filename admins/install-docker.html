@@ -194,7 +194,7 @@
   --restart unless-stopped \
   -p 3939:3939 \
   -v /opt/hatsu/hatsu.sqlite3:/app/hatsu.sqlite3 \
-  -e DATABASE_URL=sqlite://hatsu.sqlite3 \
+  -e HATSU_DATABASE_URL=sqlite://hatsu.sqlite3 \
   -e HATSU_DOMAIN={{hatsu-instance-domain}} \
   -e HATSU_LISTEN_HOST=0.0.0.0 \
   -e HATSU_PRIMARY_ACCOUNT={{your-static-site}} \
