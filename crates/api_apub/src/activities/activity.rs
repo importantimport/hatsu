@@ -42,7 +42,7 @@ use serde_json::Value;
     )
 )]
 #[debug_handler]
-pub async fn handler(
+pub async fn activity(
     // Activities { activity_id }: Activities,
     Path(activity_id): Path<String>,
     data: Data<AppData>,

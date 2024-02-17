@@ -44,7 +44,7 @@ use serde_json::Value;
     )
 )]
 #[debug_handler]
-pub async fn handler(
+pub async fn user(
     // Users { name }: Users,
     Path(name): Path<String>,
     data: Data<AppData>,

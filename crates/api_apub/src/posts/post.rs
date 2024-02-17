@@ -42,7 +42,7 @@ use sea_orm::EntityTrait;
     )
 )]
 #[debug_handler]
-pub async fn handler(
+pub async fn post(
     // Objects { object }: Objects,
     Path(post_id): Path<String>,
     data: Data<AppData>,

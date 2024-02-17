@@ -23,7 +23,7 @@ pub fn routes() -> Router {
         .route("/u/:user/following", get(user_following::redirect))
         .route("/u/:user/outbox", get(user_outbox::redirect))
         .route("/u/:user/inbox", post(user_inbox::handler))
-        .route("/users/:user", get(user::handler))
+        .route("/users/:user", get(user::user))
         .route("/users/:user/followers", get(user_followers::handler))
         .route("/users/:user/following", get(user_following::handler))
         .route("/users/:user/outbox", get(user_outbox::handler))

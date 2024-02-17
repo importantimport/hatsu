@@ -9,6 +9,6 @@ pub fn routes() -> Router {
         // .typed_get(object::handler)
         // .typed_get(object::redirect)
         .route("/notice/*notice", get(notice::notice))
-        .route("/posts/*post", get(post::handler))
+        .route("/posts/*post", get(post::post))
         .route("/p/*post", get(post::redirect))
 }

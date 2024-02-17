@@ -9,9 +9,9 @@ use utoipa::{
     paths(
         hatsu_api_admin::routes::create_account::create_account,
         hatsu_api_admin::routes::remove_account::remove_account,
-        hatsu_api_apub::activities::activity::handler,
-        hatsu_api_apub::posts::post::handler,
-        hatsu_api_apub::users::user::handler,
+        hatsu_api_apub::activities::activity::activity,
+        hatsu_api_apub::posts::post::post,
+        hatsu_api_apub::users::user::user,
         hatsu_api_mastodon::routes::statuses::status_context::status_context,
         hatsu_api_mastodon::routes::statuses::status_favourited_by::status_favourited_by,
         hatsu_api_mastodon::routes::statuses::status_reblogged_by::status_reblogged_by,
