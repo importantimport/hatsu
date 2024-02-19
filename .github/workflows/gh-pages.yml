@@ -19,22 +19,17 @@ env:
 
 jobs:
   deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-20.04
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - uses: actions/checkout@v2
-
-      - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v1
+      - uses: peaceiris/actions-mdbook@v1
         with:
-          mdbook-version: "latest"
-
+          mdbook-version: latest
       - run: mdbook build
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - uses: peaceiris/actions-gh-pages@v3
         with:
           cname: hatsu.cli.rs
           github_token: ${{ secrets.GITHUB_TOKEN }}
