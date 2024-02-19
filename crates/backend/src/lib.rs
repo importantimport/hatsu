@@ -1,7 +1,7 @@
 use std::net::ToSocketAddrs;
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
-use hatsu_utils::{AppData, AppEnv, AppError};
+use hatsu_utils::{AppData, AppError};
 use tokio_graceful_shutdown::SubsystemHandle;
 use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
 
@@ -9,11 +9,18 @@ mod routes;
 
 pub struct Server {
     pub federation_config: FederationConfig<AppData>,
-    pub env: AppEnv,
 }
 
 impl Server {
+    pub fn new(federation_config: &FederationConfig<AppData>) -> Self {
+        Self {
+            federation_config: federation_config.clone(),
+        }
+    }
+
     pub async fn run(self, subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
+        let data = self.federation_config.to_request_data();
+
         // build our application with a route
         tracing::info!("creating app");
         let app = routes::routes()
@@ -26,7 +33,7 @@ impl Server {
         // run our app with hyper
         let addr = format!(
             "{}:{}",
-            self.env.hatsu_listen_host, self.env.hatsu_listen_port
+            data.env.hatsu_listen_host, data.env.hatsu_listen_port
         )
         .to_socket_addrs()?
         .next()

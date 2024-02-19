@@ -81,7 +81,7 @@ async fn main() -> Result<(), AppError> {
         .signed_fetch_actor(&primary_account)
         // Fediverse 应用数据，目前只有数据库连接
         // Fediverse application data, currently only database connections
-        .app_data(data.clone())
+        .app_data(data)
         // TODO:
         // Disable this configuration when Pleroma supports HTTP Signature draft-11
         // 当 Pleroma 支持 HTTP Signature draft-11 时，禁用此配置
@@ -91,13 +91,8 @@ async fn main() -> Result<(), AppError> {
         .await?;
 
     // 创建服务
-    let scheduler = hatsu_scheduler::Scheduler {
-        config: federation_config.clone(),
-    };
-    let server = hatsu_backend::Server {
-        federation_config,
-        env: env.clone(),
-    };
+    let scheduler = hatsu_scheduler::Scheduler::new(&federation_config);
+    let server = hatsu_backend::Server::new(&federation_config);
 
     let _result = Toplevel::<AppError>::new()
         // .start("Migrator", move |s| migrator.run(s))

@@ -6,21 +6,24 @@ use tokio_graceful_shutdown::SubsystemHandle;
 mod update;
 
 pub struct Scheduler {
-    pub config: FederationConfig<AppData>,
+    pub federation_config: FederationConfig<AppData>,
 }
 
 impl Scheduler {
+    pub fn new(federation_config: &FederationConfig<AppData>) -> Self {
+        Self {
+            federation_config: federation_config.clone(),
+        }
+    }
+
     pub async fn run(self, _subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
         tracing::info!("creating scheduler");
         let scheduler: JobScheduler = JobScheduler::new().await?;
-        // let fast_config = self.config.clone();
-        let full_config = self.config.clone();
 
+        let config = self.federation_config.clone();
         scheduler
             .add(Job::new_async("0 */10 * * * *", move |_, _| {
-                // tracing::info!("I run every 10 minutes");
-                // let data = fast_config.to_request_data();
-                let data = self.config.to_request_data();
+                let data = config.to_request_data();
                 Box::pin(async move {
                     match update::fast_update(&data).await {
                         Ok(()) => tracing::info!("ok"),
@@ -30,10 +33,10 @@ impl Scheduler {
             })?)
             .await?;
 
+        let config = self.federation_config.clone();
         scheduler
             .add(Job::new_async("0 */30 * * * *", move |_, _| {
-                // tracing::info!("I run every 30 minutes");
-                let data = full_config.to_request_data();
+                let data = config.to_request_data();
                 Box::pin(async move {
                     match update::full_update(&data).await {
                         Ok(()) => tracing::info!("ok"),
