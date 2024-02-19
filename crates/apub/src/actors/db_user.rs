@@ -136,7 +136,13 @@ impl Object for ApubUser {
             // FEP-4adb
             // https://github.com/importantimport/hatsu/issues/15
             // TODO: customize via _hatsu.aliases
-            aliases: Some(vec![format!("acct:{}@{}", &self.preferred_username, &self.preferred_username), format!("acct:{}@{}", &self.preferred_username, data.domain())]),
+            aliases: Some(vec![
+                format!(
+                    "acct:{}@{}",
+                    &self.preferred_username, &self.preferred_username
+                ),
+                format!("acct:{}@{}", &self.preferred_username, data.domain()),
+            ]),
             public_key: self.public_key(),
         })
     }

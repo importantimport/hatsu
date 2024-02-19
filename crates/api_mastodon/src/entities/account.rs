@@ -57,7 +57,7 @@ impl Account {
                 let apub_user: ApubUser = db_user.into();
                 let service: Service = apub_user.into_json(data).await?;
                 Ok(Self::from_json(service)?)
-            }
+            },
             None => Err(AppError::not_found(
                 "Account",
                 &data.env.hatsu_primary_account,

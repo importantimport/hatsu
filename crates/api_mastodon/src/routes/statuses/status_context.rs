@@ -46,7 +46,7 @@ pub async fn status_context(
                         })
                         .collect(),
                 }))
-            }
+            },
             _ => Err(AppError::not_found("Record", &base64_url)),
         },
         _ => Err(AppError::not_found("Record", &base64_url)),

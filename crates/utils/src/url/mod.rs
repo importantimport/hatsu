@@ -29,9 +29,8 @@ pub fn generate_activity_url(domain: &str, id: Option<String>) -> Result<Url, Ap
 /// Example: <https://hatsu.local/post/https://example.com/foo/bar>
 pub fn generate_post_url(domain: &str, id: String) -> Result<Url, AppError> {
     match id {
-        id if id.starts_with("https://") => {
-            Ok(Url::parse(&format!("https://{domain}/posts/{id}",))?)
-        }
+        id if id.starts_with("https://") =>
+            Ok(Url::parse(&format!("https://{domain}/posts/{id}",))?),
         _ => Err(AppError::new(
             format!("Invalid Object ID {id}"),
             serde_json::from_str("Object ID need to starts with https://")?,
@@ -45,9 +44,8 @@ pub fn generate_post_url(domain: &str, id: String) -> Result<Url, AppError> {
 /// Example: <https://hatsu.local/user/example.com>
 pub fn generate_user_url(domain: &str, id: &str) -> Result<Url, AppError> {
     match id {
-        id if !id.starts_with("https://") => {
-            Ok(Url::parse(&format!("https://{domain}/users/{id}",))?)
-        }
+        id if !id.starts_with("https://") =>
+            Ok(Url::parse(&format!("https://{domain}/users/{id}",))?),
         _ => Err(AppError::new(
             format!("Invalid User ID {id}"),
             serde_json::from_str("User ID cannot starts with https://")?,

@@ -74,7 +74,7 @@ pub async fn handler(
                 Some(total.number_of_pages),
             )?)?,
         ))),
-        Some(page) => {
+        Some(page) =>
             if page > 1 && page > total.number_of_pages {
                 Err(AppError::not_found(
                     &format!("user {name}"),
@@ -99,8 +99,7 @@ pub async fn handler(
                         page,
                     )?)?,
                 )))
-            }
-        }
+            },
     }
 }
 

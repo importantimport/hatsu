@@ -25,16 +25,16 @@ pub async fn check_feed_item(
                 match prev_item.date_modified {
                     Some(prev_date_modified) if prev_date_modified != date_modified => {
                         // TODO: Update Post
-                    }
+                    },
                     None => {
                         // TODO: Update Post
-                    }
-                    _ => {}
+                    },
+                    _ => {},
                 }
             }
 
             Ok(())
-        }
+        },
         None => Ok(create_feed_item(data, user, item).await?),
     }
 }

@@ -74,7 +74,7 @@ pub async fn user(
               "@type": "@id",
               "@container": "@list"
             },
-        })
+        }),
     ];
 
     match User::find_by_id(&url.to_string()).one(&data.conn).await? {
@@ -84,7 +84,7 @@ pub async fn user(
                 apub_user.into_json(&data).await?,
                 Value::Array(context),
             )))
-        }
+        },
         None => Err(AppError::not_found("User", &name)),
     }
 }

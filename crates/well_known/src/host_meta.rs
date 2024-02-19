@@ -31,9 +31,8 @@ pub async fn host_meta(
     headers.get(ACCEPT).map_or_else(
         || Redirect::temporary("/.well-known/host-meta.xrd"),
         |accept| match accept.to_str() {
-            Ok(accept) if accept.contains("json") => {
-                Redirect::temporary("/.well-known/host-meta.json")
-            }
+            Ok(accept) if accept.contains("json") =>
+                Redirect::temporary("/.well-known/host-meta.json"),
             _ => Redirect::temporary("/.well-known/host-meta.xml"),
         },
     )

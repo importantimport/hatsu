@@ -46,7 +46,7 @@ impl Context {
                     ancestors: vec![],
                     descendants,
                 })
-            }
+            },
             None => Err(AppError::not_found("Record", post_id.as_ref())),
         }
     }

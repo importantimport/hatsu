@@ -60,7 +60,7 @@ pub async fn post(
             Ok(FederationJson(WithContext::new_default(
                 apub_post.into_json(&data).await?,
             )))
-        }
+        },
         None => Err(AppError::not_found("Post", post_url.as_ref())),
     }
 }

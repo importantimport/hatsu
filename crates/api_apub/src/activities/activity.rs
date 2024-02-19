@@ -61,7 +61,7 @@ pub async fn activity(
             Ok(FederationJson(WithContext::new_default(
                 activity.into_json()?,
             )))
-        }
+        },
         None => Err(AppError::not_found("Activity", &activity_id)),
     }
 }

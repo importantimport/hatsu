@@ -150,16 +150,15 @@ impl Note {
         data: &Data<AppData>,
     ) -> Result<Option<String>, AppError> {
         match self.in_reply_to.map(|url| url.to_string()) {
-            Some(in_reply_to) if in_reply_to.starts_with(&format!("https://{}", data.domain())) => {
-                Ok(Some(in_reply_to))
-            }
+            Some(in_reply_to) if in_reply_to.starts_with(&format!("https://{}", data.domain())) =>
+                Ok(Some(in_reply_to)),
             Some(in_reply_to) => match Post::find_by_id(&in_reply_to).one(&data.conn).await? {
                 Some(db_post) => {
                     let apub_post: ApubPost = db_post.into();
                     let note = apub_post.into_json(data).await?;
 
                     Self::check_in_reply_to_root(note, data).await
-                }
+                },
                 None => Ok(None),
             },
             None => Ok(None),

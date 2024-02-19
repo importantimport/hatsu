@@ -92,9 +92,8 @@ impl<T> CollectionPage<T> {
             },
             // 如果当前页数小于总页数，则提供下一页
             next: match page {
-                page if page < total_pages => {
-                    Some(generate_collection_page_url(&collection_id, page + 1)?)
-                }
+                page if page < total_pages =>
+                    Some(generate_collection_page_url(&collection_id, page + 1)?),
                 _ => None,
             },
             part_of: collection_id,

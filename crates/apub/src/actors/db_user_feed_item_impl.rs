@@ -35,7 +35,7 @@ impl JsonUserFeed {
                 };
 
                 Ok(Self::get_full_feed(feed).await?)
-            }
+            },
             None => Ok(self),
         }
     }
