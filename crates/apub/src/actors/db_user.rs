@@ -112,7 +112,7 @@ impl Object for ApubUser {
         Ok(user.into())
     }
 
-    async fn into_json(self, _data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
+    async fn into_json(self, data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
         Ok(Service {
             kind: ServiceType::Service.to_string(),
             name: self.name.clone(),
@@ -133,6 +133,10 @@ impl Object for ApubUser {
             outbox: Url::parse(&self.outbox)?,
             followers: Url::parse(&self.followers)?,
             following: Url::parse(&self.following)?,
+            // FEP-4adb
+            // https://github.com/importantimport/hatsu/issues/15
+            // TODO: customize via _hatsu.aliases
+            aliases: Some(vec![format!("acct:{}@{}", &self.preferred_username, &self.preferred_username), format!("acct:{}@{}", &self.preferred_username, data.domain())]),
             public_key: self.public_key(),
         })
     }

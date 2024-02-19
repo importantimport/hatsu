@@ -48,6 +48,10 @@ pub struct Service {
     pub followers: Url,
     // 正在关注
     pub following: Url,
+    /// FEP-4adb
+    /// https://github.com/importantimport/hatsu/issues/15
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aliases: Option<Vec<String>>,
     // 公钥
     #[schema(value_type = PublicKeySchema)]
     pub public_key: PublicKey,

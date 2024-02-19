@@ -16,7 +16,7 @@ use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 // use serde::Deserialize;
-use serde_json::Value;
+use serde_json::{json, Value};
 
 // #[derive(TypedPath, Deserialize)]
 // #[typed_path("/u/:name")]
@@ -52,11 +52,29 @@ pub async fn user(
     let url = hatsu_utils::url::generate_user_url(data.domain(), &name)?;
     // "@context": [
     //   "https://www.w3.org/ns/activitystreams",
-    //   "https://w3id.org/security/v1"
+    //   "https://w3id.org/security/v1",
+    //   {
+    //     "xrd": "http://docs.oasis-open.org/ns/xri/xrd-1.0#",
+    //     "aliases": {
+    //       "@id": "xrd:Alias",
+    //       "@type": "@id",
+    //       "@container": "@list"
+    //     }
+    //   }
     // ]
     let context = vec![
         Value::String(context().to_string()),
         Value::String(security().to_string()),
+        // FEP-4adb
+        // https://github.com/importantimport/hatsu/issues/15
+        json!({
+            "xrd": "http://docs.oasis-open.org/ns/xri/xrd-1.0#",
+            "aliases": {
+              "@id": "xrd:Alias",
+              "@type": "@id",
+              "@container": "@list"
+            },
+        })
     ];
 
     match User::find_by_id(&url.to_string()).one(&data.conn).await? {
