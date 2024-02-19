@@ -58,7 +58,7 @@ jobs:
         uses: TheDoctor0/zip-release@0.7.6
         with:
           type: tar
-          filename: hatsu-${{ matrix.target }}.tar
+          filename: hatsu.${{ matrix.target }}.tar
           directory: target/${{ matrix.target }}/release/
           path: hatsu
       - if: startsWith(github.ref, 'refs/tags/v')
@@ -67,7 +67,7 @@ jobs:
           draft: true
           generate_release_notes: true
           prerelease: ${{ contains(github.ref, 'beta') }}
-          files: target/${{ matrix.target }}/release/hatsu-${{ matrix.target }}.tar
+          files: target/${{ matrix.target }}/release/hatsu.${{ matrix.target }}.tar
 
   docker:
     name: docker buildx
