@@ -53,6 +53,7 @@ pub async fn user(
     // "@context": [
     //   "https://www.w3.org/ns/activitystreams",
     //   "https://w3id.org/security/v1",
+    //   "https://purl.archive.org/socialweb/webfinger",
     //   {
     //     "xrd": "http://docs.oasis-open.org/ns/xri/xrd-1.0#",
     //     "aliases": {
@@ -65,8 +66,9 @@ pub async fn user(
     let context = vec![
         Value::String(context().to_string()),
         Value::String(security().to_string()),
+        // FEP-2c59
+        Value::String(String::from("https://purl.archive.org/socialweb/webfinger")),
         // FEP-4adb
-        // https://github.com/importantimport/hatsu/issues/15
         json!({
             "xrd": "http://docs.oasis-open.org/ns/xri/xrd-1.0#",
             "aliases": {

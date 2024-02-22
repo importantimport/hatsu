@@ -134,8 +134,7 @@ impl Object for ApubUser {
             followers: Url::parse(&self.followers)?,
             following: Url::parse(&self.following)?,
             // FEP-4adb
-            // https://github.com/importantimport/hatsu/issues/15
-            // TODO: customize via _hatsu.aliases
+            // TODO: customize via _hatsu.preferred_username
             aliases: Some(vec![
                 format!(
                     "acct:{}@{}",
@@ -143,6 +142,9 @@ impl Object for ApubUser {
                 ),
                 format!("acct:{}@{}", &self.preferred_username, data.domain()),
             ]),
+            // FEP-2c59
+            // TODO: customize via _hatsu.preferred_username
+            webfinger: Some(format!("acct:{}@{}", &self.preferred_username, &self.preferred_username)),
             public_key: self.public_key(),
         })
     }

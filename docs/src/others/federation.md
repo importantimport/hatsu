@@ -14,6 +14,7 @@
 - [FEP-f1d5: NodeInfo in Fediverse Software](https://codeberg.org/fediverse/fep/src/branch/main/fep/f1d5/fep-f1d5.md)
 - [FEP-fffd: Proxy Objects](https://codeberg.org/fediverse/fep/src/branch/main/fep/fffd/fep-fffd.md)
 - [FEP-4adb: Dereferencing identifiers with webfinger](https://codeberg.org/fediverse/fep/src/branch/main/fep/4adb/fep-4adb.md)
+- [FEP-2c59: Discovery of a Webfinger address from an ActivityPub actor](https://codeberg.org/fediverse/fep/src/branch/main/fep/2c59/fep-2c59.md)
 
 ## ActivityPub
 
