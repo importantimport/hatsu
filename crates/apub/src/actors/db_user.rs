@@ -144,7 +144,10 @@ impl Object for ApubUser {
             ]),
             // FEP-2c59
             // TODO: customize via _hatsu.preferred_username
-            webfinger: Some(format!("acct:{}@{}", &self.preferred_username, &self.preferred_username)),
+            webfinger: Some(format!(
+                "acct:{}@{}",
+                &self.preferred_username, &self.preferred_username
+            )),
             public_key: self.public_key(),
         })
     }
