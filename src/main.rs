@@ -16,35 +16,27 @@ use tracing_subscriber::prelude::*;
 
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
-    // initialize tracing
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
         .with(tracing_error::ErrorLayer::default())
         .init();
 
-    // Load environment variables from .env file.
     tracing::info!("loading environment variables");
-    // dotenvy::dotenv()?;
     if dotenvy::dotenv().is_err() {
-        tracing::debug!("No .env file found");
+        tracing::debug!("no .env file found");
     }
 
-    // 环境变量
-    // Environments
     let env = AppEnv::init();
 
-    // 连接数据库
-    // Connecting to database
+    tracing::info!("connecting database");
     let conn = Database::connect(&env.hatsu_database_url)
         .await
-        .expect("Database connection failed");
+        .expect("database connection failed");
 
-    // 运行 SeaORM Migration
+    tracing::info!("running database migration");
     Migrator::up(&conn, None).await?;
 
     tracing::info!("checking primary account");
-    // 尝试读取数据库中的主要账户，如果不存在则创建
-    // Try to read primary account in the database, if it doesn't exist then create
     let primary_account: ApubUser = match User::find_by_id(
         hatsu_utils::url::generate_user_url(&env.hatsu_domain, &env.hatsu_primary_account)?
             .to_string(),
@@ -53,8 +45,6 @@ async fn main() -> Result<(), AppError> {
     .await?
     {
         Some(db_user) => db_user.into(),
-        // 根据域名创建一个 user::ActiveModel
-        // Create a user::ActiveModel based on the domain
         None => ApubUser::new(&env.hatsu_domain, &env.hatsu_primary_account)
             .await?
             .deref()
@@ -65,22 +55,15 @@ async fn main() -> Result<(), AppError> {
             .into(),
     };
 
-    // 创建 AppData
     let data = AppData {
         conn,
         env: env.clone(),
     };
 
-    tracing::info!("setup configuration");
+    tracing::info!("setup federation config");
     let federation_config = FederationConfig::builder()
-        // 实例域名，这里使用 `HATSU_DOMAIN` 环境变量
-        // instance domain, `HATSU_DOMAIN` environment is used here.
         .domain(&env.hatsu_domain)
-        // 使用测试账户作为 Signed fetch actor，以和 GoToSocial 或启用安全模式的 Mastodon 实例交互
-        // Use a test account as a Signed fetch actor to interact with GoToSocial or a Mastodon instance with secure mode enabled
         .signed_fetch_actor(&primary_account)
-        // Fediverse 应用数据，目前只有数据库连接
-        // Fediverse application data, currently only database connections
         .app_data(data)
         // TODO:
         // Disable this configuration when Pleroma supports HTTP Signature draft-11
@@ -90,12 +73,11 @@ async fn main() -> Result<(), AppError> {
         .build()
         .await?;
 
-    // 创建服务
+    tracing::info!("starting subsystem");
     let scheduler = hatsu_scheduler::Scheduler::new(&federation_config);
     let server = hatsu_backend::Server::new(&federation_config);
 
     let _result = Toplevel::<AppError>::new()
-        // .start("Migrator", move |s| migrator.run(s))
         .start("Scheduler", move |s| scheduler.run(s))
         .start("Server", move |s| server.run(s))
         .catch_signals()
