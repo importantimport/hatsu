@@ -25,7 +25,6 @@ impl Context {
         {
             Some(post) => {
                 // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
-                // let descendants = post
                 let handles = post
                     .find_linked(post::SelfReferencingLink)
                     .all(&data.conn)

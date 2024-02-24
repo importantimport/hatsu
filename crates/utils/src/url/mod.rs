@@ -32,8 +32,8 @@ pub fn generate_post_url(domain: &str, id: String) -> Result<Url, AppError> {
         id if id.starts_with("https://") =>
             Ok(Url::parse(&format!("https://{domain}/posts/{id}",))?),
         _ => Err(AppError::new(
-            format!("Invalid Object ID {id}"),
-            serde_json::from_str("Object ID need to starts with https://")?,
+            format!("Invalid Post ID: {id}"),
+            serde_json::from_str("Post ID need to starts with https://")?,
             None,
         )),
     }
@@ -47,7 +47,7 @@ pub fn generate_user_url(domain: &str, id: &str) -> Result<Url, AppError> {
         id if !id.starts_with("https://") =>
             Ok(Url::parse(&format!("https://{domain}/users/{id}",))?),
         _ => Err(AppError::new(
-            format!("Invalid User ID {id}"),
+            format!("Invalid User ID: {id}"),
             serde_json::from_str("User ID cannot starts with https://")?,
             None,
         )),
