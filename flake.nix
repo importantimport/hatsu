@@ -46,7 +46,7 @@
           # https://devenv.sh/reference/options/
           packages = with pkgs; [
             cargo-watch
-            cargo-zigbuild
+            # cargo-zigbuild
             just
             sea-orm-cli
           ];
