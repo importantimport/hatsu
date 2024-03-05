@@ -45,16 +45,19 @@
 
           # https://devenv.sh/reference/options/
           packages = with pkgs; [
+            cargo-watch
+            cargo-zigbuild
             just
+            sea-orm-cli
           ];
 
           languages.rust.enable = true;
           languages.rust.channel = rust_toolchain.toolchain.channel;
           languages.rust.components = rust_toolchain.toolchain.components;
 
-          enterShell = ''
-            hello
-          '';
+          # enterShell = ''
+          #   hello
+          # '';
         };
 
       };
