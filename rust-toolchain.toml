@@ -4,5 +4,5 @@
 
 [toolchain]
 channel = "nightly"
-components = ["rustc", "rustc-codegen-cranelift", "rust-analyzer", "rustfmt", "clippy"]
+components = ["rustc", "rustc-codegen-cranelift", "rust-analyzer", "rustfmt", "cargo", "clippy"]
 profile = "minimal"
