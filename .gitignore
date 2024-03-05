@@ -22,3 +22,7 @@ Cargo.lock
 
 # mdBook
 docs/book
+
+# devenv / direnv
+.devenv
+.direnv
