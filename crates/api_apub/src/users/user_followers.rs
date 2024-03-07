@@ -64,16 +64,14 @@ pub async fn handler(
     let total = follower_pages.num_items_and_pages().await?;
 
     match pagination.page {
-        None => {
-            Ok(FederationJson(WithContext::new_default(
-                serde_json::to_value(Collection::new(
-                    &hatsu_utils::url::generate_user_url(data.domain(), &name)?
-                        .join(&format!("{name}/followers"))?,
-                    total.number_of_items,
-                    Some(total.number_of_pages),
-                )?)?,
-            )))
-        },
+        None => Ok(FederationJson(WithContext::new_default(
+            serde_json::to_value(Collection::new(
+                &hatsu_utils::url::generate_user_url(data.domain(), &name)?
+                    .join(&format!("{name}/followers"))?,
+                total.number_of_items,
+                Some(total.number_of_pages),
+            )?)?,
+        ))),
         Some(page) =>
             if page > 1 && page > total.number_of_pages {
                 Err(AppError::not_found(
