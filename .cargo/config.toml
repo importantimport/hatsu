@@ -10,10 +10,10 @@ rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld"]
 [target.'cfg(all())']
 rustflags = ["--cfg", "uuid_unstable"]
 
-# x86_64-v2 (Intel Nehalem / AMD Jaguar and above)
+# x86_64-v3 (Intel Haswell / AMD Excavator and above)
 # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
 [target.'cfg(target_arch = "x86_64")']
-rustflags = ["-C", "target-cpu=x86-64-v2"]
+rustflags = ["-C", "target-cpu=x86-64-v3"]
 
 # aarch64 (ARM Neon)
 [target.'cfg(target_arch = "aarch64")']
