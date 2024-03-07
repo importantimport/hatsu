@@ -1,12 +1,5 @@
-[unstable]
-codegen-backend = true
-# profile-rustflags = true
-
 [rust]
 lld = true
-
-[profile.dev]
-codegen-backend = "cranelift"
 
 # x86_64-unknown-linux-gnu (lld)
 [target.x86_64-unknown-linux-gnu]
