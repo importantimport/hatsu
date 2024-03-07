@@ -18,7 +18,7 @@ use utoipa::ToSchema;
 
 use crate::{
     actors::{ApubUser, JsonUserFeedItem},
-    links::Hashtag,
+    links::{Hashtag, Tag, Tags},
     objects::ApubPost,
 };
 
@@ -48,7 +48,7 @@ pub struct Note {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub tag: Option<Vec<Value>>,
+    pub tag: Option<Tags>,
     /// https://www.w3.org/ns/activitystreams#url
     /// https://codeberg.org/fediverse/fep/src/branch/main/fep/fffd/fep-fffd.md
     pub url: Option<Value>,
@@ -123,23 +123,20 @@ impl Note {
             cc: vec![public()],
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
-            // TODO: test this
-            tag: json.tags.map(|tags: Vec<String>| {
-                tags.iter()
-                    .map(|tag| {
-                        serde_json::to_value(Hashtag::new(
-                            Url::parse(&format!(
-                                "https://{}/t/{}",
-                                data.domain(),
-                                urlencoding::encode(tag),
-                            ))
-                            .unwrap(),
-                            format!("#{tag}"),
-                        ))
-                        .unwrap()
-                    })
-                    .collect()
-            }),
+            tag: match json.tags {
+                Some(tags) => Some(Tags::Tags(tags
+                    .into_iter()
+                    .map(|tag| Tag::Hashtag(Hashtag::new(
+                        Url::parse(&format!(
+                            "https://{}/t{}",
+                            data.domain(),
+                            urlencoding::encode(&tag),
+                        )).unwrap(),
+                        format!("#{tag}"),
+                    )))
+                    .collect())),
+                _ => None,
+            },
             url: Some(serde_json::to_value(NoteUrl::new(json_id))?),
         })
     }

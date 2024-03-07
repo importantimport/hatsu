@@ -12,6 +12,7 @@ pub use mention::Mention;
 
 
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(untagged)]
 pub enum Tag {
    Emoji(Emoji),
    Hashtag(Hashtag),
@@ -20,6 +21,7 @@ pub enum Tag {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(untagged)]
 pub enum Tags {
     Tag(Tag),
     Tags(Vec<Tag>),
