@@ -133,6 +133,7 @@ impl Object for ApubUser {
             outbox: Url::parse(&self.outbox)?,
             followers: Url::parse(&self.followers)?,
             following: Url::parse(&self.following)?,
+            tag: None,
             // FEP-4adb
             // TODO: customize via _hatsu.preferred_username
             aliases: Some(vec![

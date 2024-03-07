@@ -5,6 +5,7 @@ use activitypub_federation::{
 };
 // use hatsu_db_schema::user::Model as DbUser;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use url::Url;
 use utoipa::ToSchema;
 
@@ -48,6 +49,9 @@ pub struct Service {
     pub followers: Url,
     // 正在关注
     pub following: Url,
+    /// user name emoji
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tag: Option<ServiceTag>,
     /// FEP-4adb
     #[serde(skip_serializing_if = "Option::is_none")]
     pub aliases: Option<Vec<String>>,
@@ -93,6 +97,34 @@ impl ServiceImage {
             url,
         }
     }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+pub enum ServiceTag {
+    Emoji(ServiceTagEmoji),
+    Emojis(Vec<ServiceTagEmoji>),
+    Any(Value),
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+pub struct ServiceTagEmoji {
+    #[serde(rename = "type")]
+    pub kind: String, // "Emoji"
+    pub icon: ServiceTagEmojiIcon,
+    pub id: Url,
+    pub name: String,
+    pub updated: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+pub struct ServiceTagEmojiIcon {
+    #[schema(value_type = String)]
+    #[serde(rename = "type")]
+    pub kind: ImageType,
+    pub media_type: String,
+    pub url: Url,
 }
 
 // impl ToSchema for PublicKey

@@ -29,6 +29,9 @@ use utoipa::{
             hatsu_apub::actors::Service,
             hatsu_apub::actors::ServiceImage,
             hatsu_apub::actors::ServiceAttachment,
+            hatsu_apub::actors::ServiceTag,
+            hatsu_apub::actors::ServiceTagEmoji,
+            hatsu_apub::actors::ServiceTagEmojiIcon,
             hatsu_apub::actors::PublicKeySchema,
             hatsu_apub::objects::Note,
         )

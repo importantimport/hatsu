@@ -18,8 +18,8 @@ pub struct Account {
     pub display_name: String,
     pub avatar: String,
     pub avatar_static: String,
-    /// until I figure it out, it should always be an empty vec
-    pub emojis: Vec<CustomEmoji>,
+    #[serde(default)]
+    pub emojis: Option<Vec<CustomEmoji>>,
 }
 
 impl Account {
@@ -40,7 +40,7 @@ impl Account {
             display_name: user.name,
             avatar: avatar.clone(),
             avatar_static: avatar,
-            emojis: vec![],
+            emojis: CustomEmoji::from_json(user.tag),
         })
     }
 

@@ -1,3 +1,4 @@
+use hatsu_apub::actors::{ServiceTag, ServiceTagEmoji};
 use serde::{Deserialize, Serialize};
 use url::Url;
 use utoipa::ToSchema;
@@ -10,4 +11,23 @@ pub struct CustomEmoji {
     static_url: Url,
     visible_in_picker: bool,
     category: Option<String>,
+}
+
+impl CustomEmoji {
+    pub fn from_json(tag: Option<ServiceTag>) -> Option<Vec<Self>> {
+        match tag {
+            Some(ServiceTag::Emoji(emoji)) => Some(vec![Self::from_emoji(emoji)]),
+            _ => None,
+        }
+    }
+
+    pub fn from_emoji(emoji: ServiceTagEmoji) -> Self {
+        Self {
+            shortcode: emoji.name,
+            url: emoji.icon.url.clone(),
+            static_url: emoji.icon.url,
+            visible_in_picker: false,
+            category: None,
+        }
+    }
 }
