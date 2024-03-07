@@ -8,4 +8,5 @@ pub struct Mention {
     pub href: Url,
     #[serde(rename = "type")]
     pub kind: MentionType,
+    pub name: String,
 }
