@@ -67,10 +67,10 @@ pub struct NodeInfo {
 pub struct NodeInfoSoftware {
     pub name: String,
     pub version: String,
-    /// Only available for NodeInfo 2.1
+    /// Only available for `NodeInfo` 2.1
     #[serde(skip_serializing_if = "Option::is_none")]
     pub repository: Option<String>,
-    /// Only available for NodeInfo 2.1
+    /// Only available for `NodeInfo` 2.1
     #[serde(skip_serializing_if = "Option::is_none")]
     pub homepage: Option<String>,
 }
