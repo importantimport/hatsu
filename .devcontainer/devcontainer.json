@@ -1,7 +1,7 @@
 {
   "name": "Devbox Remote Container",
   "build": {
-    "dockerfile": "../Dockerfile",
+    "dockerfile": "./Dockerfile",
     "context": ".."
   },
   "customizations": {

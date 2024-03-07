@@ -1,13 +1,18 @@
-FROM jetpackio/devbox:latest
+FROM bitnami/minideb:bookworm
 
-# Installing your devbox project
-WORKDIR /code
-USER ${DEVBOX_USER}:${DEVBOX_USER}
-COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.json devbox.json
-COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.lock devbox.lock
+ARG TARGETARCH
 
+WORKDIR /app
 
+COPY target_${TARGETARCH}/hatsu /app/hatsu
 
-RUN devbox run -- echo "Installed Packages."
+RUN install_packages openssl libssl-dev ca-certificates curl && \
+  # https://github.com/casey/just#pre-built-binaries
+  curl -sSf https://just.systems/install.sh | bash -s -- --tag 1.23.0 --to /usr/local/bin && \
+  chmod +x /app/hatsu
 
-CMD ["devbox", "shell"]
+ENTRYPOINT [ "/app/hatsu" ]
+
+EXPOSE 3939
+
+STOPSIGNAL SIGTERM
