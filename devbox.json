@@ -1,0 +1,21 @@
+{
+  "packages": [
+    "rustup@latest",
+    "cmake@latest",
+    "just@latest",
+    "cargo-zigbuild@latest",
+    "openssl@latest",
+    "pkg-config@latest",
+    "sea-orm-cli@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null"
+    ],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
+    }
+  }
+}

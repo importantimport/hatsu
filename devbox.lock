@@ -1,0 +1,143 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "cargo-zigbuild@latest": {
+      "last_modified": "2024-02-24T23:06:34Z",
+      "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#cargo-zigbuild",
+      "source": "devbox-search",
+      "version": "0.18.3",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/diivvkiqbvk3lcglbj825rmnfzricvs8-cargo-zigbuild-0.18.3"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/087y3qaqazcnr7403s8mfbx2ymkiikfn-cargo-zigbuild-0.18.3"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/nc07606g0g9gc5l10l09cr10jh58h7gk-cargo-zigbuild-0.18.3"
+        }
+      }
+    },
+    "cmake@latest": {
+      "last_modified": "2024-02-28T06:32:26Z",
+      "resolved": "github:NixOS/nixpkgs/d53c2037394da6fe98decca417fc8fda64bf2443#cmake",
+      "source": "devbox-search",
+      "version": "3.28.2",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/bin32lqag7lx38994xpf9jvhk1xbd64c-cmake-3.28.2"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/fw3h7g7ngy535pnx2fna57sq9279sbps-cmake-3.28.2"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/wpw5vjn95w8mhr7zn101684xnm0ilap1-cmake-3.28.2"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/paxnwg89pdx4car5fj84mmiprg952459-cmake-3.28.2"
+        }
+      }
+    },
+    "just@latest": {
+      "last_modified": "2024-02-24T23:06:34Z",
+      "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#just",
+      "source": "devbox-search",
+      "version": "1.24.0",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/4y0018ypsv9psa73sz6na2806ndpx5sf-just-1.24.0"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/gafx9wd70rzrk16jwm1fdmvs0y15knzk-just-1.24.0"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/imhg52m87050xjs76mkdlql422n28kvg-just-1.24.0"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/92k9inba4i5bs7cp0kh99y1f93v407v0-just-1.24.0"
+        }
+      }
+    },
+    "openssl@latest": {
+      "last_modified": "2024-03-02T13:37:51Z",
+      "resolved": "github:NixOS/nixpkgs/fa9a51752f1b5de583ad5213eb621be071806663#openssl",
+      "source": "devbox-search",
+      "version": "3.0.13",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/kshshywxqxw2rfnyz58ply8mvaxgmd8j-openssl-3.0.13-bin"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/6122fpl8a71sjlm9nqp9b8mn5s9sd4b0-openssl-3.0.13-bin"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/mbd8hxmmzl2v905gf6m4m6haqzx1marc-openssl-3.0.13-bin"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/0q8d0kcw57hi75lx8m1yb408w11ddbbg-openssl-3.0.13-bin"
+        }
+      }
+    },
+    "pkg-config@latest": {
+      "last_modified": "2024-02-24T23:06:34Z",
+      "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#pkg-config",
+      "source": "devbox-search",
+      "version": "0.29.2",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/fnmg21mqlh2l1svk9fbj4qgf2d3ahxb7-pkg-config-wrapper-0.29.2"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/4pwc2xiin23qgdjih3l75rwwa8ysjb2k-pkg-config-wrapper-0.29.2"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/s0ygc53g9qllbsbmwfk11rp0kb76wh3c-pkg-config-wrapper-0.29.2"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/492n7ylp2f9zn0k3vghv1snypgkzznc5-pkg-config-wrapper-0.29.2"
+        }
+      }
+    },
+    "rustup@latest": {
+      "last_modified": "2024-02-24T23:06:34Z",
+      "plugin_version": "0.0.1",
+      "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#rustup",
+      "source": "devbox-search",
+      "version": "1.26.0",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/aq1krqfcib3811f8n9y7cv4ybqymdj80-rustup-1.26.0"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/4yjhm4n7l81vqxlymanngflpyhwwjrbk-rustup-1.26.0"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/623yx50y1bswv71d0r4ss5fkhsh8vylf-rustup-1.26.0"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/rs66y4kzwh1n8cz2ia0qw5m4fhahqwia-rustup-1.26.0"
+        }
+      }
+    },
+    "sea-orm-cli@latest": {
+      "last_modified": "2024-02-24T23:06:34Z",
+      "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#sea-orm-cli",
+      "source": "devbox-search",
+      "version": "0.12.10",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/6x88gzmac9dazkzwbkjdfr39alqgghyr-sea-orm-cli-0.12.10"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/030ljh6zpmyvcj37f3325h9sc68j8pzs-sea-orm-cli-0.12.10"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/f3ai0gm83wh1m33vr1s7qz6ginlrnnlb-sea-orm-cli-0.12.10"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/yp6dp7d3s0bh79rrp3lpfjs7amz7i7hh-sea-orm-cli-0.12.10"
+        }
+      }
+    }
+  }
+}
