@@ -1,4 +1,4 @@
-use hatsu_apub::actors::{ServiceTag, ServiceTagEmoji};
+use hatsu_apub::links::{Tags, Tag, Emoji};
 use serde::{Deserialize, Serialize};
 use url::Url;
 use utoipa::ToSchema;
@@ -14,14 +14,30 @@ pub struct CustomEmoji {
 }
 
 impl CustomEmoji {
-    pub fn from_json(tag: Option<ServiceTag>) -> Option<Vec<Self>> {
+    pub fn from_json(tag: Option<Tags>) -> Vec<Self> {
+        let emojis = match tag {
+            Some(Tags::Tag(tag)) => vec![Self::from_tag(tag)],
+            Some(Tags::Tags(tags)) => tags
+                .into_iter()
+                .map(|tag| Self::from_tag(tag))
+                .collect(),
+            _ => vec![],
+        };
+
+        emojis
+            .into_iter()
+            .filter_map(|emoji| emoji)
+            .collect()
+    }
+
+    pub fn from_tag(tag: Tag) -> Option<Self> {
         match tag {
-            Some(ServiceTag::Emoji(emoji)) => Some(vec![Self::from_emoji(emoji)]),
+            Tag::Emoji(emoji) => Some(Self::from_emoji(emoji)),
             _ => None,
         }
     }
 
-    pub fn from_emoji(emoji: ServiceTagEmoji) -> Self {
+    pub fn from_emoji(emoji: Emoji) -> Self {
         Self {
             shortcode: emoji.name,
             url: emoji.icon.url.clone(),

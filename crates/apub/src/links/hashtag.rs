@@ -1,11 +1,13 @@
 use activitypub_federation::kinds::kind;
 use serde::{Deserialize, Serialize};
 use url::Url;
+use utoipa::ToSchema;
 
 kind!(HashtagType, Hashtag);
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 pub struct Hashtag {
+    #[schema(value_type = String)]
     #[serde(rename = "type")]
     pub kind: HashtagType,
     /// <https://hatsu.local/t/foo>

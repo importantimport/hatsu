@@ -11,7 +11,4 @@ pub use service::{
     Service,
     ServiceAttachment,
     ServiceImage,
-    ServiceTag,
-    ServiceTagEmoji,
-    ServiceTagEmojiIcon,
 };

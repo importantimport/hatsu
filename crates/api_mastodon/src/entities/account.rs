@@ -18,8 +18,7 @@ pub struct Account {
     pub display_name: String,
     pub avatar: String,
     pub avatar_static: String,
-    #[serde(default)]
-    pub emojis: Option<Vec<CustomEmoji>>,
+    pub emojis: Vec<CustomEmoji>,
 }
 
 impl Account {
