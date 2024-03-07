@@ -57,7 +57,6 @@ pub struct Service {
     // 公钥
     #[schema(value_type = PublicKeySchema)]
     pub public_key: PublicKey,
-    // TODO: (maybe) endpoints.sharedInbox (https://hatsu.local/inbox)
 }
 
 // ActivityPub Service Image
