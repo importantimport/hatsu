@@ -70,8 +70,7 @@ pub async fn handler(
                     &hatsu_utils::url::generate_user_url(data.domain(), &name)?
                         .join(&format!("{name}/followers"))?,
                     total.number_of_items,
-                    // TODO: last (maybe)
-                    None,
+                    Some(total.number_of_pages),
                 )?)?,
             )))
         },
