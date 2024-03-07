@@ -18,7 +18,6 @@ pub struct Status {
     pub account: Account,
     pub created_at: String,
     pub content: String,
-    /// until I figure it out, it should always be an empty vec
     pub emojis: Vec<CustomEmoji>,
     /// depends on context
     pub replies_count: u64,
@@ -45,7 +44,7 @@ impl Status {
             account: Account::from_json(service)?,
             created_at: note.published,
             content: note.content,
-            emojis: vec![],
+            emojis: CustomEmoji::from_json(note.tag),
             replies_count: 0,
             reblogs_count: 0,
             favourites_count: 0,
