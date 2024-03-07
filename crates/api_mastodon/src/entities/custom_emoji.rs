@@ -1,4 +1,4 @@
-use hatsu_apub::links::{Tags, Tag, Emoji};
+use hatsu_apub::links::{Emoji, Tag, Tags};
 use serde::{Deserialize, Serialize};
 use url::Url;
 use utoipa::ToSchema;
@@ -17,17 +17,11 @@ impl CustomEmoji {
     pub fn from_json(tag: Option<Tags>) -> Vec<Self> {
         let emojis = match tag {
             Some(Tags::Tag(tag)) => vec![Self::from_tag(tag)],
-            Some(Tags::Tags(tags)) => tags
-                .into_iter()
-                .map(|tag| Self::from_tag(tag))
-                .collect(),
+            Some(Tags::Tags(tags)) => tags.into_iter().map(|tag| Self::from_tag(tag)).collect(),
             _ => vec![],
         };
 
-        emojis
-            .into_iter()
-            .filter_map(|emoji| emoji)
-            .collect()
+        emojis.into_iter().filter_map(|emoji| emoji).collect()
     }
 
     pub fn from_tag(tag: Tag) -> Option<Self> {

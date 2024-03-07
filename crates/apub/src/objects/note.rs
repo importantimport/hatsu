@@ -124,17 +124,21 @@ impl Note {
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             tag: match json.tags {
-                Some(tags) => Some(Tags::Tags(tags
-                    .into_iter()
-                    .map(|tag| Tag::Hashtag(Hashtag::new(
-                        Url::parse(&format!(
-                            "https://{}/t{}",
-                            data.domain(),
-                            urlencoding::encode(&tag),
-                        )).unwrap(),
-                        format!("#{tag}"),
-                    )))
-                    .collect())),
+                Some(tags) => Some(Tags::Tags(
+                    tags.into_iter()
+                        .map(|tag| {
+                            Tag::Hashtag(Hashtag::new(
+                                Url::parse(&format!(
+                                    "https://{}/t{}",
+                                    data.domain(),
+                                    urlencoding::encode(&tag),
+                                ))
+                                .unwrap(),
+                                format!("#{tag}"),
+                            ))
+                        })
+                        .collect(),
+                )),
                 _ => None,
             },
             url: Some(serde_json::to_value(NoteUrl::new(json_id))?),

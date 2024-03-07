@@ -6,9 +6,4 @@ mod service;
 
 pub use db_user::ApubUser;
 pub use db_user_feed_item::{ApubUserFeedItem, JsonUserFeed, JsonUserFeedHatsu, JsonUserFeedItem};
-pub use service::{
-    PublicKeySchema,
-    Service,
-    ServiceAttachment,
-    ServiceImage,
-};
+pub use service::{PublicKeySchema, Service, ServiceAttachment, ServiceImage};
