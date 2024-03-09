@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 
 use activitypub_federation::{
-    activity_sending::SendActivityTask,
+    activity_queue::queue_activity,
     config::Data,
     fetch::object_id::ObjectId,
     http_signatures::generate_actor_keypair,
@@ -95,11 +95,7 @@ impl ApubUser {
         };
 
         // 发送
-        let sends = SendActivityTask::prepare(&activity, self, inboxes, data).await?;
-
-        for send in sends {
-            send.sign_and_send(data).await?;
-        }
+        queue_activity(&activity, self, inboxes, data).await?;
 
         Ok(())
     }
