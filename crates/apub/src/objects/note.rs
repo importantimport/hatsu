@@ -5,7 +5,7 @@ use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
     kinds::{link::LinkType, object::NoteType, public},
-    protocol::helpers::deserialize_one_or_many,
+    protocol::{helpers::deserialize_one_or_many, values::MediaTypeMarkdown},
     traits::{Actor, Object},
 };
 use hatsu_db_schema::prelude::Post;
@@ -192,14 +192,14 @@ impl NoteUrl {
 #[serde(rename_all = "camelCase")]
 pub struct NoteSource {
     pub content: String,
-    pub media_type: String,
+    pub media_type: MediaTypeMarkdown,
 }
 
 impl NoteSource {
     pub fn new(source: String) -> Self {
         Self {
             content: source,
-            media_type: String::from("text/markdown"),
+            media_type: MediaTypeMarkdown::Markdown,
         }
     }
 }
