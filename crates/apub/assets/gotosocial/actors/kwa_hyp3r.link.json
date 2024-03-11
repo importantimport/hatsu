@@ -1,0 +1,69 @@
+{
+    "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "http://schema.org",
+        "http://joinmastodon.org/ns",
+        "https://w3id.org/security/v1"
+    ],
+    "attachment": [
+        {
+            "name": "Blog",
+            "type": "PropertyValue",
+            "value": "<a href=\"https://kwaa.dev\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://kwaa.dev</a>"
+        },
+        {
+            "name": "GitHub",
+            "type": "PropertyValue",
+            "value": "<a href=\"https://github.com/kwaa\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://github.com/kwaa</a>"
+        },
+        {
+            "name": "Matrix",
+            "type": "PropertyValue",
+            "value": "<a href=\"https://matrix.to/#/@kwaa:matrix.org\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://matrix.to/#/@kwaa:matrix.org</a>"
+        },
+        {
+            "name": "OpenPGP",
+            "type": "PropertyValue",
+            "value": "<a href=\"https://keys.openpgp.org/vks/v1/by-fingerprint/ABCBA12F1A8E3CCCF10B51094444777733334444\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://keys.openpgp.org/vks/v1/by-fingerprint/ABCBA12F1A8E3CCCF10B51094444777733334444</a>"
+        }
+    ],
+    "discoverable": false,
+    "featured": "https://social.hyp3r.link/users/kwa/collections/featured",
+    "followers": "https://social.hyp3r.link/users/kwa/followers",
+    "following": "https://social.hyp3r.link/users/kwa/following",
+    "icon": {
+        "mediaType": "image/png",
+        "type": "Image",
+        "url": "https://social.hyp3r.link/fileserver/01M0SX7THES820MJR3FVC5999J/attachment/original/01P0VQSCF5AMRPNQMBW28VH0BH.png"
+    },
+    "id": "https://social.hyp3r.link/users/kwa",
+    "image": {
+        "mediaType": "image/png",
+        "type": "Image",
+        "url": "https://social.hyp3r.link/fileserver/01M0SX7THES820MJR3FVC5999J/attachment/original/01Q2J2AQ854WJRQZTW6Z2PJGY5.png"
+    },
+    "inbox": "https://social.hyp3r.link/users/kwa/inbox",
+    "manuallyApprovesFollowers": false,
+    "name": "藍+85CD :chibimiku:",
+    "outbox": "https://social.hyp3r.link/users/kwa/outbox",
+    "preferredUsername": "kwa",
+    "publicKey": {
+        "id": "https://social.hyp3r.link/users/kwa/main-key",
+        "owner": "https://social.hyp3r.link/users/kwa",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY----- MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtS/7ZEB136raQl1D0AID +dcGEx+ebqiUE8K8zT7D0syBej1B/+UDGbrHcWVCIjeLfxk9Z1OiOX4PJQvPK2QA vEYJHxzfGG4zrR+gk/LKRc7CyHJNMoAUuxYNVQVcQoANu44zeSa103FFohQzZPGb VIMCaALRPqvALcc2prGVAMg1OEd7Nbx7BGArKrp3O8WcQjV/CEpsIxi3bqN362qc M2OsGDMo9io2RnX2kk+nKhMibK026BogTeI28Bhx0sh45M1RljaqBAd5qGfh9/N+ zL+ijYrqsai/Joch+6/7CxARPrARw1aaZk3ZfXiKynVY6OnsOdA+tZOX43WPkY76 IQIDAQAB -----END PUBLIC KEY----- "
+    },
+    "summary": "<p>魔法を信じていた<br>从 <span class=\"h-card\"><a href=\"https: //kwaa.moe/users/kwa\" class=\"u-url mention\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">@<span>kwa</span></a></span> 迁移</p>",
+    "tag": {
+        "icon": {
+            "mediaType": "image/png",
+            "type": "Image",
+            "url": "https://social.hyp3r.link/fileserver/01E5KTCDC2TYNDEG2C60SBCBB3/emoji/original/01HS17FAM9D3N0H33YPK09G6RW.png"
+        },
+        "id": "https://social.hyp3r.link/emoji/01HS17FAM9D3N0H33YPK09G6RW",
+        "name": ":chibimiku:",
+        "type": "Emoji",
+        "updated": "2023-07-13T11:53:48Z"
+    },
+    "type": "Person",
+    "url": "https://social.hyp3r.link/@kwa"
+}
