@@ -1,0 +1,52 @@
+{
+    "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://social.qunn.eu/schemas/litepub-0.1.jsonld",
+        {
+            "@language": "und"
+        }
+    ],
+    "actor": "https://social.qunn.eu/users/user",
+    "attachment": [],
+    "attributedTo": "https://social.qunn.eu/users/user",
+    "cc": [
+        "https://www.w3.org/ns/activitystreams#Public"
+    ],
+    "content": "This is a test message :acat_chew:",
+    "contentMap": {
+        "en": "This is a test message :acat_chew:"
+    },
+    "context": "https://hatsu-nightly-debug.hyp3r.link/posts/https://kwaa-blog-next.deno.dev/articles/test/",
+    "conversation": "https://hatsu-nightly-debug.hyp3r.link/posts/https://kwaa-blog-next.deno.dev/articles/test/",
+    "id": "https://social.qunn.eu/objects/7f78a6ae-2e93-4fb5-b63e-c667ecfee62a",
+    "inReplyTo": "https://hatsu-nightly-debug.hyp3r.link/posts/https://kwaa-blog-next.deno.dev/articles/test/",
+    "published": "2024-03-15T15:47:02.984729Z",
+    "sensitive": false,
+    "source": {
+        "content": "This is a test message :acat_chew:",
+        "mediaType": "text/plain"
+    },
+    "summary": "",
+    "tag": [
+        {
+            "href": "https://hatsu-nightly-debug.hyp3r.link/users/kwaa-blog-next.deno.dev",
+            "name": "@kwaa-blog-next.deno.dev@hatsu-nightly-debug.hyp3r.link",
+            "type": "Mention"
+        },
+        {
+            "icon": {
+                "type": "Image",
+                "url": "https://social.qunn.eu/emoji/mergans_cats/acat_chew.webp"
+            },
+            "id": "https://social.qunn.eu/emoji/mergans_cats/acat_chew.webp",
+            "name": ":acat_chew:",
+            "type": "Emoji",
+            "updated": "1970-01-01T00:00:00Z"
+        }
+    ],
+    "to": [
+        "https://hatsu-nightly-debug.hyp3r.link/users/kwaa-blog-next.deno.dev",
+        "https://social.qunn.eu/users/user/followers"
+    ],
+    "type": "Note"
+}
