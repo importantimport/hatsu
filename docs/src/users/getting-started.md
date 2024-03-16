@@ -8,7 +8,7 @@ However, your site will need to make some changes accordingly to take advantage 
 
 - [Feed](./feed.md)
 - [Redirecting](./redirecting.md)
-- [Backfeed (TODO)](./backfeed.md)
+- [Backfeed](./backfeed.md)
 
 ## Choose instance
 

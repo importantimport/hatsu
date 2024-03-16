@@ -6,25 +6,31 @@ Currently I've created a chart for all the platforms I expect to be compatible w
 
 ## Send
 
-|            | [Create] (Note) | [Accept] (Follow) |
-| ---------- | --------------- | ----------------- |
-| Mastodon   | ✅              | ✅                |
-| GoToSocial |                 |                   |
-| Misskey    |                 |                   |
-| Pleroma    |                 |                   |
+|              | [Create] (Note) | [Accept] (Follow) |
+| ------------ | --------------- | ----------------- |
+| [Mastodon]   | ✅              | ✅                |
+| [GoToSocial] |                 |                   |
+| [Misskey]    |                 |                   |
+| [Pleroma]    | ✅              |                   |
 
 ## Receive
 
-|            | [Follow] |     |
-| ---------- | -------- | --- |
-| Mastodon   | ✅       |     |
-| GoToSocial |          |     |
-| Misskey    |          |     |
-| Pleroma    |          |     |
+|              | [Follow] |     |
+| ------------ | -------- | --- |
+| [Mastodon]   | ✅       |     |
+| [GoToSocial] |          |     |
+| [Misskey]    |          |     |
+| [Pleroma]    |          |     |
 
-<!-- After a period of time: if you wish to support the new platform, you can open a new discussion. -->
-<!-- TODO: Akkoma & Firefish -->
+[Akkoma], [Sharkey], etc. forks should be compatible with upstream, so they are not listed separately.
 
 [Create]: https://www.w3.org/ns/activitystreams#Note
 [Accept]: https://www.w3.org/ns/activitystreams#Accept
 [Follow]: https://www.w3.org/ns/activitystreams#Follow
+
+[Mastodon]: https://github.com/mastodon/mastodon
+[GoToSocial]: https://github.com/superseriousbusiness/gotosocial
+[Misskey]: https://github.com/misskey-dev/misskey
+[Pleroma]: https://git.pleroma.social/pleroma/pleroma/
+[Akkoma]: https://akkoma.dev/AkkomaGang/akkoma/
+[Sharkey]: https://activitypub.software/TransFem-org/Sharkey

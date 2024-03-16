@@ -5,6 +5,8 @@ For Hatsu to work, your site needs to have one of the valid [JSON](https://jsonf
 These feeds should be auto-discoverable on the homepage:
 
 ```html
+<!-- https://example.com -->
+<!DOCTYPE html>
 <html>
     <head>
         ...
