@@ -23,6 +23,6 @@ pub struct EmojiIcon {
     #[schema(value_type = String)]
     #[serde(rename = "type")]
     pub kind: ImageType,
-    pub media_type: String,
+    pub media_type: Option<String>,
     pub url: Url,
 }
