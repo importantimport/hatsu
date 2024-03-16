@@ -50,6 +50,10 @@ check *args='':
 lint *args='':
   cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions
 
+# running tests.
+test *args='':
+  cargo test --all {{args}}
+
 # docker-build version='nightly':
 #   docker build . \
 #   --tag "importantimport/hatsu:{{version}}"

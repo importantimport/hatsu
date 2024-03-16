@@ -27,3 +27,4 @@ jobs:
       - run: just fmt --check
       - run: just check
       - run: just lint
+      - run: just test
