@@ -10,18 +10,18 @@ pub use emoji::{Emoji, EmojiIcon};
 pub use hashtag::Hashtag;
 pub use mention::Mention;
 
-#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema, Eq, PartialEq)]
 #[serde(untagged)]
 pub enum Tag {
     Emoji(Emoji),
     Hashtag(Hashtag),
     Mention(Mention),
-    Any(Value),
+    Value(Value),
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema, Eq, PartialEq)]
 #[serde(untagged)]
 pub enum Tags {
-    Tag(Tag),
     Tags(Vec<Tag>),
+    Tag(Tag),
 }
