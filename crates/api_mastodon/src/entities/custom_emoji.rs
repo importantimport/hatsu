@@ -10,6 +10,7 @@ pub struct CustomEmoji {
     url: Url,
     static_url: Url,
     visible_in_picker: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
     category: Option<String>,
 }
 
