@@ -33,7 +33,11 @@ impl CustomEmoji {
 
     pub fn from_emoji(emoji: Emoji) -> Self {
         Self {
-            shortcode: emoji.name,
+            shortcode: emoji
+                .name
+                .trim_start_matches(":")
+                .trim_end_matches(":")
+                .to_string(),
             url: emoji.icon.url.clone(),
             static_url: emoji.icon.url,
             visible_in_picker: false,
