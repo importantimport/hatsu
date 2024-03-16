@@ -5,7 +5,7 @@ use utoipa::ToSchema;
 
 kind!(HashtagType, Hashtag);
 
-#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema, Eq, PartialEq)]
 pub struct Hashtag {
     #[schema(value_type = String)]
     #[serde(rename = "type")]

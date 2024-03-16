@@ -4,7 +4,7 @@ use url::Url;
 use utoipa::ToSchema;
 
 /// <https://www.w3.org/ns/activitystreams#Mention>
-#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema, Eq, PartialEq)]
 pub struct Mention {
     #[schema(value_type = String)]
     #[serde(rename = "type")]

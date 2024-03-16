@@ -5,7 +5,7 @@ use utoipa::ToSchema;
 
 kind!(EmojiType, Emoji);
 
-#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Emoji {
     #[schema(value_type = String)]
@@ -17,7 +17,7 @@ pub struct Emoji {
     pub updated: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct EmojiIcon {
     #[schema(value_type = String)]
