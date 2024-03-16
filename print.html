@@ -213,7 +213,7 @@
 <ul>
 <li><a href="users/./feed.html">Feed</a></li>
 <li><a href="users/./redirecting.html">Redirecting</a></li>
-<li><a href="users/./backfeed.html">Backfeed (TODO)</a></li>
+<li><a href="users/./backfeed.html">Backfeed</a></li>
 </ul>
 <h2 id="choose-instance"><a class="header" href="#choose-instance">Choose instance</a></h2>
 <p>After Hatsu supports public instances, there may be a list of instances here.</p>
@@ -221,7 +221,9 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="feed"><a class="header" href="#feed">Feed</a></h1>
 <p>For Hatsu to work, your site needs to have one of the valid <a href="https://jsonfeed.org/version/1.1/">JSON</a> / <a href="https://en.wikipedia.org/wiki/Atom_(web_standard)">Atom</a> / <a href="https://en.wikipedia.org/wiki/RSS">RSS</a> feeds.</p>
 <p>These feeds should be auto-discoverable on the homepage:</p>
-<pre><code class="language-html">&lt;html&gt;
+<pre><code class="language-html">&lt;!-- https://example.com --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
     &lt;head&gt;
         ...
         &lt;link rel="alternate" type="application/feed+json" href="https://example.com/feed.json" /&gt;
@@ -565,7 +567,9 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 </blockquote>
 <p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="install"><a class="header" href="#install">Install</a></h1>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="docker-installation"><a class="header" href="#docker-installation">Docker Installation</a></h1>
+<h2 id="docker-installation"><a class="header" href="#docker-installation"><a href="admins/./install-docker.html">Docker Installation</a></a></h2>
+<h2 id="binary-installation"><a class="header" href="#binary-installation"><a href="admins/./install-binary.html">Binary Installation</a></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="docker-installation-1"><a class="header" href="#docker-installation-1">Docker Installation</a></h1>
 <p>You can find images on GitHub: <a href="https://github.com/importantimport/hatsu/pkgs/container/hatsu">https://github.com/importantimport/hatsu/pkgs/container/hatsu</a></p>
 <p>Hatsu uses three primary tags: <code>latest</code> (stable), <code>beta</code> and <code>nightly</code>, literally.</p>
 <h2 id="docker-run"><a class="header" href="#docker-run">docker run</a></h2>
@@ -588,13 +592,11 @@ const url = new URL(`/api/v1/statuses/${id}/context`, origin)
 <h2 id="docker-compose"><a class="header" href="#docker-compose">docker compose</a></h2>
 <p>The <a href="https://github.com/importantimport/hatsu/tree/main/examples">examples</a> folder contains some sample docker compose configurations,</p>
 <p>You can make your own modifications based on them.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="binary-installation"><a class="header" href="#binary-installation">Binary Installation</a></h1>
-<h2 id="stable"><a class="header" href="#stable">Stable</a></h2>
-<p>Doesn't have a stable version yet.</p>
-<h2 id="nightly"><a class="header" href="#nightly">Nightly</a></h2>
-<p>Hatsu provides nightly Binary builds.</p>
-<p>Please note that it is unstable and may contain breaking changes.</p>
-<p>You can find the latest artifacts on the <a href="https://github.com/importantimport/hatsu/actions/workflows/nightly.yml">Workflow runs page</a> (containing <code>{x86_64,aarch64}-unknown-linux-{gnu,musl}</code>).</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="binary-installation-1"><a class="header" href="#binary-installation-1">Binary Installation</a></h1>
+<h2 id="releases"><a class="header" href="#releases">Releases</a></h2>
+<p>You can download both stable and beta versions of Hatsu from the <a href="https://github.com/importantimport/hatsu/releases">Releases page</a>.</p>
+<h2 id="artifacts"><a class="header" href="#artifacts">Artifacts</a></h2>
+<p>You can find the latest artifacts on the <a href="https://github.com/importantimport/hatsu/actions/workflows/release.yml">Workflow runs page</a>.</p>
 <p>GitHub has a document that tells you how to download artifact: <a href="https://docs.github.com/en/actions/managing-workflow-runs/downloading-workflow-artifacts">https://docs.github.com/en/actions/managing-workflow-runs/downloading-workflow-artifacts</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="environments"><a class="header" href="#environments">Environments</a></h1>
 <p>Hatsu supports dotenv, and you can set environment variables via the <code>.env</code> file.</p>
@@ -752,21 +754,21 @@ which caches dependencies to avoid duplicate build dependencies.</p>
 <p>Currently I've created a chart for all the platforms I expect to be compatible with, and hopefully it will be filled in later:</p>
 <h2 id="send"><a class="header" href="#send">Send</a></h2>
 <div class="table-wrapper"><table><thead><tr><th></th><th><a href="https://www.w3.org/ns/activitystreams#Note">Create</a> (Note)</th><th><a href="https://www.w3.org/ns/activitystreams#Accept">Accept</a> (Follow)</th></tr></thead><tbody>
-<tr><td>Mastodon</td><td>✅</td><td>✅</td></tr>
-<tr><td>GoToSocial</td><td></td><td></td></tr>
-<tr><td>Misskey</td><td></td><td></td></tr>
-<tr><td>Pleroma</td><td></td><td></td></tr>
+<tr><td><a href="https://github.com/mastodon/mastodon">Mastodon</a></td><td>✅</td><td>✅</td></tr>
+<tr><td><a href="https://github.com/superseriousbusiness/gotosocial">GoToSocial</a></td><td></td><td></td></tr>
+<tr><td><a href="https://github.com/misskey-dev/misskey">Misskey</a></td><td></td><td></td></tr>
+<tr><td><a href="https://git.pleroma.social/pleroma/pleroma/">Pleroma</a></td><td>✅</td><td></td></tr>
 </tbody></table>
 </div>
 <h2 id="receive"><a class="header" href="#receive">Receive</a></h2>
 <div class="table-wrapper"><table><thead><tr><th></th><th><a href="https://www.w3.org/ns/activitystreams#Follow">Follow</a></th><th></th></tr></thead><tbody>
-<tr><td>Mastodon</td><td>✅</td><td></td></tr>
-<tr><td>GoToSocial</td><td></td><td></td></tr>
-<tr><td>Misskey</td><td></td><td></td></tr>
-<tr><td>Pleroma</td><td></td><td></td></tr>
+<tr><td><a href="https://github.com/mastodon/mastodon">Mastodon</a></td><td>✅</td><td></td></tr>
+<tr><td><a href="https://github.com/superseriousbusiness/gotosocial">GoToSocial</a></td><td></td><td></td></tr>
+<tr><td><a href="https://github.com/misskey-dev/misskey">Misskey</a></td><td></td><td></td></tr>
+<tr><td><a href="https://git.pleroma.social/pleroma/pleroma/">Pleroma</a></td><td></td><td></td></tr>
 </tbody></table>
-</div><!-- After a period of time: if you wish to support the new platform, you can open a new discussion. -->
-<!-- TODO: Akkoma & Firefish -->
+</div>
+<p><a href="https://akkoma.dev/AkkomaGang/akkoma/">Akkoma</a>, <a href="https://activitypub.software/TransFem-org/Sharkey">Sharkey</a>, etc. forks should be compatible with upstream, so they are not listed separately.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="federation-in-hatsu"><a class="header" href="#federation-in-hatsu">Federation in Hatsu</a></h1>
 <h2 id="supported-federation-protocols-and-standards"><a class="header" href="#supported-federation-protocols-and-standards">Supported federation protocols and standards</a></h2>
 <ul>

@@ -183,7 +183,9 @@
                         <h1 id="feed"><a class="header" href="#feed">Feed</a></h1>
 <p>For Hatsu to work, your site needs to have one of the valid <a href="https://jsonfeed.org/version/1.1/">JSON</a> / <a href="https://en.wikipedia.org/wiki/Atom_(web_standard)">Atom</a> / <a href="https://en.wikipedia.org/wiki/RSS">RSS</a> feeds.</p>
 <p>These feeds should be auto-discoverable on the homepage:</p>
-<pre><code class="language-html">&lt;html&gt;
+<pre><code class="language-html">&lt;!-- https://example.com --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
     &lt;head&gt;
         ...
         &lt;link rel="alternate" type="application/feed+json" href="https://example.com/feed.json" /&gt;
