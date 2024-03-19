@@ -9,8 +9,6 @@ use hatsu_utils::AppData;
 
 #[debug_handler]
 pub async fn handler(data: Data<AppData>, activity_data: ActivityData) -> impl IntoResponse {
-    // let (actuvity, actor) = parse_received_activity
-
     receive_activity::<WithContext<ServiceInboxActivities>, ApubUser, AppData>(activity_data, &data)
         .await
 }
