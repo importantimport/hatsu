@@ -34,6 +34,7 @@ fn test_parse_notes() -> Result<(), AppError> {
 
     // GoToSocial
     test_asset::<Note>("assets/gotosocial/objects/note.json")?;
+    test_asset::<Note>("assets/gotosocial/objects/note_without_tag.json")?;
 
     Ok(())
 }

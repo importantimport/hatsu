@@ -48,10 +48,7 @@ pub struct Service {
     pub followers: Url,
     // 正在关注
     pub following: Url,
-    #[serde(
-        deserialize_with = "deserialize_one_or_many",
-        skip_serializing_if = "Vec::is_empty"
-    )]
+    #[serde(default, deserialize_with = "deserialize_one_or_many")]
     pub tag: Vec<Tag>,
     /// FEP-4adb
     #[serde(skip_serializing_if = "Option::is_none")]

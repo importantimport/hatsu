@@ -47,10 +47,7 @@ pub struct Note {
     /// TODO: customization via item._hatsu.source
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<Value>,
-    #[serde(
-        deserialize_with = "deserialize_one_or_many",
-        skip_serializing_if = "Vec::is_empty"
-    )]
+    #[serde(default, deserialize_with = "deserialize_one_or_many")]
     pub tag: Vec<Tag>,
     /// https://www.w3.org/ns/activitystreams#url
     /// https://codeberg.org/fediverse/fep/src/branch/main/fep/fffd/fep-fffd.md
