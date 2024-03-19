@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
+use serde_json::{Map, Value};
 use utoipa::ToSchema;
 
 mod emoji;
@@ -16,12 +16,5 @@ pub enum Tag {
     Emoji(Emoji),
     Hashtag(Hashtag),
     Mention(Mention),
-    Value(Value),
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize, ToSchema, Eq, PartialEq)]
-#[serde(untagged)]
-pub enum Tags {
-    Tags(Vec<Tag>),
-    Tag(Tag),
+    Object(Map<String, Value>), // Do not use Value(Value),
 }

@@ -1,14 +1,14 @@
 use activitypub_federation::{
     fetch::object_id::ObjectId,
     kinds::object::ImageType,
-    protocol::public_key::PublicKey,
+    protocol::{helpers::deserialize_one_or_many, public_key::PublicKey},
 };
 // use hatsu_db_schema::user::Model as DbUser;
 use serde::{Deserialize, Serialize};
 use url::Url;
 use utoipa::ToSchema;
 
-use crate::{actors::ApubUser, links::Tags};
+use crate::{actors::ApubUser, links::Tag};
 
 /// `ActivityPub` Service (Bot User)
 /// <https://www.w3.org/ns/activitystreams#Service>
@@ -48,9 +48,11 @@ pub struct Service {
     pub followers: Url,
     // 正在关注
     pub following: Url,
-    /// user name emoji
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub tag: Option<Tags>,
+    #[serde(
+        deserialize_with = "deserialize_one_or_many",
+        skip_serializing_if = "Vec::is_empty"
+    )]
+    pub tag: Vec<Tag>,
     /// FEP-4adb
     #[serde(skip_serializing_if = "Option::is_none")]
     pub aliases: Option<Vec<String>>,

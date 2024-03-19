@@ -18,7 +18,7 @@ use utoipa::ToSchema;
 
 use crate::{
     actors::{ApubUser, JsonUserFeedItem},
-    links::{Hashtag, Tag, Tags},
+    links::{Hashtag, Tag},
     objects::ApubPost,
 };
 
@@ -47,8 +47,11 @@ pub struct Note {
     /// TODO: customization via item._hatsu.source
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<Value>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub tag: Option<Tags>,
+    #[serde(
+        deserialize_with = "deserialize_one_or_many",
+        skip_serializing_if = "Vec::is_empty"
+    )]
+    pub tag: Vec<Tag>,
     /// https://www.w3.org/ns/activitystreams#url
     /// https://codeberg.org/fediverse/fep/src/branch/main/fep/fffd/fep-fffd.md
     pub url: Option<Value>,
@@ -124,23 +127,21 @@ impl Note {
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             tag: json.tags.map_or_else(
-                || None,
+                || vec![],
                 |tags| {
-                    Some(Tags::Tags(
-                        tags.into_iter()
-                            .map(|tag| {
-                                Tag::Hashtag(Hashtag::new(
-                                    Url::parse(&format!(
-                                        "https://{}/t{}",
-                                        data.domain(),
-                                        urlencoding::encode(&tag),
-                                    ))
-                                    .unwrap(),
-                                    format!("#{tag}"),
+                    tags.into_iter()
+                        .map(|tag| {
+                            Tag::Hashtag(Hashtag::new(
+                                Url::parse(&format!(
+                                    "https://{}/t{}",
+                                    data.domain(),
+                                    urlencoding::encode(&tag),
                                 ))
-                            })
-                            .collect(),
-                    ))
+                                .unwrap(),
+                                format!("#{tag}"),
+                            ))
+                        })
+                        .collect()
                 },
             ),
             url: Some(serde_json::to_value(NoteUrl::new(json_id))?),
