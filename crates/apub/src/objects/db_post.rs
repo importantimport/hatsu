@@ -79,7 +79,7 @@ impl Object for ApubPost {
             Ok(())
         } else {
             Err(AppError::new(
-                String::from("Post is not Public"),
+                format!("Post is not Public: {}", json.id),
                 None,
                 Some(StatusCode::BAD_REQUEST),
             ))
