@@ -31,6 +31,8 @@ use utoipa::{
             hatsu_apub::actors::ServiceAttachment,
             hatsu_apub::actors::PublicKeySchema,
             hatsu_apub::links::Tag,
+            hatsu_apub::links::Emoji,
+            hatsu_apub::links::EmojiIcon,
             hatsu_apub::links::Hashtag,
             hatsu_apub::links::Mention,
             hatsu_apub::objects::Note,
