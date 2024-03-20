@@ -12,7 +12,8 @@ use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
     tag = "hatsu::admin",
     path = "/api/v0/admin/remove-account",
     responses(
-        (status = OK, description = "remove succesfully", body = CreateRemoveAccountResult),
+        // (status = OK, description = "remove succesfully", body = CreateRemoveAccountResult),
+        (status = METHOD_NOT_ALLOWED, description = "not implemented", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)
     ),
     security(("api_key" = ["token"]))
@@ -41,7 +42,7 @@ pub async fn remove_account(
             } else {
                 // TODO: remove account
                 Ok((
-                    StatusCode::OK,
+                    StatusCode::METHOD_NOT_ALLOWED,
                     Json(CreateRemoveAccountResult {
                         name: payload.name.clone(),
                         // message: format!("Successfully removed account: {}", payload.name),
