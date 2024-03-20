@@ -5,9 +5,11 @@ use std::ops::Deref;
 
 use activitypub_federation::{
     config::Data,
+    kinds::public,
     protocol::verification::verify_domains_match,
     traits::Object,
 };
+use axum::http::StatusCode;
 use chrono::{DateTime, Utc};
 use hatsu_db_schema::{post::Model as DbPost, prelude::Post};
 use hatsu_utils::{AppData, AppError};
@@ -68,7 +70,20 @@ impl Object for ApubPost {
         _data: &Data<Self::DataType>,
     ) -> Result<(), Self::Error> {
         verify_domains_match(json.id.inner(), expected_domain)?;
-        Ok(())
+
+        // https://github.com/LemmyNet/lemmy/blob/2fd81067c7130a23cabfff8bfa76b349b87e8426/crates/apub/src/activities/mod.rs#L127-L133
+        if [json.to.as_slice(), json.cc.as_slice()]
+            .concat()
+            .contains(&public())
+        {
+            Ok(())
+        } else {
+            Err(AppError::new(
+                String::from("Post is not Public"),
+                None,
+                Some(StatusCode::BAD_REQUEST),
+            ))
+        }
     }
 
     // 转换为本地格式
