@@ -1,6 +1,26 @@
 {
   "lockfile_version": "1",
   "packages": {
+    "cargo-watch@latest": {
+      "last_modified": "2024-03-19T05:49:19Z",
+      "resolved": "github:NixOS/nixpkgs/5710127d9693421e78cca4f74fac2db6d67162b1#cargo-watch",
+      "source": "devbox-search",
+      "version": "8.5.2",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/hh976x0j908iyjjni3v5k14iw0a765lh-cargo-watch-8.5.2"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/sv3c3mp9ryq76vvgmk1dx81amz5366jq-cargo-watch-8.5.2"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/cr7b2ph334w8w835sjch31x14xnyz0si-cargo-watch-8.5.2"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/hqwbki4vfrwcm3rb0pwxyv7dyrj99m78-cargo-watch-8.5.2"
+        }
+      }
+    },
     "cargo-zigbuild@latest": {
       "last_modified": "2024-02-24T23:06:34Z",
       "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#cargo-zigbuild",
@@ -95,6 +115,27 @@
         },
         "x86_64-linux": {
           "store_path": "/nix/store/492n7ylp2f9zn0k3vghv1snypgkzznc5-pkg-config-wrapper-0.29.2"
+        }
+      }
+    },
+    "postgresql@latest": {
+      "last_modified": "2024-03-18T04:03:26Z",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/79bb4155141a5e68f2bdee2bf6af35b1d27d3a1d#postgresql",
+      "source": "devbox-search",
+      "version": "15.6",
+      "systems": {
+        "aarch64-darwin": {
+          "store_path": "/nix/store/3np46k5s4y1i8vncjwi9rffx5f769bzh-postgresql-15.6"
+        },
+        "aarch64-linux": {
+          "store_path": "/nix/store/3sjfbgsni8z05s1f42lsf31j8sgk2kdq-postgresql-15.6"
+        },
+        "x86_64-darwin": {
+          "store_path": "/nix/store/nkg7g91zmmhv52h3dif32p33500fndg0-postgresql-15.6"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/6mr1dkqqgkm6lhnkvir9i1jim2dnrl8j-postgresql-15.6"
         }
       }
     },

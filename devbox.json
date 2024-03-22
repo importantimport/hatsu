@@ -3,18 +3,26 @@
     "rustup@latest",
     "cmake@latest",
     "just@latest",
+    "cargo-watch@latest",
     "cargo-zigbuild@latest",
     "openssl@latest",
     "pkg-config@latest",
-    "sea-orm-cli@latest"
+    "sea-orm-cli@latest",
+    "postgresql@latest"
   ],
+  "env": {
+    "HATSU_DATABASE_URL": "postgres://hatsu:hatsu@localhost/hatsu"
+  },
   "shell": {
-    "init_hook": [
-      "echo 'Welcome to devbox!' > /dev/null"
-    ],
     "scripts": {
-      "test": [
-        "echo \"Error: no test specified\" && exit 1"
+      "init_db":  "initdb",
+      "start_db": "devbox services start postgresql",
+      "stop_db":  "devbox services stop postgresql",
+      "create_db": [
+        "dropdb --if-exists hatsu",
+        "createdb hatsu",
+        "psql hatsu -c \"CREATE USER hatsu WITH PASSWORD 'hatsu';\"",
+        "psql hatsu -c \"GRANT ALL ON SCHEMA public TO hatsu;\""
       ]
     }
   }
