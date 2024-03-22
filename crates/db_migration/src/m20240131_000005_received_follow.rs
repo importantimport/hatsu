@@ -18,7 +18,7 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(ReceivedFollow::Actor).string().not_null())
-                    .col(ColumnDef::new(ReceivedFollow::To).json())
+                    .col(ColumnDef::new(ReceivedFollow::To).text())
                     .col(ColumnDef::new(ReceivedFollow::Object).string().not_null())
                     .to_owned(),
             )
