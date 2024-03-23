@@ -7,6 +7,7 @@ mod note;
 pub use note::CreateOrUpdateNote;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(untagged)]
 pub enum CreateOrUpdateType {
     CreateType(CreateType),
     UpdateType(UpdateType),

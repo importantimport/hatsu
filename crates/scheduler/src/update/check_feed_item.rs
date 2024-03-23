@@ -1,6 +1,6 @@
 use activitypub_federation::config::Data;
 use hatsu_apub::{
-    activities::CreateNote,
+    activities::CreateOrUpdateNote,
     // activities::CreateOrUpdateNote,
     actors::{ApubUser, ApubUserFeedItem},
     objects::Note,
@@ -68,7 +68,7 @@ async fn create_feed_item(
     .await?;
 
     // 发送 Note
-    user.send_activity(CreateNote::new(note, data).await?, None, data)
+    user.send_activity(CreateOrUpdateNote::create(note, data).await?, None, data)
         .await?;
 
     Ok(())

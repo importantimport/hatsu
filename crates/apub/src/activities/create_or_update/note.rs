@@ -1,11 +1,10 @@
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
-    kinds::activity::{CreateType, UpdateType},
+    kinds::activity::CreateType,
     protocol::{context::WithContext, helpers::deserialize_one_or_many},
     traits::{ActivityHandler, Object},
 };
-use chrono::Utc;
 use hatsu_db_schema::activity::Model as DbActivity;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ActiveModelTrait, IntoActiveModel};
@@ -21,64 +20,42 @@ use crate::{
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateOrUpdateNote {
-    pub actor: ObjectId<ApubUser>,
-    #[serde(deserialize_with = "deserialize_one_or_many")]
-    pub to: Vec<Url>,
-    pub object: Note,
-    #[serde(deserialize_with = "deserialize_one_or_many")]
-    pub cc: Vec<Url>,
+    pub id: Url,
     #[serde(rename = "type")]
     pub kind: CreateOrUpdateType,
-    pub id: Url,
+    pub actor: ObjectId<ApubUser>,
     pub published: String,
+    #[serde(deserialize_with = "deserialize_one_or_many")]
+    pub to: Vec<Url>,
+    #[serde(deserialize_with = "deserialize_one_or_many")]
+    pub cc: Vec<Url>,
+    pub object: Note,
 }
 
 impl CreateOrUpdateNote {
-    pub async fn new(
-        note: Note,
-        kind: CreateOrUpdateType,
-        data: &Data<AppData>,
-    ) -> Result<WithContext<Self>, AppError> {
+    pub async fn create(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
         let activity = Self {
             id: hatsu_utils::url::generate_activity_url(data.domain(), None)?,
+            kind: CreateOrUpdateType::CreateType(CreateType::Create),
+            published: hatsu_utils::date::now(),
             actor: note.attributed_to.clone(),
             to: note.to.clone(),
             cc: note.cc.clone(),
             object: note.clone(),
-            kind,
-            published: hatsu_utils::date::now(),
         };
 
         let _insert_activity = DbActivity {
             id: activity.id().to_string(),
-            activity: serde_json::to_string(&activity)?,
-            actor: activity.actor().to_string(),
             kind: activity.kind.to_string(),
             published: Some(activity.published.clone()),
+            actor: activity.actor().to_string(),
+            activity: serde_json::to_string(&activity)?,
         }
         .into_active_model()
         .insert(&data.conn)
         .await?;
 
         Ok(WithContext::new_default(activity))
-    }
-
-    pub async fn create(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
-        Self::new(
-            note,
-            CreateOrUpdateType::CreateType(CreateType::Create),
-            data,
-        )
-        .await
-    }
-
-    pub async fn update(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
-        Self::new(
-            note,
-            CreateOrUpdateType::UpdateType(UpdateType::Update),
-            data,
-        )
-        .await
     }
 }
 
@@ -102,8 +79,11 @@ impl ActivityHandler for CreateOrUpdateNote {
     }
 
     async fn receive(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        // TODO
-        ApubPost::from_json(self.object, data).await?;
+        match self.kind {
+            CreateOrUpdateType::CreateType(_) => ApubPost::from_json(self.object, data).await?,
+            _ => todo!(), // TODO
+        };
+
         Ok(())
     }
 }
