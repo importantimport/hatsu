@@ -61,19 +61,31 @@ pub struct Note {
 }
 
 impl Note {
+    // https://example.com/foo/bar => https://example.com/foo/bar
+    // /foo/bar => https://example.com/foo/bar
+    // foo/bar => https://example.com/foo/bar
+    pub fn parse_id(actor: &ApubUser, json: &JsonUserFeedItem) -> Result<Url, AppError> {
+        if let Some(url) = &json.url {
+            Ok(url.clone())
+        } else {
+            Ok(hatsu_utils::url::absolutize_relative_url(
+                &json.id,
+                &actor.preferred_username,
+            )?)
+        }
+    }
+
     pub fn new(
         actor: &ApubUser,
         json: JsonUserFeedItem,
+        published: Option<String>,
+        updated: Option<String>,
         data: &Data<AppData>,
     ) -> Result<Self, AppError> {
         // TODO: match json._hatsu.source (string)
-        let mut sources: Vec<Option<String>> = vec![json.title, json.summary];
+        let mut sources: Vec<Option<String>> = vec![json.title.clone(), json.summary.clone()];
 
-        // TODO: parse_item_id (check url)
-        // https://example.com/foo/bar => https://example.com/foo/bar
-        // /foo/bar => https://example.com/foo/bar
-        // foo/bar => https://example.com/foo/bar
-        let json_id = json.url.unwrap_or_else(|| Url::parse(&json.id).unwrap());
+        let json_id = Self::parse_id(actor, &json)?;
         sources.push(Some(json_id.to_string()));
 
         let mut source = sources
@@ -116,8 +128,8 @@ impl Note {
             id,
             kind: NoteType::Note,
             in_reply_to: None,
-            published: hatsu_utils::date::now(),
-            updated: None,
+            published: published.unwrap_or_else(|| hatsu_utils::date::now()),
+            updated,
             attributed_to: actor.id().into(),
             to: vec![Url::parse(&format!("{}/followers", actor.id()))?],
             cc: vec![public()],
@@ -164,6 +176,29 @@ impl Note {
             },
             None => Ok(None),
         }
+    }
+
+    pub fn create(
+        actor: &ApubUser,
+        json: JsonUserFeedItem,
+        data: &Data<AppData>,
+    ) -> Result<Self, AppError> {
+        Self::new(actor, json, Some(hatsu_utils::date::now()), None, data)
+    }
+
+    pub fn update(
+        actor: &ApubUser,
+        json: JsonUserFeedItem,
+        published: String,
+        data: &Data<AppData>,
+    ) -> Result<Self, AppError> {
+        Self::new(
+            actor,
+            json,
+            Some(published),
+            Some(hatsu_utils::date::now()),
+            data,
+        )
     }
 }
 
