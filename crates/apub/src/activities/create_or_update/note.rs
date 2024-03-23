@@ -1,7 +1,7 @@
 use activitypub_federation::{
     config::Data,
     fetch::object_id::ObjectId,
-    kinds::activity::CreateType,
+    kinds::activity::{CreateType, UpdateType},
     protocol::{context::WithContext, helpers::deserialize_one_or_many},
     traits::{ActivityHandler, Object},
 };
@@ -33,11 +33,15 @@ pub struct CreateOrUpdateNote {
 }
 
 impl CreateOrUpdateNote {
-    pub async fn create(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
+    pub async fn new(
+        note: Note,
+        kind: CreateOrUpdateType,
+        data: &Data<AppData>,
+    ) -> Result<WithContext<Self>, AppError> {
         let activity = Self {
+            kind,
             id: hatsu_utils::url::generate_activity_url(data.domain(), None)?,
-            kind: CreateOrUpdateType::CreateType(CreateType::Create),
-            published: hatsu_utils::date::now(),
+            published: note.published.clone(),
             actor: note.attributed_to.clone(),
             to: note.to.clone(),
             cc: note.cc.clone(),
@@ -56,6 +60,24 @@ impl CreateOrUpdateNote {
         .await?;
 
         Ok(WithContext::new_default(activity))
+    }
+
+    pub async fn create(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
+        Self::new(
+            note,
+            CreateOrUpdateType::CreateType(CreateType::Create),
+            data,
+        )
+        .await
+    }
+
+    pub async fn update(note: Note, data: &Data<AppData>) -> Result<WithContext<Self>, AppError> {
+        Self::new(
+            note,
+            CreateOrUpdateType::UpdateType(UpdateType::Update),
+            data,
+        )
+        .await
     }
 }
 
