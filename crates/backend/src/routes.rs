@@ -1,5 +1,7 @@
 use axum::{http::Response, response::IntoResponse, routing::get, Router};
 
+use crate::favicon;
+
 // ./hatsu --version
 async fn root() -> impl IntoResponse {
     let version = env!("CARGO_PKG_VERSION");
@@ -17,4 +19,6 @@ pub fn routes() -> Router {
         .merge(hatsu_openapi::routes())
         .merge(hatsu_well_known::routes())
         .route("/", get(root))
+        .route("/favicon.ico", get(favicon::ico))
+        .route("/favicon.svg", get(favicon::svg))
 }

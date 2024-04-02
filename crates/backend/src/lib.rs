@@ -3,8 +3,9 @@ use std::net::ToSocketAddrs;
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use hatsu_utils::{AppData, AppError};
 use tokio_graceful_shutdown::SubsystemHandle;
-use tower_http::{cors::CorsLayer, services::ServeDir, trace::TraceLayer};
+use tower_http::{cors::CorsLayer, trace::TraceLayer};
 
+mod favicon;
 mod routes;
 
 pub struct Server {
@@ -26,8 +27,7 @@ impl Server {
         let app = routes::routes()
             .layer(FederationMiddleware::new(self.federation_config))
             .layer(CorsLayer::permissive())
-            .layer(TraceLayer::new_for_http())
-            .fallback_service(ServeDir::new("assets"));
+            .layer(TraceLayer::new_for_http());
 
         // axum 0.6
         // run our app with hyper
