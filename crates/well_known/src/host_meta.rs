@@ -3,7 +3,7 @@
 use activitypub_federation::config::Data;
 use axum::{
     body::Body,
-    http::{header::ACCEPT, HeaderMap, HeaderValue, Response, StatusCode},
+    http::{header::ACCEPT, HeaderMap, HeaderName, HeaderValue, Response, StatusCode},
     response::{IntoResponse, Redirect},
     Json,
 };
@@ -49,7 +49,7 @@ pub async fn host_meta_xml(data: Data<AppData>) -> impl IntoResponse {
     );
     let mut headers = HeaderMap::new();
     headers.insert(
-        "Content-Type",
+        HeaderName::from_static("Content-Type"),
         HeaderValue::from_static("application/xml+xrd"),
     );
     (headers, Response::new(Body::from(host_meta)))
