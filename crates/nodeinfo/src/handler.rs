@@ -10,7 +10,7 @@ use crate::schema::*;
 #[utoipa::path(
     get,
     tag = "nodeinfo",
-    path = "/nodeinfo/2.0",
+    path = "/nodeinfo/2.0.json",
     responses(
         (status = OK, description = "", body = NodeInfo),
     ),
@@ -26,7 +26,7 @@ pub async fn v2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
 #[utoipa::path(
     get,
     tag = "nodeinfo",
-    path = "/nodeinfo/2.1",
+    path = "/nodeinfo/2.1.json",
     responses(
         (status = OK, description = "", body = NodeInfo),
     ),
