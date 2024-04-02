@@ -18,6 +18,8 @@ use utoipa::{
         hatsu_api_mastodon::routes::statuses::status_context::status_context,
         hatsu_api_mastodon::routes::statuses::status_favourited_by::status_favourited_by,
         hatsu_api_mastodon::routes::statuses::status_reblogged_by::status_reblogged_by,
+        hatsu_nodeinfo::handler::v2_1,
+        hatsu_nodeinfo::handler::v2_0,
     ),
     components(
         schemas(
@@ -41,6 +43,12 @@ use utoipa::{
             hatsu_apub::links::Hashtag,
             hatsu_apub::links::Mention,
             hatsu_apub::objects::Note,
+            hatsu_nodeinfo::schema::NodeInfo,
+            hatsu_nodeinfo::schema::NodeInfoSoftware,
+            hatsu_nodeinfo::schema::NodeInfoServices,
+            hatsu_nodeinfo::schema::NodeInfoUsage,
+            hatsu_nodeinfo::schema::NodeInfoUsers,
+            hatsu_nodeinfo::schema::NodeInfoMetadata,
         )
     ),
     modifiers(&SecurityAddon),
@@ -48,6 +56,7 @@ use utoipa::{
         (name = "hatsu", description = "Hatsu API (/api/v0/)"),
         (name = "hatsu::admin", description = "Hatsu Admin API (/api/v0/admin/)"),
         (name = "apub", description = "ActivityPub API"),
+        (name = "nodeinfo", description = "NodeInfo (/nodeinfo/)"),
         (name = "mastodon", description = "Mastodon Compatible API (/api/v{1,2}/)"),
     )
 )]

@@ -1,8 +1,4 @@
-// https://nodeinfo.diaspora.software/protocol.html
-// https://github.com/LemmyNet/lemmy/blob/main/crates/routes/src/nodeinfo.rs
-
 use activitypub_federation::config::Data;
-use axum::{debug_handler, Json};
 use hatsu_db_schema::{
     post,
     prelude::{Post, User},
@@ -11,47 +7,13 @@ use hatsu_db_schema::{
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter};
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 
-/// <https://github.com/jhass/nodeinfo/blob/main/schemas/2.0/schema.json>
-#[debug_handler]
-pub async fn v2_0(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
-    Ok(Json(NodeInfo {
-        version: String::from("2.0"),
-        software: NodeInfoSoftware {
-            name: String::from("hatsu"),
-            version: String::from(env!("CARGO_PKG_VERSION")),
-            repository: None,
-            homepage: None,
-        },
-        protocols: vec![String::from("activitypub")],
-        services: NodeInfoServices::new(),
-        open_registrations: false,
-        usage: NodeInfoUsage::new(&data).await?,
-        metadata: NodeInfoMetadata::new(&data),
-    }))
-}
-
-/// <https://github.com/jhass/nodeinfo/blob/main/schemas/2.1/schema.json>
-#[debug_handler]
-pub async fn v2_1(data: Data<AppData>) -> Result<Json<NodeInfo>, AppError> {
-    Ok(Json(NodeInfo {
-        version: String::from("2.1"),
-        software: NodeInfoSoftware {
-            name: String::from("hatsu"),
-            version: String::from(env!("CARGO_PKG_VERSION")),
-            repository: Some(String::from("https://github.com/importantimport/hatsu")),
-            homepage: Some(String::from("https://hatsu.cli.rs")),
-        },
-        protocols: vec![String::from("activitypub")],
-        services: NodeInfoServices::new(),
-        open_registrations: false,
-        usage: NodeInfoUsage::new(&data).await?,
-        metadata: NodeInfoMetadata::new(&data),
-    }))
-}
-
-#[derive(Serialize, Deserialize, Debug, Default)]
-#[serde(rename_all = "camelCase", default)]
+/// NodeInfo schema.
+///
+/// <https://nodeinfo.diaspora.software/schema.html>
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct NodeInfo {
     pub version: String,
     pub software: NodeInfoSoftware,
@@ -62,8 +24,39 @@ pub struct NodeInfo {
     pub metadata: NodeInfoMetadata,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
-#[serde(default)]
+impl NodeInfo {
+    pub async fn v2_0(data: &Data<AppData>) -> Result<Self, AppError> {
+        Ok(Self {
+            version: String::from("2.0"),
+            software: NodeInfoSoftware {
+                name: String::from("hatsu"),
+                version: String::from(env!("CARGO_PKG_VERSION")),
+                repository: None,
+                homepage: None,
+            },
+            protocols: vec![String::from("activitypub")],
+            services: NodeInfoServices::new(),
+            open_registrations: false,
+            usage: NodeInfoUsage::new(&data).await?,
+            metadata: NodeInfoMetadata::new(&data),
+        })
+    }
+
+    pub async fn v2_1(data: &Data<AppData>) -> Result<Self, AppError> {
+        Ok(Self {
+            version: String::from("2.1"),
+            software: NodeInfoSoftware {
+                name: String::from("hatsu"),
+                version: String::from(env!("CARGO_PKG_VERSION")),
+                repository: Some(String::from(env!("CARGO_PKG_REPOSITORY"))),
+                homepage: Some(String::from(env!("CARGO_PKG_HOMEPAGE"))),
+            },
+            ..Self::v2_0(data).await?
+        })
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 pub struct NodeInfoSoftware {
     pub name: String,
     pub version: String,
@@ -75,8 +68,7 @@ pub struct NodeInfoSoftware {
     pub homepage: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
-#[serde(default)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 pub struct NodeInfoServices {
     pub inbound: Vec<String>,
     pub outbound: Vec<String>,
@@ -91,8 +83,8 @@ impl NodeInfoServices {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
-#[serde(rename_all = "camelCase", default)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct NodeInfoUsage {
     pub users: Option<NodeInfoUsers>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -116,8 +108,8 @@ impl NodeInfoUsage {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
-#[serde(rename_all = "camelCase", default)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct NodeInfoUsers {
     pub total: u64,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -139,8 +131,8 @@ impl NodeInfoUsers {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
-#[serde(rename_all = "camelCase", default)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct NodeInfoMetadata {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub node_name: Option<String>,
