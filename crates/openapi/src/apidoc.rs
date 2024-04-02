@@ -13,6 +13,8 @@ use utoipa::{
         hatsu_api_apub::activities::activity::activity,
         hatsu_api_apub::posts::post::post,
         hatsu_api_apub::users::user::user,
+        hatsu_api_mastodon::routes::instance::instance::v2,
+        hatsu_api_mastodon::routes::instance::instance::v1,
         hatsu_api_mastodon::routes::statuses::status_context::status_context,
         hatsu_api_mastodon::routes::statuses::status_favourited_by::status_favourited_by,
         hatsu_api_mastodon::routes::statuses::status_reblogged_by::status_reblogged_by,
@@ -25,6 +27,9 @@ use utoipa::{
             hatsu_api_mastodon::entities::Account,
             hatsu_api_mastodon::entities::Context,
             hatsu_api_mastodon::entities::CustomEmoji,
+            hatsu_api_mastodon::entities::Instance,
+            hatsu_api_mastodon::entities::InstanceContact,
+            hatsu_api_mastodon::entities::InstanceV1,
             hatsu_api_mastodon::entities::Status,
             hatsu_apub::actors::Service,
             hatsu_apub::actors::ServiceImage,
@@ -43,7 +48,7 @@ use utoipa::{
         (name = "hatsu", description = "Hatsu API (/api/v0/)"),
         (name = "hatsu::admin", description = "Hatsu Admin API (/api/v0/admin/)"),
         (name = "apub", description = "ActivityPub API"),
-        (name = "mastodon", description = "Mastodon Compatible API (/api/v1/)"),
+        (name = "mastodon", description = "Mastodon Compatible API (/api/v{1,2}/)"),
     )
 )]
 pub struct ApiDoc;
