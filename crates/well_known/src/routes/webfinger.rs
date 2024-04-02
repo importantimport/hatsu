@@ -14,6 +14,16 @@ pub struct WebfingerQuery {
     resource: String,
 }
 
+/// WebFinger.
+#[utoipa::path(
+    get,
+    tag = "well_known",
+    path = "/.well-known/webfinger",
+    responses(
+        (status = OK, description = "", body = WebfingerSchema),
+        (status = NOT_FOUND, description = "", body = AppError),
+    ),
+)]
 #[debug_handler]
 pub async fn webfinger(
     Query(query): Query<WebfingerQuery>,

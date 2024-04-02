@@ -24,3 +24,4 @@ sea-orm = { workspace = true }
 serde = { workspace = true }
 tracing = { workspace = true }
 url = { workspace = true }
+utoipa = { workspace = true }
