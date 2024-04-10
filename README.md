@@ -6,6 +6,8 @@
 
 Self-hosted & Fully-automated ActivityPub Bridge for Static Sites. [WIP]
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/importantimport/hatsu?quickstart=1)
+
 ## About
 
 Hatsu is a self-hosted bridge that interacts with Fediverse on behalf of your static site.
