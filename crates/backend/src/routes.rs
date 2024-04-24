@@ -1,9 +1,9 @@
-use axum::{http::Response, response::IntoResponse, routing::get, Router};
+use axum::{http::Response, routing::get, Router};
 
 use crate::favicon;
 
 // ./hatsu --version
-async fn root() -> impl IntoResponse {
+async fn root() -> Response<String> {
     let version = env!("CARGO_PKG_VERSION");
     let codename = "01_ballade";
 

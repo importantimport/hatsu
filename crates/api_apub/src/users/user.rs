@@ -8,7 +8,7 @@ use activitypub_federation::{
 use axum::{
     debug_handler,
     extract::Path,
-    response::{IntoResponse, Redirect},
+    response::Redirect,
 };
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::actors::{ApubUser, Service};
@@ -95,6 +95,6 @@ pub async fn user(
 pub async fn redirect(
     // UsersRedirect { name }: UsersRedirect,
     Path(name): Path<String>,
-) -> impl IntoResponse {
-    Redirect::permanent(&format!("/users/{name}")).into_response()
+) -> Redirect {
+    Redirect::permanent(&format!("/users/{name}"))
 }

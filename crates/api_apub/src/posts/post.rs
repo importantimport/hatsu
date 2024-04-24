@@ -7,7 +7,7 @@ use activitypub_federation::{
 use axum::{
     debug_handler,
     extract::Path,
-    response::{IntoResponse, Redirect},
+    response::Redirect,
 };
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::objects::{ApubPost, Note};
@@ -69,6 +69,6 @@ pub async fn post(
 pub async fn redirect(
     // ObjectsRedirect { object }: ObjectsRedirect
     Path(post_id): Path<String>,
-) -> impl IntoResponse {
-    Redirect::permanent(&format!("/posts/{post_id}")).into_response()
+) -> Redirect {
+    Redirect::permanent(&format!("/posts/{post_id}"))
 }

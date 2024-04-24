@@ -6,7 +6,7 @@ use activitypub_federation::{
 use axum::{
     debug_handler,
     extract::{Path, Query},
-    response::{IntoResponse, Redirect},
+    response::Redirect,
 };
 // use axum_extra::{
 //     extract::Query,
@@ -70,6 +70,6 @@ pub async fn handler(
 pub async fn redirect(
     // UsersFollowingRedirect { name }: UsersFollowingRedirect,
     Path(name): Path<String>,
-) -> impl IntoResponse {
-    Redirect::permanent(&format!("/users/{name}/followers")).into_response()
+) -> Redirect {
+    Redirect::permanent(&format!("/users/{name}/followers"))
 }

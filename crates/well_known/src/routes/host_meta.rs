@@ -4,7 +4,7 @@ use activitypub_federation::config::Data;
 use axum::{
     debug_handler,
     http::header::{self, HeaderMap, HeaderValue},
-    response::{IntoResponse, Redirect},
+    response::Redirect,
     Json,
 };
 use hatsu_utils::AppData;
@@ -23,7 +23,7 @@ pub async fn redirect(
     // TODO: use axum_extra::TypedHeader
     // https://github.com/hyperium/headers/issues/53
     headers: HeaderMap,
-) -> impl IntoResponse {
+) -> Redirect {
     headers.get(header::ACCEPT).map_or_else(
         || Redirect::temporary("/.well-known/host-meta.xml"),
         |accept| match accept.to_str() {

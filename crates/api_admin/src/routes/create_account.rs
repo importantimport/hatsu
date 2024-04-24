@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use activitypub_federation::config::Data;
-use axum::{debug_handler, http::StatusCode, response::IntoResponse, Json};
+use axum::{debug_handler, http::StatusCode, Json};
 use hatsu_apub::actors::ApubUser;
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
@@ -24,7 +24,7 @@ use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 pub async fn create_account(
     data: Data<AppData>,
     Json(payload): Json<CreateRemoveAccount>,
-) -> Result<impl IntoResponse, AppError> {
+) -> Result<(StatusCode, Json<CreateRemoveAccountResult>), AppError> {
     if let Some(account) = User::find_by_id(
         hatsu_utils::url::generate_user_url(data.domain(), &payload.name)?.to_string(),
     )
