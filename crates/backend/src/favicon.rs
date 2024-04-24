@@ -1,13 +1,13 @@
 use axum::{
     debug_handler,
-    http::{HeaderMap, HeaderName, HeaderValue},
+    http::header::{self, HeaderMap, HeaderValue},
 };
 
 #[debug_handler]
 pub async fn ico() -> (HeaderMap, Vec<u8>) {
     let mut headers = HeaderMap::new();
     headers.insert(
-        HeaderName::from_static("Content-Type"),
+        header::CONTENT_TYPE,
         HeaderValue::from_static("image/x-icon"),
     );
 

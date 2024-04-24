@@ -3,7 +3,7 @@
 use activitypub_federation::config::Data;
 use axum::{
     debug_handler,
-    http::{header::ACCEPT, HeaderMap, HeaderName, HeaderValue},
+    http::header::{self, HeaderMap, HeaderValue},
     response::{IntoResponse, Redirect},
     Json,
 };
@@ -24,7 +24,7 @@ pub async fn redirect(
     // https://github.com/hyperium/headers/issues/53
     headers: HeaderMap,
 ) -> impl IntoResponse {
-    headers.get(ACCEPT).map_or_else(
+    headers.get(header::ACCEPT).map_or_else(
         || Redirect::temporary("/.well-known/host-meta.xml"),
         |accept| match accept.to_str() {
             Ok(accept) if accept.contains("json") =>
@@ -47,7 +47,7 @@ pub async fn redirect(
 pub async fn xml(data: Data<AppData>) -> (HeaderMap, String) {
     let mut headers = HeaderMap::new();
     headers.insert(
-        HeaderName::from_static("Content-Type"),
+        header::CONTENT_TYPE,
         HeaderValue::from_static("application/xml+xrd"),
     );
     (
