@@ -18,6 +18,15 @@ pub async fn ico() -> (HeaderMap, Vec<u8>) {
 }
 
 #[debug_handler]
-pub async fn svg() -> Vec<u8> {
-    include_bytes!("../../../assets/favicon.svg").to_vec()
+pub async fn svg() -> (HeaderMap, Vec<u8>) {
+    let mut headers = HeaderMap::new();
+    headers.insert(
+        header::CONTENT_TYPE,
+        HeaderValue::from_static("image/svg+xml")
+    );
+
+    (
+        headers,
+        include_bytes!("../../../assets/favicon.svg").to_vec(),
+    )
 }
