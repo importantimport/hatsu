@@ -1,8 +1,4 @@
-use axum::{
-    debug_handler,
-    extract::Path,
-    response::Redirect,
-};
+use axum::{debug_handler, extract::Path, response::Redirect};
 use hatsu_utils::AppError;
 
 #[debug_handler]

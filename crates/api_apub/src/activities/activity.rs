@@ -3,11 +3,7 @@ use activitypub_federation::{
     config::Data,
     protocol::context::WithContext,
 };
-use axum::{
-    debug_handler,
-    extract::Path,
-    response::Redirect,
-};
+use axum::{debug_handler, extract::Path, response::Redirect};
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::activities::ApubActivity;
 use hatsu_db_schema::prelude::Activity;

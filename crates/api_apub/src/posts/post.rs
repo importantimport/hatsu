@@ -4,11 +4,7 @@ use activitypub_federation::{
     protocol::context::WithContext,
     traits::Object,
 };
-use axum::{
-    debug_handler,
-    extract::Path,
-    response::Redirect,
-};
+use axum::{debug_handler, extract::Path, response::Redirect};
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::prelude::Post;

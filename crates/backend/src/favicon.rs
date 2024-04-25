@@ -22,7 +22,7 @@ pub async fn svg() -> (HeaderMap, Vec<u8>) {
     let mut headers = HeaderMap::new();
     headers.insert(
         header::CONTENT_TYPE,
-        HeaderValue::from_static("image/svg+xml")
+        HeaderValue::from_static("image/svg+xml"),
     );
 
     (

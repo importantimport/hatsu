@@ -5,11 +5,7 @@ use activitypub_federation::{
     protocol::context::WithContext,
     traits::Object,
 };
-use axum::{
-    debug_handler,
-    extract::Path,
-    response::Redirect,
-};
+use axum::{debug_handler, extract::Path, response::Redirect};
 // use axum_extra::routing::TypedPath;
 use hatsu_apub::actors::{ApubUser, Service};
 use hatsu_db_schema::prelude::User;
