@@ -16,12 +16,13 @@ pub struct Feed {
 }
 
 impl Feed {
-    /// 从网站获取 Feed 链接
+    /// # Panics
+    ///
+    /// No panic here.
     pub async fn get_site_feed(domain: String) -> Result<Self, AppError> {
         fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Option<Url> {
             head.select(
-                &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]"))
-                    .expect("missing selector"),
+                &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap(),
             )
             .next()
             .and_then(|link| {
