@@ -135,24 +135,21 @@ impl Note {
             cc: vec![public()],
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
-            tag: json.tags.map_or_else(
-                Vec::new,
-                |tags| {
-                    tags.into_iter()
-                        .map(|tag| {
-                            Tag::Hashtag(Hashtag::new(
-                                Url::parse(&format!(
-                                    "https://{}/t/{}",
-                                    data.domain(),
-                                    urlencoding::encode(&tag),
-                                ))
-                                .unwrap(),
-                                format!("#{tag}"),
+            tag: json.tags.map_or_else(Vec::new, |tags| {
+                tags.into_iter()
+                    .map(|tag| {
+                        Tag::Hashtag(Hashtag::new(
+                            Url::parse(&format!(
+                                "https://{}/t/{}",
+                                data.domain(),
+                                urlencoding::encode(&tag),
                             ))
-                        })
-                        .collect()
-                },
-            ),
+                            .unwrap(),
+                            format!("#{tag}"),
+                        ))
+                    })
+                    .collect()
+            }),
             url: Some(serde_json::to_value(NoteUrl::new(json_id))?),
         })
     }
