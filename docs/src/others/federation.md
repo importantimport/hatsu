@@ -23,7 +23,7 @@ The following activities and object types are supported:
 ### Send
 
 - `Accept(Follow)`
-- `Create(Note)`
+- `Create(Note)`, `Update(Note)`
 
 <!-- - `Create(Note)`, `Update(Note)`, `Delete(Note)` -->
 
@@ -31,9 +31,9 @@ The following activities and object types are supported:
 
 - `Follow(Actor)`, `Undo(Follow)`
 - `Create(Note)`
+- `Like(Note)`, `Undo(Like)`
 
 <!-- - `Create(Note)`, `Update(Note)`, `Delete(Note)` -->
-<!-- - `Like(Note)`, `Undo(Like)` -->
 <!-- - `Announce(Note)`, `Undo(Announce)` -->
 
 Activities are implemented in way that is compatible with Mastodon and other
