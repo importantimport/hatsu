@@ -142,7 +142,7 @@ impl Note {
                         .map(|tag| {
                             Tag::Hashtag(Hashtag::new(
                                 Url::parse(&format!(
-                                    "https://{}/t{}",
+                                    "https://{}/t/{}",
                                     data.domain(),
                                     urlencoding::encode(&tag),
                                 ))
