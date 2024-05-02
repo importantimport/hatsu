@@ -34,6 +34,6 @@ pub async fn v2(data: Data<AppData>) -> Result<Json<Instance>, AppError> {
 #[debug_handler]
 pub async fn v1(data: Data<AppData>) -> Result<Json<InstanceV1>, AppError> {
     Ok(Json(
-        InstanceV1::from_instance(Instance::new(&data).await?).await?,
+        InstanceV1::from_instance(Instance::new(&data).await?)?,
     ))
 }

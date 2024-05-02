@@ -18,11 +18,6 @@ pub struct Feed {
 impl Feed {
     /// 从网站获取 Feed 链接
     pub async fn get_site_feed(domain: String) -> Result<Self, AppError> {
-        let response = reqwest::get(format!("https://{}", &domain)).await?;
-        let text = response.text().await?;
-        let document = Html::parse_document(&text);
-        let head = Selector::parse("head").expect("valid selector");
-
         fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Option<Url> {
             head.select(
                 &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]"))
@@ -35,6 +30,11 @@ impl Feed {
                     .and_then(|href| absolutize_relative_url(href, domain).ok())
             })
         }
+
+        let response = reqwest::get(format!("https://{}", &domain)).await?;
+        let text = response.text().await?;
+        let document = Html::parse_document(&text);
+        let head = Selector::parse("head").expect("valid selector");
 
         document.select(&head).next().map_or_else(
             || {

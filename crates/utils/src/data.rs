@@ -21,6 +21,7 @@ pub struct AppEnv {
 }
 
 impl AppEnv {
+    #[must_use]
     pub fn init() -> Self {
         Self {
             hatsu_database_url: env::var("HATSU_DATABASE_URL")

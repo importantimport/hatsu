@@ -15,7 +15,7 @@ impl ApubReceivedLike {
         })
     }
 
-    pub fn from_json(json: Like) -> Result<Self, AppError> {
+    pub fn from_json(json: &Like) -> Result<Self, AppError> {
         Ok(DbReceivedLike {
             id: json.id.to_string(),
             actor: json.actor.to_string(),

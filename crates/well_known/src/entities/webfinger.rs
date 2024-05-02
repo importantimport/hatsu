@@ -4,7 +4,7 @@ use serde::Serialize;
 use url::Url;
 use utoipa::ToSchema;
 
-/// impl ToSchema for Webfinger
+/// impl `ToSchema` for `Webfinger`
 #[derive(Serialize, ToSchema)]
 pub struct WebfingerSchema {
     /// The actor which is described here, for example `acct:LemmyDev@mastodon.social`
@@ -19,7 +19,7 @@ pub struct WebfingerSchema {
     pub properties: HashMap<Url, String>,
 }
 
-/// impl ToSchema for WebfingerLink
+/// impl `ToSchema`` for `WebfingerLink`
 #[derive(Serialize, ToSchema)]
 pub struct WebfingerSchemaLink {
     /// Relationship of the link, such as `self` or `http://webfinger.net/rel/profile-page`

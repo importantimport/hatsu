@@ -2,7 +2,7 @@ use activitypub_federation::config::Data;
 use axum::{debug_handler, extract::Path, Json};
 use hatsu_db_schema::prelude::{Post, ReceivedLike};
 use hatsu_utils::{AppData, AppError};
-use sea_orm::*;
+use sea_orm::{EntityTrait, ModelTrait};
 
 use crate::entities::Account;
 
@@ -28,7 +28,6 @@ pub async fn status_favourited_by(
     Path(base64_url): Path<String>,
     data: Data<AppData>,
 ) -> Result<Json<Vec<Account>>, AppError> {
-    // Ok(Json(vec![Account::primary_account(&data).await?]))
     let base64 = base64_simd::URL_SAFE;
 
     match base64.decode_to_vec(&base64_url) {

@@ -15,6 +15,7 @@ pub struct CustomEmoji {
 }
 
 impl CustomEmoji {
+    #[must_use]
     pub fn from_json(tags: Vec<Tag>) -> Vec<Self> {
         tags.into_iter()
             .filter_map(|tag| match tag {
@@ -24,12 +25,13 @@ impl CustomEmoji {
             .collect()
     }
 
+    #[must_use]
     pub fn from_emoji(emoji: Emoji) -> Self {
         Self {
             shortcode: emoji
                 .name
-                .trim_start_matches(":")
-                .trim_end_matches(":")
+                .trim_start_matches(':')
+                .trim_end_matches(':')
                 .to_string(),
             url: emoji.icon.url.clone(),
             static_url: emoji.icon.url,

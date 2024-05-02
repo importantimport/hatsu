@@ -9,7 +9,7 @@ use sea_orm::{ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
-/// NodeInfo schema.
+/// `NodeInfo` schema.
 ///
 /// <https://nodeinfo.diaspora.software/schema.html>
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
@@ -37,8 +37,8 @@ impl NodeInfo {
             protocols: vec![String::from("activitypub")],
             services: NodeInfoServices::new(),
             open_registrations: false,
-            usage: NodeInfoUsage::new(&data).await?,
-            metadata: NodeInfoMetadata::new(&data),
+            usage: NodeInfoUsage::new(data).await?,
+            metadata: NodeInfoMetadata::new(data),
         })
     }
 

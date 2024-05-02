@@ -10,6 +10,7 @@ pub struct Scheduler {
 }
 
 impl Scheduler {
+    #[must_use]
     pub fn new(federation_config: &FederationConfig<AppData>) -> Self {
         Self {
             federation_config: federation_config.clone(),

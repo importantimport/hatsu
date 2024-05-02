@@ -103,7 +103,7 @@ impl ActivityHandler for CreateOrUpdateNote {
     async fn receive(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         match self.kind {
             CreateOrUpdateType::CreateType(_) => ApubPost::from_json(self.object, data).await?,
-            _ => todo!(), // TODO
+            CreateOrUpdateType::UpdateType(_) => todo!(), // TODO
         };
 
         Ok(())

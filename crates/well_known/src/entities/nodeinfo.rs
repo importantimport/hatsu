@@ -28,7 +28,7 @@ pub struct NodeInfoWellKnownLink {
 impl NodeInfoWellKnownLink {
     pub fn new(data: &Data<AppData>, version: &str) -> Self {
         Self {
-            rel: format!("http://nodeinfo.diaspora.software/ns/schema/{}", version),
+            rel: format!("http://nodeinfo.diaspora.software/ns/schema/{version}"),
             href: format!("https://{}/nodeinfo/{}.json", data.domain(), version),
         }
     }

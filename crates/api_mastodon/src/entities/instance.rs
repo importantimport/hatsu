@@ -32,14 +32,14 @@ impl Instance {
                 .env
                 .hatsu_node_name
                 .clone()
-                .unwrap_or(String::from("Hatsu")),
+                .unwrap_or_else(|| String::from("Hatsu")),
             version: String::from(env!("CARGO_PKG_VERSION")),
             source_url: Url::parse("https://github.com/importantimport/hatsu")?,
             description: data
                 .env
                 .hatsu_node_description
                 .clone()
-                .unwrap_or(String::from(env!("CARGO_PKG_DESCRIPTION"))),
+                .unwrap_or_else(|| String::from(env!("CARGO_PKG_DESCRIPTION"))),
             usage: json!({
                 "users": {
                     "active_month": 0
@@ -71,7 +71,7 @@ pub struct InstanceContact {
 impl InstanceContact {
     pub async fn new(data: &Data<AppData>) -> Result<Self, AppError> {
         Ok(Self {
-            email: String::from(""),
+            email: String::new(),
             account: Account::primary_account(data).await?,
         })
     }
@@ -99,14 +99,14 @@ pub struct InstanceV1 {
 }
 
 impl InstanceV1 {
-    pub async fn from_instance(instance: Instance) -> Result<Self, AppError> {
+    pub fn from_instance(instance: Instance) -> Result<Self, AppError> {
         Ok(Self {
             uri: instance.domain.clone(),
             title: instance.title,
             short_description: instance.description.clone(),
             description: instance.description,
             // TODO: env HATSU_CONTACT_EMAIL
-            email: String::from(""),
+            email: String::new(),
             version: instance.version,
             urls: json!({}),
             stats: json!({}),

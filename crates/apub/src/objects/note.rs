@@ -49,8 +49,8 @@ pub struct Note {
     pub source: Option<Value>,
     #[serde(default, deserialize_with = "deserialize_one_or_many")]
     pub tag: Vec<Tag>,
-    /// https://www.w3.org/ns/activitystreams#url
-    /// https://codeberg.org/fediverse/fep/src/branch/main/fep/fffd/fep-fffd.md
+    /// <https://www.w3.org/ns/activitystreams#url>
+    /// <https://codeberg.org/fediverse/fep/src/branch/main/fep/fffd/fep-fffd.md>
     pub url: Option<Value>,
     // TODO:
     // sensitive (default: false) (extension: _hatsu.sensitive)
@@ -128,7 +128,7 @@ impl Note {
             id,
             kind: NoteType::Note,
             in_reply_to: None,
-            published: published.unwrap_or_else(|| hatsu_utils::date::now()),
+            published: published.unwrap_or_else(hatsu_utils::date::now),
             updated,
             attributed_to: actor.id().into(),
             to: vec![Url::parse(&format!("{}/followers", actor.id()))?],
@@ -136,7 +136,7 @@ impl Note {
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             tag: json.tags.map_or_else(
-                || vec![],
+                || Vec::new(),
                 |tags| {
                     tags.into_iter()
                         .map(|tag| {
@@ -229,7 +229,7 @@ pub struct NoteSource {
 }
 
 impl NoteSource {
-    pub fn new(source: String) -> Self {
+    pub const fn new(source: String) -> Self {
         Self {
             content: source,
             media_type: MediaTypeMarkdown::Markdown,

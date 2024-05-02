@@ -64,7 +64,7 @@ impl ActivityHandler for Like {
             .await?
             .is_none()
         {
-            ApubReceivedLike::from_json(self)?
+            ApubReceivedLike::from_json(&self)?
                 .deref()
                 .clone()
                 .into_active_model()
