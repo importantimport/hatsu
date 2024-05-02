@@ -202,16 +202,16 @@
 <h3 id="send"><a class="header" href="#send">Send</a></h3>
 <ul>
 <li><code>Accept(Follow)</code></li>
-<li><code>Create(Note)</code></li>
+<li><code>Create(Note)</code>, <code>Update(Note)</code></li>
 </ul>
 <!-- - `Create(Note)`, `Update(Note)`, `Delete(Note)` -->
 <h3 id="receive"><a class="header" href="#receive">Receive</a></h3>
 <ul>
 <li><code>Follow(Actor)</code>, <code>Undo(Follow)</code></li>
 <li><code>Create(Note)</code></li>
+<li><code>Like(Note)</code>, <code>Undo(Like)</code></li>
 </ul>
 <!-- - `Create(Note)`, `Update(Note)`, `Delete(Note)` -->
-<!-- - `Like(Note)`, `Undo(Like)` -->
 <!-- - `Announce(Note)`, `Undo(Announce)` -->
 <p>Activities are implemented in way that is compatible with Mastodon and other
 popular ActivityPub servers.</p>
