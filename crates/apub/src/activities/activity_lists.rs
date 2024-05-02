@@ -2,7 +2,7 @@ use activitypub_federation::{config::Data, traits::ActivityHandler};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::activities::{AcceptFollow, CreateOrUpdateNote, Follow, UndoFollow};
+use crate::activities::{AcceptFollow, CreateOrUpdateNote, Follow, Like, UndoFollow, UndoLike};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(untagged)]
@@ -12,6 +12,8 @@ pub enum SharedInboxActivities {
     Follow(Follow),
     AcceptFollow(AcceptFollow),
     UndoFollow(UndoFollow),
+    Like(Like),
+    UndoLike(UndoLike),
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -22,4 +24,6 @@ pub enum ServiceInboxActivities {
     Follow(Follow),
     AcceptFollow(AcceptFollow),
     UndoFollow(UndoFollow),
+    Like(Like),
+    UndoLike(UndoLike),
 }
