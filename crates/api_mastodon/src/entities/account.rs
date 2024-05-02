@@ -43,23 +43,22 @@ impl Account {
         })
     }
 
-    pub async fn primary_account(data: &Data<AppData>) -> Result<Self, AppError> {
-        match User::find_by_id(
-            hatsu_utils::url::generate_user_url(data.domain(), &data.env.hatsu_primary_account)?
-                .to_string(),
-        )
-        .one(&data.conn)
-        .await?
-        {
+    pub async fn from_id(user_id: String, data: &Data<AppData>) -> Result<Self, AppError> {
+        match User::find_by_id(&user_id).one(&data.conn).await? {
             Some(db_user) => {
                 let apub_user: ApubUser = db_user.into();
                 let service: Service = apub_user.into_json(data).await?;
                 Ok(Self::from_json(service)?)
             },
-            None => Err(AppError::not_found(
-                "Account",
-                &data.env.hatsu_primary_account,
-            )),
+            None => Err(AppError::not_found("Account", &user_id)),
         }
+    }
+
+    pub async fn primary_account(data: &Data<AppData>) -> Result<Self, AppError> {
+        let user_id =
+            hatsu_utils::url::generate_user_url(data.domain(), &data.env.hatsu_primary_account)?
+                .to_string();
+
+        Self::from_id(user_id, data).await
     }
 }
