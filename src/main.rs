@@ -26,7 +26,7 @@ async fn main() -> Result<(), AppError> {
         tracing::debug!("no .env file found");
     }
 
-    let env = AppEnv::init();
+    let env = AppEnv::init()?;
 
     tracing::info!("connecting database");
     let conn = Database::connect(&env.hatsu_database_url)
