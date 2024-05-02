@@ -136,7 +136,7 @@ impl Note {
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             tag: json.tags.map_or_else(
-                || Vec::new(),
+                Vec::new,
                 |tags| {
                     tags.into_iter()
                         .map(|tag| {

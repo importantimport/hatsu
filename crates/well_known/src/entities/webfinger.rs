@@ -19,7 +19,7 @@ pub struct WebfingerSchema {
     pub properties: HashMap<Url, String>,
 }
 
-/// impl `ToSchema`` for `WebfingerLink`
+/// impl `ToSchema` for `WebfingerLink`
 #[derive(Serialize, ToSchema)]
 pub struct WebfingerSchemaLink {
     /// Relationship of the link, such as `self` or `http://webfinger.net/rel/profile-page`

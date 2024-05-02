@@ -1,4 +1,4 @@
-use std::net::ToSocketAddrs;
+use std::net::SocketAddr;
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use hatsu_utils::{AppData, AppError};
@@ -32,13 +32,11 @@ impl Server {
 
         // axum 0.6
         // run our app with hyper
-        let addr = format!(
+        let addr: SocketAddr = format!(
             "{}:{}",
             data.env.hatsu_listen_host, data.env.hatsu_listen_port
         )
-        .to_socket_addrs()?
-        .next()
-        .expect("Failed to lookup domain name");
+        .parse()?;
 
         tracing::debug!("listening on http://{}", addr);
         axum::Server::bind(&addr)
