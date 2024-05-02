@@ -33,6 +33,8 @@ pub enum Relation {
     Post,
     #[sea_orm(has_many = "super::received_follow::Entity")]
     ReceivedFollow,
+    #[sea_orm(has_many = "super::received_like::Entity")]
+    ReceivedLike,
     #[sea_orm(has_many = "super::user_feed_item::Entity")]
     UserFeedItem,
 }
@@ -54,6 +56,12 @@ impl Related<super::post::Entity> for Entity {
 impl Related<super::received_follow::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::ReceivedFollow.def()
+    }
+}
+
+impl Related<super::received_like::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::ReceivedLike.def()
     }
 }
 
