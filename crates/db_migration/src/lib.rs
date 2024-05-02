@@ -5,6 +5,7 @@ mod m20240131_000002_user_feed_item;
 mod m20240131_000003_post;
 mod m20240131_000004_activity;
 mod m20240131_000005_received_follow;
+mod m20240501_000001_received_like;
 
 pub struct Migrator;
 
@@ -17,6 +18,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20240131_000003_post::Migration),
             Box::new(m20240131_000004_activity::Migration),
             Box::new(m20240131_000005_received_follow::Migration),
+            Box::new(m20240501_000001_received_like::Migration),
         ]
     }
 }
