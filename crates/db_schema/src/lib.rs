@@ -4,6 +4,7 @@ pub mod prelude;
 
 pub mod activity;
 pub mod post;
+pub mod received_announce;
 pub mod received_follow;
 pub mod received_like;
 pub mod user;
