@@ -7,19 +7,7 @@ use crate::activities::{AcceptFollow, CreateOrUpdateNote, Follow, LikeOrAnnounce
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(untagged)]
 #[enum_delegate::implement(ActivityHandler)]
-pub enum SharedInboxActivities {
-    CreateOrUpdateNote(CreateOrUpdateNote),
-    Follow(Follow),
-    AcceptFollow(AcceptFollow),
-    UndoFollow(UndoFollow),
-    LikeOrAnnounce(LikeOrAnnounce),
-    UndoLikeOrAnnounce(UndoLikeOrAnnounce),
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-#[serde(untagged)]
-#[enum_delegate::implement(ActivityHandler)]
-pub enum ServiceInboxActivities {
+pub enum UserInboxActivities {
     CreateOrUpdateNote(CreateOrUpdateNote),
     Follow(Follow),
     AcceptFollow(AcceptFollow),
