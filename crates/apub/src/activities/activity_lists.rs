@@ -2,7 +2,14 @@ use activitypub_federation::{config::Data, traits::ActivityHandler};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::activities::{AcceptFollow, CreateOrUpdateNote, Follow, LikeOrAnnounce, UndoFollow, UndoLikeOrAnnounce};
+use crate::activities::{
+    AcceptFollow,
+    CreateOrUpdateNote,
+    Follow,
+    LikeOrAnnounce,
+    UndoFollow,
+    UndoLikeOrAnnounce,
+};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(untagged)]
