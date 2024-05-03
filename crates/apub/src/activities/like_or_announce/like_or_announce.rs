@@ -1,14 +1,6 @@
-use std::{
-    fmt::{Display, Formatter},
-    ops::Deref,
-};
+use std::ops::Deref;
 
-use activitypub_federation::{
-    config::Data,
-    fetch::object_id::ObjectId,
-    kinds::activity::{AnnounceType, LikeType},
-    traits::ActivityHandler,
-};
+use activitypub_federation::{config::Data, fetch::object_id::ObjectId, traits::ActivityHandler};
 use hatsu_db_schema::{
     prelude::{ReceivedAnnounce, ReceivedLike},
     received_announce,
@@ -26,24 +18,11 @@ use sea_orm::{
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use super::ApubReceivedAnnounce;
-use crate::{activities::ApubReceivedLike, actors::ApubUser, objects::ApubPost};
-
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
-#[serde(untagged)]
-pub enum LikeOrAnnounceType {
-    LikeType(LikeType),
-    AnnounceType(AnnounceType),
-}
-
-impl Display for LikeOrAnnounceType {
-    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
-        match self {
-            Self::LikeType(_) => f.write_str(&LikeType::Like.to_string()),
-            Self::AnnounceType(_) => f.write_str(&AnnounceType::Announce.to_string()),
-        }
-    }
-}
+use crate::{
+    activities::{ApubReceivedAnnounce, ApubReceivedLike, LikeOrAnnounceType},
+    actors::ApubUser,
+    objects::ApubPost,
+};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
