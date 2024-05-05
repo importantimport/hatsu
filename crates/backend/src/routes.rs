@@ -5,7 +5,7 @@ use crate::favicon;
 // ./hatsu --version
 async fn root() -> Response<String> {
     let version = env!("CARGO_PKG_VERSION");
-    let codename = "01_ballade";
+    let codename = "celluloid";
 
     Response::new(format!("Hatsu v{version} \"{codename}\""))
 }
