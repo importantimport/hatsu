@@ -1,14 +1,11 @@
 use activitypub_federation::config::Data;
-use hatsu_apub::{
-    activities::CreateOrUpdateNote,
-    actors::{ApubUser, ApubUserFeedItem, JsonUserFeedItem},
-    objects::Note,
-};
+use hatsu_apub::{activities::CreateOrUpdateNote, actors::ApubUser, objects::Note};
 use hatsu_db_schema::{
     post::{self, Model as DbPost},
     prelude::*,
     user_feed_item::Model as DbUserFeedItem,
 };
+use hatsu_feed::{UserFeedItem as JsonUserFeedItem, WrappedUserFeedItem};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, IntoActiveModel};
 
@@ -42,7 +39,7 @@ async fn create_feed_item(
 ) -> Result<(), AppError> {
     // 将 Item 保存到数据库
     let item = item.into_active_model().insert(&data.conn).await?;
-    let item: ApubUserFeedItem = item.into();
+    let item: WrappedUserFeedItem = item.into();
 
     // 创建 Note
     let note = Note::create(user, item.into_json()?, data)?;
@@ -81,7 +78,7 @@ async fn update_feed_item(
         .reset_all()
         .update(&data.conn)
         .await?;
-    let item: ApubUserFeedItem = item.into();
+    let item: WrappedUserFeedItem = item.into();
     let item: JsonUserFeedItem = item.into_json()?;
 
     // 更新 Post

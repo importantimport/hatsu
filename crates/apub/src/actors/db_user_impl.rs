@@ -8,30 +8,31 @@ use activitypub_federation::{
     traits::{ActivityHandler, Actor},
 };
 use hatsu_db_schema::{prelude::ReceivedFollow, user::Model as DbUser};
-use hatsu_utils::{user::feed::Feed, AppData, AppError};
+use hatsu_feed::SiteFeed;
+use hatsu_utils::{AppData, AppError};
 use sea_orm::ModelTrait;
 use serde::Serialize;
 use url::Url;
 
-use super::{ApubUser, JsonUserFeed};
+use super::ApubUser;
 
 impl ApubUser {
     pub async fn new(domain: &str, preferred_username: &str) -> Result<Self, AppError> {
         let keypair = generate_actor_keypair()?;
 
-        let user_feed = Feed::get_site_feed(preferred_username.to_string()).await?;
+        let site_feed = SiteFeed::get(preferred_username.to_string()).await?;
 
-        let feed = JsonUserFeed::get_feed(user_feed.clone(), preferred_username).await?;
+        let user_feed = SiteFeed::get_user_feed(site_feed.clone(), preferred_username).await?;
 
         let user_url = hatsu_utils::url::generate_user_url(domain, preferred_username)?;
 
         let user = DbUser {
             id: user_url.to_string(),
-            name: feed.title,
+            name: user_feed.title,
             preferred_username: preferred_username.to_string(),
-            summary: feed.description,
-            icon: feed.icon.map(|url| url.to_string()),
-            image: feed
+            summary: user_feed.description,
+            icon: user_feed.icon.map(|url| url.to_string()),
+            image: user_feed
                 .hatsu
                 .and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
             inbox: user_url
@@ -49,9 +50,9 @@ impl ApubUser {
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
-            feed_json: user_feed.json.map(|url| url.to_string()),
-            feed_atom: user_feed.atom.map(|url| url.to_string()),
-            feed_rss: user_feed.rss.map(|url| url.to_string()),
+            feed_json: site_feed.json.map(|url| url.to_string()),
+            feed_atom: site_feed.atom.map(|url| url.to_string()),
+            feed_rss: site_feed.rss.map(|url| url.to_string()),
             last_refreshed_at: hatsu_utils::date::now(),
         };
 

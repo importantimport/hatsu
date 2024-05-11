@@ -9,6 +9,7 @@ use activitypub_federation::{
     traits::{Actor, Object},
 };
 use hatsu_db_schema::prelude::Post;
+use hatsu_feed::UserFeedItem;
 use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
 use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
@@ -17,7 +18,7 @@ use url::Url;
 use utoipa::ToSchema;
 
 use crate::{
-    actors::{ApubUser, JsonUserFeedItem},
+    actors::ApubUser,
     links::{Hashtag, Tag},
     objects::ApubPost,
 };
@@ -64,7 +65,7 @@ impl Note {
     // https://example.com/foo/bar => https://example.com/foo/bar
     // /foo/bar => https://example.com/foo/bar
     // foo/bar => https://example.com/foo/bar
-    pub fn parse_id(actor: &ApubUser, json: &JsonUserFeedItem) -> Result<Url, AppError> {
+    pub fn parse_id(actor: &ApubUser, json: &UserFeedItem) -> Result<Url, AppError> {
         if let Some(url) = &json.url {
             Ok(url.clone())
         } else {
@@ -77,7 +78,7 @@ impl Note {
 
     pub fn new(
         actor: &ApubUser,
-        json: JsonUserFeedItem,
+        json: UserFeedItem,
         published: Option<String>,
         updated: Option<String>,
         data: &Data<AppData>,
@@ -177,7 +178,7 @@ impl Note {
 
     pub fn create(
         actor: &ApubUser,
-        json: JsonUserFeedItem,
+        json: UserFeedItem,
         data: &Data<AppData>,
     ) -> Result<Self, AppError> {
         Self::new(actor, json, Some(hatsu_utils::date::now()), None, data)
@@ -185,7 +186,7 @@ impl Note {
 
     pub fn update(
         actor: &ApubUser,
-        json: JsonUserFeedItem,
+        json: UserFeedItem,
         published: String,
         data: &Data<AppData>,
     ) -> Result<Self, AppError> {

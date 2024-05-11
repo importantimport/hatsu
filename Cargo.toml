@@ -49,6 +49,7 @@ members = [
     "crates/backend",
     "crates/db_migration",
     "crates/db_schema",
+    "crates/feed",
     "crates/nodeinfo",
     "crates/openapi",
     "crates/scheduler",
@@ -64,6 +65,7 @@ hatsu_apub = { path = "./crates/apub" }
 hatsu_backend = { path = "./crates/backend" }
 hatsu_db_migration = { path = "./crates/db_migration" }
 hatsu_db_schema = { path = "./crates/db_schema" }
+hatsu_feed = { path = "./crates/feed" }
 hatsu_nodeinfo = { path = "./crates/nodeinfo" }
 hatsu_openapi = { path = "./crates/openapi" }
 hatsu_scheduler = { path = "./crates/scheduler" }

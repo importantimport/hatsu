@@ -20,8 +20,6 @@ anyhow = { workspace = true }
 axum = { workspace = true }
 chrono = { workspace = true }
 markdown = { workspace = true }
-reqwest = { workspace = true }
-scraper = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

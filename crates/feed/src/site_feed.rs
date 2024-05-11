@@ -1,12 +1,12 @@
+use hatsu_utils::{url::absolutize_relative_url, AppError};
 use scraper::{ElementRef, Html, Selector};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{url::absolutize_relative_url, AppError};
+use crate::UserFeed;
 
-/// User Site Feed
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Feed {
+pub struct SiteFeed {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub json: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -15,11 +15,11 @@ pub struct Feed {
     pub rss: Option<Url>,
 }
 
-impl Feed {
+impl SiteFeed {
     /// # Panics
     ///
     /// No panic here.
-    pub async fn get_site_feed(domain: String) -> Result<Self, AppError> {
+    pub async fn get(domain: String) -> Result<Self, AppError> {
         fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Option<Url> {
             head.select(
                 &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap(),
@@ -53,5 +53,23 @@ impl Feed {
                 })
             },
         )
+    }
+
+    pub async fn get_user_feed(site_feed: Self, name: &str) -> Result<UserFeed, AppError> {
+        match site_feed {
+            Self {
+                json: Some(url), ..
+            } => Ok(UserFeed::parse_json_feed(url).await?),
+            Self {
+                atom: Some(url), ..
+            } => Ok(UserFeed::parse_xml_feed(url).await?),
+            Self { rss: Some(url), .. } => Ok(UserFeed::parse_xml_feed(url).await?),
+            Self {
+                json: None,
+                atom: None,
+                rss: None,
+                ..
+            } => Err(AppError::not_found("Feed Url", name)),
+        }
     }
 }
