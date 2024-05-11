@@ -1426,6 +1426,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "hatsu_feed"
+version = "0.2.0-beta.3"
+dependencies = [
+ "hatsu_utils",
+ "reqwest",
+ "scraper",
+ "serde",
+ "url",
+]
+
+[[package]]
 name = "hatsu_nodeinfo"
 version = "0.2.0-beta.3"
 dependencies = [
