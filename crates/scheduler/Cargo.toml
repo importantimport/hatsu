@@ -18,6 +18,7 @@ path = "src/lib.rs"
 [dependencies]
 hatsu_apub = { workspace = true }
 hatsu_db_schema = { workspace = true }
+hatsu_feed = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
 sea-orm = { workspace = true }

@@ -17,6 +17,7 @@ path = "src/lib.rs"
 
 [dependencies]
 hatsu_db_schema = { workspace = true }
+hatsu_feed = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
 anyhow = { workspace = true }
@@ -25,9 +26,7 @@ async-trait = { workspace = true }
 axum = { workspace = true }
 chrono = { workspace = true }
 enum_delegate = { workspace = true }
-feed-rs = { workspace = true }
 futures = { workspace = true }
-reqwest = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

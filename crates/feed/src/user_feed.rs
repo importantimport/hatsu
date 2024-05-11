@@ -1,30 +1,67 @@
 use chrono::SecondsFormat;
-use hatsu_utils::{user::feed::Feed, AppError};
+use hatsu_db_schema::user::Model as DbUser;
+use hatsu_utils::AppError;
+use serde::{Deserialize, Serialize};
 use url::Url;
 
-use super::{JsonUserFeed, JsonUserFeedItem};
+use crate::UserFeedItem;
 
-impl JsonUserFeed {
-    pub async fn get_feed(feed: Feed, name: &str) -> Result<Self, AppError> {
-        match feed {
-            Feed {
-                json: Some(url), ..
-            } => Ok(Self::parse_json_feed(url).await?),
-            Feed {
-                atom: Some(url), ..
-            } => Ok(Self::parse_xml_feed(url).await?),
-            Feed { rss: Some(url), .. } => Ok(Self::parse_xml_feed(url).await?),
-            Feed {
-                json: None,
-                atom: None,
-                rss: None,
+/// JSON Feed 1.1
+///
+/// <https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a>
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct UserFeed {
+    #[serde(rename = "_hatsu")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hatsu: Option<UserFeedHatsu>,
+    pub feed_url: Url,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub next_url: Option<Url>,
+    pub title: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub icon: Option<Url>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language: Option<String>,
+    pub items: Vec<UserFeedItem>,
+}
+
+/// Hatsu JSON Feed Extension
+///
+/// <https://github.com/importantimport/hatsu/issues/1>
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct UserFeedHatsu {
+    pub about: Option<Url>,
+    pub banner_image: Option<Url>,
+}
+
+impl UserFeed {
+    pub async fn get(user: DbUser) -> Result<Self, AppError> {
+        match user {
+            DbUser {
+                feed_json: Some(url),
                 ..
-            } => Err(AppError::not_found("Feed Url", name)),
+            } => Ok(Self::parse_json_feed(Url::parse(&url)?).await?),
+            DbUser {
+                feed_atom: Some(url),
+                ..
+            } => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
+            DbUser {
+                feed_rss: Some(url),
+                ..
+            } => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
+            DbUser {
+                feed_json: None,
+                feed_atom: None,
+                feed_rss: None,
+                ..
+            } => Err(AppError::not_found("Feed Url", &user.name)),
         }
     }
 
     #[async_recursion::async_recursion]
-    pub async fn get_full_feed(self) -> Result<Self, AppError> {
+    pub async fn get_full(self) -> Result<Self, AppError> {
         match self.next_url {
             Some(url) => {
                 let next_feed = Self::parse_json_feed(url).await?;
@@ -34,7 +71,7 @@ impl JsonUserFeed {
                     ..self
                 };
 
-                Ok(Self::get_full_feed(feed).await?)
+                Ok(Self::get_full(feed).await?)
             },
             None => Ok(self),
         }
@@ -50,7 +87,7 @@ impl JsonUserFeed {
         let items = feed
             .entries
             .iter()
-            .map(|entry| JsonUserFeedItem {
+            .map(|entry| UserFeedItem {
                 id: entry.id.clone(),
                 url: None, // TODO
                 title: entry.title.clone().map(|text| text.content),

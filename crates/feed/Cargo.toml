@@ -16,8 +16,14 @@ name = "hatsu_feed"
 path = "src/lib.rs"
 
 [dependencies]
+hatsu_db_schema = { workspace = true }
 hatsu_utils = { workspace = true }
+activitypub_federation = { workspace = true }
+async-recursion = { workspace = true }
+chrono = { workspace = true }
+feed-rs = { workspace = true }
 reqwest = { workspace = true }
 scraper = { workspace = true }
 serde = { workspace = true }
+serde_json = { workspace = true }
 url = { workspace = true }
