@@ -23,7 +23,8 @@ async fn main() -> Result<(), AppError> {
 
     tracing::info!("loading environment variables");
     if dotenvy::dotenv().is_err() {
-        let env_file = env::var("HATSU_ENV_FILE").unwrap_or_else(|_| String::from("/etc/hatsu/.dev"));
+        let env_file =
+            env::var("HATSU_ENV_FILE").unwrap_or_else(|_| String::from("/etc/hatsu/.dev"));
         if dotenvy::from_path(Path::new(&env_file)).is_err() {
             tracing::debug!("no .env file found");
         }
