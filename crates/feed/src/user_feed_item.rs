@@ -1,6 +1,8 @@
 use std::ops::Deref;
 
 use activitypub_federation::config::Data;
+use chrono::SecondsFormat;
+use feed_rs::model::Entry;
 use hatsu_db_schema::{user::Model as DbUser, user_feed_item::Model as DbUserFeedItem};
 use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
@@ -95,5 +97,41 @@ impl WrappedUserFeedItem {
         };
 
         Ok(user_feed_item.into())
+    }
+}
+
+impl UserFeedItem {
+    pub fn from_entry(entry: &Entry) -> Self {
+        Self {
+            id: entry.id.clone(),
+            url: entry
+                .links
+                .get(0)
+                .map_or(None, |link| match Url::parse(&link.href) {
+                    Ok(url) => Some(url),
+                    Err(_) => None,
+                }),
+            title: entry.title.clone().map(|text| text.content),
+            summary: entry.summary.clone().map(|text| text.content),
+            language: None,
+            tags: entry
+                .categories
+                .iter()
+                .map(|category| {
+                    Some(
+                        category
+                            .label
+                            .clone()
+                            .unwrap_or_else(|| category.term.clone()),
+                    )
+                })
+                .collect(),
+            date_published: entry
+                .published
+                .map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
+            date_modified: entry
+                .updated
+                .map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
+        }
     }
 }

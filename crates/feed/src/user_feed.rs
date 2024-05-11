@@ -1,4 +1,3 @@
-use chrono::SecondsFormat;
 use hatsu_db_schema::user::Model as DbUser;
 use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
@@ -93,37 +92,7 @@ impl UserFeed {
         let items = feed
             .entries
             .iter()
-            .map(|entry| UserFeedItem {
-                id: entry.id.clone(),
-                url: entry
-                    .links
-                    .get(0)
-                    .map_or(None, |link| match Url::parse(&link.href) {
-                        Ok(url) => Some(url),
-                        Err(_) => None,
-                    }),
-                title: entry.title.clone().map(|text| text.content),
-                summary: entry.summary.clone().map(|text| text.content),
-                language: None,
-                tags: entry
-                    .categories
-                    .iter()
-                    .map(|category| {
-                        Some(
-                            category
-                                .label
-                                .clone()
-                                .unwrap_or_else(|| category.term.clone()),
-                        )
-                    })
-                    .collect(),
-                date_published: entry
-                    .published
-                    .map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
-                date_modified: entry
-                    .updated
-                    .map(|date| date.to_rfc3339_opts(SecondsFormat::Secs, true)),
-            })
+            .map(|entry| UserFeedItem::from_entry(entry))
             .collect();
 
         Ok(Self {
