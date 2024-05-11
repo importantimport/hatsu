@@ -6,6 +6,12 @@ It is required unless it has a suffix (optional).
 
 However, it may exist as a built-in preset (in the source code) or an example preset (in [`.env.example`](https://github.com/importantimport/hatsu/blob/main/.env.example))
 
+## HATSU_ENV_FILE
+
+- default: `/etc/hatsu/.env`
+
+Hatsu will first try to find the dotenv file in the current directory, and if unsuccessful will try to use the path indicated by `HATSU_ENV_FILE`.
+
 ## HATSU_DATABASE_URL
 
 - default: `sqlite::memory:`
