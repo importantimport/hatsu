@@ -132,8 +132,11 @@ impl Note {
             published: published.unwrap_or_else(hatsu_utils::date::now),
             updated,
             attributed_to: actor.id().into(),
-            to: vec![Url::parse(&format!("{}/followers", actor.id()))?],
-            cc: vec![public()],
+            // to: vec![Url::parse(&format!("{}/followers", actor.id()))?],
+            // cc: vec![public()],
+            to: vec![public()],
+            // Leaving a CC here to retain compatibility, figured I should CC followers instead of public twice
+            cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             tag: json.tags.map_or_else(Vec::new, |tags| {
