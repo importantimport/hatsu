@@ -77,12 +77,12 @@ impl UserFeed {
         }
     }
 
-    pub async fn parse_json_feed(url: Url) -> Result<Self, AppError> {
-        Ok(reqwest::get(url).await?.json::<Self>().await?)
+    pub async fn parse_json_feed(feed_url: Url) -> Result<Self, AppError> {
+        Ok(reqwest::get(feed_url).await?.json::<Self>().await?)
     }
 
-    pub async fn parse_xml_feed(url: Url) -> Result<Self, AppError> {
-        let feed = feed_rs::parser::parse(reqwest::get(url).await?.text().await?.as_bytes())?;
+    pub async fn parse_xml_feed(feed_url: Url) -> Result<Self, AppError> {
+        let feed = feed_rs::parser::parse(reqwest::get(feed_url.clone()).await?.text().await?.as_bytes())?;
 
         let items = feed
             .entries
@@ -115,9 +115,9 @@ impl UserFeed {
             .collect();
 
         Ok(Self {
-            hatsu: None,
-            feed_url: Url::parse(&feed.id)?,
+            feed_url,
             next_url: None,
+            hatsu: None,
             title: match feed.title {
                 Some(title) => title.content,
                 None => String::from("untitled"),
