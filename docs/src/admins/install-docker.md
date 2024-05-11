@@ -1,5 +1,9 @@
 # Docker Installation
 
+> Hatsu uses the `x86-64-v3` target architecture for optimal performance.
+>
+> If you are using an older processor, you currently need to build locally and change the corresponding values in `.cargo/config.toml`.
+
 You can find images on GitHub: [https://github.com/importantimport/hatsu/pkgs/container/hatsu](https://github.com/importantimport/hatsu/pkgs/container/hatsu)
 
 Hatsu uses three primary tags: `latest` (stable), `beta` and `nightly`, literally.
