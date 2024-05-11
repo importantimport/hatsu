@@ -2,7 +2,7 @@
 #[global_allocator]
 static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 
-use std::ops::Deref;
+use std::{env, ops::Deref, path::Path};
 
 use activitypub_federation::config::FederationConfig;
 use hatsu_apub::actors::ApubUser;
@@ -23,7 +23,11 @@ async fn main() -> Result<(), AppError> {
 
     tracing::info!("loading environment variables");
     if dotenvy::dotenv().is_err() {
-        tracing::debug!("no .env file found");
+        let env_file =
+            env::var("HATSU_ENV_FILE").unwrap_or_else(|_| String::from("/etc/hatsu/.dev"));
+        if dotenvy::from_path(Path::new(&env_file)).is_err() {
+            tracing::debug!("no .env file found");
+        }
     }
 
     let env = AppEnv::init()?;
