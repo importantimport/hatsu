@@ -82,7 +82,13 @@ impl UserFeed {
     }
 
     pub async fn parse_xml_feed(feed_url: Url) -> Result<Self, AppError> {
-        let feed = feed_rs::parser::parse(reqwest::get(feed_url.clone()).await?.text().await?.as_bytes())?;
+        let feed = feed_rs::parser::parse(
+            reqwest::get(feed_url.clone())
+                .await?
+                .text()
+                .await?
+                .as_bytes(),
+        )?;
 
         let items = feed
             .entries
