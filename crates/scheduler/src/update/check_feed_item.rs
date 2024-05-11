@@ -1,9 +1,5 @@
 use activitypub_federation::config::Data;
-use hatsu_apub::{
-    activities::CreateOrUpdateNote,
-    actors::ApubUser,
-    objects::Note,
-};
+use hatsu_apub::{activities::CreateOrUpdateNote, actors::ApubUser, objects::Note};
 use hatsu_db_schema::{
     post::{self, Model as DbPost},
     prelude::*,

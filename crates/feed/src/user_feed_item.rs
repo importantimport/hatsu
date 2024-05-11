@@ -1,10 +1,7 @@
 use std::ops::Deref;
 
 use activitypub_federation::config::Data;
-use hatsu_db_schema::{
-    user::Model as DbUser,
-    user_feed_item::Model as DbUserFeedItem,
-};
+use hatsu_db_schema::{user::Model as DbUser, user_feed_item::Model as DbUserFeedItem};
 use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
 use url::Url;

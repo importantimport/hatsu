@@ -1,8 +1,7 @@
+use hatsu_utils::{url::absolutize_relative_url, AppError};
 use scraper::{ElementRef, Html, Selector};
 use serde::{Deserialize, Serialize};
 use url::Url;
-
-use hatsu_utils::{url::absolutize_relative_url, AppError};
 
 use crate::UserFeed;
 
