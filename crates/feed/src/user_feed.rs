@@ -95,7 +95,13 @@ impl UserFeed {
             .iter()
             .map(|entry| UserFeedItem {
                 id: entry.id.clone(),
-                url: None, // TODO
+                url: entry
+                    .links
+                    .get(0)
+                    .map_or(None, |link| match Url::parse(&link.href) {
+                        Ok(url) => Some(url),
+                        Err(_) => None,
+                    }),
                 title: entry.title.clone().map(|text| text.content),
                 summary: entry.summary.clone().map(|text| text.content),
                 language: None,
