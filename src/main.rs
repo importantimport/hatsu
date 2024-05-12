@@ -32,7 +32,7 @@ async fn main() -> Result<(), AppError> {
 
     let env = AppEnv::init()?;
 
-    tracing::info!("connecting database");
+    tracing::info!("connecting database: {}", &env.hatsu_database_url);
     let conn = Database::connect(&env.hatsu_database_url)
         .await
         .expect("database connection failed");
@@ -40,7 +40,7 @@ async fn main() -> Result<(), AppError> {
     tracing::info!("running database migration");
     Migrator::up(&conn, None).await?;
 
-    tracing::info!("checking primary account");
+    tracing::info!("checking primary account: {}", &env.hatsu_primary_account);
     let primary_account: ApubUser = match User::find_by_id(
         hatsu_utils::url::generate_user_url(&env.hatsu_domain, &env.hatsu_primary_account)?
             .to_string(),
