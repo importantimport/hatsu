@@ -123,6 +123,7 @@ hatsu_db_migration = { workspace = true }
 hatsu_db_schema = { workspace = true }
 hatsu_scheduler = { workspace = true }
 hatsu_utils = { workspace = true }
+human-panic = "2"
 activitypub_federation = { workspace = true }
 dotenvy = "0.15"
 sea-orm = { workspace = true }
