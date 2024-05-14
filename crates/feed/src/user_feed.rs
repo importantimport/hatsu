@@ -1,3 +1,6 @@
+use std::ops::Deref;
+
+use hatsu_db_schema::user::UserFeed as DbUserFeed;
 use hatsu_utils::{url::absolutize_relative_url, AppError};
 use scraper::{ElementRef, Html, Selector};
 use serde::{Deserialize, Serialize};
@@ -6,7 +9,7 @@ use url::Url;
 use crate::UserFeedTopLevel;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct SiteFeed {
+pub struct UserFeed {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub json: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -15,7 +18,40 @@ pub struct SiteFeed {
     pub rss: Option<Url>,
 }
 
-impl SiteFeed {
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct WrappedUserFeed(pub(crate) DbUserFeed);
+
+impl AsRef<DbUserFeed> for WrappedUserFeed {
+    fn as_ref(&self) -> &DbUserFeed {
+        &self.0
+    }
+}
+
+impl Deref for WrappedUserFeed {
+    type Target = DbUserFeed;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl From<DbUserFeed> for WrappedUserFeed {
+    fn from(u: DbUserFeed) -> Self {
+        Self(u)
+    }
+}
+
+impl UserFeed {
+    pub fn into_db(self) -> DbUserFeed {
+        DbUserFeed {
+            json: self.json.and_then(|url| Some(url.to_string())),
+            atom: self.atom.and_then(|url| Some(url.to_string())),
+            rss: self.rss.and_then(|url| Some(url.to_string())),
+        }
+    }
+}
+
+impl UserFeed {
     /// # Panics
     ///
     /// No panic here.
@@ -55,7 +91,7 @@ impl SiteFeed {
         )
     }
 
-    pub async fn get_user_feed(site_feed: Self, name: &str) -> Result<UserFeedTopLevel, AppError> {
+    pub async fn get_top_level(site_feed: Self, name: &str) -> Result<UserFeedTopLevel, AppError> {
         match site_feed {
             Self {
                 json: Some(url), ..

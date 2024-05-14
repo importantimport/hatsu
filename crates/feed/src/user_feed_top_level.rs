@@ -1,9 +1,9 @@
-use hatsu_db_schema::user::Model as DbUser;
+use hatsu_db_schema::user::{Model as DbUser, UserFeed as DbUserFeed};
 use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{UserFeedItem, UserFeedHatsu};
+use crate::{UserFeedHatsu, UserFeedItem};
 
 /// JSON Feed 1.1
 ///
@@ -28,25 +28,16 @@ pub struct UserFeedTopLevel {
 
 impl UserFeedTopLevel {
     pub async fn get(user: DbUser) -> Result<Self, AppError> {
-        match user {
-            DbUser {
-                feed_json: Some(url),
-                ..
-            } => Ok(Self::parse_json_feed(Url::parse(&url)?).await?),
-            DbUser {
-                feed_atom: Some(url),
-                ..
-            } => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
-            DbUser {
-                feed_rss: Some(url),
-                ..
-            } => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
-            DbUser {
-                feed_json: None,
-                feed_atom: None,
-                feed_rss: None,
-                ..
-            } => Err(AppError::not_found("Feed Url", &user.name)),
+        match user.feed {
+            Some(DbUserFeed {
+                json: Some(url), ..
+            }) => Ok(Self::parse_json_feed(Url::parse(&url)?).await?),
+            Some(DbUserFeed {
+                atom: Some(url), ..
+            }) => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
+            Some(DbUserFeed { rss: Some(url), .. }) =>
+                Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
+            _ => Err(AppError::not_found("Feed Url", &user.name)),
         }
     }
 

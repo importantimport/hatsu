@@ -8,7 +8,7 @@ use activitypub_federation::{
     traits::{ActivityHandler, Actor},
 };
 use hatsu_db_schema::{prelude::ReceivedFollow, user::Model as DbUser};
-use hatsu_feed::SiteFeed;
+use hatsu_feed::UserFeed;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::ModelTrait;
 use serde::Serialize;
@@ -20,19 +20,18 @@ impl ApubUser {
     pub async fn new(domain: &str, preferred_username: &str) -> Result<Self, AppError> {
         let keypair = generate_actor_keypair()?;
 
-        let site_feed = SiteFeed::get(preferred_username.to_string()).await?;
+        let user_feed = UserFeed::get(preferred_username.to_string()).await?;
 
-        let user_feed = SiteFeed::get_user_feed(site_feed.clone(), preferred_username).await?;
+        let user_feed_top_level = UserFeed::get_top_level(user_feed.clone(), preferred_username).await?;
 
         let user_url = hatsu_utils::url::generate_user_url(domain, preferred_username)?;
 
         let user = DbUser {
-            hatsu: user_feed.hatsu.and_then(|hatsu| Some(hatsu.into_db())),
             id: user_url.to_string(),
-            name: user_feed.title,
+            name: user_feed_top_level.title,
             preferred_username: preferred_username.to_string(),
-            summary: user_feed.description,
-            icon: user_feed.icon.map(|url| url.to_string()),
+            summary: user_feed_top_level.description,
+            icon: user_feed_top_level.icon.map(|url| url.to_string()),
             inbox: user_url
                 .join(&format!("{preferred_username}/inbox"))?
                 .to_string(),
@@ -48,9 +47,8 @@ impl ApubUser {
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
-            feed_json: site_feed.json.map(|url| url.to_string()),
-            feed_atom: site_feed.atom.map(|url| url.to_string()),
-            feed_rss: site_feed.rss.map(|url| url.to_string()),
+            hatsu: user_feed_top_level.hatsu.and_then(|hatsu| Some(hatsu.into_db())),
+            feed: Some(user_feed.into_db()),
             last_refreshed_at: hatsu_utils::date::now(),
         };
 
