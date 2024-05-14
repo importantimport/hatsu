@@ -8,6 +8,8 @@ use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
+use crate::UserFeedItemHatsu;
+
 /// JSON Feed Item
 ///
 /// <https://www.jsonfeed.org/version/1.1/#items-a-name-items-a>
@@ -31,16 +33,6 @@ pub struct UserFeedItem {
     pub date_published: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub date_modified: Option<String>,
-}
-
-/// Hatsu JSON Feed Item Extension
-///
-/// <https://hatsu.cli.rs/others/json-feed-extension.html#items>
-/// 
-/// <https://github.com/importantimport/hatsu/issues/1>
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
-pub struct UserFeedItemHatsu {
-    pub about: Option<Url>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

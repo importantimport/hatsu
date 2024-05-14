@@ -3,7 +3,7 @@ use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::UserFeedItem;
+use crate::{UserFeedItem, UserFeedHatsu};
 
 /// JSON Feed 1.1
 ///
@@ -24,17 +24,6 @@ pub struct UserFeed {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
     pub items: Vec<UserFeedItem>,
-}
-
-/// Hatsu JSON Feed Extension
-///
-/// <https://hatsu.cli.rs/others/json-feed-extension.html#top-level>
-/// 
-/// <https://github.com/importantimport/hatsu/issues/1>
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
-pub struct UserFeedHatsu {
-    pub about: Option<Url>,
-    pub banner_image: Option<Url>,
 }
 
 impl UserFeed {
