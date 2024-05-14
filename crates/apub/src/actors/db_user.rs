@@ -78,6 +78,7 @@ impl Object for ApubUser {
 
     async fn from_json(json: Self::Kind, data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
         let user = DbUser {
+            hatsu: None,
             id: json.id.to_string(),
             name: json.name,
             preferred_username: json.preferred_username,
@@ -123,10 +124,11 @@ impl Object for ApubUser {
                 .icon
                 .clone()
                 .map(|icon| ServiceImage::new(Url::parse(&icon).unwrap())),
-            image: self
-                .image
-                .clone()
-                .map(|image| ServiceImage::new(Url::parse(&image).unwrap())),
+            image: self.hatsu.clone().and_then(|hatsu| {
+                hatsu
+                    .banner_image
+                    .and_then(|image| Some(ServiceImage::new(Url::parse(&image).unwrap())))
+            }),
             // TODO: User Attachment
             attachment: vec![],
             inbox: Url::parse(&self.inbox)?,

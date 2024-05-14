@@ -27,14 +27,14 @@ impl ApubUser {
         let user_url = hatsu_utils::url::generate_user_url(domain, preferred_username)?;
 
         let user = DbUser {
+            hatsu: user_feed.hatsu.and_then(|hatsu| Some(hatsu.into_db())),
             id: user_url.to_string(),
             name: user_feed.title,
             preferred_username: preferred_username.to_string(),
             summary: user_feed.description,
             icon: user_feed.icon.map(|url| url.to_string()),
-            image: user_feed
-                .hatsu
-                .and_then(|hatsu| hatsu.banner_image.map(|url| url.to_string())),
+            // TODO: deprecated
+            image: None,
             inbox: user_url
                 .join(&format!("{preferred_username}/inbox"))?
                 .to_string(),

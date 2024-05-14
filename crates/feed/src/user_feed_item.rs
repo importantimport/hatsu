@@ -89,6 +89,7 @@ impl WrappedUserFeedItem {
             .to_string();
 
         let user_feed_item = DbUserFeedItem {
+            hatsu: json.hatsu.and_then(|hatsu| Some(hatsu.into_db())),
             id: id.clone(),
             user_id: user.id.to_string(),
             post_id: Some(hatsu_utils::url::generate_post_url(data.domain(), id)?.to_string()),
