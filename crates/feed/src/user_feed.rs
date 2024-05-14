@@ -89,11 +89,7 @@ impl UserFeed {
                 .as_bytes(),
         )?;
 
-        let items = feed
-            .entries
-            .iter()
-            .map(UserFeedItem::from_entry)
-            .collect();
+        let items = feed.entries.iter().map(UserFeedItem::from_entry).collect();
 
         Ok(Self {
             feed_url,
