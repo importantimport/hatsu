@@ -101,16 +101,14 @@ impl WrappedUserFeedItem {
 }
 
 impl UserFeedItem {
+    #[must_use]
     pub fn from_entry(entry: &Entry) -> Self {
         Self {
             id: entry.id.clone(),
             url: entry
                 .links
-                .get(0)
-                .map_or(None, |link| match Url::parse(&link.href) {
-                    Ok(url) => Some(url),
-                    Err(_) => None,
-                }),
+                .first()
+                .and_then(|link| Url::parse(&link.href).ok()),
             title: entry.title.clone().map(|text| text.content),
             summary: entry.summary.clone().map(|text| text.content),
             language: None,

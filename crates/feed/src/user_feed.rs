@@ -92,7 +92,7 @@ impl UserFeed {
         let items = feed
             .entries
             .iter()
-            .map(|entry| UserFeedItem::from_entry(entry))
+            .map(UserFeedItem::from_entry)
             .collect();
 
         Ok(Self {
@@ -105,7 +105,7 @@ impl UserFeed {
             },
             description: feed.description.map(|text| text.content),
             icon: feed.icon.map_or(
-                feed.logo.map_or(None, |image| Url::parse(&image.uri).ok()),
+                feed.logo.and_then(|image| Url::parse(&image.uri).ok()),
                 |image| Url::parse(&image.uri).ok(),
             ),
             language: feed.language,
