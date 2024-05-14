@@ -104,7 +104,10 @@ impl UserFeed {
                 None => String::from("untitled"),
             },
             description: feed.description.map(|text| text.content),
-            icon: feed.icon.map(|image| Url::parse(&image.uri).unwrap()),
+            icon: feed.icon.map_or(
+                feed.logo.map_or(None, |image| Url::parse(&image.uri).ok()),
+                |image| Url::parse(&image.uri).ok(),
+            ),
             language: feed.language,
             items,
         })
