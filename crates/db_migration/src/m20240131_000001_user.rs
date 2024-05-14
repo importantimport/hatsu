@@ -48,7 +48,7 @@ impl MigrationTrait for Migration {
 
 /// Learn more at <https://docs.rs/sea-query#iden>
 #[derive(Iden)]
-enum User {
+pub enum User {
     Table,
     Id,
     Name,
@@ -63,6 +63,10 @@ enum User {
     Local,
     PublicKey,
     PrivateKey,
+    /// Hatsu JSON Feed Extension (m20240515_000001)
+    /// 
+    /// <https://hatsu.cli.rs/others/json-feed-extension.html#top-level>
+    Hatsu,
     // Hatsu Private
     FeedJson,
     FeedAtom,
