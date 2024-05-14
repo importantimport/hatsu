@@ -1292,7 +1292,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "dotenvy",
@@ -1317,7 +1317,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_api_admin"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1331,7 +1331,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_api_apub"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1349,7 +1349,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_api_mastodon"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1370,7 +1370,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_apub"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "anyhow",
@@ -1394,7 +1394,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_backend"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1412,7 +1412,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_db_migration"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "sea-orm-migration",
  "tokio",
@@ -1420,7 +1420,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_db_schema"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "sea-orm",
  "serde",
@@ -1429,7 +1429,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_feed"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "async-recursion",
@@ -1447,7 +1447,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_nodeinfo"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1461,7 +1461,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_openapi"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "axum",
  "hatsu_api_admin",
@@ -1477,7 +1477,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_scheduler"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "hatsu_apub",
@@ -1494,7 +1494,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_utils"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "anyhow",
  "axum",
@@ -1511,7 +1511,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_well_known"
-version = "0.2.0-beta.4"
+version = "0.2.0-beta.5"
 dependencies = [
  "activitypub_federation",
  "axum",
