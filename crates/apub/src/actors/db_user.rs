@@ -78,7 +78,6 @@ impl Object for ApubUser {
 
     async fn from_json(json: Self::Kind, data: &Data<Self::DataType>) -> Result<Self, Self::Error> {
         let user = DbUser {
-            hatsu: None,
             id: json.id.to_string(),
             name: json.name,
             preferred_username: json.preferred_username,
@@ -91,9 +90,8 @@ impl Object for ApubUser {
             local: false,
             public_key: json.public_key.public_key_pem,
             private_key: None,
-            feed_json: None,
-            feed_atom: None,
-            feed_rss: None,
+            hatsu: None,
+            feed: None,
             last_refreshed_at: hatsu_utils::date::now(),
         };
 
