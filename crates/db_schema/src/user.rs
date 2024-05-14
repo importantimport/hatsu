@@ -34,6 +34,7 @@ pub struct UserFeed {
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize, FromJsonQueryResult)]
 pub struct UserHatsu {
     pub about: Option<String>,
+    pub aliases: Option<String>,
     pub banner_image: Option<String>,
 }
 

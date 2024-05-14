@@ -12,6 +12,7 @@ use url::Url;
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UserFeedHatsu {
     pub about: Option<Url>,
+    pub aliases: Option<String>,
     pub banner_image: Option<Url>,
 }
 
@@ -42,6 +43,7 @@ impl UserFeedHatsu {
     pub fn into_db(self) -> DbUserHatsu {
         DbUserHatsu {
             about: self.about.and_then(|url| Some(url.to_string())),
+            aliases: self.aliases,
             banner_image: self.banner_image.and_then(|url| Some(url.to_string())),
         }
     }

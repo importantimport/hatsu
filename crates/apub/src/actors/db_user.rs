@@ -111,6 +111,12 @@ impl Object for ApubUser {
     }
 
     async fn into_json(self, data: &Data<Self::DataType>) -> Result<Self::Kind, Self::Error> {
+        let aliases = self
+            .hatsu
+            .clone()
+            .and_then(|hatsu| hatsu.aliases)
+            .unwrap_or(self.preferred_username.clone());
+
         Ok(Service {
             kind: ServiceType::Service.to_string(),
             name: self.name.clone(),
@@ -134,20 +140,12 @@ impl Object for ApubUser {
             following: Url::parse(&self.following)?,
             tag: vec![],
             // FEP-4adb
-            // TODO: customize via _hatsu.preferred_username
             aliases: Some(vec![
-                format!(
-                    "acct:{}@{}",
-                    &self.preferred_username, &self.preferred_username
-                ),
+                format!("acct:{}@{}", &aliases, &self.preferred_username),
                 format!("acct:{}@{}", &self.preferred_username, data.domain()),
             ]),
             // FEP-2c59
-            // TODO: customize via _hatsu.preferred_username
-            webfinger: Some(format!(
-                "acct:{}@{}",
-                &self.preferred_username, &self.preferred_username
-            )),
+            webfinger: Some(format!("acct:{}@{}", &aliases, &self.preferred_username)),
             public_key: self.public_key(),
         })
     }
