@@ -7,7 +7,7 @@ use url::Url;
 /// Hatsu JSON Feed Extension
 ///
 /// <https://hatsu.cli.rs/others/json-feed-extension.html#top-level>
-/// 
+///
 /// <https://github.com/importantimport/hatsu/issues/1>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UserFeedHatsu {
@@ -42,7 +42,7 @@ impl UserFeedHatsu {
     pub fn into_db(self) -> DbUserHatsu {
         DbUserHatsu {
             about: self.about.and_then(|url| Some(url.to_string())),
-            banner_image: self.banner_image.and_then(|url| Some(url.to_string()))
+            banner_image: self.banner_image.and_then(|url| Some(url.to_string())),
         }
     }
 }
