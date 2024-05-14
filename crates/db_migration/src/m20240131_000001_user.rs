@@ -55,6 +55,8 @@ pub enum User {
     PreferredUsername,
     Summary,
     Icon,
+    /// will be remove in v1.0.0
+    // #[deprecated(since = "0.2.0-beta.5", note = "replaced by hatsu")]
     Image,
     Inbox,
     Outbox,

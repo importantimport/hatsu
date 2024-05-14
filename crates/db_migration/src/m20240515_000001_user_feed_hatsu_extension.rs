@@ -20,6 +20,15 @@ impl MigrationTrait for Migration {
         manager
             .alter_table(
                 Table::alter()
+                    .table(User::Table)
+                    .drop_column(User::Image)
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
                     .table(UserFeedItem::Table)
                     .add_column(ColumnDef::new(UserFeedItem::Hatsu).json())
                     .to_owned(),
@@ -35,6 +44,15 @@ impl MigrationTrait for Migration {
                 Table::alter()
                     .table(User::Table)
                     .drop_column(User::Hatsu)
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
+                    .table(User::Table)
+                    .add_column(ColumnDef::new(User::Image).string())
                     .to_owned(),
             )
             .await?;

@@ -12,7 +12,6 @@ pub struct Model {
     pub preferred_username: String,
     pub summary: Option<String>,
     pub icon: Option<String>,
-    pub image: Option<String>,
     pub inbox: String,
     pub outbox: String,
     pub followers: String,

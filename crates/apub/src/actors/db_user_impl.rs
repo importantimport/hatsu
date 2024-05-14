@@ -33,8 +33,6 @@ impl ApubUser {
             preferred_username: preferred_username.to_string(),
             summary: user_feed.description,
             icon: user_feed.icon.map(|url| url.to_string()),
-            // TODO: deprecated
-            image: None,
             inbox: user_url
                 .join(&format!("{preferred_username}/inbox"))?
                 .to_string(),

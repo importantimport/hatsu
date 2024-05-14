@@ -84,7 +84,6 @@ impl Object for ApubUser {
             preferred_username: json.preferred_username,
             summary: json.summary,
             icon: json.icon.map(|icon| icon.url.to_string()),
-            image: json.image.map(|image| image.url.to_string()),
             inbox: json.inbox.to_string(),
             outbox: json.outbox.to_string(),
             followers: json.followers.to_string(),
