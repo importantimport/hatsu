@@ -20,10 +20,15 @@ pub struct Model {
     pub public_key: String,
     pub private_key: Option<String>,
     pub hatsu: Option<UserHatsu>,
-    pub feed_json: Option<String>,
-    pub feed_atom: Option<String>,
-    pub feed_rss: Option<String>,
+    pub feed: Option<UserFeed>,
     pub last_refreshed_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize, FromJsonQueryResult)]
+pub struct UserFeed {
+    pub json: Option<String>,
+    pub atom: Option<String>,
+    pub rss: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize, FromJsonQueryResult)]
