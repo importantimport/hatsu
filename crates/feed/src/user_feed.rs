@@ -1,111 +1,111 @@
-use hatsu_db_schema::user::Model as DbUser;
-use hatsu_utils::AppError;
+use std::ops::Deref;
+
+use hatsu_db_schema::user::UserFeed as DbUserFeed;
+use hatsu_utils::{url::absolutize_relative_url, AppError};
+use scraper::{ElementRef, Html, Selector};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::UserFeedItem;
+use crate::UserFeedTopLevel;
 
-/// JSON Feed 1.1
-///
-/// <https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a>
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct UserFeed {
-    #[serde(rename = "_hatsu")]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub hatsu: Option<UserFeedHatsu>,
-    pub feed_url: Url,
+    pub json: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub next_url: Option<Url>,
-    pub title: String,
+    pub atom: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub icon: Option<Url>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub language: Option<String>,
-    pub items: Vec<UserFeedItem>,
+    pub rss: Option<Url>,
 }
 
-/// Hatsu JSON Feed Extension
-///
-/// <https://github.com/importantimport/hatsu/issues/1>
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
-pub struct UserFeedHatsu {
-    pub about: Option<Url>,
-    pub banner_image: Option<Url>,
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct WrappedUserFeed(pub(crate) DbUserFeed);
+
+impl AsRef<DbUserFeed> for WrappedUserFeed {
+    fn as_ref(&self) -> &DbUserFeed {
+        &self.0
+    }
+}
+
+impl Deref for WrappedUserFeed {
+    type Target = DbUserFeed;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl From<DbUserFeed> for WrappedUserFeed {
+    fn from(u: DbUserFeed) -> Self {
+        Self(u)
+    }
 }
 
 impl UserFeed {
-    pub async fn get(user: DbUser) -> Result<Self, AppError> {
-        match user {
-            DbUser {
-                feed_json: Some(url),
-                ..
-            } => Ok(Self::parse_json_feed(Url::parse(&url)?).await?),
-            DbUser {
-                feed_atom: Some(url),
-                ..
-            } => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
-            DbUser {
-                feed_rss: Some(url),
-                ..
-            } => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
-            DbUser {
-                feed_json: None,
-                feed_atom: None,
-                feed_rss: None,
-                ..
-            } => Err(AppError::not_found("Feed Url", &user.name)),
+    pub fn into_db(self) -> DbUserFeed {
+        DbUserFeed {
+            json: self.json.and_then(|url| Some(url.to_string())),
+            atom: self.atom.and_then(|url| Some(url.to_string())),
+            rss: self.rss.and_then(|url| Some(url.to_string())),
         }
     }
+}
 
-    #[async_recursion::async_recursion]
-    pub async fn get_full(self) -> Result<Self, AppError> {
-        match self.next_url {
-            Some(url) => {
-                let next_feed = Self::parse_json_feed(url).await?;
-                let feed = Self {
-                    next_url: next_feed.next_url,
-                    items: [self.items, next_feed.items].concat(),
-                    ..self
-                };
-
-                Ok(Self::get_full(feed).await?)
-            },
-            None => Ok(self),
+impl UserFeed {
+    /// # Panics
+    ///
+    /// No panic here.
+    pub async fn get(domain: String) -> Result<Self, AppError> {
+        fn feed_auto_discovery(head: &ElementRef, domain: &str, kind: &str) -> Option<Url> {
+            head.select(
+                &Selector::parse(&format!("link[rel=\"alternate\"][type=\"{kind}\"]")).unwrap(),
+            )
+            .next()
+            .and_then(|link| {
+                link.value()
+                    .attr("href")
+                    .and_then(|href| absolutize_relative_url(href, domain).ok())
+            })
         }
-    }
 
-    pub async fn parse_json_feed(feed_url: Url) -> Result<Self, AppError> {
-        Ok(reqwest::get(feed_url).await?.json::<Self>().await?)
-    }
+        let response = reqwest::get(format!("https://{}", &domain)).await?;
+        let text = response.text().await?;
+        let document = Html::parse_document(&text);
+        let head = Selector::parse("head").expect("valid selector");
 
-    pub async fn parse_xml_feed(feed_url: Url) -> Result<Self, AppError> {
-        let feed = feed_rs::parser::parse(
-            reqwest::get(feed_url.clone())
-                .await?
-                .text()
-                .await?
-                .as_bytes(),
-        )?;
-
-        let items = feed.entries.iter().map(UserFeedItem::from_entry).collect();
-
-        Ok(Self {
-            feed_url,
-            next_url: None,
-            hatsu: None,
-            title: match feed.title {
-                Some(title) => title.content,
-                None => String::from("untitled"),
+        document.select(&head).next().map_or_else(
+            || {
+                Err(AppError::new(
+                    format!("Unable to find the user's feed: {domain}"),
+                    None,
+                    None,
+                ))
             },
-            description: feed.description.map(|text| text.content),
-            icon: feed.icon.map_or(
-                feed.logo.and_then(|image| Url::parse(&image.uri).ok()),
-                |image| Url::parse(&image.uri).ok(),
-            ),
-            language: feed.language,
-            items,
-        })
+            |head| {
+                Ok(Self {
+                    json: feed_auto_discovery(&head, &domain, "application/feed+json"),
+                    atom: feed_auto_discovery(&head, &domain, "application/atom+xml"),
+                    rss: feed_auto_discovery(&head, &domain, "application/rss+xml"),
+                })
+            },
+        )
+    }
+
+    pub async fn get_top_level(site_feed: Self, name: &str) -> Result<UserFeedTopLevel, AppError> {
+        match site_feed {
+            Self {
+                json: Some(url), ..
+            } => Ok(UserFeedTopLevel::parse_json_feed(url).await?),
+            Self {
+                atom: Some(url), ..
+            } => Ok(UserFeedTopLevel::parse_xml_feed(url).await?),
+            Self { rss: Some(url), .. } => Ok(UserFeedTopLevel::parse_xml_feed(url).await?),
+            Self {
+                json: None,
+                atom: None,
+                rss: None,
+                ..
+            } => Err(AppError::not_found("Feed Url", name)),
+        }
     }
 }

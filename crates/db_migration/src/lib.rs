@@ -7,6 +7,8 @@ mod m20240131_000004_activity;
 mod m20240131_000005_received_follow;
 mod m20240501_000001_received_like;
 mod m20240501_000002_received_announce;
+mod m20240515_000001_user_feed_hatsu_extension;
+mod m20240515_000002_user_feed;
 
 pub struct Migrator;
 
@@ -21,6 +23,8 @@ impl MigratorTrait for Migrator {
             Box::new(m20240131_000005_received_follow::Migration),
             Box::new(m20240501_000001_received_like::Migration),
             Box::new(m20240501_000002_received_announce::Migration),
+            Box::new(m20240515_000001_user_feed_hatsu_extension::Migration),
+            Box::new(m20240515_000002_user_feed::Migration),
         ]
     }
 }

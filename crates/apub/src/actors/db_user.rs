@@ -83,7 +83,6 @@ impl Object for ApubUser {
             preferred_username: json.preferred_username,
             summary: json.summary,
             icon: json.icon.map(|icon| icon.url.to_string()),
-            image: json.image.map(|image| image.url.to_string()),
             inbox: json.inbox.to_string(),
             outbox: json.outbox.to_string(),
             followers: json.followers.to_string(),
@@ -91,9 +90,8 @@ impl Object for ApubUser {
             local: false,
             public_key: json.public_key.public_key_pem,
             private_key: None,
-            feed_json: None,
-            feed_atom: None,
-            feed_rss: None,
+            hatsu: None,
+            feed: None,
             last_refreshed_at: hatsu_utils::date::now(),
         };
 
@@ -123,10 +121,11 @@ impl Object for ApubUser {
                 .icon
                 .clone()
                 .map(|icon| ServiceImage::new(Url::parse(&icon).unwrap())),
-            image: self
-                .image
-                .clone()
-                .map(|image| ServiceImage::new(Url::parse(&image).unwrap())),
+            image: self.hatsu.clone().and_then(|hatsu| {
+                hatsu
+                    .banner_image
+                    .and_then(|image| Some(ServiceImage::new(Url::parse(&image).unwrap())))
+            }),
             // TODO: User Attachment
             attachment: vec![],
             inbox: Url::parse(&self.inbox)?,

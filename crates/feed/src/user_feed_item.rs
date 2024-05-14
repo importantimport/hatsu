@@ -8,11 +8,16 @@ use hatsu_utils::{AppData, AppError};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
+use crate::UserFeedItemHatsu;
+
 /// JSON Feed Item
 ///
 /// <https://www.jsonfeed.org/version/1.1/#items-a-name-items-a>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UserFeedItem {
+    #[serde(rename = "_hatsu")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hatsu: Option<UserFeedItemHatsu>,
     pub id: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<Url>,
@@ -56,6 +61,7 @@ impl From<DbUserFeedItem> for WrappedUserFeedItem {
 impl WrappedUserFeedItem {
     pub fn into_json(self) -> Result<UserFeedItem, AppError> {
         Ok(UserFeedItem {
+            hatsu: None,
             id: self.id.clone(),
             url: Some(Url::parse(&self.id)?),
             title: self.title.clone(),
@@ -83,6 +89,7 @@ impl WrappedUserFeedItem {
             .to_string();
 
         let user_feed_item = DbUserFeedItem {
+            hatsu: json.hatsu.and_then(|hatsu| Some(hatsu.into_db())),
             id: id.clone(),
             user_id: user.id.to_string(),
             post_id: Some(hatsu_utils::url::generate_post_url(data.domain(), id)?.to_string()),
@@ -104,6 +111,7 @@ impl UserFeedItem {
     #[must_use]
     pub fn from_entry(entry: &Entry) -> Self {
         Self {
+            hatsu: None,
             id: entry.id.clone(),
             url: entry
                 .links
