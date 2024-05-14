@@ -28,6 +28,8 @@ pub struct UserFeed {
 
 /// Hatsu JSON Feed Extension
 ///
+/// <https://hatsu.cli.rs/others/json-feed-extension.html#top-level>
+/// 
 /// <https://github.com/importantimport/hatsu/issues/1>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UserFeedHatsu {

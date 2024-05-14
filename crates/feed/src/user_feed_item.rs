@@ -13,6 +13,9 @@ use url::Url;
 /// <https://www.jsonfeed.org/version/1.1/#items-a-name-items-a>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UserFeedItem {
+    #[serde(rename = "_hatsu")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub hatsu: Option<UserFeedItemHatsu>,
     pub id: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<Url>,
@@ -28,6 +31,16 @@ pub struct UserFeedItem {
     pub date_published: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub date_modified: Option<String>,
+}
+
+/// Hatsu JSON Feed Item Extension
+///
+/// <https://hatsu.cli.rs/others/json-feed-extension.html#items>
+/// 
+/// <https://github.com/importantimport/hatsu/issues/1>
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct UserFeedItemHatsu {
+    pub about: Option<Url>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -56,6 +69,7 @@ impl From<DbUserFeedItem> for WrappedUserFeedItem {
 impl WrappedUserFeedItem {
     pub fn into_json(self) -> Result<UserFeedItem, AppError> {
         Ok(UserFeedItem {
+            hatsu: None,
             id: self.id.clone(),
             url: Some(Url::parse(&self.id)?),
             title: self.title.clone(),
@@ -104,6 +118,7 @@ impl UserFeedItem {
     #[must_use]
     pub fn from_entry(entry: &Entry) -> Self {
         Self {
+            hatsu: None,
             id: entry.id.clone(),
             url: entry
                 .links
