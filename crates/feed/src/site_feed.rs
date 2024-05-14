@@ -3,7 +3,7 @@ use scraper::{ElementRef, Html, Selector};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::UserFeed;
+use crate::UserFeedTopLevel;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct SiteFeed {
@@ -55,15 +55,15 @@ impl SiteFeed {
         )
     }
 
-    pub async fn get_user_feed(site_feed: Self, name: &str) -> Result<UserFeed, AppError> {
+    pub async fn get_user_feed(site_feed: Self, name: &str) -> Result<UserFeedTopLevel, AppError> {
         match site_feed {
             Self {
                 json: Some(url), ..
-            } => Ok(UserFeed::parse_json_feed(url).await?),
+            } => Ok(UserFeedTopLevel::parse_json_feed(url).await?),
             Self {
                 atom: Some(url), ..
-            } => Ok(UserFeed::parse_xml_feed(url).await?),
-            Self { rss: Some(url), .. } => Ok(UserFeed::parse_xml_feed(url).await?),
+            } => Ok(UserFeedTopLevel::parse_xml_feed(url).await?),
+            Self { rss: Some(url), .. } => Ok(UserFeedTopLevel::parse_xml_feed(url).await?),
             Self {
                 json: None,
                 atom: None,

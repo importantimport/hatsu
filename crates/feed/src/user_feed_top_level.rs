@@ -9,7 +9,7 @@ use crate::{UserFeedItem, UserFeedHatsu};
 ///
 /// <https://www.jsonfeed.org/version/1.1/#top-level-a-name-top-level-a>
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
-pub struct UserFeed {
+pub struct UserFeedTopLevel {
     #[serde(rename = "_hatsu")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hatsu: Option<UserFeedHatsu>,
@@ -26,7 +26,7 @@ pub struct UserFeed {
     pub items: Vec<UserFeedItem>,
 }
 
-impl UserFeed {
+impl UserFeedTopLevel {
     pub async fn get(user: DbUser) -> Result<Self, AppError> {
         match user {
             DbUser {
