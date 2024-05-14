@@ -38,9 +38,10 @@ impl From<DbUserFeedItemHatsu> for WrappedUserFeedItemHatsu {
 }
 
 impl UserFeedItemHatsu {
+    #[must_use]
     pub fn into_db(self) -> DbUserFeedItemHatsu {
         DbUserFeedItemHatsu {
-            about: self.about.and_then(|url| Some(url.to_string())),
+            about: self.about.map(|url| url.to_string()),
         }
     }
 }

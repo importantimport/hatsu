@@ -42,11 +42,12 @@ impl From<DbUserFeed> for WrappedUserFeed {
 }
 
 impl UserFeed {
+    #[must_use]
     pub fn into_db(self) -> DbUserFeed {
         DbUserFeed {
-            json: self.json.and_then(|url| Some(url.to_string())),
-            atom: self.atom.and_then(|url| Some(url.to_string())),
-            rss: self.rss.and_then(|url| Some(url.to_string())),
+            json: self.json.map(|url| url.to_string()),
+            atom: self.atom.map(|url| url.to_string()),
+            rss: self.rss.map(|url| url.to_string()),
         }
     }
 }

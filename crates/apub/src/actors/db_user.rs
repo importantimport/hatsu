@@ -130,7 +130,7 @@ impl Object for ApubUser {
             image: self.hatsu.clone().and_then(|hatsu| {
                 hatsu
                     .banner_image
-                    .and_then(|image| Some(ServiceImage::new(Url::parse(&image).unwrap())))
+                    .map(|image| ServiceImage::new(Url::parse(&image).unwrap()))
             }),
             // TODO: User Attachment
             attachment: vec![],

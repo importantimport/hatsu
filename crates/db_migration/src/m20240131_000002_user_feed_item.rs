@@ -44,7 +44,7 @@ impl MigrationTrait for Migration {
 #[derive(Iden)]
 pub enum UserFeedItem {
     Table,
-    /// Hatsu JSON Feed Item Extension (m20240515_000001)
+    /// Hatsu JSON Feed Item Extension (`m20240515_000001`)
     ///
     /// <https://hatsu.cli.rs/others/json-feed-extension.html#items>
     Hatsu,

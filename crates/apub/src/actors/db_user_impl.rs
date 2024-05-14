@@ -48,9 +48,7 @@ impl ApubUser {
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
-            hatsu: user_feed_top_level
-                .hatsu
-                .and_then(|hatsu| Some(hatsu.into_db())),
+            hatsu: user_feed_top_level.hatsu.map(|hatsu| hatsu.into_db()),
             feed: Some(user_feed.into_db()),
             last_refreshed_at: hatsu_utils::date::now(),
         };

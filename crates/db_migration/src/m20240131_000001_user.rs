@@ -65,7 +65,7 @@ pub enum User {
     Local,
     PublicKey,
     PrivateKey,
-    /// Hatsu JSON Feed Extension (m20240515_000001)
+    /// Hatsu JSON Feed Extension (`m20240515_000001`)
     ///
     /// <https://hatsu.cli.rs/others/json-feed-extension.html#top-level>
     Hatsu,

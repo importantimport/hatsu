@@ -40,11 +40,12 @@ impl From<DbUserHatsu> for WrappedUserHatsu {
 }
 
 impl UserFeedHatsu {
+    #[must_use]
     pub fn into_db(self) -> DbUserHatsu {
         DbUserHatsu {
-            about: self.about.and_then(|url| Some(url.to_string())),
+            about: self.about.map(|url| url.to_string()),
             aliases: self.aliases,
-            banner_image: self.banner_image.and_then(|url| Some(url.to_string())),
+            banner_image: self.banner_image.map(|url| url.to_string()),
         }
     }
 }
