@@ -66,12 +66,19 @@ pub enum User {
     PublicKey,
     PrivateKey,
     /// Hatsu JSON Feed Extension (m20240515_000001)
-    /// 
+    ///
     /// <https://hatsu.cli.rs/others/json-feed-extension.html#top-level>
     Hatsu,
-    // Hatsu Private
+    /// User Feed
+    Feed,
+    /// will be remove in v1.0.0
+    // #[deprecated(since = "0.2.0-beta.5", note = "replaced by feed")]
     FeedJson,
+    /// will be remove in v1.0.0
+    // #[deprecated(since = "0.2.0-beta.5", note = "replaced by feed")]
     FeedAtom,
+    /// will be remove in v1.0.0
+    // #[deprecated(since = "0.2.0-beta.5", note = "replaced by feed")]
     FeedRss,
     LastRefreshedAt,
 }
