@@ -43,6 +43,15 @@ impl From<DbUserFeed> for WrappedUserFeed {
 
 impl UserFeed {
     #[must_use]
+    pub fn from_db(feed: DbUserFeed) -> Self {
+        Self {
+            json: feed.json.and_then(|url| Url::parse(&url).ok()),
+            atom: feed.atom.and_then(|url| Url::parse(&url).ok()),
+            rss: feed.rss.and_then(|url| Url::parse(&url).ok())
+        }
+    }
+
+    #[must_use]
     pub fn into_db(self) -> DbUserFeed {
         DbUserFeed {
             json: self.json.map(|url| url.to_string()),
@@ -92,8 +101,8 @@ impl UserFeed {
         )
     }
 
-    pub async fn get_top_level(site_feed: Self, name: &str) -> Result<UserFeedTopLevel, AppError> {
-        match site_feed {
+    pub async fn get_top_level(user_feed: Self, name: &str) -> Result<UserFeedTopLevel, AppError> {
+        match user_feed {
             Self {
                 json: Some(url), ..
             } => Ok(UserFeedTopLevel::parse_json_feed(url).await?),
