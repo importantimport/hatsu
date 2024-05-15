@@ -47,7 +47,7 @@ impl UserFeed {
         Self {
             json: db_user_feed.json.and_then(|url| Url::parse(&url).ok()),
             atom: db_user_feed.atom.and_then(|url| Url::parse(&url).ok()),
-            rss: db_user_feed.rss.and_then(|url| Url::parse(&url).ok())
+            rss: db_user_feed.rss.and_then(|url| Url::parse(&url).ok()),
         }
     }
 

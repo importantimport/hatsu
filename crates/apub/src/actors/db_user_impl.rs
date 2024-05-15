@@ -59,7 +59,10 @@ impl ApubUser {
     /// For hatsu_scheduler::update::full_update
     pub fn to_user_feed_top_level(self) -> UserFeedTopLevel {
         UserFeedTopLevel {
-            hatsu: self.hatsu.clone().map(|hatsu| UserFeedHatsu::from_db(hatsu)),
+            hatsu: self
+                .hatsu
+                .clone()
+                .map(|hatsu| UserFeedHatsu::from_db(hatsu)),
             title: self.name.clone(),
             description: self.summary.clone(),
             icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),

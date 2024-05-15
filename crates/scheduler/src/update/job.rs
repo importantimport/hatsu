@@ -87,15 +87,18 @@ pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Resu
         .get_full()
         .await?;
 
-    if !Into::<ApubUser>::into(db_user.clone()).to_user_feed_top_level().eq(&UserFeedTopLevel {
-        // TODO: use language
-        language: Default::default(),
-        // Default::default()
-        feed_url: Url::parse("https://hatsu.local").unwrap(),
-        next_url: Default::default(),
-        items: Default::default(),
-        ..user_feed_top_level.clone()
-    }) {
+    if !Into::<ApubUser>::into(db_user.clone())
+        .to_user_feed_top_level()
+        .eq(&UserFeedTopLevel {
+            // TODO: use language
+            language: Default::default(),
+            // Default::default()
+            feed_url: Url::parse("https://hatsu.local").unwrap(),
+            next_url: Default::default(),
+            items: Default::default(),
+            ..user_feed_top_level.clone()
+        })
+    {
         db_user = hatsu_db_schema::user::ActiveModel {
             hatsu: Set(user_feed_top_level.hatsu.map(|hatsu| hatsu.into_db())),
             name: Set(user_feed_top_level.title),
