@@ -8,7 +8,7 @@ use activitypub_federation::{
     traits::{ActivityHandler, Actor},
 };
 use hatsu_db_schema::{prelude::ReceivedFollow, user::Model as DbUser};
-use hatsu_feed::UserFeed;
+use hatsu_feed::{UserFeed, UserFeedHatsu, UserFeedTopLevel};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::ModelTrait;
 use serde::Serialize;
@@ -54,6 +54,22 @@ impl ApubUser {
         };
 
         Ok(user.into())
+    }
+
+    /// For hatsu_scheduler::update::full_update
+    pub fn to_user_feed_top_level(self) -> UserFeedTopLevel {
+        UserFeedTopLevel {
+            hatsu: self.hatsu.clone().map(|hatsu| UserFeedHatsu::from_db(hatsu)),
+            title: self.name.clone(),
+            description: self.summary.clone(),
+            icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),
+            // TOOD: use language
+            language: Default::default(),
+            // Default::default()
+            feed_url: Url::parse("https://hatsu.local").unwrap(),
+            next_url: Default::default(),
+            items: Default::default(),
+        }
     }
 
     /// 发送动态 / Send Activity

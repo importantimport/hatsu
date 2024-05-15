@@ -48,4 +48,12 @@ impl UserFeedHatsu {
             banner_image: self.banner_image.map(|url| url.to_string()),
         }
     }
+
+    pub fn from_db(db_hatsu: DbUserHatsu) -> Self {
+        Self {
+            about: db_hatsu.about.and_then(|url| Url::parse(&url).ok()),
+            aliases: db_hatsu.aliases,
+            banner_image: db_hatsu.banner_image.and_then(|url| Url::parse(&url).ok()),
+        }
+    }
 }
