@@ -27,11 +27,11 @@ pub struct UserFeedTopLevel {
 }
 
 impl UserFeedTopLevel {
-    pub async fn get(user: DbUser) -> Result<Self, AppError> {
-        match user.feed {
+    pub async fn get(db_user: DbUser) -> Result<Self, AppError> {
+        match db_user.feed {
             Some(user_feed) =>
-                UserFeed::get_top_level(UserFeed::from_db(user_feed), &user.name).await,
-            _ => Err(AppError::not_found("Feed Url", &user.name)),
+                UserFeed::get_top_level(UserFeed::from_db(user_feed), &db_user.name).await,
+            _ => Err(AppError::not_found("Feed Url", &db_user.name)),
         }
     }
 
