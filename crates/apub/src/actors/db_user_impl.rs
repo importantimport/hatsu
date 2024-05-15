@@ -60,10 +60,7 @@ impl ApubUser {
     #[must_use]
     pub fn to_user_feed_top_level(self) -> UserFeedTopLevel {
         UserFeedTopLevel {
-            hatsu: self
-                .hatsu
-                .clone()
-                .map(UserFeedHatsu::from_db),
+            hatsu: self.hatsu.clone().map(UserFeedHatsu::from_db),
             title: self.name.clone(),
             description: self.summary.clone(),
             icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),
