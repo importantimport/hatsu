@@ -49,6 +49,7 @@ impl UserFeedHatsu {
         }
     }
 
+    #[must_use]
     pub fn from_db(db_hatsu: DbUserHatsu) -> Self {
         Self {
             about: db_hatsu.about.and_then(|url| Url::parse(&url).ok()),

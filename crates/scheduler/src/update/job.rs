@@ -6,7 +6,7 @@ use hatsu_db_schema::{
     prelude::User,
     user::{self, Model as DbUser},
 };
-use hatsu_feed::{UserFeed, UserFeedTopLevel, WrappedUserFeedItem};
+use hatsu_feed::{UserFeed, UserFeedHatsu, UserFeedTopLevel, WrappedUserFeedItem};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{
     ActiveModelTrait,
@@ -91,16 +91,16 @@ pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Resu
         .to_user_feed_top_level()
         .eq(&UserFeedTopLevel {
             // TODO: use language
-            language: Default::default(),
+            language: Option::default(),
             // Default::default()
             feed_url: Url::parse("https://hatsu.local").unwrap(),
-            next_url: Default::default(),
-            items: Default::default(),
+            next_url: Option::default(),
+            items: Vec::default(),
             ..user_feed_top_level.clone()
         })
     {
         db_user = hatsu_db_schema::user::ActiveModel {
-            hatsu: Set(user_feed_top_level.hatsu.map(|hatsu| hatsu.into_db())),
+            hatsu: Set(user_feed_top_level.hatsu.map(UserFeedHatsu::into_db)),
             name: Set(user_feed_top_level.title),
             summary: Set(user_feed_top_level.description),
             icon: Set(user_feed_top_level.icon.map(|url| url.to_string())),

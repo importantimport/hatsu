@@ -115,7 +115,7 @@ impl Object for ApubUser {
             .hatsu
             .clone()
             .and_then(|hatsu| hatsu.aliases)
-            .unwrap_or(self.preferred_username.clone());
+            .unwrap_or_else(|| self.preferred_username.clone());
 
         Ok(Service {
             kind: ServiceType::Service.to_string(),

@@ -48,7 +48,7 @@ impl ApubUser {
             local: true,
             public_key: keypair.public_key,
             private_key: Some(keypair.private_key),
-            hatsu: user_feed_top_level.hatsu.map(|hatsu| hatsu.into_db()),
+            hatsu: user_feed_top_level.hatsu.map(UserFeedHatsu::into_db),
             feed: Some(user_feed.into_db()),
             last_refreshed_at: hatsu_utils::date::now(),
         };
@@ -56,22 +56,23 @@ impl ApubUser {
         Ok(user.into())
     }
 
-    /// For hatsu_scheduler::update::full_update
+    /// For `hatsu_scheduler::update::full_update`
+    #[must_use]
     pub fn to_user_feed_top_level(self) -> UserFeedTopLevel {
         UserFeedTopLevel {
             hatsu: self
                 .hatsu
                 .clone()
-                .map(|hatsu| UserFeedHatsu::from_db(hatsu)),
+                .map(UserFeedHatsu::from_db),
             title: self.name.clone(),
             description: self.summary.clone(),
             icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),
             // TOOD: use language
-            language: Default::default(),
+            language: Option::default(),
             // Default::default()
             feed_url: Url::parse("https://hatsu.local").unwrap(),
-            next_url: Default::default(),
-            items: Default::default(),
+            next_url: Option::default(),
+            items: Vec::default(),
         }
     }
 
