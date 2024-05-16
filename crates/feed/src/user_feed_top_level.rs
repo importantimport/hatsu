@@ -1,9 +1,9 @@
-use hatsu_db_schema::user::{Model as DbUser, UserFeed as DbUserFeed};
+use hatsu_db_schema::user::Model as DbUser;
 use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{UserFeedHatsu, UserFeedItem};
+use crate::{UserFeed, UserFeedHatsu, UserFeedItem};
 
 /// JSON Feed 1.1
 ///
@@ -27,17 +27,11 @@ pub struct UserFeedTopLevel {
 }
 
 impl UserFeedTopLevel {
-    pub async fn get(user: DbUser) -> Result<Self, AppError> {
-        match user.feed {
-            Some(DbUserFeed {
-                json: Some(url), ..
-            }) => Ok(Self::parse_json_feed(Url::parse(&url)?).await?),
-            Some(DbUserFeed {
-                atom: Some(url), ..
-            }) => Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
-            Some(DbUserFeed { rss: Some(url), .. }) =>
-                Ok(Self::parse_xml_feed(Url::parse(&url)?).await?),
-            _ => Err(AppError::not_found("Feed Url", &user.name)),
+    pub async fn get(db_user: DbUser) -> Result<Self, AppError> {
+        match db_user.feed {
+            Some(user_feed) =>
+                UserFeed::get_top_level(UserFeed::from_db(user_feed), &db_user.name).await,
+            _ => Err(AppError::not_found("Feed Url", &db_user.name)),
         }
     }
 
