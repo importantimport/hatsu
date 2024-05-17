@@ -19,6 +19,7 @@ pub struct UserAttachment {
 }
 
 impl UserAttachment {
+    #[must_use]
     pub fn new(name: &str, value: String) -> Self {
         Self {
             kind: String::from("PropertyValue"),
@@ -27,7 +28,8 @@ impl UserAttachment {
         }
     }
 
-    pub fn generate(domain: Url, feed: DbUserFeed) -> Vec<Self> {
+    #[must_use]
+    pub fn generate(domain: &Url, feed: DbUserFeed) -> Vec<Self> {
         let mut attachment = vec![
             Self::new("Website", format!("<a href=\"{domain}\" rel=\"nofollow noreferrer noopener me\" target=\"_blank\" translate=\"no\">{domain}</a>"))
         ];

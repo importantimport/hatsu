@@ -76,7 +76,7 @@ pub struct User {
     pub public_key: PublicKey,
 }
 
-/// impl ToSchema for PublicKey
+/// impl `ToSchema` for `PublicKey`
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct PublicKeySchema {

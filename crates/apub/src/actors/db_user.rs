@@ -137,7 +137,7 @@ impl Object for ApubUser {
             attachment: self
                 .feed
                 .clone()
-                .map_or(Vec::new(), |feed| UserAttachment::generate(domain, feed)),
+                .map_or(Vec::new(), |feed| UserAttachment::generate(&domain, feed)),
             inbox: Url::parse(&self.inbox)?,
             outbox: Url::parse(&self.outbox)?,
             followers: Url::parse(&self.followers)?,
