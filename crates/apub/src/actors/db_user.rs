@@ -130,33 +130,25 @@ impl Object for ApubUser {
             attachment.push(ServiceAttachment {
                 kind: String::from("PropertyType"),
                 name: String::from("JSON Feed"),
-                value: format!("<a href=\"{}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{}</a>", json, json),
-            })
+                value: format!("<a href=\"{json}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{json}</a>"),
+            });
         };
 
         if let Some(atom) = self.feed.clone().and_then(|feed| feed.atom) {
             attachment.push(ServiceAttachment {
                 kind: String::from("PropertyType"),
                 name: String::from("Atom Feed"),
-                value: format!("<a href=\"{}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{}</a>", atom, atom),
-            })
+                value: format!("<a href=\"{atom}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{atom}</a>"),
+            });
         };
 
         if let Some(rss) = self.feed.clone().and_then(|feed| feed.rss) {
             attachment.push(ServiceAttachment {
                 kind: String::from("PropertyType"),
                 name: String::from("RSS Feed"),
-                value: format!("<a href=\"{}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{}</a>", rss, rss),
-            })
+                value: format!("<a href=\"{rss}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{rss}</a>"),
+            });
         };
-
-        // if self.feed.and_then(|feed| feed.json).is_some() {
-        //     attachment.push(ServiceAttachment {
-        //         kind: String::from("PropertyType"),
-        //         name: String::from("Website"),
-        //         value: format!("<a href=\"{}\">{}</a>", self.feed.json, self.feed.json),
-        //     })
-        // }
 
         Ok(Service {
             kind: ServiceType::Service.to_string(),
