@@ -1,6 +1,6 @@
 use activitypub_federation::{config::Data, traits::Object};
-use hatsu_apub::actors::{ApubUser, Service};
-use hatsu_db_schema::prelude::User;
+use hatsu_apub::actors::{ApubUser, User};
+use hatsu_db_schema::prelude::User as PreludeUser;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
@@ -22,7 +22,7 @@ pub struct Account {
 }
 
 impl Account {
-    pub fn from_json(user: Service) -> Result<Self, AppError> {
+    pub fn from_json(user: User) -> Result<Self, AppError> {
         let avatar = if let Some(icon) = user.icon {
             icon.url.to_string()
         } else {
@@ -44,11 +44,11 @@ impl Account {
     }
 
     pub async fn from_id(user_id: String, data: &Data<AppData>) -> Result<Self, AppError> {
-        match User::find_by_id(&user_id).one(&data.conn).await? {
+        match PreludeUser::find_by_id(&user_id).one(&data.conn).await? {
             Some(db_user) => {
                 let apub_user: ApubUser = db_user.into();
-                let service: Service = apub_user.into_json(data).await?;
-                Ok(Self::from_json(service)?)
+                let user: User = apub_user.into_json(data).await?;
+                Ok(Self::from_json(user)?)
             },
             None => Err(AppError::not_found("Account", &user_id)),
         }

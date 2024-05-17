@@ -7,8 +7,8 @@ use activitypub_federation::{
 };
 use axum::{debug_handler, extract::Path, response::Redirect};
 // use axum_extra::routing::TypedPath;
-use hatsu_apub::actors::{ApubUser, Service};
-use hatsu_db_schema::prelude::User;
+use hatsu_apub::actors::{ApubUser, User};
+use hatsu_db_schema::prelude::User as PreludeUser;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 // use serde::Deserialize;
@@ -32,7 +32,7 @@ use serde_json::{json, Value};
     tag = "apub",
     path = "/users/{user}",
     responses(
-        (status = OK, description = "User", body = Service),
+        (status = OK, description = "User", body = User),
         (status = NOT_FOUND, description = "User does not exist", body = AppError)
     ),
     params(
@@ -44,7 +44,7 @@ pub async fn user(
     // Users { name }: Users,
     Path(name): Path<String>,
     data: Data<AppData>,
-) -> Result<FederationJson<WithContext<Service>>, AppError> {
+) -> Result<FederationJson<WithContext<User>>, AppError> {
     let url = hatsu_utils::url::generate_user_url(data.domain(), &name)?;
     // "@context": [
     //   "https://www.w3.org/ns/activitystreams",
@@ -75,7 +75,10 @@ pub async fn user(
         }),
     ];
 
-    match User::find_by_id(&url.to_string()).one(&data.conn).await? {
+    match PreludeUser::find_by_id(&url.to_string())
+        .one(&data.conn)
+        .await?
+    {
         Some(db_user) => {
             let apub_user: ApubUser = db_user.into();
             Ok(FederationJson(WithContext::new(
