@@ -32,7 +32,7 @@ pub struct Status {
 impl Status {
     pub async fn from_json(note: Note, data: &Data<AppData>) -> Result<Self, AppError> {
         let apub_user = note.attributed_to.dereference_local(data).await?;
-        let service = apub_user.into_json(data).await?;
+        let user = apub_user.into_json(data).await?;
 
         Ok(Self {
             id: note.id.clone().into(),
@@ -41,7 +41,7 @@ impl Status {
             uri: note.id.clone().into(),
             // TODO: replace
             url: note.id.clone().into(),
-            account: Account::from_json(service)?,
+            account: Account::from_json(user)?,
             created_at: note.published,
             content: note.content,
             emojis: CustomEmoji::from_json(note.tag),

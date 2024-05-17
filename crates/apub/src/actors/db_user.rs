@@ -8,14 +8,14 @@ use activitypub_federation::{
 };
 use chrono::{DateTime, Utc};
 use hatsu_db_schema::{
-    prelude::User,
+    prelude::User as PreludeUser,
     user::{self, Model as DbUser},
 };
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{sea_query, EntityTrait, IntoActiveModel};
 use url::Url;
 
-use crate::actors::{Service, ServiceAttachment, ServiceImage};
+use crate::actors::{User, UserAttachment, UserImage, UserType};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubUser(pub(crate) DbUser);
@@ -44,7 +44,7 @@ impl From<DbUser> for ApubUser {
 impl Object for ApubUser {
     type DataType = AppData;
     type Error = AppError;
-    type Kind = Service;
+    type Kind = User;
 
     fn last_refreshed_at(&self) -> Option<DateTime<Utc>> {
         hatsu_utils::date::parse(&self.last_refreshed_at).ok()
@@ -54,14 +54,14 @@ impl Object for ApubUser {
         user_id: Url,
         data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
-        Ok(User::find_by_id(&user_id.to_string())
+        Ok(PreludeUser::find_by_id(&user_id.to_string())
             .one(&data.conn)
             .await?
             .map(Into::into))
     }
 
     async fn delete(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        let _delete_user = User::delete_by_id(&self.id.to_string())
+        let _delete_user = PreludeUser::delete_by_id(&self.id.to_string())
             .exec(&data.conn)
             .await?;
         Ok(())
@@ -97,7 +97,7 @@ impl Object for ApubUser {
 
         // 写入数据库
         // TODO: on_conflict 时执行更新
-        User::insert(user.clone().into_active_model())
+        PreludeUser::insert(user.clone().into_active_model())
             .on_conflict(
                 sea_query::OnConflict::column(user::Column::Id)
                     .do_nothing()
@@ -119,39 +119,8 @@ impl Object for ApubUser {
 
         let domain = Url::parse(&format!("https://{}", &self.preferred_username))?;
 
-        let mut attachment = vec![ServiceAttachment {
-            kind: String::from("PropertyType"),
-            name: String::from("Website"),
-            // rel="me"
-            value: format!("<a href=\"{domain}\" rel=\"nofollow noreferrer noopener me\" target=\"_blank\" translate=\"no\">{domain}</a>"),
-        }];
-
-        if let Some(json) = self.feed.clone().and_then(|feed| feed.json) {
-            attachment.push(ServiceAttachment {
-                kind: String::from("PropertyType"),
-                name: String::from("JSON Feed"),
-                value: format!("<a href=\"{json}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{json}</a>"),
-            });
-        };
-
-        if let Some(atom) = self.feed.clone().and_then(|feed| feed.atom) {
-            attachment.push(ServiceAttachment {
-                kind: String::from("PropertyType"),
-                name: String::from("Atom Feed"),
-                value: format!("<a href=\"{atom}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{atom}</a>"),
-            });
-        };
-
-        if let Some(rss) = self.feed.clone().and_then(|feed| feed.rss) {
-            attachment.push(ServiceAttachment {
-                kind: String::from("PropertyType"),
-                name: String::from("RSS Feed"),
-                value: format!("<a href=\"{rss}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{rss}</a>"),
-            });
-        };
-
-        Ok(Service {
-            kind: ServiceType::Service.to_string(),
+        Ok(User {
+            kind: UserType::ServiceType(ServiceType::Service),
             name: self.name.clone(),
             preferred_username: self.preferred_username.clone(),
             id: Url::parse(&self.id)?.into(),
@@ -159,13 +128,16 @@ impl Object for ApubUser {
             icon: self
                 .icon
                 .clone()
-                .map(|icon| ServiceImage::new(Url::parse(&icon).unwrap())),
+                .map(|icon| UserImage::new(Url::parse(&icon).unwrap())),
             image: self.hatsu.clone().and_then(|hatsu| {
                 hatsu
                     .banner_image
-                    .map(|image| ServiceImage::new(Url::parse(&image).unwrap()))
+                    .map(|image| UserImage::new(Url::parse(&image).unwrap()))
             }),
-            attachment,
+            attachment: self
+                .feed
+                .clone()
+                .map_or(Vec::new(), |feed| UserAttachment::generate(domain, feed)),
             inbox: Url::parse(&self.inbox)?,
             outbox: Url::parse(&self.outbox)?,
             followers: Url::parse(&self.followers)?,
