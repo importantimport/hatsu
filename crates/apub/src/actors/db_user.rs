@@ -15,7 +15,7 @@ use hatsu_utils::{AppData, AppError};
 use sea_orm::{sea_query, EntityTrait, IntoActiveModel};
 use url::Url;
 
-use crate::actors::{Service, ServiceImage};
+use crate::actors::{Service, ServiceAttachment, ServiceImage};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ApubUser(pub(crate) DbUser);
@@ -117,6 +117,39 @@ impl Object for ApubUser {
             .and_then(|hatsu| hatsu.aliases)
             .unwrap_or_else(|| self.preferred_username.clone());
 
+        let domain = Url::parse(&format!("https://{}", &self.preferred_username))?;
+
+        let mut attachment = vec![ServiceAttachment {
+            kind: String::from("PropertyType"),
+            name: String::from("Website"),
+            // rel="me"
+            value: format!("<a href=\"{domain}\" rel=\"nofollow noreferrer noopener me\" target=\"_blank\" translate=\"no\">{domain}</a>"),
+        }];
+
+        if let Some(json) = self.feed.clone().and_then(|feed| feed.json) {
+            attachment.push(ServiceAttachment {
+                kind: String::from("PropertyType"),
+                name: String::from("JSON Feed"),
+                value: format!("<a href=\"{json}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{json}</a>"),
+            });
+        };
+
+        if let Some(atom) = self.feed.clone().and_then(|feed| feed.atom) {
+            attachment.push(ServiceAttachment {
+                kind: String::from("PropertyType"),
+                name: String::from("Atom Feed"),
+                value: format!("<a href=\"{atom}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{atom}</a>"),
+            });
+        };
+
+        if let Some(rss) = self.feed.clone().and_then(|feed| feed.rss) {
+            attachment.push(ServiceAttachment {
+                kind: String::from("PropertyType"),
+                name: String::from("RSS Feed"),
+                value: format!("<a href=\"{rss}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{rss}</a>"),
+            });
+        };
+
         Ok(Service {
             kind: ServiceType::Service.to_string(),
             name: self.name.clone(),
@@ -132,8 +165,7 @@ impl Object for ApubUser {
                     .banner_image
                     .map(|image| ServiceImage::new(Url::parse(&image).unwrap()))
             }),
-            // TODO: User Attachment
-            attachment: vec![],
+            attachment,
             inbox: Url::parse(&self.inbox)?,
             outbox: Url::parse(&self.outbox)?,
             followers: Url::parse(&self.followers)?,

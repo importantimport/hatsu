@@ -80,11 +80,11 @@ pub struct ServiceAttachment {
     // 类型，应始终为 PropertyValue
     #[schema(value_type = String)]
     #[serde(rename = "type")]
-    kind: String,
+    pub kind: String,
     /// Website / JSON Feed / Atom Feed / RSS Feed
-    name: String,
+    pub name: String,
     /// "<a href="{url}">{url}</a>"
-    value: String,
+    pub value: String,
 }
 
 impl ServiceImage {
