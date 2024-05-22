@@ -21,6 +21,7 @@ hatsu_db_schema = { workspace = true }
 hatsu_feed = { workspace = true }
 hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
+async-trait = { workspace = true }
 sea-orm = { workspace = true }
 serde_json = { workspace = true }
 tracing = { workspace = true }

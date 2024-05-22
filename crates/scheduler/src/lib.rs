@@ -1,7 +1,7 @@
 use activitypub_federation::config::FederationConfig;
 use hatsu_utils::{AppData, AppError};
 use tokio_cron_scheduler::{Job, JobScheduler};
-use tokio_graceful_shutdown::SubsystemHandle;
+use tokio_graceful_shutdown::{IntoSubsystem, SubsystemHandle};
 
 mod update;
 
@@ -16,8 +16,11 @@ impl Scheduler {
             federation_config: federation_config.clone(),
         }
     }
+}
 
-    pub async fn run(self, _subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
+#[async_trait::async_trait]
+impl IntoSubsystem<AppError, AppError> for Scheduler {
+    async fn run(self, _subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
         tracing::info!("creating scheduler");
         let scheduler: JobScheduler = JobScheduler::new().await?;
 

@@ -2,7 +2,7 @@ use std::net::SocketAddr;
 
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use hatsu_utils::{AppData, AppError};
-use tokio_graceful_shutdown::SubsystemHandle;
+use tokio_graceful_shutdown::{IntoSubsystem, SubsystemHandle};
 use tower_http::{cors::CorsLayer, trace::TraceLayer};
 
 mod favicon;
@@ -19,8 +19,11 @@ impl Server {
             federation_config: federation_config.clone(),
         }
     }
+}
 
-    pub async fn run(self, subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
+#[async_trait::async_trait]
+impl IntoSubsystem<AppError, AppError> for Server {
+    async fn run(self, subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
         let data = self.federation_config.to_request_data();
 
         // build our application with a route

@@ -1428,6 +1428,7 @@ name = "hatsu_backend"
 version = "0.2.0-beta.7"
 dependencies = [
  "activitypub_federation",
+ "async-trait",
  "axum",
  "hatsu_api_admin",
  "hatsu_api_apub",
@@ -1511,6 +1512,7 @@ name = "hatsu_scheduler"
 version = "0.2.0-beta.7"
 dependencies = [
  "activitypub_federation",
+ "async-trait",
  "hatsu_apub",
  "hatsu_db_schema",
  "hatsu_feed",

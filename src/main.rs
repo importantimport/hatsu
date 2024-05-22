@@ -12,7 +12,7 @@ use hatsu_utils::{AppData, AppEnv, AppError};
 use human_panic::{metadata, setup_panic};
 use sea_orm::{ActiveModelTrait, Database, EntityTrait, IntoActiveModel};
 use tokio::time::Duration;
-use tokio_graceful_shutdown::Toplevel;
+use tokio_graceful_shutdown::{IntoSubsystem, SubsystemBuilder, Toplevel};
 use tracing_subscriber::prelude::*;
 
 #[tokio::main]
@@ -84,12 +84,15 @@ async fn main() -> Result<(), AppError> {
     let scheduler = hatsu_scheduler::Scheduler::new(&federation_config);
     let server = hatsu_backend::Server::new(&federation_config);
 
-    let _result = Toplevel::<AppError>::new()
-        .start("Scheduler", move |s| scheduler.run(s))
-        .start("Server", move |s| server.run(s))
-        .catch_signals()
-        .handle_shutdown_requests(Duration::from_millis(5000))
-        .await;
-
-    Ok(())
+    Toplevel::<AppError>::new(|s| async move {
+        s.start(SubsystemBuilder::new(
+            "Scheduler",
+            scheduler.into_subsystem(),
+        ));
+        s.start(SubsystemBuilder::new("Server", server.into_subsystem()));
+    })
+    .catch_signals()
+    .handle_shutdown_requests(Duration::from_millis(1000))
+    .await
+    .map_err(|err| err.into())
 }
