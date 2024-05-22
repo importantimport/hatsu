@@ -3,6 +3,7 @@
 #[must_use]
 pub fn markdown_to_html(value: &str) -> String {
     match markdown::to_html_with_options(value, &markdown::Options::gfm()) {
-        Ok(result) | Err(result) => result,
+        Ok(result) => result,
+        Err(result) => result.to_string(),
     }
 }
