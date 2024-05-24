@@ -61,4 +61,6 @@ you might also want to check out the [Hatsu JSON Feed Extension](../others/json-
 
 Hatsu uses `feed-rs` to parse XML feeds and convert them manually.
 
+Please make sure your feed is valid in [W3C Feed Validation Service](https://validator.w3.org/feed/) first.
+
 This section is currently lacking testing, so feel free to report bugs.
