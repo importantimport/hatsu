@@ -4,6 +4,8 @@ Written by the same authors as Hatsu, KKna provides the simplest integration for
 
 ## Examples
 
+> Replace `hatsu.local` with your Hatsu instance.
+
 ```html
 <script type="module">
   import { defineConfig } from 'https://esm.sh/@kkna/context'
