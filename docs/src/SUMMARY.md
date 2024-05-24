@@ -13,6 +13,7 @@
   - [with Aoba (Lume & Hono)](./users/redirecting-with-aoba.md)
   - [with FEP-612d](./users/redirecting-with-fep-612d.md)
 - [Backfeed](./users/backfeed.md)
+  - [based on KKna](./users/backfeed-based-on-kkna.md)
   - [based on Mastodon Comments](./users/backfeed-based-on-mastodon-comments.md)
   - [based on Webmention (TODO)](./users/backfeed-based-on-webmention.md)
 
