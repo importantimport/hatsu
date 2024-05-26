@@ -40,8 +40,8 @@ panic = "abort"
 strip = "symbols"
 
 [features]
-default = ["console"]
-console = ["dep:console-subscriber", "tokio/tracing"]
+default = ["tokio-console"]
+tokio-console = ["dep:console-subscriber", "tokio/tracing"]
 
 [workspace]
 members = [

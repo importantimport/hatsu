@@ -19,14 +19,14 @@ use tracing_subscriber::prelude::*;
 async fn main() -> Result<(), AppError> {
     setup_panic!(metadata!().homepage("https://github.com/importantimport/hatsu/issues"));
 
-    let subscriber = tracing_subscriber::registry()
+    let registry = tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
         .with(tracing_error::ErrorLayer::default());
 
-    #[cfg(feature = "console")]
-    let subscriber = subscriber.with(console_subscriber::spawn());
+    #[cfg(feature = "tokio-console")]
+    let registry = registry.with(console_subscriber::spawn());
 
-    subscriber.init();
+    registry.init();
 
     tracing::info!("loading environment variables");
     if dotenvy::dotenv().is_err() {
