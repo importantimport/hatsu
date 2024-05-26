@@ -5,10 +5,17 @@ lld = true
 # [target.x86_64-unknown-linux-gnu]
 # rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld"]
 
-# Enable UUID Unstable Features
-# https://docs.rs/uuid/1.4.0/uuid/index.html#unstable-features
 [target.'cfg(all())']
-rustflags = ["--cfg", "uuid_unstable"]
+rustflags = [
+    # UUID Unstable for Uuid::now_v7()
+    # https://docs.rs/uuid/1.4.0/uuid/index.html#unstable-features
+    "--cfg",
+    "uuid_unstable",
+    # Tokio Unstable for `console` feature
+    # https://github.com/tokio-rs/console#instrumenting-your-program
+    "--cfg",
+    "tokio_unstable",
+]
 
 # x86_64-v3 (Intel Haswell / AMD Excavator and above)
 # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
