@@ -92,5 +92,5 @@ async fn main() -> Result<(), AppError> {
     .catch_signals()
     .handle_shutdown_requests(Duration::from_millis(1000))
     .await
-    .map_err(|err| err.into())
+    .map_err(std::convert::Into::into)
 }
