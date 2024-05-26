@@ -39,6 +39,10 @@ opt-level = "z"
 panic = "abort"
 strip = "symbols"
 
+[features]
+default = ["console"]
+console = ["dep:console-subscriber", "tokio/tracing"]
+
 [workspace]
 members = [
     ".",
@@ -134,3 +138,6 @@ tokio-graceful-shutdown = { workspace = true }
 tracing = { workspace = true }
 tracing-error = { workspace = true }
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# optional-dependencies
+console-subscriber = { version = "0.2", optional = true }
