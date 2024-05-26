@@ -20,6 +20,8 @@ async fn main() -> Result<(), AppError> {
 
     hatsu_tracing::init()?;
 
+    tracing::info!("{}", AppEnv::info());
+
     tracing::info!("loading environment variables");
     if dotenvy::dotenv().is_err() {
         let env_file =

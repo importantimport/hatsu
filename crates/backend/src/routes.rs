@@ -1,13 +1,11 @@
 use axum::{http::Response, routing::get, Router};
+use hatsu_utils::AppEnv;
 
 use crate::favicon;
 
 // ./hatsu --version
 async fn root() -> Response<String> {
-    let version = env!("CARGO_PKG_VERSION");
-    let codename = "celluloid";
-
-    Response::new(format!("Hatsu v{version} \"{codename}\""))
+    Response::new(AppEnv::info())
 }
 
 pub fn routes() -> Router {

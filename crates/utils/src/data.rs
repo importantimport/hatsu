@@ -38,4 +38,11 @@ impl AppEnv {
             hatsu_node_description: env::var("HATSU_NODE_DESCRIPTION").ok(),
         })
     }
+
+    pub fn info() -> String {
+        let version = env!("CARGO_PKG_VERSION");
+        let codename = "celluloid";
+
+        format!("Hatsu v{version} \"{codename}\"")
+    }
 }
