@@ -40,7 +40,9 @@ panic = "abort"
 strip = "symbols"
 
 [features]
-default = ["hatsu_tracing/console"]
+default = ["snmalloc", "hatsu_tracing/console"]
+snmalloc = ["dep:snmalloc-rs"]
+# hatsu_tracing
 tracing-conosle = ["hatsu_tracing/console"]
 tracing-json = ["hatsu_tracing/json"]
 
@@ -136,7 +138,9 @@ human-panic = "2"
 activitypub_federation = { workspace = true }
 dotenvy = "0.15"
 sea-orm = { workspace = true }
-snmalloc-rs = "0.3"
 tokio = { workspace = true }
 tokio-graceful-shutdown = { workspace = true }
 tracing = { workspace = true }
+
+# optional
+snmalloc-rs = { version = "0.3", optional = true }
