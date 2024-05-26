@@ -1364,7 +1364,6 @@ name = "hatsu"
 version = "0.2.0-beta.8"
 dependencies = [
  "activitypub_federation",
- "console-subscriber",
  "dotenvy",
  "hatsu_api_apub",
  "hatsu_apub",
@@ -1372,6 +1371,7 @@ dependencies = [
  "hatsu_db_migration",
  "hatsu_db_schema",
  "hatsu_scheduler",
+ "hatsu_tracing",
  "hatsu_utils",
  "human-panic",
  "openssl",
@@ -1380,8 +1380,6 @@ dependencies = [
  "tokio",
  "tokio-graceful-shutdown",
  "tracing",
- "tracing-error",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -1561,6 +1559,17 @@ dependencies = [
  "tokio-graceful-shutdown",
  "tracing",
  "url",
+]
+
+[[package]]
+name = "hatsu_tracing"
+version = "0.2.0-beta.8"
+dependencies = [
+ "console-subscriber",
+ "hatsu_utils",
+ "tracing",
+ "tracing-error",
+ "tracing-subscriber",
 ]
 
 [[package]]
