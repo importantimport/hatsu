@@ -25,7 +25,7 @@ pub fn init() -> Result<(), AppError> {
 fn filter_layer() -> EnvFilter {
     EnvFilter::builder()
         .with_default_directive(LevelFilter::INFO.into())
-        .with_env_var("HATSU_LOG_LEVEL")
+        .with_env_var("HATSU_LOG")
         .from_env_lossy()
 }
 
