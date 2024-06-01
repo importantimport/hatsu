@@ -6,6 +6,13 @@ It is required unless it has a suffix (optional).
 
 However, it may exist as a built-in preset (in the source code) or an example preset (in [`.env.example`](https://github.com/importantimport/hatsu/blob/main/.env.example))
 
+## HATSU_LOG
+
+- default: `info`
+- example: `info,tokio::net=debug`
+
+The format is the same as the [`RUST_LOG`](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#example-syntax).
+
 ## HATSU_ENV_FILE
 
 - default: `/etc/hatsu/.env`
