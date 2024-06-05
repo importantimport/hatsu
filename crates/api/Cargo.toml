@@ -1,0 +1,21 @@
+[package]
+name = "hatsu_api"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+readme.workspace = true
+license.workspace = true
+authors.workspace = true
+description.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+repository.workspace = true
+
+[lib]
+name = "hatsu_api"
+path = "src/lib.rs"
+
+[dependencies]
+axum = { workspace = true }
+url = { workspace = true }
+utoipa = { workspace = true }

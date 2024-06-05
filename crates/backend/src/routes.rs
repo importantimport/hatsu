@@ -10,6 +10,7 @@ async fn root() -> Response<String> {
 
 pub fn routes() -> Router {
     Router::new()
+        .merge(hatsu_api::routes())
         .merge(hatsu_api_admin::routes())
         .merge(hatsu_api_apub::routes())
         .merge(hatsu_api_mastodon::routes())
