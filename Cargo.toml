@@ -49,6 +49,7 @@ tracing-json = ["hatsu_tracing/json"]
 [workspace]
 members = [
     ".",
+    "crates/api",
     "crates/api_admin",
     "crates/api_apub",
     "crates/api_mastodon",
@@ -66,6 +67,7 @@ members = [
 ]
 
 [workspace.dependencies]
+hatsu_api = { path = "./crates/api" }
 hatsu_api_admin = { path = "./crates/api_admin" }
 hatsu_api_apub = { path = "./crates/api_apub" }
 hatsu_api_mastodon = { path = "./crates/api_mastodon" }

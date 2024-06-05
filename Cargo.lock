@@ -1383,6 +1383,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "hatsu_api"
+version = "0.2.0"
+dependencies = [
+ "axum",
+ "url",
+ "utoipa",
+]
+
+[[package]]
 name = "hatsu_api_admin"
 version = "0.2.0"
 dependencies = [
@@ -1466,6 +1475,7 @@ dependencies = [
  "activitypub_federation",
  "async-trait",
  "axum",
+ "hatsu_api",
  "hatsu_api_admin",
  "hatsu_api_apub",
  "hatsu_api_mastodon",
@@ -1532,6 +1542,7 @@ name = "hatsu_openapi"
 version = "0.2.0"
 dependencies = [
  "axum",
+ "hatsu_api",
  "hatsu_api_admin",
  "hatsu_api_apub",
  "hatsu_api_mastodon",

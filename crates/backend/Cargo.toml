@@ -16,6 +16,7 @@ name = "hatsu_backend"
 path = "src/lib.rs"
 
 [dependencies]
+hatsu_api = { workspace = true }
 hatsu_api_admin = { workspace = true }
 hatsu_api_apub = { workspace = true }
 hatsu_api_mastodon = { workspace = true }
