@@ -14,7 +14,7 @@ RUN install_packages openssl libssl-dev ca-certificates curl && \
 ENV HATSU_LISTEN_PORT=3939
 EXPOSE $HATSU_LISTEN_PORT
 
-HEALTHCHECK CMD [ "curl" "--fail" "http://localhost:${HATSU_LISTEN_PORT}/api/v0/generate_204" ]
+HEALTHCHECK CMD [ "curl", "--fail", "http://localhost:${HATSU_LISTEN_PORT}/api/v0/generate_204" ]
 
 ENTRYPOINT [ "/app/hatsu" ]
 
