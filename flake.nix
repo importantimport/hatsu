@@ -28,7 +28,7 @@
       ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
+      perSystem = { config, self', inputs', lib, pkgs, system, ... }: {
         # Per-system attributes can be defined here. The self' and inputs'
         # module parameters provide easy access to attributes of the same
         # system.

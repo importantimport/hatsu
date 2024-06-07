@@ -1,9 +1,15 @@
 # https://devenv.sh/basics/
-{ pkgs, ... }: {
+{ lib, pkgs, ... }:
+let rust_toolchain = lib.importTOML ./rust-toolchain.toml;
+in {
   name = "hatsu";
 
   # https://devenv.sh/languages/
-  languages.rust.enable = true;
+  languages.rust = {
+    enable = true;
+    channel = rust_toolchain.toolchain.channel;
+    components = rust_toolchain.toolchain.components;
+  };
 
   imports = [
     # This is just like the imports in devenv.nix.
