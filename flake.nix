@@ -39,7 +39,7 @@
         devenv.shells.default = {
           name = "hatsu";
           imports = [
-            (./devenv.nix { inherit inputs pkgs; })
+            ./devenv.nix
           ];
 
           devenv.root =
