@@ -3,7 +3,7 @@
   name = "hatsu";
 
   # https://devenv.sh/languages/
-  langauges.rust.enable = true;
+  languages.rust.enable = true;
 
   imports = [
     # This is just like the imports in devenv.nix.
