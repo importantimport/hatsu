@@ -10,7 +10,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    fenix.url = "github:nix-community/fenix";
+    fenix.url = "github:nix-community/fenix/monthly";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
 
     # nix2container.url = "github:nlewo/nix2container";
