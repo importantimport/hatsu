@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    devenv-root.url = "file+file:///dev/null";
+    devenv-root.flake = false;
     devenv.url = "github:cachix/devenv";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -19,7 +21,7 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs = inputs@{ flake-parts, devenv-root, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devenv.flakeModule
@@ -34,7 +36,18 @@
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
         # packages.default = pkgs.hello;
 
-        devenv.shells.default = (import ./devenv.nix { inherit inputs pkgs; });
+        devenv.shells.default = {
+          name = "hatsu";
+          imports = [
+            (./devenv.nix { inherit inputs pkgs; })
+          ];
+
+          devenv.root =
+            let
+              devenvRootFileContent = builtins.readFile devenv-root.outPath;
+            in
+            pkgs.lib.mkIf (devenvRootFileContent != "") devenvRootFileContent;
+        };
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
