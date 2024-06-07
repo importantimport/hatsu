@@ -23,5 +23,6 @@ target/
 # mdBook
 docs/book
 
-# devbox
-.devbox
+# direnv / devenv
+.direnv
+.devenv
