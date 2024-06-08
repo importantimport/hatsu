@@ -10,6 +10,9 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    crane.url = "github:ipetkov/crane";
+    crane.inputs.nixpkgs.follows = "nixpkgs";
+
     fenix.url = "github:nix-community/fenix/monthly";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -24,39 +27,73 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = inputs@{ flake-parts, devenv-root, ... }:
+  outputs = inputs@{ crane, devenv-root, fenix, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devenv.flakeModule
       ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
-      perSystem = { config, self', inputs', lib, pkgs, system, ... }: {
-        # Per-system attributes can be defined here. The self' and inputs'
-        # module parameters provide easy access to attributes of the same
-        # system.
+      perSystem = { config, self', inputs', lib, pkgs, system, ... }:
+        let
+          toolchain = fenix.packages.${system}.fromToolchainFile
+            {
+              file = ./rust-toolchain.toml;
+              sha256 = "PLeBx9Gqpcr0/IzchOJ9g+a0MzOvRFfaoqSx1BXoDFM=";
+            };
 
-        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        # packages.default = pkgs.hello;
+          craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
+          src = craneLib.cleanCargoSource (craneLib.path ./.);
 
-        devenv.shells.default = {
-          name = "hatsu";
-          imports = [
-            ./devenv.nix
-          ];
+          commonArgs = {
+            inherit src;
+            strictDeps = true;
 
-          devenv.root =
-            let
-              devenvRootFileContent = builtins.readFile devenv-root.outPath;
-            in
-            pkgs.lib.mkIf (devenvRootFileContent != "") devenvRootFileContent;
+            buildInputs = with pkgs; [
+              openssl
+              pkg-config
+            ];
+          };
+
+          cargoArtifacts = craneLib.buildDepsOnly commonArgs;
+
+          crateClippy = craneLib.cargoClippy (commonArgs // {
+            inherit cargoArtifacts;
+            cargoClippyExtraArgs = "--all-target -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions";
+          });
+
+          crate = craneLib.buildPackage (commonArgs // {
+            inherit cargoArtifacts;
+          });
+        in
+        {
+          packages.default = crate;
+          checks = {
+            inherit crate crateClippy;
+          };
+
+          devenv.shells.default = {
+            name = "hatsu";
+            imports = [
+              ./devenv.nix
+            ];
+
+            # temporary fix
+            # https://github.com/cachix/devenv/issues/528
+            # https://github.com/cachix/devenv/issues/760
+            containers = pkgs.lib.mkForce { };
+
+            devenv.root =
+              let
+                devenvRootFileContent = builtins.readFile devenv-root.outPath;
+              in
+              pkgs.lib.mkIf (devenvRootFileContent != "") devenvRootFileContent;
+          };
         };
-      };
       flake = {
         # The usual flake attributes can be defined here, including system-
         # agnostic ones like nixosModule and system-enumerating ones, although
         # those are more easily expressed in perSystem.
-
       };
     };
 }
