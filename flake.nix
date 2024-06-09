@@ -57,20 +57,12 @@
           };
 
           packages.default = crate;
-          # devShells.default = craneLib.devShell {
-          #   checks = self'.checks.${system};
-          #   packages = with pkgs; [
-          #     # cargo-*
-          #     cargo-watch
-
-          #     mold
-          #     sccache
-          #   ];
-          # };
-          devShells.default = pkgs.mkShell {
+          devShells.default = craneLib.devShell {
+            # checks = self'.checks.${system};
+            inputsFrom = [ crate ];
             packages = with pkgs; [
               # rust toolchain
-              toolchain
+              # toolchain
 
               # cargo-*
               cargo-watch
