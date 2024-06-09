@@ -64,15 +64,12 @@
             # checks = self'.checks.${system};
             inputsFrom = [ crate ];
             packages = with pkgs; [
-              # rust toolchain
-              # toolchain
-
               # cargo-*
               cargo-watch
 
               just
-              mold
-              sccache
+              # mold
+              # sccache
             ];
           };
         };
