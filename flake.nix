@@ -33,10 +33,8 @@
             inherit src;
             strictDeps = true;
 
-            buildInputs = with pkgs; [
-              openssl
-              pkg-config
-            ];
+            nativeBuildInputs = with pkgs; [ pkg-config ];
+            buildInputs = with pkgs; [ openssl ];
           };
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
