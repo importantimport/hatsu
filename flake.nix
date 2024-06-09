@@ -4,10 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    devenv-root.url = "file+file:///dev/null";
-    devenv-root.flake = false;
-    devenv.url = "github:cachix/devenv";
-
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     crane.url = "github:ipetkov/crane";
@@ -15,23 +11,11 @@
 
     fenix.url = "github:nix-community/fenix/monthly";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # nix2container.url = "github:nlewo/nix2container";
-    # nix2container.inputs.nixpkgs.follows = "nixpkgs";
-
-    # mk-shell-bin.url = "github:rrbutani/nix-mk-shell-bin";
   };
 
-  nixConfig = {
-    extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
-    extra-substituters = "https://devenv.cachix.org";
-  };
-
-  outputs = inputs@{ crane, devenv-root, fenix, flake-parts, ... }:
+  outputs = inputs@{ crane, fenix, flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        inputs.devenv.flakeModule
-      ];
+      imports = [ ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
       perSystem = { config, self', inputs', lib, pkgs, system, ... }:
@@ -67,27 +51,20 @@
           });
         in
         {
-          packages.default = crate;
           checks = {
             inherit crate crateClippy;
           };
 
-          devenv.shells.default = {
-            name = "hatsu";
-            imports = [
-              ./devenv.nix
+          packages.default = crate;
+          devShells.default = craneLib.devShell {
+            checks = self'.checks.${system};
+            packages = with pkgs; [
+              # cargo-*
+              cargo-watch
+
+              mold
+              sccache
             ];
-
-            # temporary fix
-            # https://github.com/cachix/devenv/issues/528
-            # https://github.com/cachix/devenv/issues/760
-            containers = pkgs.lib.mkForce { };
-
-            devenv.root =
-              let
-                devenvRootFileContent = builtins.readFile devenv-root.outPath;
-              in
-              pkgs.lib.mkIf (devenvRootFileContent != "") devenvRootFileContent;
           };
         };
       flake = {
