@@ -33,8 +33,13 @@
             inherit src;
             strictDeps = true;
 
-            nativeBuildInputs = with pkgs; [ pkg-config ];
+            nativeBuildInputs = with pkgs; [ cmake pkg-config ];
             buildInputs = with pkgs; [ openssl ];
+
+            # try fix openssl
+            OPENSSL_DIR = "${pkgs.openssl.dev}";
+            OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+            OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include/";
           };
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
