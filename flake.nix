@@ -49,6 +49,7 @@
           crate = craneLib.buildPackage (commonArgs // {
             inherit cargoArtifacts;
           });
+
         in
         {
           checks = {
@@ -56,12 +57,25 @@
           };
 
           packages.default = crate;
-          devShells.default = craneLib.devShell {
-            checks = self'.checks.${system};
+          # devShells.default = craneLib.devShell {
+          #   checks = self'.checks.${system};
+          #   packages = with pkgs; [
+          #     # cargo-*
+          #     cargo-watch
+
+          #     mold
+          #     sccache
+          #   ];
+          # };
+          devShells.default = pkgs.mkShell {
             packages = with pkgs; [
+              # rust toolchain
+              toolchain
+
               # cargo-*
               cargo-watch
 
+              just
               mold
               sccache
             ];
