@@ -54,14 +54,14 @@ impl Object for ApubUser {
         user_id: Url,
         data: &Data<Self::DataType>,
     ) -> Result<Option<Self>, Self::Error> {
-        Ok(PreludeUser::find_by_id(&user_id.to_string())
+        Ok(PreludeUser::find_by_id(user_id.to_string())
             .one(&data.conn)
             .await?
             .map(Into::into))
     }
 
     async fn delete(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        let _delete_user = PreludeUser::delete_by_id(&self.id.to_string())
+        let _delete_user = PreludeUser::delete_by_id(self.id.to_string())
             .exec(&data.conn)
             .await?;
         Ok(())

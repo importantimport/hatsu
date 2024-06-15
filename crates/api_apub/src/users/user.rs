@@ -75,7 +75,7 @@ pub async fn user(
         }),
     ];
 
-    match PreludeUser::find_by_id(&url.to_string())
+    match PreludeUser::find_by_id(url.to_string())
         .one(&data.conn)
         .await?
     {
