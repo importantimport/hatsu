@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!startsWith(github.ref, 'refs/tags')"
     steps:
-      - uses: actions/checkout@v4]
+      - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@v4
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: nix flake check
