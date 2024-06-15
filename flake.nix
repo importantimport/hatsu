@@ -58,6 +58,10 @@
             cargoClippyExtraArgs = "--all-targets -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions";
           });
 
+          crateFmt = craneLib.cargoFmt {
+            inherit src;
+          };
+
           crate = craneLib.buildPackage (commonArgs // {
             inherit cargoArtifacts;
           });
@@ -65,7 +69,7 @@
         in
         {
           checks = {
-            inherit crate crateClippy;
+            inherit crate crateClippy crateFmt;
           };
 
           packages.default = crate;
