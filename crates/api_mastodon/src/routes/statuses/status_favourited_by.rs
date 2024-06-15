@@ -33,7 +33,7 @@ pub async fn status_favourited_by(
             Ok(url) if url.starts_with("https://") => {
                 let post_url = hatsu_utils::url::generate_post_url(data.domain(), url)?;
 
-                match Post::find_by_id(&post_url.to_string())
+                match Post::find_by_id(post_url.to_string())
                     .one(&data.conn)
                     .await?
                 {

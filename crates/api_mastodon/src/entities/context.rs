@@ -19,7 +19,7 @@ pub struct Context {
 
 impl Context {
     pub async fn find_by_id(post_id: &Url, data: &Data<AppData>) -> Result<Self, AppError> {
-        match Post::find_by_id(&post_id.to_string())
+        match Post::find_by_id(post_id.to_string())
             .one(&data.conn)
             .await?
         {

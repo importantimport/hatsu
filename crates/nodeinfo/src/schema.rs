@@ -75,7 +75,7 @@ pub struct NodeInfoServices {
 }
 
 impl NodeInfoServices {
-    fn new() -> Self {
+    const fn new() -> Self {
         Self {
             inbound: vec![],
             outbound: vec![],

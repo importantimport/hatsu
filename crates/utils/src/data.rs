@@ -39,6 +39,7 @@ impl AppEnv {
         })
     }
 
+    #[must_use]
     pub fn info() -> String {
         let version = env!("CARGO_PKG_VERSION");
         let codename = "celluloid";
