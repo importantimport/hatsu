@@ -27,7 +27,16 @@
             };
 
           craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
-          src = craneLib.cleanCargoSource (craneLib.path ./.);
+
+          # https://github.com/ipetkov/crane/blob/master/docs/source-filtering.md
+          src = lib.cleanSourceWith {
+            name = "source";
+            src = ./.;
+            filter =
+              path: type:
+              (lib.hasInfix "/crates/backend/assets/" path)
+              || (craneLib.filterCargoSources path type);
+          };
 
           commonArgs = {
             inherit src;
