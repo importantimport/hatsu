@@ -2,7 +2,7 @@ use std::env;
 
 use sea_orm::DatabaseConnection;
 
-use crate::AppError;
+use crate::{AppError, VERSION};
 
 #[derive(Clone, Debug)]
 pub struct AppData {
@@ -41,7 +41,7 @@ impl AppEnv {
 
     #[must_use]
     pub fn info() -> String {
-        let version = env!("CARGO_PKG_VERSION");
+        let version = VERSION;
         let codename = "celluloid";
 
         format!("Hatsu v{version} \"{codename}\"")
