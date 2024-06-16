@@ -21,11 +21,11 @@
       perSystem = { config, self', inputs', lib, nixpkgs, pkgs, system, ... }:
         let
           toolchain = with fenix.packages.${system}; combine [
-            # (fromToolchainFile {
-            #   file = ./rust-toolchain.toml;
-            #   sha256 = "bx0H6uahYI+z2i+dMWDH/GzH9mm298NMsUF0eR5kmc4=";
-            # })
-            minimal.toolchain
+            (fromToolchainFile {
+              file = ./rust-toolchain.toml;
+              sha256 = "bx0H6uahYI+z2i+dMWDH/GzH9mm298NMsUF0eR5kmc4=";
+            })
+            # minimal.toolchain
             # targets.aarch64-unknown-linux-gnu.latest.rust-std
             # targets.aarch64-unknown-linux-musl.latest.rust-std
             # targets.x86_64-unknown-linux-gnu.latest.rust-std
