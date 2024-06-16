@@ -26,3 +26,6 @@ docs/book
 # direnv / devenv
 .direnv
 .devenv
+
+# nix build result
+result
