@@ -51,10 +51,8 @@
             nativeBuildInputs = with pkgs; [ cmake pkg-config ];
             buildInputs = with pkgs; [ openssl ];
 
-            # try fix openssl
-            OPENSSL_DIR = "${pkgs.openssl.dev}";
-            OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-            OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include/";
+            # fix openssl-sys
+            OPENSSL_NO_VENDOR = true;
           };
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
