@@ -3,7 +3,11 @@ use std::net::SocketAddr;
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use hatsu_utils::{AppData, AppError};
 use tokio_graceful_shutdown::{IntoSubsystem, SubsystemHandle};
-use tower_http::{cors::CorsLayer, trace::TraceLayer};
+use tower_http::{
+    cors::CorsLayer,
+    trace::{self, TraceLayer},
+};
+use tracing::Level;
 
 mod favicon;
 mod routes;
@@ -31,7 +35,11 @@ impl IntoSubsystem<AppError, AppError> for Server {
         let app = routes::routes()
             .layer(FederationMiddleware::new(self.federation_config))
             .layer(CorsLayer::permissive())
-            .layer(TraceLayer::new_for_http());
+            .layer(
+                TraceLayer::new_for_http()
+                    .make_span_with(trace::DefaultMakeSpan::new().level(Level::INFO))
+                    .on_response(trace::DefaultOnResponse::new().level(Level::INFO)),
+            );
 
         // axum 0.6
         // run our app with hyper

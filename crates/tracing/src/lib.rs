@@ -9,9 +9,14 @@ use tracing_subscriber::{
 };
 
 pub fn init() -> Result<(), AppError> {
+    let fmt_layer = fmt_layer();
+
+    #[cfg(feature = "pretty")]
+    let fmt_layer = fmt_layer.pretty();
+
     let registry = tracing_subscriber::registry()
         .with(filter_layer())
-        .with(fmt_layer())
+        .with(fmt_layer)
         .with(tracing_error::ErrorLayer::default());
 
     #[cfg(feature = "console")]
