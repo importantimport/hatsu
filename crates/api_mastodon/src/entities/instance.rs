@@ -39,7 +39,7 @@ impl Instance {
                 .env
                 .hatsu_node_description
                 .clone()
-                .unwrap_or_else(|| String::from(VERSION)),
+                .unwrap_or_else(|| String::from(env!("CARGO_PKG_DESCRIPTION"))),
             usage: json!({
                 "users": {
                     "active_month": 0
