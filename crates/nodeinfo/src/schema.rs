@@ -4,7 +4,7 @@ use hatsu_db_schema::{
     prelude::{Post, User},
     user,
 };
-use hatsu_utils::{AppData, AppError};
+use hatsu_utils::{AppData, AppError, VERSION};
 use sea_orm::{ColumnTrait, EntityTrait, PaginatorTrait, QueryFilter};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
@@ -30,7 +30,7 @@ impl NodeInfo {
             version: String::from("2.0"),
             software: NodeInfoSoftware {
                 name: String::from("hatsu"),
-                version: String::from(env!("CARGO_PKG_VERSION")),
+                version: String::from(VERSION),
                 repository: None,
                 homepage: None,
             },
@@ -47,7 +47,7 @@ impl NodeInfo {
             version: String::from("2.1"),
             software: NodeInfoSoftware {
                 name: String::from("hatsu"),
-                version: String::from(env!("CARGO_PKG_VERSION")),
+                version: String::from(VERSION),
                 repository: Some(String::from(env!("CARGO_PKG_REPOSITORY"))),
                 homepage: Some(String::from(env!("CARGO_PKG_HOMEPAGE"))),
             },

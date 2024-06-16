@@ -1,5 +1,5 @@
 use activitypub_federation::config::Data;
-use hatsu_utils::{AppData, AppError};
+use hatsu_utils::{AppData, AppError, VERSION};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use url::Url;
@@ -33,13 +33,13 @@ impl Instance {
                 .hatsu_node_name
                 .clone()
                 .unwrap_or_else(|| String::from("Hatsu")),
-            version: String::from(env!("CARGO_PKG_VERSION")),
+            version: String::from(VERSION),
             source_url: Url::parse("https://github.com/importantimport/hatsu")?,
             description: data
                 .env
                 .hatsu_node_description
                 .clone()
-                .unwrap_or_else(|| String::from(env!("CARGO_PKG_DESCRIPTION"))),
+                .unwrap_or_else(|| String::from(VERSION)),
             usage: json!({
                 "users": {
                     "active_month": 0
