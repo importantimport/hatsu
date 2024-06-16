@@ -18,13 +18,19 @@
       imports = [ ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
-      perSystem = { config, self', inputs', lib, pkgs, system, ... }:
+      perSystem = { config, self', inputs', lib, nixpkgs, pkgs, system, ... }:
         let
-          toolchain = fenix.packages.${system}.fromToolchainFile
-            {
+          toolchain = with fenix.packages.${system}; combine [
+            (fromToolchainFile {
               file = ./rust-toolchain.toml;
               sha256 = "bx0H6uahYI+z2i+dMWDH/GzH9mm298NMsUF0eR5kmc4=";
-            };
+            })
+            # minimal.toolchain
+            # targets.aarch64-unknown-linux-gnu.latest.rust-std
+            # targets.aarch64-unknown-linux-musl.latest.rust-std
+            # targets.x86_64-unknown-linux-gnu.latest.rust-std
+            # targets.x86_64-unknown-linux-musl.latest.rust-std
+          ];
 
           craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
 
@@ -45,10 +51,8 @@
             nativeBuildInputs = with pkgs; [ cmake pkg-config ];
             buildInputs = with pkgs; [ openssl ];
 
-            # try fix openssl
-            OPENSSL_DIR = "${pkgs.openssl.dev}";
-            OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
-            OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include/";
+            # fix openssl-sys
+            OPENSSL_NO_VENDOR = true;
           };
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
