@@ -18,7 +18,7 @@
       imports = [ ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
 
-      perSystem = { config, self', inputs', lib, nixpkgs, pkgs, system, ... }:
+      perSystem = { config, self', inputs', lib, pkgs, system, ... }:
         let
           toolchain = with fenix.packages.${system}; combine [
             (fromToolchainFile {
@@ -51,8 +51,11 @@
             nativeBuildInputs = with pkgs; [ cmake pkg-config ];
             buildInputs = with pkgs; [ openssl ];
 
-            # fix openssl-sys
+            # fix openssl
             OPENSSL_NO_VENDOR = true;
+            OPENSSL_DIR = "${pkgs.openssl.dev}";
+            OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+            OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include/";
           };
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
