@@ -22,6 +22,7 @@
 - [Install](./admins/install.md)
   - [Docker Installation](./admins/install-docker.md)
   - [Binary Installation](./admins/install-binary.md)
+  - [Nix/NixOS Installation](./admins/install-nix.md)
 - [Environments](./admins/environments.md)
 - [Create Account](./admins/create-account.md)
 
