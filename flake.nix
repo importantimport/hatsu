@@ -84,6 +84,8 @@
             # checks = self'.checks.${system};
             inputsFrom = [ crate ];
             packages = with pkgs; [
+              mdbook # ./docs/
+
               # cargo-*
               cargo-watch
 
