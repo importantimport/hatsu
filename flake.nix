@@ -23,7 +23,7 @@
           toolchain = with fenix.packages.${system}; combine [
             (fromToolchainFile {
               file = ./rust-toolchain.toml;
-              sha256 = "bx0H6uahYI+z2i+dMWDH/GzH9mm298NMsUF0eR5kmc4=";
+              sha256 = "WXllA4dqR/yihB3daUxS89PEF6UNwXH1xd3hETeioZ0=";
             })
             # minimal.toolchain
             # targets.aarch64-unknown-linux-gnu.latest.rust-std
@@ -40,7 +40,8 @@
             src = ./.;
             filter =
               path: type:
-              (lib.hasInfix "/crates/backend/assets/" path)
+              (lib.hasInfix "/contrib/" path)
+              || (lib.hasInfix "/crates/backend/assets/" path)
               || (craneLib.filterCargoSources path type);
           };
 
