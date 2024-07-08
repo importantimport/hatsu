@@ -1,8 +1,10 @@
 {
     "name": "Hatsu Dev Container",
-    "image": "mcr.microsoft.com/devcontainers/base:debian",
+    "image": "mcr.microsoft.com/devcontainers/base:alpine",
     "features": {
         "ghcr.io/devcontainers/features/nix:1": {
+            "multiUser": true,
+            "version": "latest",
             "extraNixConfig": "experimental-features = nix-command flakes,keep-outputs = true,keep-derivations = true"
         }
     },
