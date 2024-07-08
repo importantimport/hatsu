@@ -34,7 +34,7 @@ impl AppEnv {
             hatsu_listen_port: env::var("HATSU_LISTEN_PORT")
                 .unwrap_or_else(|_| String::from("3939")),
             hatsu_primary_account: env::var("HATSU_PRIMARY_ACCOUNT")
-            .expect("environment variable HATSU_PRIMARY_ACCOUNT not found. see https://hatsu.cli.rs/admins/environments.html#hatsu_primary_account"),
+                .expect("environment variable HATSU_PRIMARY_ACCOUNT not found. see https://hatsu.cli.rs/admins/environments.html#hatsu_primary_account"),
             hatsu_access_token: env::var("HATSU_ACCESS_TOKEN").ok(),
             hatsu_node_name: env::var("HATSU_NODE_NAME").ok(),
             hatsu_node_description: env::var("HATSU_NODE_DESCRIPTION").ok(),
