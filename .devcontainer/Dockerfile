@@ -1,13 +1,8 @@
-FROM jetpackio/devbox:latest
+FROM nixos/nix:latest
 
-# Installing your devbox project
-WORKDIR /code
-USER ${DEVBOX_USER}:${DEVBOX_USER}
-COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.json devbox.json
-COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.lock devbox.lock
+COPY . /app
+WORKDIR /app
 
-
-
-RUN devbox run -- echo "Installed Packages."
-
-RUN devbox shellenv --init-hook >> ~/.profile
+RUN nix-env -iA nixpkgs.bashInteractive nixpkgs.direnv nixpkgs.git && \
+    eval "$(direnv hook bash)" && \
+    direnv allow

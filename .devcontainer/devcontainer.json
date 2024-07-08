@@ -1,16 +1,16 @@
 {
-  "name": "Devbox Remote Container",
-  "build": {
-    "dockerfile": "./Dockerfile",
-    "context": ".."
-  },
-  "customizations": {
-    "vscode": {
-      "settings": {},
-      "extensions": [
-        "jetpack-io.devbox"
-      ]
+    "name": "Hatsu Dev Container",
+    "build": {
+        "dockerfile": "./Dockerfile",
+        "context": ".."
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": [
+                "mkhl.direnv",
+                "rust-lang.rust-analyzer"
+            ]
+        }
     }
-  },
-  "remoteUser": "devbox"
 }
