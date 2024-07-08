@@ -1,8 +1,9 @@
 {
     "name": "Hatsu Dev Container",
-    "build": {
-        "dockerfile": "./Dockerfile",
-        "context": ".."
+    "image": "mcr.microsoft.com/devcontainers/base:debian",
+    "features": {
+        "ghcr.io/devcontainers/features/nix": {},
+        "ghcr.io/devcontainers-community/features/direnv": {}
     },
     "customizations": {
         "vscode": {
