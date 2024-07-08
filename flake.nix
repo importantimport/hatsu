@@ -40,7 +40,8 @@
             src = ./.;
             filter =
               path: type:
-              (lib.hasInfix "/crates/backend/assets/" path)
+              (lib.hasInfix "/contrib/" path)
+              || (lib.hasInfix "/crates/backend/assets/" path)
               || (craneLib.filterCargoSources path type);
           };
 
