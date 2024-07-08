@@ -1,0 +1,13 @@
+[Unit]
+Description=Hatsu - Self-hosted and fully-automated ActivityPub bridge for static sites
+Documentation=https://hatsu.cli.rs
+Wants=network-online.target
+After=network.target
+
+[Service]
+User=hatsu
+ExecStart=/usr/bin/hatsu
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
