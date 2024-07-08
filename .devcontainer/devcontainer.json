@@ -2,8 +2,12 @@
     "name": "Hatsu Dev Container",
     "image": "mcr.microsoft.com/devcontainers/base:debian",
     "features": {
-        "ghcr.io/devcontainers/features/nix": {},
-        "ghcr.io/devcontainers-community/features/direnv": {}
+        "ghcr.io/devcontainers/features/nix:1": {
+            "extraNixConfig": "experimental-features = nix-command flakes,keep-outputs = true,keep-derivations = true"
+        }
+    },
+    "onCreateCommand": {
+        "install-direnv": "set -xeuo pipefail; nix profile install nixpkgs#direnv nixpkgs#nix-direnv && mkdir -p ~/.config/direnv && echo 'source $HOME/.nix-profile/share/nix-direnv/direnvrc' >> ~/.config/direnv/direnvrc && direnv allow && echo 'eval \"$(direnv hook bash)\"' >> ~/.bashrc"
     },
     "customizations": {
         "vscode": {
