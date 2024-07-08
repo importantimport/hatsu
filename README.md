@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/github/license/importantimport/hatsu)](LICENSE)
 [![Matrix](https://img.shields.io/matrix/importantimport%3Amatrix.org)](https://matrix.to/#/#importantimport:matrix.org)
 
-Self-hosted & Fully-automated ActivityPub Bridge for Static Sites. [WIP]
+Self-hosted & Fully-automated ActivityPub Bridge for Static Sites.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/importantimport/hatsu?quickstart=1)
 
