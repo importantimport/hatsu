@@ -1,4 +1,5 @@
 use activitypub_federation::{config::Data, traits::Object};
+use futures::future::TryJoinAll;
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::{post, prelude::Post};
 use hatsu_utils::{AppData, AppError};
@@ -24,26 +25,21 @@ impl Context {
             .await?
         {
             Some(post) => {
-                // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
-                let handles = post
-                    .find_linked(post::SelfReferencingLink)
-                    .all(&data.conn)
-                    .await?
-                    .into_iter()
-                    .map(|post| async move {
-                        let apub_post: ApubPost = post.clone().into();
-                        // TODO: remove unwrap
-                        let note: Note = apub_post.into_json(data).await.unwrap();
-
-                        Status::from_json(note, data).await.unwrap()
-                    })
-                    .collect::<Vec<_>>();
-
-                let descendants: Vec<Status> = futures::future::join_all(handles).await;
-
                 Ok(Self {
                     ancestors: vec![],
-                    descendants,
+                    // https://www.sea-ql.org/SeaORM/docs/relation/chained-relations/
+                    descendants: post
+                        .find_linked(post::SelfReferencingLink)
+                        .all(&data.conn)
+                        .await?
+                        .into_iter()
+                        .map(|post| async move {
+                            let apub_post: ApubPost = post.clone().into();
+                            let note: Note = apub_post.into_json(data).await?;
+                            Status::from_json(note, data).await
+                        })
+                        .collect::<TryJoinAll<_>>()
+                        .await?,
                 })
             },
             None => Err(AppError::not_found("Record", post_id.as_ref())),

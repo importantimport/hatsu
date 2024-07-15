@@ -7,6 +7,7 @@ use activitypub_federation::{
     http_signatures::generate_actor_keypair,
     traits::{ActivityHandler, Actor},
 };
+use futures::future::TryJoinAll;
 use hatsu_db_schema::{prelude::ReceivedFollow, user::Model as DbUser};
 use hatsu_feed::{UserFeed, UserFeedHatsu, UserFeedTopLevel};
 use hatsu_utils::{AppData, AppError};
@@ -92,24 +93,22 @@ impl ApubUser {
         let inboxes = if let Some(inboxes) = inboxes {
             inboxes
         } else {
-            // 获取 followers inbox
-            let handles = self
-                .find_related(ReceivedFollow)
+            // get followers inbox
+            self.find_related(ReceivedFollow)
                 .all(&data.conn)
                 .await?
                 .into_iter()
                 .map(|received_follow| async move {
-                    let follower: ObjectId<Self> =
-                        Url::parse(&received_follow.actor).unwrap().into();
-                    let follower: Self = follower.dereference_local(data).await.unwrap();
-                    follower.shared_inbox_or_inbox()
-                })
-                .collect::<Vec<_>>();
+                    let follower: ObjectId<Self> = Url::parse(&received_follow.actor)?.into();
+                    let follower: Self = follower.dereference_local(data).await?;
 
-            futures::future::join_all(handles).await
+                    Ok::<Url, AppError>(follower.shared_inbox_or_inbox())
+                })
+                .collect::<TryJoinAll<_>>()
+                .await?
         };
 
-        // 发送
+        // send
         queue_activity(&activity, self, inboxes, data).await?;
 
         Ok(())
