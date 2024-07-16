@@ -48,8 +48,6 @@
           commonArgs = {
             inherit src;
             strictDeps = true;
-
-            nativeBuildInputs = with pkgs; [ cmake ];
           };
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;

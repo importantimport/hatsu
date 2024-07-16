@@ -40,7 +40,7 @@ panic = "abort"
 strip = "symbols"
 
 [features]
-default = ["snmalloc", "hatsu_tracing/console", "hatsu_tracing/pretty"]
+default = ["hatsu_tracing/console", "hatsu_tracing/pretty"]
 snmalloc = ["dep:snmalloc-rs"]
 # hatsu_tracing
 tracing_conosle = ["hatsu_tracing/console"]
@@ -149,4 +149,6 @@ tokio-graceful-shutdown = { workspace = true }
 tracing = { workspace = true }
 
 # optional
-snmalloc-rs = { version = "0.3", optional = true }
+snmalloc-rs = { version = "0.3", default-features = false, features = [
+    "build_cc",
+], optional = true }
