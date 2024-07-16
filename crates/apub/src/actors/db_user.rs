@@ -125,14 +125,17 @@ impl Object for ApubUser {
             preferred_username: self.preferred_username.clone(),
             id: Url::parse(&self.id)?.into(),
             summary: self.summary.clone(),
-            icon: self
-                .icon
-                .clone()
-                .map(|icon| UserImage::new(Url::parse(&icon).unwrap())),
+            icon: self.icon.clone().and_then(|icon| match Url::parse(&icon) {
+                Ok(url) => Some(UserImage::new(url)),
+                Err(_) => None,
+            }),
             image: self.hatsu.clone().and_then(|hatsu| {
                 hatsu
                     .banner_image
-                    .map(|image| UserImage::new(Url::parse(&image).unwrap()))
+                    .and_then(|image| match Url::parse(&image) {
+                        Ok(url) => Some(UserImage::new(url)),
+                        Err(_) => None,
+                    })
             }),
             attachment: self
                 .feed

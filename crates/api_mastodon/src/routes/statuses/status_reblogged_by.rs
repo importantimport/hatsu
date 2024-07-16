@@ -41,8 +41,7 @@ pub async fn status_reblogged_by(
                     Some(post) => Ok(Json(
                         post.find_related(ReceivedAnnounce)
                             .all(&data.conn)
-                            .await
-                            .unwrap()
+                            .await?
                             .into_iter()
                             .map(|received_like| async {
                                 Account::from_id(received_like.actor, &data).await
