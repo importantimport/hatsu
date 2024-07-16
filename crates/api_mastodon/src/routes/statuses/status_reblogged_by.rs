@@ -1,5 +1,6 @@
 use activitypub_federation::config::Data;
 use axum::{debug_handler, extract::Path, Json};
+use futures::future::TryJoinAll;
 use hatsu_db_schema::prelude::{Post, ReceivedAnnounce};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{EntityTrait, ModelTrait};
@@ -37,20 +38,17 @@ pub async fn status_reblogged_by(
                     .one(&data.conn)
                     .await?
                 {
-                    Some(post) => {
-                        let handles = post
-                            .find_related(ReceivedAnnounce)
+                    Some(post) => Ok(Json(
+                        post.find_related(ReceivedAnnounce)
                             .all(&data.conn)
-                            .await
-                            .unwrap()
+                            .await?
                             .into_iter()
                             .map(|received_like| async {
-                                Account::from_id(received_like.actor, &data).await.unwrap()
+                                Account::from_id(received_like.actor, &data).await
                             })
-                            .collect::<Vec<_>>();
-
-                        Ok(Json(futures::future::join_all(handles).await))
-                    },
+                            .collect::<TryJoinAll<_>>()
+                            .await?,
+                    )),
                     _ => Err(AppError::not_found("Record", &base64_url)),
                 }
             },

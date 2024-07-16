@@ -88,7 +88,8 @@ pub async fn handler(
                             .fetch_page(page - 1)
                             .await?
                             .into_iter()
-                            .map(|follow| Url::parse(&follow.id).unwrap())
+                            .map(|follow| Url::parse(&follow.id))
+                            .filter_map(Result::ok)
                             .collect(),
                         total.number_of_pages,
                         page,

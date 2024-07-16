@@ -70,7 +70,7 @@ impl WrappedUserFeedItem {
             tags: self
                 .tags
                 .clone()
-                .map(|tags| serde_json::from_str(&tags).unwrap()),
+                .and_then(|tags| serde_json::from_str(&tags).ok()),
             date_published: self.date_published.clone(),
             date_modified: self.date_modified.clone(),
         })
@@ -98,7 +98,7 @@ impl WrappedUserFeedItem {
             language: json.language,
             tags: json
                 .tags
-                .map(|tags| serde_json::to_string::<Vec<String>>(&tags).unwrap()),
+                .and_then(|tags| serde_json::to_string::<Vec<String>>(&tags).ok()),
             date_published: json.date_published,
             date_modified: json.date_modified,
         };
