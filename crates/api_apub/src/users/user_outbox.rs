@@ -92,8 +92,9 @@ pub async fn handler(
                             .into_iter()
                             .map(|activity| {
                                 let activity: ApubActivity = activity.into();
-                                activity.into_json().unwrap()
+                                activity.into_json()
                             })
+                            .filter_map(Result::ok)
                             .collect(),
                         total.number_of_pages,
                         page,
