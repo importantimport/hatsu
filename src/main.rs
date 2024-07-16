@@ -1,4 +1,4 @@
-#[cfg(all(target_arch = "x86_64", feature = "snmalloc"))]
+#[cfg(feature = "snmalloc")]
 #[global_allocator]
 static ALLOC: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 

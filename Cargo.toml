@@ -40,7 +40,7 @@ panic = "abort"
 strip = "symbols"
 
 [features]
-default = ["snmalloc", "hatsu_tracing/console", "hatsu_tracing/pretty"]
+default = ["hatsu_tracing/console", "hatsu_tracing/pretty"]
 snmalloc = ["dep:snmalloc-rs"]
 # hatsu_tracing
 tracing_conosle = ["hatsu_tracing/console"]
