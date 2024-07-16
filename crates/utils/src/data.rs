@@ -23,6 +23,12 @@ pub struct AppEnv {
 }
 
 impl AppEnv {
+    /// # Panics
+    ///
+    /// If `HATSU_DOMAIN` and `HATSU_PRIMARY_ACCOUNT` are not set,
+    /// it will cause a panic, please refer to the documentation.
+    ///
+    /// <https://hatsu.cli.rs/admins/environments.html>
     pub fn init() -> Result<Self, AppError> {
         Ok(Self {
             hatsu_database_url: env::var("HATSU_DATABASE_URL")
