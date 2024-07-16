@@ -149,4 +149,6 @@ tokio-graceful-shutdown = { workspace = true }
 tracing = { workspace = true }
 
 # optional
-snmalloc-rs = { version = "0.3", optional = true }
+snmalloc-rs = { version = "0.3", default-features = false, features = [
+    "build_cc",
+], optional = true }
