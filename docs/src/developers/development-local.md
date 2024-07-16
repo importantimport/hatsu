@@ -8,10 +8,10 @@ To develop Hatsu, you should first [install Rust](https://www.rust-lang.org/tool
 
 ```bash
 # Arch-based distro
-sudo pacman -S git cargo openssl
+sudo pacman -S git cargo
 
 # Debian-based distro
-sudo apt install git cargo libssl-dev
+sudo apt install git cargo
 ```
 
 ## Running

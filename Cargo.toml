@@ -97,8 +97,12 @@ enum_delegate = "0.2"
 feed-rs = "2.0"
 futures = "0.3"
 markdown = "1.0.0-alpha"
-# https://github.com/LemmyNet/activitypub-federation-rust/blob/16844f048afeeeb5d7d0df3a559505cbcd684a61/Cargo.toml#L40
-reqwest = { version = "0.11", features = ["json"] }
+# https://github.com/LemmyNet/activitypub-federation-rust/blob/a0e0c54b571a8c9f11e5646c4117fb7ff2cf1d70/Cargo.toml#L40-L44
+reqwest = { version = "0.11", default-features = false, features = [
+    "json",
+    "stream",
+    "rustls-tls",
+] }
 scraper = "0.19"
 sea-orm = { version = "0.12", features = [
     "sqlx-postgres",
@@ -128,7 +132,6 @@ uuid = { version = "1.8", features = [
 ] }
 
 [dependencies]
-openssl = { version = "*", features = ["vendored"] }
 hatsu_api_apub = { workspace = true }
 hatsu_apub = { workspace = true }
 hatsu_backend = { workspace = true }
