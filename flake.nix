@@ -13,7 +13,7 @@
     fenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ crane, fenix, flake-parts, ... }:
+  outputs = inputs@{ crane, fenix, flake-parts, nixpkgs, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ ];
       systems = [ "x86_64-linux" "aarch64-linux" ];
@@ -71,15 +71,18 @@
 
           packages =
             let
-              aarch64Args = {
-                depsBuildBuild = with pkgs; [ qemu ];
-                CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUNNER = "qemu-aarch64";
-                CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER =
-                  let
-                    inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
-                  in
-                  "${cc}/bin/${cc.targetPrefix}cc";
-              };
+              aarch64Args =
+                let inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
+                in {
+                  depsBuildBuild = with pkgs; [ cc qemu ];
+
+                  HOST_CC = "${cc.nativePrefix}cc";
+                  TARGET_CC = "${cc.targetPrefix}cc";
+                  CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUNNER = "qemu-aarch64";
+                  CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER = "${cc}/bin/${cc.targetPrefix}cc";
+                  CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUNNER = "qemu-aarch64";
+                  CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER = "${cc}/bin/${cc.targetPrefix}cc";
+                };
               muslArgs = {
                 CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
               };
