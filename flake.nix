@@ -69,21 +69,31 @@
             inherit cargoFmt cargoClippy hatsu;
           };
 
-          packages = {
-            default = hatsu;
-            aarch64-unknown-linux-gnu = buildHatsu {
-              CARGO_BUILD_TARGET = "aarch64-unknown-linux-gnu";
-              CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER =
-                let
-                  inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
-                in
-                "${cc}/bin/${cc.targetPrefix}cc";
+          packages =
+            let
+              aarch64Args = {
+                depsBuildBuild = with pkgs; [ qemu ];
+                CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUNNER = "qemu-aarch64";
+                CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER =
+                  let
+                    inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
+                  in
+                  "${cc}/bin/${cc.targetPrefix}cc";
+              };
+            in
+            {
+              default = hatsu;
+              aarch64-unknown-linux-gnu = buildHatsu ({
+                CARGO_BUILD_TARGET = "aarch64-unknown-linux-gnu";
+              } // aarch64Args);
+              # x86_64-unknown-linux-gnu = buildHatsu {
+              #   CARGO_BUILD_TARGET = "x86_64-unknown-linux-gnu";
+              # };
+              x86_64-unknown-linux-musl = buildHatsu {
+                CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
+                CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
+              };
             };
-            x86_64-unknown-linux-musl = buildHatsu {
-              CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
-              CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
-            };
-          };
           devShells.default = craneLib.devShell {
             # checks = self'.checks.${system};
             inputsFrom = [ hatsu ];
