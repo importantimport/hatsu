@@ -21,7 +21,8 @@
       perSystem = { config, self', inputs', lib, pkgs, system, ... }:
         let
           toolchain = with fenix.packages.${system}; combine [
-            minimal.toolchain
+            # minimal.toolchain
+            default.toolchain
             targets.aarch64-unknown-linux-gnu.latest.rust-std
             targets.aarch64-unknown-linux-musl.latest.rust-std
             targets.x86_64-unknown-linux-gnu.latest.rust-std
