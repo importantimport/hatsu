@@ -48,14 +48,20 @@
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
 
+          cargoFmt = craneLib.cargoFmt {
+            inherit src;
+          };
+
           cargoClippy = craneLib.cargoClippy (commonArgs // {
             inherit cargoArtifacts;
             cargoClippyExtraArgs = "--all-targets -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions";
           });
 
-          cargoFmt = craneLib.cargoFmt {
-            inherit src;
-          };
+          cargoNextest = craneLib.cargoNextest (commonArgs // {
+            inherit cargoArtifacts;
+            partitions = 1;
+            partitionType = "count";
+          });
 
           buildHatsu = args:
             craneLib.buildPackage (commonArgs // {
@@ -66,7 +72,7 @@
         in
         {
           checks = {
-            inherit cargoFmt cargoClippy hatsu;
+            inherit cargoFmt cargoClippy cargoNextest hatsu;
           };
 
           packages =
