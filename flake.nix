@@ -23,8 +23,8 @@
           toolchain = with fenix.packages.${system}; combine [
             minimal.toolchain
             targets.aarch64-unknown-linux-gnu.latest.rust-std
-            # targets.aarch64-unknown-linux-musl.latest.rust-std
-            # targets.x86_64-unknown-linux-gnu.latest.rust-std
+            targets.aarch64-unknown-linux-musl.latest.rust-std
+            targets.x86_64-unknown-linux-gnu.latest.rust-std
             targets.x86_64-unknown-linux-musl.latest.rust-std
           ];
 
@@ -80,19 +80,24 @@
                   in
                   "${cc}/bin/${cc.targetPrefix}cc";
               };
+              muslArgs = {
+                CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
+              };
             in
             {
               default = hatsu;
               aarch64-unknown-linux-gnu = buildHatsu ({
                 CARGO_BUILD_TARGET = "aarch64-unknown-linux-gnu";
               } // aarch64Args);
-              # x86_64-unknown-linux-gnu = buildHatsu {
-              #   CARGO_BUILD_TARGET = "x86_64-unknown-linux-gnu";
-              # };
-              x86_64-unknown-linux-musl = buildHatsu {
-                CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
-                CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
+              aarch64-unknown-linux-musl = buildHatsu ({
+                CARGO_BUILD_TARGET = "aarch64-unknown-linux-musl";
+              } // aarch64Args // muslArgs);
+              x86_64-unknown-linux-gnu = buildHatsu {
+                CARGO_BUILD_TARGET = "x86_64-unknown-linux-gnu";
               };
+              x86_64-unknown-linux-musl = buildHatsu ({
+                CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
+              } // muslArgs);
             };
           devShells.default = craneLib.devShell {
             # checks = self'.checks.${system};
