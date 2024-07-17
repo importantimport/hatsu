@@ -21,12 +21,8 @@
       perSystem = { config, self', inputs', lib, pkgs, system, ... }:
         let
           toolchain = with fenix.packages.${system}; combine [
-            (fromToolchainFile {
-              file = ./rust-toolchain.toml;
-              sha256 = "WXllA4dqR/yihB3daUxS89PEF6UNwXH1xd3hETeioZ0=";
-            })
-            # minimal.toolchain
-            # targets.aarch64-unknown-linux-gnu.latest.rust-std
+            minimal.toolchain
+            targets.aarch64-unknown-linux-gnu.latest.rust-std
             # targets.aarch64-unknown-linux-musl.latest.rust-std
             # targets.x86_64-unknown-linux-gnu.latest.rust-std
             # targets.x86_64-unknown-linux-musl.latest.rust-std
@@ -52,29 +48,41 @@
 
           cargoArtifacts = craneLib.buildDepsOnly commonArgs;
 
-          crateClippy = craneLib.cargoClippy (commonArgs // {
+          cargoClippy = craneLib.cargoClippy (commonArgs // {
             inherit cargoArtifacts;
             cargoClippyExtraArgs = "--all-targets -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions";
           });
 
-          crateFmt = craneLib.cargoFmt {
+          cargoFmt = craneLib.cargoFmt {
             inherit src;
           };
 
-          crate = craneLib.buildPackage (commonArgs // {
-            inherit cargoArtifacts;
-          });
+          buildHatsu = args:
+            craneLib.buildPackage (commonArgs // {
+              inherit cargoArtifacts;
+            } // lib.optionalAttrs (!isNull args) args);
 
+          hatsu = buildHatsu { };
         in
         {
           checks = {
-            inherit crate crateClippy crateFmt;
+            inherit cargoFmt cargoClippy hatsu;
           };
 
-          packages.default = crate;
+          packages = {
+            default = hatsu;
+            aarch64-unknown-linux-gnu = buildHatsu {
+              CARGO_BUILD_TARGET = "aarch64-unknown-linux-gnu";
+              CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER =
+                let
+                  inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
+                in
+                "${cc}/bin/${cc.targetPrefix}cc";
+            };
+          };
           devShells.default = craneLib.devShell {
             # checks = self'.checks.${system};
-            inputsFrom = [ crate ];
+            inputsFrom = [ hatsu ];
             packages = with pkgs; [
               mdbook # ./docs/
 
