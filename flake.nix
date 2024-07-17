@@ -25,7 +25,7 @@
             targets.aarch64-unknown-linux-gnu.latest.rust-std
             # targets.aarch64-unknown-linux-musl.latest.rust-std
             # targets.x86_64-unknown-linux-gnu.latest.rust-std
-            # targets.x86_64-unknown-linux-musl.latest.rust-std
+            targets.x86_64-unknown-linux-musl.latest.rust-std
           ];
 
           craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
@@ -78,6 +78,10 @@
                   inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
                 in
                 "${cc}/bin/${cc.targetPrefix}cc";
+            };
+            x86_64-unknown-linux-musl = buildHatsu {
+              CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
+              CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
             };
           };
           devShells.default = craneLib.devShell {
