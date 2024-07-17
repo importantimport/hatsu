@@ -28,15 +28,18 @@
           overlays = [ rust-overlay.overlays.rust-overlay ];
           pkgs = import nixpkgs { inherit crossSystem localSystem overlays; };
 
-          rustToolchain = (pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml).override {
-            # extensions = [ "rust-src" "rust-analyzer" ];
+          rustToolchain = pkgs.rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
+            extensions = [
+              "rust-src"
+              # "rust-analyzer"
+            ];
             targets = [
               "aarch64-unknown-linux-gnu"
               "aarch64-unknown-linux-musl"
               "x86_64-unknown-linux-gnu"
               "x86_64-unknown-linux-musl"
             ];
-          };
+          });
 
           craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
 
