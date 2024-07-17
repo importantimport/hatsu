@@ -74,7 +74,7 @@
               aarch64Args =
                 let inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
                 in {
-                  depsBuildBuild = with pkgs; [ cc qemu ];
+                  depsBuildBuild = [ cc pkgs.qemu ];
 
                   HOST_CC = "${cc.nativePrefix}cc";
                   TARGET_CC = "${cc.targetPrefix}cc";
@@ -82,6 +82,13 @@
                   CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER = "${cc}/bin/${cc.targetPrefix}cc";
                   CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_RUNNER = "qemu-aarch64";
                   CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER = "${cc}/bin/${cc.targetPrefix}cc";
+                };
+              x86_64Args =
+                let inherit (pkgs.stdenv) cc;
+                in {
+                  depsBuildBuild = [ cc ];
+                  HOST_CC = "${cc.nativePrefix}cc";
+                  TARGET_CC = "${cc.targetPrefix}cc";
                 };
               muslArgs = {
                 CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
@@ -95,12 +102,12 @@
               aarch64-unknown-linux-musl = buildHatsu ({
                 CARGO_BUILD_TARGET = "aarch64-unknown-linux-musl";
               } // aarch64Args // muslArgs);
-              x86_64-unknown-linux-gnu = buildHatsu {
+              x86_64-unknown-linux-gnu = buildHatsu ({
                 CARGO_BUILD_TARGET = "x86_64-unknown-linux-gnu";
-              };
+              } // x86_64Args);
               x86_64-unknown-linux-musl = buildHatsu ({
                 CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
-              } // muslArgs);
+              } // x86_64Args // muslArgs);
             };
           devShells.default = craneLib.devShell {
             # checks = self'.checks.${system};
