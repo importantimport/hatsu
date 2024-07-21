@@ -64,6 +64,9 @@
             partitionType = "count";
           });
 
+          # TODO: cargoHakari = craneLib.mkCargoDerivation
+          # https://crane.dev/examples/quick-start-workspace.html
+
           buildHatsu = args:
             craneLib.buildPackage (commonArgs // {
               inherit cargoArtifacts;
@@ -98,6 +101,8 @@
                   TARGET_CC = "${cc.targetPrefix}cc";
                 };
               muslArgs = {
+                # TODO: fix musl build
+                # https://crane.dev/examples/cross-musl.html
                 CARGO_BUILD_RUSTFLAGS = "-C target-feature=+crt-static";
               };
             in
