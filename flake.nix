@@ -131,6 +131,9 @@
               cargo-hakari
               cargo-watch
 
+              # sea-orm
+              sea-orm-cli
+
               just
               # mold
               # sccache
