@@ -129,6 +129,7 @@
 
               # cargo-*
               cargo-hakari
+              cargo-nextest
               cargo-watch
 
               # sea-orm
