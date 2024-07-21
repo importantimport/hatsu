@@ -128,6 +128,7 @@
               mdbook # ./docs/
 
               # cargo-*
+              cargo-hakari
               cargo-watch
 
               just
