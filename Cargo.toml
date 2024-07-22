@@ -56,6 +56,7 @@ members = [
     "crates/api_mastodon",
     "crates/apub",
     "crates/backend",
+    "crates/cron",
     "crates/db_migration",
     "crates/db_schema",
     "crates/feed",
@@ -74,6 +75,7 @@ hatsu_api_apub = { path = "./crates/api_apub" }
 hatsu_api_mastodon = { path = "./crates/api_mastodon" }
 hatsu_apub = { path = "./crates/apub" }
 hatsu_backend = { path = "./crates/backend" }
+hatsu_cron = { path = "./crates/cron" }
 hatsu_db_migration = { path = "./crates/db_migration" }
 hatsu_db_schema = { path = "./crates/db_schema" }
 hatsu_feed = { path = "./crates/feed" }
@@ -87,6 +89,11 @@ activitypub_federation = { version = "0.5", default-features = false, features =
     "axum",
 ] }
 anyhow = "1.0"
+apalis = { version = "0.6.0-rc.4", default-features = false, features = [
+    "tokio-comp",
+    "tracing",
+] }
+apalis-cron = "0.6.0-rc.4"
 async-recursion = "1"
 async-trait = "0.1"
 axum = { version = "0.6", features = ["tokio", "macros"] }
