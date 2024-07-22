@@ -94,7 +94,7 @@ axum = { version = "0.6", features = ["tokio", "macros"] }
 base64-simd = "0.8"
 chrono = "0.4"
 enum_delegate = "0.2"
-feed-rs = "2.0"
+feed-rs = "2"
 futures = "0.3"
 markdown = "1.0.0-alpha"
 # https://github.com/LemmyNet/activitypub-federation-rust/blob/a0e0c54b571a8c9f11e5646c4117fb7ff2cf1d70/Cargo.toml#L40-L44
