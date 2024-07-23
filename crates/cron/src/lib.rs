@@ -12,11 +12,11 @@ use tokio_graceful_shutdown::{IntoSubsystem, SubsystemHandle};
 mod jobs;
 mod tasks;
 
-pub struct Scheduler {
+pub struct Cron {
     pub federation_config: FederationConfig<AppData>,
 }
 
-impl Scheduler {
+impl Cron {
     #[must_use]
     pub fn new(federation_config: &FederationConfig<AppData>) -> Self {
         Self {
@@ -26,7 +26,7 @@ impl Scheduler {
 }
 
 #[async_trait::async_trait]
-impl IntoSubsystem<AppError, AppError> for Scheduler {
+impl IntoSubsystem<AppError, AppError> for Cron {
     async fn run(self, _subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
         let partial_update_schedule = Schedule::from_str("*/5 * * * *")?;
         let partial_update_worker = WorkerBuilder::new("hatsu_cron::jobs::PartialUpdate")
