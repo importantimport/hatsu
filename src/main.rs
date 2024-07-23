@@ -11,8 +11,6 @@ use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppEnv, AppError};
 use human_panic::{metadata, setup_panic};
 use sea_orm::{ActiveModelTrait, Database, EntityTrait, IntoActiveModel};
-use tokio::time::Duration;
-use tokio_graceful_shutdown::{IntoSubsystem, SubsystemBuilder, Toplevel};
 
 #[tokio::main]
 async fn main() -> Result<(), AppError> {
@@ -78,16 +76,6 @@ async fn main() -> Result<(), AppError> {
         .build()
         .await?;
 
-    tracing::info!("starting subsystem");
-    // let cron = hatsu_cron::Cron::new(&federation_config);
-    let server = hatsu_backend::Server::new(&federation_config);
-
-    Toplevel::<AppError>::new(|s| async move {
-        // s.start(SubsystemBuilder::new("Cron", cron.into_subsystem()));
-        s.start(SubsystemBuilder::new("Server", server.into_subsystem()));
-    })
-    .catch_signals()
-    .handle_shutdown_requests(Duration::from_millis(1000))
-    .await
-    .map_err(std::convert::Into::into)
+    tracing::info!("starting backend");
+    hatsu_backend::run(federation_config).await
 }
