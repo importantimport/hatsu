@@ -21,7 +21,7 @@
       perSystem = { config, self', inputs', lib, pkgs, system, ... }:
         let
           toolchain = with fenix.packages.${system}; combine [
-            default.toolchain
+            complete.toolchain
             rust-analyzer
             targets.aarch64-unknown-linux-gnu.latest.rust-std
             targets.aarch64-unknown-linux-musl.latest.rust-std
