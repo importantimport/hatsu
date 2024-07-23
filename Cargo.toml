@@ -139,7 +139,7 @@ uuid = { version = "1.8", features = [
 hatsu_api_apub = { workspace = true }
 hatsu_apub = { workspace = true }
 hatsu_backend = { workspace = true }
-hatsu_cron = { workspace = true }
+# hatsu_cron = { workspace = true }
 hatsu_db_migration = { workspace = true }
 hatsu_db_schema = { workspace = true }
 hatsu_tracing = { workspace = true }

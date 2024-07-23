@@ -20,6 +20,7 @@ hatsu_api = { workspace = true }
 hatsu_api_admin = { workspace = true }
 hatsu_api_apub = { workspace = true }
 hatsu_api_mastodon = { workspace = true }
+hatsu_cron = { workspace = true }
 hatsu_nodeinfo = { workspace = true }
 hatsu_openapi = { workspace = true }
 hatsu_well_known = { workspace = true }
@@ -27,6 +28,7 @@ hatsu_utils = { workspace = true }
 activitypub_federation = { workspace = true }
 async-trait = { workspace = true }
 axum = { workspace = true }
+tokio = { workspace = true }
 tokio-graceful-shutdown = { workspace = true }
 tower-http = { workspace = true }
 tracing = { workspace = true }

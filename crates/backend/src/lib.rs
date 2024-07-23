@@ -28,6 +28,7 @@ impl Server {
 #[async_trait::async_trait]
 impl IntoSubsystem<AppError, AppError> for Server {
     async fn run(self, subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
+        let cron_data = self.federation_config.clone();
         let data = self.federation_config.to_request_data();
 
         // build our application with a route
@@ -41,27 +42,34 @@ impl IntoSubsystem<AppError, AppError> for Server {
                     .on_response(trace::DefaultOnResponse::new().level(Level::INFO)),
             );
 
-        // axum 0.6
-        // run our app with hyper
-        let addr: SocketAddr = format!(
-            "{}:{}",
-            data.env.hatsu_listen_host, data.env.hatsu_listen_port
-        )
-        .parse()?;
+        let http = async {
+            // axum 0.6
+            // run our app with hyper
+            let addr: SocketAddr = format!(
+                "{}:{}",
+                data.env.hatsu_listen_host, data.env.hatsu_listen_port
+            )
+            .parse()?;
 
-        tracing::debug!("listening on http://{}", addr);
-        axum::Server::bind(&addr)
-            .serve(app.into_make_service())
-            .with_graceful_shutdown(subsys.on_shutdown_requested())
-            .await?;
+            tracing::debug!("listening on http://{}", addr);
+            axum::Server::bind(&addr)
+                .serve(app.into_make_service())
+                .with_graceful_shutdown(subsys.on_shutdown_requested())
+                .await?;
 
-        // axum 0.7
-        // run our app with hyper
-        // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
-        // let listener = tokio::net::TcpListener::bind(hatsu_listen)
-        //     .await?;
-        // tracing::debug!("listening on http://{}", listener.local_addr()?);
-        // axum::serve(listener, app).await?;
+            // axum 0.7
+            // run our app with hyper
+            // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+            // let listener = tokio::net::TcpListener::bind(hatsu_listen)
+            //     .await?;
+            // tracing::debug!("listening on http://{}", listener.local_addr()?);
+            // axum::serve(listener, app).await?;
+            Ok::<(), AppError>(())
+        };
+
+        let cron = hatsu_cron::run(&cron_data);
+
+        let _res = tokio::join!(http, cron);
 
         Ok(())
     }

@@ -1,3 +1,3 @@
 # hatsu_cron
 
-A subsystem to check feed updates.
+A crate to check feed updates.
