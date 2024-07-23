@@ -1,3 +1,3 @@
 mod update;
 
-pub use update::partial_update;
+pub use update::{full_update, partial_update};
