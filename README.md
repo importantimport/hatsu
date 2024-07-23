@@ -61,7 +61,6 @@ If you're not sure whether it's a Hatsu or Activitypub-Federation compatibility 
   - axum-extra 0.9
     - use typed-routing (https://github.com/tokio-rs/axum/issues/2218, https://github.com/ibraheemdev/matchit/issues/13)
   - activitypub-federation 0.5
-  - tokio-graceful-shutdown 0.14
     - https://github.com/tokio-rs/axum/pull/2398
     - https://github.com/hyperium/hyper-util/pull/66
   - Using AFIT / RPITIT instead of `async-trait`

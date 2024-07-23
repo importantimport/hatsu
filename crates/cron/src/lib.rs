@@ -7,23 +7,9 @@ use apalis::{
 };
 use apalis_cron::{CronStream, Schedule};
 use hatsu_utils::{AppData, AppError};
-// use tokio_graceful_shutdown::{IntoSubsystem, SubsystemHandle};
 
 mod jobs;
 mod tasks;
-
-// pub struct Cron {
-//     pub federation_config: FederationConfig<AppData>,
-// }
-
-// impl Cron {
-//     #[must_use]
-//     pub fn new(federation_config: &FederationConfig<AppData>) -> Self {
-//         Self {
-//             federation_config: federation_config.clone(),
-//         }
-//     }
-// }
 
 pub async fn run(federation_config: &FederationConfig<AppData>) -> Result<(), AppError> {
     let partial_update_schedule = Schedule::from_str("0 */5 * * * *")?;
@@ -43,15 +29,8 @@ pub async fn run(federation_config: &FederationConfig<AppData>) -> Result<(), Ap
     Monitor::<TokioExecutor>::new()
         .register(partial_update_worker)
         .register(full_update_worker)
-        .run()
+        .run_with_signal(hatsu_utils::shutdown_signal())
         .await?;
 
     Ok(())
 }
-
-// #[async_trait::async_trait]
-// impl IntoSubsystem<AppError, AppError> for Cron {
-//     async fn run(self, _subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
-//         run(&self.federation_config).await
-//     }
-// }
