@@ -19,22 +19,25 @@ use sea_orm::{
 };
 use url::Url;
 
-use crate::update::check_feed_item;
+use crate::tasks::check_feed_item;
 
-pub async fn fast_update(data: &Data<AppData>) -> Result<(), AppError> {
+pub async fn partial_update(data: &Data<AppData>) -> Result<(), AppError> {
     for user in User::find()
         .filter(user::Column::Local.eq(true))
         .order_by_asc(user::Column::Id)
         .all(&data.conn)
         .await?
     {
-        fast_update_per_user(data, user).await?;
+        partial_update_per_user(data, user).await?;
     }
 
     Ok(())
 }
 
-pub async fn fast_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Result<(), AppError> {
+pub async fn partial_update_per_user(
+    data: &Data<AppData>,
+    db_user: DbUser,
+) -> Result<(), AppError> {
     let feed = UserFeedTopLevel::get(db_user.clone()).await?;
     let user: ApubUser = db_user.into();
 
