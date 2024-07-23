@@ -120,7 +120,6 @@ sea-orm = { version = "0.12", features = [
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tokio = { version = "1.0", features = ["full"] }
-tokio-cron-scheduler = "0.10"
 tower-http = { version = "0.4", features = ["cors", "trace"] }
 tracing = { version = "0.1" }
 tracing-error = "0.2"
