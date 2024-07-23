@@ -17,5 +17,8 @@ impl From<DateTime<Utc>> for PartialUpdate {
 
 pub async fn partial_update(_job: PartialUpdate, data: Data<FederationConfig<AppData>>) -> bool {
     let app_data = data.to_request_data();
+
+    tracing::info!("partial update starting...");
+
     tasks::partial_update(&app_data).await.is_ok()
 }

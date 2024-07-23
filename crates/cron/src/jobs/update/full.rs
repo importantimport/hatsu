@@ -17,5 +17,8 @@ impl From<DateTime<Utc>> for FullUpdate {
 
 pub async fn full_update(_job: FullUpdate, data: Data<FederationConfig<AppData>>) -> bool {
     let app_data = data.to_request_data();
+
+    tracing::info!("full update starting...");
+
     tasks::full_update(&app_data).await.is_ok()
 }
