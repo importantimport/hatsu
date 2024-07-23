@@ -62,7 +62,6 @@ members = [
     "crates/feed",
     "crates/nodeinfo",
     "crates/openapi",
-    "crates/scheduler",
     "crates/tracing",
     "crates/utils",
     "crates/well_known",
@@ -81,7 +80,6 @@ hatsu_db_schema = { path = "./crates/db_schema" }
 hatsu_feed = { path = "./crates/feed" }
 hatsu_nodeinfo = { path = "./crates/nodeinfo" }
 hatsu_openapi = { path = "./crates/openapi" }
-hatsu_scheduler = { path = "./crates/scheduler" }
 hatsu_tracing = { path = "./crates/tracing" }
 hatsu_utils = { path = "./crates/utils" }
 hatsu_well_known = { path = "./crates/well_known" }
@@ -144,7 +142,6 @@ hatsu_backend = { workspace = true }
 hatsu_cron = { workspace = true }
 hatsu_db_migration = { workspace = true }
 hatsu_db_schema = { workspace = true }
-# hatsu_scheduler = { workspace = true }
 hatsu_tracing = { workspace = true }
 hatsu_utils = { workspace = true }
 human-panic = "2"

@@ -1604,24 +1604,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "hatsu_scheduler"
-version = "0.3.0-beta.0"
-dependencies = [
- "activitypub_federation",
- "async-trait",
- "hatsu_apub",
- "hatsu_db_schema",
- "hatsu_feed",
- "hatsu_utils",
- "sea-orm",
- "serde_json",
- "tokio-cron-scheduler",
- "tokio-graceful-shutdown",
- "tracing",
- "url",
-]
-
-[[package]]
 name = "hatsu_tracing"
 version = "0.3.0-beta.0"
 dependencies = [
@@ -2334,17 +2316,6 @@ name = "num-conv"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "51d515d32fb182ee37cda2ccdcb92950d6a3c2893aa280e540671c2cd0f3b1d9"
-
-[[package]]
-name = "num-derive"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "876a53fff98e03a936a674b29568b0e605f06b29372c2489ff4de23f1949743d"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
 
 [[package]]
 name = "num-integer"
@@ -4114,21 +4085,6 @@ dependencies = [
  "tokio-macros",
  "tracing",
  "windows-sys 0.48.0",
-]
-
-[[package]]
-name = "tokio-cron-scheduler"
-version = "0.10.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4c2e3a88f827f597799cf70a6f673074e62f3fc5ba5993b2873345c618a29af"
-dependencies = [
- "chrono",
- "cron",
- "num-derive",
- "num-traits",
- "tokio",
- "tracing",
- "uuid",
 ]
 
 [[package]]
