@@ -79,14 +79,16 @@ async fn main() -> Result<(), AppError> {
         .await?;
 
     tracing::info!("starting subsystem");
-    let scheduler = hatsu_scheduler::Scheduler::new(&federation_config);
+    let cron = hatsu_cron::Cron::new(&federation_config);
+    // let scheduler = hatsu_scheduler::Scheduler::new(&federation_config);
     let server = hatsu_backend::Server::new(&federation_config);
 
     Toplevel::<AppError>::new(|s| async move {
-        s.start(SubsystemBuilder::new(
-            "Scheduler",
-            scheduler.into_subsystem(),
-        ));
+        s.start(SubsystemBuilder::new("Cron", cron.into_subsystem()));
+        // s.start(SubsystemBuilder::new(
+        //     "Scheduler",
+        //     scheduler.into_subsystem(),
+        // ));
         s.start(SubsystemBuilder::new("Server", server.into_subsystem()));
     })
     .catch_signals()
