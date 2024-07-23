@@ -28,7 +28,7 @@ impl Cron {
 #[async_trait::async_trait]
 impl IntoSubsystem<AppError, AppError> for Cron {
     async fn run(self, _subsys: SubsystemHandle<AppError>) -> Result<(), AppError> {
-        let partial_update_schedule = Schedule::from_str("*/5 * * * *")?;
+        let partial_update_schedule = Schedule::from_str("0 */5 * * * *")?;
         let partial_update_worker = WorkerBuilder::new("hatsu_cron::jobs::PartialUpdate")
             .data(self.federation_config.clone())
             // .layer(RetryLayer::new(RetryPolicy::retries(5)))
@@ -36,7 +36,7 @@ impl IntoSubsystem<AppError, AppError> for Cron {
             .backend(CronStream::new(partial_update_schedule))
             .build_fn(jobs::partial_update);
 
-        let full_update_schedule = Schedule::from_str("*/10 * * * *")?;
+        let full_update_schedule = Schedule::from_str("0 */10 * * * *")?;
         let full_update_worker = WorkerBuilder::new("hatsu_cron::jobs::FullUpdate")
             .data(self.federation_config)
             .backend(CronStream::new(full_update_schedule))
