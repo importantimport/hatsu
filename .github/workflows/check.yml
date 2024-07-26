@@ -26,7 +26,7 @@ jobs:
           submodules: true
       - uses: DeterminateSystems/nix-installer-action@v4
       - uses: DeterminateSystems/magic-nix-cache-action@main
-      - run: nix flake check
+      - run: nix flake check .?submodules=1
       # - uses: dtolnay/rust-toolchain@nightly
       # - uses: rui314/setup-mold@v1
       # - uses: taiki-e/install-action@just
