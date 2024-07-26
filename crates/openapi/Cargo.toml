@@ -26,4 +26,4 @@ hatsu_utils = { workspace = true }
 hatsu_well_known = { workspace = true }
 axum = { workspace = true }
 utoipa = { workspace = true }
-utoipa-swagger-ui = { version = "4", features = ["axum"] }
+# utoipa-swagger-ui = { workspace = true }

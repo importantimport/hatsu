@@ -35,9 +35,9 @@
           src = lib.cleanSourceWith {
             name = "source";
             src = ./.;
-            filter =
-              path: type:
+            filter = path: type:
               (lib.hasInfix "/contrib/" path)
+              || (lib.hasInfix "/crates/activitypub-federation/docs/" path)
               || (lib.hasInfix "/crates/backend/assets/" path)
               || (craneLib.filterCargoSources path type);
           };

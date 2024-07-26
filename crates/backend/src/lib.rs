@@ -1,7 +1,6 @@
-use std::net::SocketAddr;
-
 use activitypub_federation::config::{FederationConfig, FederationMiddleware};
 use hatsu_utils::{AppData, AppError};
+use tokio::net::TcpListener;
 use tower_http::{
     cors::CorsLayer,
     trace::{self, TraceLayer},
@@ -39,17 +38,14 @@ pub async fn run(federation_config: FederationConfig<AppData>) -> Result<(), App
         );
 
     let http = async {
-        // axum 0.6
-        // run our app with hyper
-        let addr: SocketAddr = format!(
+        // TODO: env HATSU_LISTEN (localhost:3939)
+        let listener = TcpListener::bind(format!(
             "{}:{}",
             data.env.hatsu_listen_host, data.env.hatsu_listen_port
-        )
-        .parse()?;
-
-        tracing::debug!("listening on http://{}", addr);
-        axum::Server::bind(&addr)
-            .serve(app.into_make_service())
+        ))
+        .await?;
+        tracing::debug!("listening on http://{}", listener.local_addr()?);
+        axum::serve(listener, app)
             .with_graceful_shutdown(async {
                 hatsu_utils::shutdown_signal()
                     .await
@@ -57,13 +53,6 @@ pub async fn run(federation_config: FederationConfig<AppData>) -> Result<(), App
             })
             .await?;
 
-        // axum 0.7
-        // run our app with hyper
-        // let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
-        // let listener = tokio::net::TcpListener::bind(hatsu_listen)
-        //     .await?;
-        // tracing::debug!("listening on http://{}", listener.local_addr()?);
-        // axum::serve(listener, app).await?;
         Ok::<(), AppError>(())
     };
 
