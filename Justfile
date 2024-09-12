@@ -58,14 +58,9 @@ test *args='':
 test-cargo *args='':
   cargo test --all {{args}}
 
-# docker-build version='nightly':
-#   docker build . \
-#   --tag "importantimport/hatsu:{{version}}"
-
-# docker-buildx version='nightly':
-#   docker buildx build . \
-#   --platform "linux/amd64,linux/arm64" \
-#   --tag "importantimport/hatsu:{{version}}"
+# update dependencies.
+up:
+  cargo update
 
 # create and remove account (method: create/remove) (name: example.com)
 account method name:

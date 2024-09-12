@@ -7,7 +7,6 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     crane.url = "github:ipetkov/crane";
-    crane.inputs.nixpkgs.follows = "nixpkgs";
 
     fenix.url = "github:nix-community/fenix/monthly";
     fenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -22,7 +21,6 @@
         let
           toolchain = with fenix.packages.${system}; combine [
             complete.toolchain
-            rust-analyzer
             targets.aarch64-unknown-linux-gnu.latest.rust-std
             targets.aarch64-unknown-linux-musl.latest.rust-std
             targets.x86_64-unknown-linux-gnu.latest.rust-std
@@ -35,8 +33,7 @@
           src = lib.cleanSourceWith {
             name = "source";
             src = ./.;
-            filter =
-              path: type:
+            filter = path: type:
               (lib.hasInfix "/contrib/" path)
               || (lib.hasInfix "/crates/backend/assets/" path)
               || (craneLib.filterCargoSources path type);
@@ -124,7 +121,7 @@
           devShells.default = craneLib.devShell {
             # checks = self'.checks.${system};
             inputsFrom = [ hatsu ];
-            packages = with pkgs; [
+            packages = (with pkgs; [
               mdbook # ./docs/
 
               # cargo-*
@@ -138,7 +135,9 @@
               just
               # mold
               # sccache
-            ];
+            ]) ++ (with fenix.packages.${system}; [
+              rust-analyzer
+            ]);
           };
         };
       flake = {

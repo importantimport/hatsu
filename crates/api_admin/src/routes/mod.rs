@@ -1,5 +1,6 @@
 use activitypub_federation::config::Data;
 use axum::{
+    body::Body,
     http::{Request, StatusCode},
     middleware::{self, Next},
     response::Response,
@@ -21,10 +22,10 @@ pub fn routes() -> Router {
         .layer(middleware::from_fn(auth))
 }
 
-async fn auth<B>(
+async fn auth(
     data: Data<AppData>,
-    request: Request<B>,
-    next: Next<B>,
+    request: Request<Body>,
+    next: Next,
 ) -> Result<Response, StatusCode> {
     match &data.env.hatsu_access_token {
         Some(token) => match request.uri().query() {
