@@ -107,7 +107,7 @@ reqwest = { version = "0.12", default-features = false, features = [
     "json",
     "rustls-tls",
 ] }
-scraper = "0.19"
+scraper = "0.20"
 sea-orm = { version = "0.12", features = [
     "sqlx-postgres",
     "sqlx-sqlite",
