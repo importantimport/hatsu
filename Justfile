@@ -58,9 +58,8 @@ test *args='':
 test-cargo *args='':
   cargo test --all {{args}}
 
-# update submodules and dependencies.
+# update dependencies.
 up:
-  git submodule update --remote --merge crates/activitypub-federation
   cargo update
 
 # create and remove account (method: create/remove) (name: example.com)

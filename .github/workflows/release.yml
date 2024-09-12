@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-            submodules: true
+          fetch-depth: 0
       - uses: dtolnay/rust-toolchain@nightly
       - uses: taiki-e/install-action@just
       - uses: mozilla-actions/sccache-action@v0.0.3
