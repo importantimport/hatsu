@@ -1,3 +1,0 @@
-[submodule "crates/activitypub-federation"]
-	path = crates/activitypub-federation
-	url = https://github.com/importantimport/activitypub-federation-rust.git
