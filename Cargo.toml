@@ -87,11 +87,11 @@ activitypub_federation = { version = "0.6.0-alpha", default-features = false, fe
     "axum",
 ] }
 anyhow = "1.0"
-apalis = { version = "0.6.0-rc.4", default-features = false, features = [
+apalis = { version = "0.6.0-rc", default-features = false, features = [
     "tokio-comp",
     "tracing",
 ] }
-apalis-cron = "0.6.0-rc.4"
+apalis-cron = "0.6.0-rc"
 async-recursion = "1"
 async-trait = "0.1"
 axum = { version = "0.7", features = ["tokio", "macros"] }
