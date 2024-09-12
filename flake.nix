@@ -22,7 +22,6 @@
         let
           toolchain = with fenix.packages.${system}; combine [
             complete.toolchain
-            rust-analyzer
             targets.aarch64-unknown-linux-gnu.latest.rust-std
             targets.aarch64-unknown-linux-musl.latest.rust-std
             targets.x86_64-unknown-linux-gnu.latest.rust-std
@@ -123,7 +122,7 @@
           devShells.default = craneLib.devShell {
             # checks = self'.checks.${system};
             inputsFrom = [ hatsu ];
-            packages = with pkgs; [
+            packages = (with pkgs; [
               mdbook # ./docs/
 
               # cargo-*
@@ -137,7 +136,9 @@
               just
               # mold
               # sccache
-            ];
+            ]) ++ (with fenix.packages.${system}; [
+              rust-analyzer
+            ]);
           };
         };
       flake = {
