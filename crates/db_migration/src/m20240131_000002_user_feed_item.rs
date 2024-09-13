@@ -1,4 +1,4 @@
-use sea_orm_migration::prelude::*;
+use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -11,20 +11,15 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(UserFeedItem::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(UserFeedItem::Id)
-                            .string()
-                            .not_null()
-                            .primary_key(),
-                    )
-                    .col(ColumnDef::new(UserFeedItem::UserId).string().not_null())
-                    .col(ColumnDef::new(UserFeedItem::PostId).string())
-                    .col(ColumnDef::new(UserFeedItem::Title).string())
-                    .col(ColumnDef::new(UserFeedItem::Summary).string())
-                    .col(ColumnDef::new(UserFeedItem::Language).string())
-                    .col(ColumnDef::new(UserFeedItem::Tags).string())
-                    .col(ColumnDef::new(UserFeedItem::DatePublished).string())
-                    .col(ColumnDef::new(UserFeedItem::DateModified).string())
+                    .col(string(UserFeedItem::Id).primary_key())
+                    .col(string(UserFeedItem::UserId))
+                    .col(string_null(UserFeedItem::PostId))
+                    .col(string_null(UserFeedItem::Title))
+                    .col(string_null(UserFeedItem::Summary))
+                    .col(string_null(UserFeedItem::Language))
+                    .col(string_null(UserFeedItem::Tags))
+                    .col(string_null(UserFeedItem::DatePublished))
+                    .col(string_null(UserFeedItem::DateModified))
                     .to_owned(),
             )
             .await?;
