@@ -1,4 +1,4 @@
-use sea_orm_migration::prelude::*;
+use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -13,23 +13,23 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(User::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(User::Id).string().not_null().primary_key())
-                    .col(ColumnDef::new(User::Name).string().not_null().unique_key())
-                    .col(ColumnDef::new(User::PreferredUsername).string().not_null())
-                    .col(ColumnDef::new(User::Summary).string())
-                    .col(ColumnDef::new(User::Icon).string())
-                    .col(ColumnDef::new(User::Image).string())
-                    .col(ColumnDef::new(User::Inbox).string().not_null())
-                    .col(ColumnDef::new(User::Outbox).string().not_null())
-                    .col(ColumnDef::new(User::Followers).string().not_null())
-                    .col(ColumnDef::new(User::Following).string().not_null())
-                    .col(ColumnDef::new(User::Local).boolean().not_null())
-                    .col(ColumnDef::new(User::PublicKey).string().not_null())
-                    .col(ColumnDef::new(User::PrivateKey).string())
-                    .col(ColumnDef::new(User::FeedJson).string())
-                    .col(ColumnDef::new(User::FeedAtom).string())
-                    .col(ColumnDef::new(User::FeedRss).string())
-                    .col(ColumnDef::new(User::LastRefreshedAt).string().not_null())
+                    .col(string(User::Id).primary_key())
+                    .col(string_uniq(User::Name))
+                    .col(string(User::PreferredUsername))
+                    .col(string_null(User::Summary))
+                    .col(string_null(User::Icon))
+                    .col(string_null(User::Image))
+                    .col(string(User::Inbox))
+                    .col(string(User::Outbox))
+                    .col(string(User::Followers))
+                    .col(string(User::Following))
+                    .col(boolean(User::Local))
+                    .col(string(User::PublicKey))
+                    .col(string_null(User::PrivateKey))
+                    .col(string_null(User::FeedJson))
+                    .col(string_null(User::FeedAtom))
+                    .col(string_null(User::FeedRss))
+                    .col(string(User::LastRefreshedAt))
                     .to_owned(),
             )
             .await?;
