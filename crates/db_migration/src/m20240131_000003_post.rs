@@ -1,4 +1,4 @@
-use sea_orm_migration::prelude::*;
+use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -13,15 +13,15 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Post::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(Post::Id).string().not_null().primary_key())
-                    .col(ColumnDef::new(Post::Object).text().not_null())
-                    .col(ColumnDef::new(Post::AttributedTo).string().not_null())
-                    .col(ColumnDef::new(Post::InReplyTo).string())
-                    .col(ColumnDef::new(Post::InReplyToRoot).string())
-                    .col(ColumnDef::new(Post::Published).string().not_null())
-                    .col(ColumnDef::new(Post::Updated).string())
-                    .col(ColumnDef::new(Post::LastRefreshedAt).string().not_null())
-                    .col(ColumnDef::new(Post::Local).boolean().not_null())
+                    .col(string(Post::Id).primary_key())
+                    .col(text(Post::Object))
+                    .col(string(Post::AttributedTo))
+                    .col(string_null(Post::InReplyTo))
+                    .col(string_null(Post::InReplyToRoot))
+                    .col(string(Post::Published))
+                    .col(string_null(Post::Updated))
+                    .col(string(Post::LastRefreshedAt))
+                    .col(boolean(Post::Local))
                     .to_owned(),
             )
             .await?;
