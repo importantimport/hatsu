@@ -1,4 +1,4 @@
-use sea_orm_migration::prelude::*;
+use sea_orm_migration::{prelude::*, schema::*};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -11,14 +11,9 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(ReceivedLike::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(ReceivedLike::Id)
-                            .string()
-                            .not_null()
-                            .primary_key(),
-                    )
-                    .col(ColumnDef::new(ReceivedLike::Actor).string().not_null())
-                    .col(ColumnDef::new(ReceivedLike::Object).string().not_null())
+                    .col(string(ReceivedLike::Id).primary_key())
+                    .col(string(ReceivedLike::Actor))
+                    .col(string(ReceivedLike::Object))
                     .to_owned(),
             )
             .await?;

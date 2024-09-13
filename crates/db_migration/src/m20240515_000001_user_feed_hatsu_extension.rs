@@ -1,4 +1,4 @@
-use sea_orm_migration::prelude::*;
+use sea_orm_migration::{prelude::*, schema::*};
 
 use crate::{m20240131_000001_user::User, m20240131_000002_user_feed_item::UserFeedItem};
 
@@ -12,7 +12,7 @@ impl MigrationTrait for Migration {
             .alter_table(
                 Table::alter()
                     .table(User::Table)
-                    .add_column(ColumnDef::new(User::Hatsu).json())
+                    .add_column(json_null(User::Hatsu))
                     .to_owned(),
             )
             .await?;
@@ -30,7 +30,7 @@ impl MigrationTrait for Migration {
             .alter_table(
                 Table::alter()
                     .table(UserFeedItem::Table)
-                    .add_column(ColumnDef::new(UserFeedItem::Hatsu).json())
+                    .add_column(json_null(UserFeedItem::Hatsu))
                     .to_owned(),
             )
             .await?;
@@ -52,7 +52,7 @@ impl MigrationTrait for Migration {
             .alter_table(
                 Table::alter()
                     .table(User::Table)
-                    .add_column(ColumnDef::new(User::Image).string())
+                    .add_column(string_null(User::Image))
                     .to_owned(),
             )
             .await?;
