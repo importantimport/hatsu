@@ -109,13 +109,20 @@ reqwest = { version = "0.12", default-features = false, features = [
 ] }
 scraper = "0.20"
 sea-orm = { version = "1.0", features = [
+    # https://www.sea-ql.org/SeaORM/docs/install-and-config/database-and-async-runtime
+    "runtime-tokio-rustls",
     "sqlx-postgres",
     "sqlx-sqlite",
-    "runtime-tokio-rustls",
     "macros",
     "with-chrono",
     "with-json",
     "with-uuid",
+] }
+sea-orm-migration = { version = "1.0", features = [
+    # https://www.sea-ql.org/SeaORM/docs/install-and-config/database-and-async-runtime
+    "runtime-tokio-rustls",
+    "sqlx-postgres",
+    "sqlx-sqlite",
 ] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
