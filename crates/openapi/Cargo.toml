@@ -17,8 +17,5 @@ path = "src/lib.rs"
 
 [dependencies]
 hatsu_api_apub = { workspace = true }
-hatsu_apub = { workspace = true }
-hatsu_nodeinfo = { workspace = true }
 hatsu_utils = { workspace = true }
-hatsu_well_known = { workspace = true }
 utoipa = { workspace = true }

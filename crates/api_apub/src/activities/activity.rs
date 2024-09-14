@@ -4,25 +4,11 @@ use activitypub_federation::{
     protocol::context::WithContext,
 };
 use axum::{debug_handler, extract::Path, response::Redirect};
-// use axum_extra::routing::TypedPath;
 use hatsu_apub::activities::ApubActivity;
 use hatsu_db_schema::prelude::Activity;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
-// use serde::Deserialize;
 use serde_json::Value;
-
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/a/*activity_id")]
-// pub struct Activities {
-//     activity_id: String
-// }
-
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/activities/*activity_id")]
-// pub struct ActivitiesRedirect {
-//     activity_id: String
-// }
 
 /// Get activity
 #[utoipa::path(
@@ -39,7 +25,6 @@ use serde_json::Value;
 )]
 #[debug_handler]
 pub async fn activity(
-    // Activities { activity_id }: Activities,
     Path(activity_id): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
@@ -63,9 +48,6 @@ pub async fn activity(
 }
 
 #[debug_handler]
-pub async fn redirect(
-    // ActivitiesRedirect { activity_id }: ActivitiesRedirect,
-    Path(activity_id): Path<String>,
-) -> Redirect {
+pub async fn redirect(Path(activity_id): Path<String>) -> Redirect {
     Redirect::permanent(&format!("/activities/{activity_id}"))
 }

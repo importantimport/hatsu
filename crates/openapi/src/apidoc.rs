@@ -8,23 +8,11 @@ use utoipa::{
 #[openapi(
     info(title = "Hatsu"),
     paths(
-        hatsu_api_apub::activities::activity::activity,
         hatsu_api_apub::posts::post::post,
-        hatsu_api_apub::users::user::user,
     ),
     components(
         schemas(
             hatsu_utils::AppError,
-            hatsu_apub::actors::User,
-            hatsu_apub::actors::UserAttachment,
-            hatsu_apub::actors::UserImage,
-            hatsu_apub::actors::PublicKeySchema,
-            hatsu_apub::links::Tag,
-            hatsu_apub::links::Emoji,
-            hatsu_apub::links::EmojiIcon,
-            hatsu_apub::links::Hashtag,
-            hatsu_apub::links::Mention,
-            hatsu_apub::objects::Note,
         )
     ),
     modifiers(&SecurityAddon),

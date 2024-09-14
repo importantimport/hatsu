@@ -1,12 +1,13 @@
-use axum::{routing::get, Router};
-// use axum_extra::routing::RouterExt;
+use axum::routing::get;
+use utoipa::OpenApi;
+use utoipa_axum::{router::OpenApiRouter, routes};
 
-pub mod activity;
+use crate::ApubApi;
 
-pub fn routes() -> Router {
-    Router::new()
-        // .typed_get(activity::handler)
-        // .typed_get(activity::redirect)
-        .route("/activities/:activity", get(activity::activity))
+mod activity;
+
+pub fn routes() -> OpenApiRouter {
+    OpenApiRouter::with_openapi(ApubApi::openapi())
+        .routes(routes!(activity::activity))
         .route("/a/:activity", get(activity::redirect))
 }

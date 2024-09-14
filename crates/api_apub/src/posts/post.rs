@@ -5,24 +5,10 @@ use activitypub_federation::{
     traits::Object,
 };
 use axum::{debug_handler, extract::Path, response::Redirect};
-// use axum_extra::routing::TypedPath;
 use hatsu_apub::objects::{ApubPost, Note};
 use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
-// use serde::Deserialize;
-
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/o/*object")]
-// pub struct Objects {
-//     object: String
-// }
-
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/objects/*object")]
-// pub struct ObjectsRedirect {
-//     object: String
-// }
 
 /// Get post
 #[utoipa::path(
@@ -39,7 +25,6 @@ use sea_orm::EntityTrait;
 )]
 #[debug_handler]
 pub async fn post(
-    // Objects { object }: Objects,
     Path(post_id): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<Note>>, AppError> {
@@ -62,9 +47,6 @@ pub async fn post(
 }
 
 #[debug_handler]
-pub async fn redirect(
-    // ObjectsRedirect { object }: ObjectsRedirect
-    Path(post_id): Path<String>,
-) -> Redirect {
+pub async fn redirect(Path(post_id): Path<String>) -> Redirect {
     Redirect::permanent(&format!("/posts/{post_id}"))
 }

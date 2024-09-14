@@ -1409,6 +1409,7 @@ dependencies = [
  "tracing",
  "url",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -1555,10 +1556,7 @@ name = "hatsu_openapi"
 version = "0.3.0-beta.3"
 dependencies = [
  "hatsu_api_apub",
- "hatsu_apub",
- "hatsu_nodeinfo",
  "hatsu_utils",
- "hatsu_well_known",
  "utoipa",
 ]
 
