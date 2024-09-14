@@ -4,7 +4,7 @@ use utoipa::OpenApi;
 use utoipa_axum::router::OpenApiRouter;
 use utoipa_scalar::{Scalar, Servable};
 
-use crate::favicon;
+use crate::{favicon, openapi::ApiDoc};
 
 // ./hatsu --version
 async fn root() -> Response<String> {
@@ -12,7 +12,7 @@ async fn root() -> Response<String> {
 }
 
 pub fn routes() -> Router {
-    let (api_router, api) = OpenApiRouter::with_openapi(hatsu_openapi::ApiDoc::openapi())
+    let (api_router, api) = OpenApiRouter::with_openapi(ApiDoc::openapi())
         .merge(hatsu_api::routes())
         .merge(hatsu_api_admin::routes())
         .merge(hatsu_api_apub::routes())

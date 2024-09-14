@@ -1470,7 +1470,6 @@ dependencies = [
  "hatsu_api_mastodon",
  "hatsu_cron",
  "hatsu_nodeinfo",
- "hatsu_openapi",
  "hatsu_utils",
  "hatsu_well_known",
  "tokio",
@@ -1549,15 +1548,6 @@ dependencies = [
  "serde_json",
  "utoipa",
  "utoipa-axum",
-]
-
-[[package]]
-name = "hatsu_openapi"
-version = "0.3.0-beta.3"
-dependencies = [
- "hatsu_api_apub",
- "hatsu_utils",
- "utoipa",
 ]
 
 [[package]]

@@ -8,6 +8,7 @@ use tower_http::{
 use tracing::Level;
 
 mod favicon;
+mod openapi;
 mod routes;
 
 pub struct Server {
