@@ -11,11 +11,11 @@ async fn root() -> Response<String> {
 }
 
 pub fn routes() -> Router {
-    let (api_router, _api) =
-        OpenApiRouter::with_openapi(hatsu_openapi::ApiDoc::openapi()).split_for_parts();
+    let (api_router, _api) = OpenApiRouter::with_openapi(hatsu_openapi::ApiDoc::openapi())
+        .merge(hatsu_api::routes())
+        .split_for_parts();
 
     let router = Router::new()
-        .merge(hatsu_api::routes())
         .merge(hatsu_api_admin::routes())
         .merge(hatsu_api_apub::routes())
         .merge(hatsu_api_mastodon::routes())

@@ -16,6 +16,8 @@ name = "hatsu_api"
 path = "src/lib.rs"
 
 [dependencies]
+hatsu_openapi = { workspace = true }
 axum = { workspace = true }
 url = { workspace = true }
 utoipa = { workspace = true }
+utoipa-axum = { workspace = true }

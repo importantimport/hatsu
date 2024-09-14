@@ -1374,8 +1374,10 @@ name = "hatsu_api"
 version = "0.3.0-beta.3"
 dependencies = [
  "axum",
+ "hatsu_openapi",
  "url",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -1551,7 +1553,6 @@ name = "hatsu_openapi"
 version = "0.3.0-beta.3"
 dependencies = [
  "axum",
- "hatsu_api",
  "hatsu_api_admin",
  "hatsu_api_apub",
  "hatsu_api_mastodon",

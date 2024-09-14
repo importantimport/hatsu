@@ -1,9 +1,11 @@
-use axum::{routing::get, Router};
+use utoipa::OpenApi;
+use utoipa_axum::{router::OpenApiRouter, routes};
 
-pub mod generate_204;
+mod generate_204;
 
-use generate_204::generate_204;
+#[derive(OpenApi)]
+pub struct HatsuApi;
 
-pub fn routes() -> Router {
-    Router::new().route("/api/v0/generate_204", get(generate_204))
+pub fn routes() -> OpenApiRouter {
+    OpenApiRouter::with_openapi(HatsuApi::openapi()).routes(routes!(generate_204::generate_204))
 }
