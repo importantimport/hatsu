@@ -8,8 +8,6 @@ use utoipa::{
 #[openapi(
     info(title = "Hatsu"),
     paths(
-        hatsu_api_admin::routes::create_account::create_account,
-        hatsu_api_admin::routes::remove_account::remove_account,
         hatsu_api_apub::activities::activity::activity,
         hatsu_api_apub::posts::post::post,
         hatsu_api_apub::users::user::user,
@@ -29,8 +27,6 @@ use utoipa::{
     components(
         schemas(
             hatsu_utils::AppError,
-            hatsu_api_admin::entities::CreateRemoveAccount,
-            hatsu_api_admin::entities::CreateRemoveAccountResult,
             hatsu_api_mastodon::entities::Account,
             hatsu_api_mastodon::entities::Context,
             hatsu_api_mastodon::entities::CustomEmoji,

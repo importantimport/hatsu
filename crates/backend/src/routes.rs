@@ -14,6 +14,7 @@ async fn root() -> Response<String> {
 pub fn routes() -> Router {
     let (api_router, api) = OpenApiRouter::with_openapi(hatsu_openapi::ApiDoc::openapi())
         .merge(hatsu_api::routes())
+        .merge(hatsu_api_admin::routes())
         .split_for_parts();
 
     let openapi_json = api.clone();
@@ -23,7 +24,6 @@ pub fn routes() -> Router {
         .merge(Scalar::with_url("/scalar", api));
 
     let router = Router::new()
-        .merge(hatsu_api_admin::routes())
         .merge(hatsu_api_apub::routes())
         .merge(hatsu_api_mastodon::routes())
         .merge(hatsu_nodeinfo::routes())

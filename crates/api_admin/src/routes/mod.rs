@@ -4,21 +4,24 @@ use axum::{
     http::{Request, StatusCode},
     middleware::{self, Next},
     response::Response,
-    routing::post,
-    Router,
 };
 use hatsu_utils::AppData;
+use utoipa::OpenApi;
+use utoipa_axum::{router::OpenApiRouter, routes};
 
-pub mod create_account;
-pub mod remove_account;
+use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 
-use create_account::create_account;
-use remove_account::remove_account;
+mod create_account;
+mod remove_account;
 
-pub fn routes() -> Router {
-    Router::new()
-        .route("/api/v0/admin/create-account", post(create_account))
-        .route("/api/v0/admin/remove-account", post(remove_account))
+#[derive(OpenApi)]
+#[openapi(components(schemas(CreateRemoveAccount, CreateRemoveAccountResult)))]
+pub struct HatsuAdminApi;
+
+pub fn routes() -> OpenApiRouter {
+    OpenApiRouter::with_openapi(HatsuAdminApi::openapi())
+        .routes(routes!(create_account::create_account))
+        .routes(routes!(remove_account::remove_account))
         .layer(middleware::from_fn(auth))
 }
 
