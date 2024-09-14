@@ -25,3 +25,4 @@ serde = { workspace = true }
 tracing = { workspace = true }
 url = { workspace = true }
 utoipa = { workspace = true }
+utoipa-axum = { workspace = true }

@@ -9,10 +9,6 @@ use axum::{
     extract::{Path, Query},
     response::Redirect,
 };
-// use axum_extra::{
-//     extract::Query,
-//     routing::TypedPath,
-// };
 use hatsu_apub::{
     actors::ApubUser,
     collections::{Collection, CollectionPage},
@@ -24,18 +20,6 @@ use serde::Deserialize;
 use serde_json::Value;
 use url::Url;
 
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/u/:name/followers")]
-// pub struct UsersFollowers {
-//     name: String
-// }
-
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/users/:name/followers")]
-// pub struct UsersFollowersRedirect {
-//     name: String
-// }
-
 #[derive(Default, Deserialize)]
 pub struct Pagination {
     page: Option<u64>,
@@ -43,7 +27,6 @@ pub struct Pagination {
 
 #[debug_handler]
 pub async fn handler(
-    // UsersFollowers { name }: UsersFollowers,
     Path(name): Path<String>,
     pagination: Option<Query<Pagination>>,
     data: Data<AppData>,
@@ -100,9 +83,6 @@ pub async fn handler(
 }
 
 #[debug_handler]
-pub async fn redirect(
-    // UsersFollowersRedirect { name }: UsersFollowersRedirect,
-    Path(name): Path<String>,
-) -> Redirect {
+pub async fn redirect(Path(name): Path<String>) -> Redirect {
     Redirect::permanent(&format!("/users/{name}/followers"))
 }

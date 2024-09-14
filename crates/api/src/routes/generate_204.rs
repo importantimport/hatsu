@@ -1,9 +1,11 @@
 use axum::{debug_handler, http::StatusCode};
 
+use crate::TAG;
+
 /// Generate 204 Response
 #[utoipa::path(
     get,
-    tag = "hatsu",
+    tag = TAG,
     path = "/api/v0/generate_204",
     responses(
         (status = NO_CONTENT, description = "NO_CONTENT"),

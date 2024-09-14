@@ -9,6 +9,8 @@ use sea_orm::EntityTrait;
 use serde::Deserialize;
 use url::Url;
 
+use crate::TAG;
+
 #[derive(Deserialize)]
 pub struct WebfingerQuery {
     resource: String,
@@ -17,7 +19,7 @@ pub struct WebfingerQuery {
 /// WebFinger.
 #[utoipa::path(
     get,
-    tag = "well_known",
+    tag = TAG,
     path = "/.well-known/webfinger",
     responses(
         (status = OK, description = "", body = WebfingerSchema),

@@ -1,14 +1,40 @@
-use axum::{routing::get, Router};
+use utoipa::OpenApi;
+use utoipa_axum::{router::OpenApiRouter, routes};
 
-pub mod host_meta;
-pub mod nodeinfo;
-pub mod webfinger;
+use crate::entities::{
+    HostMeta,
+    HostMetaLink,
+    NodeInfoWellKnown,
+    NodeInfoWellKnownLink,
+    WebfingerSchema,
+    WebfingerSchemaLink,
+};
 
-pub fn routes() -> Router {
-    Router::new()
-        .route("/.well-known/host-meta", get(host_meta::redirect))
-        .route("/.well-known/host-meta.xml", get(host_meta::xml))
-        .route("/.well-known/host-meta.json", get(host_meta::json))
-        .route("/.well-known/nodeinfo", get(nodeinfo::discovery))
-        .route("/.well-known/webfinger", get(webfinger::webfinger))
+mod host_meta;
+mod nodeinfo;
+mod webfinger;
+
+pub const TAG: &str = "well_known";
+
+#[derive(OpenApi)]
+#[openapi(
+    components(schemas(
+        HostMeta,
+        HostMetaLink,
+        NodeInfoWellKnown,
+        NodeInfoWellKnownLink,
+        WebfingerSchema,
+        WebfingerSchemaLink,
+    )),
+    tags((name = TAG, description = "Well Known (/.well-known/)"))
+)]
+pub struct WellKnownApi;
+
+pub fn routes() -> OpenApiRouter {
+    OpenApiRouter::with_openapi(WellKnownApi::openapi())
+        .routes(routes!(host_meta::redirect))
+        .routes(routes!(host_meta::xml))
+        .routes(routes!(host_meta::json))
+        .routes(routes!(nodeinfo::discovery))
+        .routes(routes!(webfinger::webfinger))
 }

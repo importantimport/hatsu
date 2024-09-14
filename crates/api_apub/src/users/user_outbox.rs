@@ -9,10 +9,6 @@ use axum::{
     extract::{Path, Query},
     response::Redirect,
 };
-// use axum_extra::{
-//     extract::Query,
-//     routing::TypedPath,
-// };
 use hatsu_apub::{
     activities::ApubActivity,
     actors::ApubUser,
@@ -24,18 +20,6 @@ use sea_orm::{ColumnTrait, ModelTrait, PaginatorTrait, QueryFilter, QueryOrder};
 use serde::Deserialize;
 use serde_json::Value;
 
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/u/:name/outbox")]
-// pub struct UsersOutbox {
-//     name: String
-// }
-
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/users/:name/outbox")]
-// pub struct UsersOutboxRedirect {
-//     name: String
-// }
-
 #[derive(Default, Deserialize)]
 pub struct Pagination {
     page: Option<u64>,
@@ -43,7 +27,6 @@ pub struct Pagination {
 
 #[debug_handler]
 pub async fn handler(
-    // UsersOutbox { name }: UsersOutbox,
     Path(name): Path<String>,
     pagination: Option<Query<Pagination>>,
     data: Data<AppData>,
@@ -105,9 +88,6 @@ pub async fn handler(
 }
 
 #[debug_handler]
-pub async fn redirect(
-    // UsersOutboxRedirect { name }: UsersOutboxRedirect,
-    Path(name): Path<String>,
-) -> Redirect {
+pub async fn redirect(Path(name): Path<String>) -> Redirect {
     Redirect::permanent(&format!("/users/{name}/outbox"))
 }

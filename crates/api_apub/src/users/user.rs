@@ -6,30 +6,18 @@ use activitypub_federation::{
     traits::Object,
 };
 use axum::{debug_handler, extract::Path, response::Redirect};
-// use axum_extra::routing::TypedPath;
 use hatsu_apub::actors::{ApubUser, User};
 use hatsu_db_schema::prelude::User as PreludeUser;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
-// use serde::Deserialize;
 use serde_json::{json, Value};
 
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/u/:name")]
-// pub struct Users {
-//     name: String
-// }
-
-// #[derive(TypedPath, Deserialize)]
-// #[typed_path("/users/:name")]
-// pub struct UsersRedirect {
-//     name: String
-// }
+use crate::TAG;
 
 /// Get user
 #[utoipa::path(
     get,
-    tag = "apub",
+    tag = TAG,
     path = "/users/{user}",
     responses(
         (status = OK, description = "User", body = User),
@@ -40,8 +28,7 @@ use serde_json::{json, Value};
     )
 )]
 #[debug_handler]
-pub async fn user(
-    // Users { name }: Users,
+pub async fn handler(
     Path(name): Path<String>,
     data: Data<AppData>,
 ) -> Result<FederationJson<WithContext<User>>, AppError> {

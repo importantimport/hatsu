@@ -1374,8 +1374,8 @@ name = "hatsu_api"
 version = "0.3.0-beta.3"
 dependencies = [
  "axum",
- "url",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -1390,6 +1390,7 @@ dependencies = [
  "sea-orm",
  "serde",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -1408,6 +1409,7 @@ dependencies = [
  "tracing",
  "url",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -1429,6 +1431,7 @@ dependencies = [
  "url",
  "urlencoding",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -1467,12 +1470,14 @@ dependencies = [
  "hatsu_api_mastodon",
  "hatsu_cron",
  "hatsu_nodeinfo",
- "hatsu_openapi",
  "hatsu_utils",
  "hatsu_well_known",
  "tokio",
  "tower-http",
  "tracing",
+ "utoipa",
+ "utoipa-axum",
+ "utoipa-scalar",
 ]
 
 [[package]]
@@ -1542,22 +1547,7 @@ dependencies = [
  "serde",
  "serde_json",
  "utoipa",
-]
-
-[[package]]
-name = "hatsu_openapi"
-version = "0.3.0-beta.3"
-dependencies = [
- "axum",
- "hatsu_api",
- "hatsu_api_admin",
- "hatsu_api_apub",
- "hatsu_api_mastodon",
- "hatsu_apub",
- "hatsu_nodeinfo",
- "hatsu_utils",
- "hatsu_well_known",
- "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -1602,6 +1592,7 @@ dependencies = [
  "tracing",
  "url",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -4329,9 +4320,9 @@ checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
 name = "utoipa"
-version = "4.2.3"
+version = "5.0.0-beta.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c5afb1a60e207dca502682537fefcfd9921e71d0b83e9576060f09abc6efab23"
+checksum = "86fac56d240b49c629b9083c932ac20a23d926937e67c21ba209f836e2983d4f"
 dependencies = [
  "indexmap 2.5.0",
  "serde",
@@ -4340,18 +4331,42 @@ dependencies = [
 ]
 
 [[package]]
-name = "utoipa-gen"
-version = "4.3.0"
+name = "utoipa-axum"
+version = "0.1.0-beta.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7bf0e16c02bc4bf5322ab65f10ab1149bdbcaa782cba66dc7057370a3f8190be"
+checksum = "a352fb7b1e1882fc60c5526addd6ad4b229431bc604f52cc879ca63c2d9528a0"
 dependencies = [
- "proc-macro-error",
+ "axum",
+ "paste",
+ "tower-layer",
+ "tower-service",
+ "utoipa",
+]
+
+[[package]]
+name = "utoipa-gen"
+version = "5.0.0-beta.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "31d88270777931b8133b119c953062bd41665bb8507841f7d433f46d2765e9d4"
+dependencies = [
  "proc-macro2",
  "quote",
  "regex",
  "syn 2.0.77",
  "url",
  "uuid",
+]
+
+[[package]]
+name = "utoipa-scalar"
+version = "0.2.0-beta.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc86065a210b8540e46d15e0844765d1d14eec7fd6221c2b0de8f6edde990648"
+dependencies = [
+ "axum",
+ "serde",
+ "serde_json",
+ "utoipa",
 ]
 
 [[package]]

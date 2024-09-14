@@ -24,3 +24,4 @@ axum = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }
 utoipa = { workspace = true }
+utoipa-axum = { workspace = true }

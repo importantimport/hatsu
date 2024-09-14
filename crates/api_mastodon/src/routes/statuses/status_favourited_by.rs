@@ -5,14 +5,14 @@ use hatsu_db_schema::prelude::{Post, ReceivedLike};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{EntityTrait, ModelTrait};
 
-use crate::entities::Account;
+use crate::{entities::Account, TAG};
 
 /// See who favourited a status
 ///
 /// <https://docs.joinmastodon.org/methods/statuses/#favourited_by>
 #[utoipa::path(
     get,
-    tag = "mastodon",
+    tag = TAG,
     path = "/api/v1/statuses/{id}/favourited_by",
     responses(
         (status = OK, description = "A list of accounts who favourited the status", body = Vec<Account>),

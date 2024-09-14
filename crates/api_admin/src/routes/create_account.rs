@@ -7,15 +7,18 @@ use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ActiveModelTrait, EntityTrait, IntoActiveModel};
 
-use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
+use crate::{
+    entities::{CreateRemoveAccount, CreateRemoveAccountResult},
+    TAG,
+};
 
 /// Create Account
 #[utoipa::path(
     post,
-    tag = "hatsu::admin",
+    tag = TAG,
     path = "/api/v0/admin/create-account",
     responses(
-        (status = CREATED, description = "create succesfully", body = CreateRemoveAccountResult),
+        (status = CREATED, description = "create successfully", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)
     ),
     security(("api_key" = ["token"]))
