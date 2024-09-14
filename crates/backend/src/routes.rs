@@ -1,5 +1,7 @@
 use axum::{http::Response, routing::get, Router};
 use hatsu_utils::AppEnv;
+use utoipa::OpenApi;
+use utoipa_axum::router::OpenApiRouter;
 
 use crate::favicon;
 
@@ -9,7 +11,10 @@ async fn root() -> Response<String> {
 }
 
 pub fn routes() -> Router {
-    Router::new()
+    let (api_router, _api) =
+        OpenApiRouter::with_openapi(hatsu_openapi::ApiDoc::openapi()).split_for_parts();
+
+    let router = Router::new()
         .merge(hatsu_api::routes())
         .merge(hatsu_api_admin::routes())
         .merge(hatsu_api_apub::routes())
@@ -19,5 +24,7 @@ pub fn routes() -> Router {
         .merge(hatsu_well_known::routes())
         .route("/", get(root))
         .route("/favicon.ico", get(favicon::ico))
-        .route("/favicon.svg", get(favicon::svg))
+        .route("/favicon.svg", get(favicon::svg));
+
+    router.merge(api_router)
 }

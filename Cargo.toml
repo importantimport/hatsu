@@ -133,6 +133,7 @@ tracing-error = "0.2"
 url = { version = "2.4", features = ["serde"] }
 urlencoding = "2"
 utoipa = { version = "5.0.0-beta", features = ["axum_extras", "url", "uuid"] }
+utoipa-axum = "0.1.0-beta"
 utoipa-scalar = { version = "0.2.0-beta", features = ["axum"] }
 uuid = { version = "1.8", features = [
     "v4",

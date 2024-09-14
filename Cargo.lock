@@ -1473,6 +1473,8 @@ dependencies = [
  "tokio",
  "tower-http",
  "tracing",
+ "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]
@@ -4338,6 +4340,19 @@ dependencies = [
  "serde",
  "serde_json",
  "utoipa-gen",
+]
+
+[[package]]
+name = "utoipa-axum"
+version = "0.1.0-beta.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a352fb7b1e1882fc60c5526addd6ad4b229431bc604f52cc879ca63c2d9528a0"
+dependencies = [
+ "axum",
+ "paste",
+ "tower-layer",
+ "tower-service",
+ "utoipa",
 ]
 
 [[package]]
