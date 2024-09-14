@@ -16,6 +16,7 @@ pub fn routes() -> Router {
         .merge(hatsu_api::routes())
         .merge(hatsu_api_admin::routes())
         .merge(hatsu_api_mastodon::routes())
+        .merge(hatsu_nodeinfo::routes())
         .merge(hatsu_well_known::routes())
         .split_for_parts();
 
@@ -27,7 +28,6 @@ pub fn routes() -> Router {
 
     let router = Router::new()
         .merge(hatsu_api_apub::routes())
-        .merge(hatsu_nodeinfo::routes())
         .route("/", get(root))
         .route("/favicon.ico", get(favicon::ico))
         .route("/favicon.svg", get(favicon::svg));

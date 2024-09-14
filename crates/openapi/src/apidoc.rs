@@ -11,8 +11,6 @@ use utoipa::{
         hatsu_api_apub::activities::activity::activity,
         hatsu_api_apub::posts::post::post,
         hatsu_api_apub::users::user::user,
-        hatsu_nodeinfo::handler::v2_1,
-        hatsu_nodeinfo::handler::v2_0,
     ),
     components(
         schemas(
@@ -27,12 +25,6 @@ use utoipa::{
             hatsu_apub::links::Hashtag,
             hatsu_apub::links::Mention,
             hatsu_apub::objects::Note,
-            hatsu_nodeinfo::schema::NodeInfo,
-            hatsu_nodeinfo::schema::NodeInfoSoftware,
-            hatsu_nodeinfo::schema::NodeInfoServices,
-            hatsu_nodeinfo::schema::NodeInfoUsage,
-            hatsu_nodeinfo::schema::NodeInfoUsers,
-            hatsu_nodeinfo::schema::NodeInfoMetadata,
         )
     ),
     modifiers(&SecurityAddon),
