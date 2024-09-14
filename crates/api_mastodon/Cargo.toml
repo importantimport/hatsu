@@ -31,3 +31,4 @@ tokio = { workspace = true }
 url = { workspace = true }
 urlencoding = { workspace = true }
 utoipa = { workspace = true }
+utoipa-axum = { workspace = true }
