@@ -12,7 +12,7 @@ use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
     tag = "hatsu::admin",
     path = "/api/v0/admin/remove-account",
     responses(
-        // (status = OK, description = "remove succesfully", body = CreateRemoveAccountResult),
+        // (status = OK, description = "remove successfully", body = CreateRemoveAccountResult),
         (status = METHOD_NOT_ALLOWED, description = "not implemented", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)
     ),

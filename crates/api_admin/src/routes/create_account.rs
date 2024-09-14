@@ -15,7 +15,7 @@ use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
     tag = "hatsu::admin",
     path = "/api/v0/admin/create-account",
     responses(
-        (status = CREATED, description = "create succesfully", body = CreateRemoveAccountResult),
+        (status = CREATED, description = "create successfully", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)
     ),
     security(("api_key" = ["token"]))
