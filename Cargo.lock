@@ -1603,6 +1603,7 @@ dependencies = [
  "tracing",
  "url",
  "utoipa",
+ "utoipa-axum",
 ]
 
 [[package]]

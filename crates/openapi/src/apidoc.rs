@@ -13,11 +13,6 @@ use utoipa::{
         hatsu_api_apub::users::user::user,
         hatsu_nodeinfo::handler::v2_1,
         hatsu_nodeinfo::handler::v2_0,
-        hatsu_well_known::routes::host_meta::redirect,
-        hatsu_well_known::routes::host_meta::xml,
-        hatsu_well_known::routes::host_meta::json,
-        hatsu_well_known::routes::nodeinfo::discovery,
-        hatsu_well_known::routes::webfinger::webfinger,
     ),
     components(
         schemas(
@@ -38,12 +33,6 @@ use utoipa::{
             hatsu_nodeinfo::schema::NodeInfoUsage,
             hatsu_nodeinfo::schema::NodeInfoUsers,
             hatsu_nodeinfo::schema::NodeInfoMetadata,
-            hatsu_well_known::entities::HostMeta,
-            hatsu_well_known::entities::HostMetaLink,
-            hatsu_well_known::entities::NodeInfoWellKnown,
-            hatsu_well_known::entities::NodeInfoWellKnownLink,
-            hatsu_well_known::entities::WebfingerSchema,
-            hatsu_well_known::entities::WebfingerSchemaLink,
         )
     ),
     modifiers(&SecurityAddon),
