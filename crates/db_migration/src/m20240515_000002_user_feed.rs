@@ -13,8 +13,32 @@ impl MigrationTrait for Migration {
                 Table::alter()
                     .table(User::Table)
                     .add_column(json_null(User::Feed))
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
+                    .table(User::Table)
                     .drop_column(User::FeedJson)
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
+                    .table(User::Table)
                     .drop_column(User::FeedAtom)
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
+                    .table(User::Table)
                     .drop_column(User::FeedRss)
                     .to_owned(),
             )
@@ -29,8 +53,32 @@ impl MigrationTrait for Migration {
                 Table::alter()
                     .table(User::Table)
                     .drop_column(User::Feed)
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
+                    .table(User::Table)
                     .add_column(string_null(User::FeedJson))
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
+                    .table(User::Table)
                     .add_column(string_null(User::FeedAtom))
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .alter_table(
+                Table::alter()
+                    .table(User::Table)
                     .add_column(string_null(User::FeedRss))
                     .to_owned(),
             )
