@@ -132,7 +132,7 @@ tracing = { version = "0.1" }
 tracing-error = "0.2"
 url = { version = "2.4", features = ["serde"] }
 urlencoding = "2"
-utoipa = { version = "4", features = ["axum_extras", "url", "uuid"] }
+utoipa = { version = "5.0.0-beta", features = ["axum_extras", "url", "uuid"] }
 # utoipa-swagger-ui = { version = "7", features = ["axum"] }
 uuid = { version = "1.8", features = [
     "v4",
