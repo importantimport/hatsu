@@ -1558,6 +1558,7 @@ dependencies = [
  "hatsu_utils",
  "hatsu_well_known",
  "utoipa",
+ "utoipa-scalar",
 ]
 
 [[package]]
@@ -4351,6 +4352,18 @@ dependencies = [
  "syn 2.0.77",
  "url",
  "uuid",
+]
+
+[[package]]
+name = "utoipa-scalar"
+version = "0.2.0-beta.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc86065a210b8540e46d15e0844765d1d14eec7fd6221c2b0de8f6edde990648"
+dependencies = [
+ "axum",
+ "serde",
+ "serde_json",
+ "utoipa",
 ]
 
 [[package]]
