@@ -2,14 +2,17 @@ use activitypub_federation::config::Data;
 use axum::{debug_handler, extract::Path, Json};
 use hatsu_utils::{AppData, AppError};
 
-use crate::entities::{Context, Status};
+use crate::{
+    entities::{Context, Status},
+    TAG,
+};
 
 /// Get parent and child statuses in context
 ///
 /// <https://docs.joinmastodon.org/methods/statuses/#context>
 #[utoipa::path(
     get,
-    tag = "mastodon",
+    tag = TAG,
     path = "/api/v1/statuses/{id}/context",
     responses(
         (status = OK, description = "", body = Context),

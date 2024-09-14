@@ -9,12 +9,12 @@ use axum::{
 };
 use hatsu_utils::AppData;
 
-use crate::entities::HostMeta;
+use crate::{entities::HostMeta, TAG};
 
 /// The host-meta Redirect.
 #[utoipa::path(
     get,
-    tag = "well_known",
+    tag = TAG,
     path = "/.well-known/host-meta",
     responses((status = TEMPORARY_REDIRECT)),
 )]

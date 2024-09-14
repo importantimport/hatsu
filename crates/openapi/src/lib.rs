@@ -1,2 +1,2 @@
 mod apidoc;
-pub use apidoc::{ApiDoc, SecurityAddon};
+pub use apidoc::ApiDoc;

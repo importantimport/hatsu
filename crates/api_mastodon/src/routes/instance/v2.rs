@@ -2,14 +2,14 @@ use activitypub_federation::config::Data;
 use axum::{debug_handler, Json};
 use hatsu_utils::{AppData, AppError};
 
-use crate::entities::Instance;
+use crate::{entities::Instance, TAG};
 
 /// View server information
 ///
 /// <https://docs.joinmastodon.org/methods/instance/#v2>
 #[utoipa::path(
     get,
-    tag = "mastodon",
+    tag = TAG,
     path = "/api/v2/instance",
     responses(
         (status = OK, description = "", body = Instance),

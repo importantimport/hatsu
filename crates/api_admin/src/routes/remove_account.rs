@@ -4,12 +4,15 @@ use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 
-use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
+use crate::{
+    entities::{CreateRemoveAccount, CreateRemoveAccountResult},
+    TAG,
+};
 
 /// Remove Account
 #[utoipa::path(
     post,
-    tag = "hatsu::admin",
+    tag = TAG,
     path = "/api/v0/admin/remove-account",
     responses(
         // (status = OK, description = "remove successfully", body = CreateRemoveAccountResult),

@@ -10,10 +10,12 @@ use hatsu_db_schema::prelude::Post;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 
+use crate::TAG;
+
 /// Get post
 #[utoipa::path(
     get,
-    tag = "apub",
+    tag = TAG,
     path = "/posts/{post}",
     responses(
         (status = OK, description = "Post", body = Note),

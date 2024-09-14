@@ -6,7 +6,11 @@ use axum::{
     response::Response,
 };
 use hatsu_utils::AppData;
-use utoipa::OpenApi;
+use utoipa::{
+    openapi::security::{ApiKey, ApiKeyValue, SecurityScheme},
+    Modify,
+    OpenApi,
+};
 use utoipa_axum::{router::OpenApiRouter, routes};
 
 use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
@@ -14,9 +18,30 @@ use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
 mod create_account;
 mod remove_account;
 
+pub const TAG: &str = "hatsu::admin";
+
 #[derive(OpenApi)]
-#[openapi(components(schemas(CreateRemoveAccount, CreateRemoveAccountResult)))]
+#[openapi(
+    components(schemas(CreateRemoveAccount, CreateRemoveAccountResult)),
+    modifiers(&SecurityAddon),
+    tags(
+        (name = TAG, description = "Hatsu Admin API (/api/v0/admin/)"),
+    )
+)]
 pub struct HatsuAdminApi;
+
+pub struct SecurityAddon;
+
+impl Modify for SecurityAddon {
+    fn modify(&self, openapi: &mut utoipa::openapi::OpenApi) {
+        if let Some(components) = openapi.components.as_mut() {
+            components.add_security_scheme(
+                "api_key",
+                SecurityScheme::ApiKey(ApiKey::Query(ApiKeyValue::new("token"))),
+            );
+        }
+    }
+}
 
 pub fn routes() -> OpenApiRouter {
     OpenApiRouter::with_openapi(HatsuAdminApi::openapi())

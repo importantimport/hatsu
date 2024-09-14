@@ -10,19 +10,24 @@ pub mod activities;
 pub mod posts;
 pub mod users;
 
+pub const TAG: &str = "apub";
+
 #[derive(OpenApi)]
-#[openapi(components(schemas(
-    PublicKeySchema,
-    User,
-    UserAttachment,
-    UserImage,
-    Emoji,
-    EmojiIcon,
-    Hashtag,
-    Mention,
-    Tag,
-    Note,
-)))]
+#[openapi(
+    components(schemas(
+        PublicKeySchema,
+        User,
+        UserAttachment,
+        UserImage,
+        Emoji,
+        EmojiIcon,
+        Hashtag,
+        Mention,
+        Tag,
+        Note,
+    )),
+    tags((name = TAG, description = "ActivityPub API"))
+)]
 pub struct ApubApi;
 
 pub fn routes() -> OpenApiRouter {

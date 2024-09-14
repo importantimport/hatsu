@@ -3,7 +3,10 @@ use utoipa_axum::{router::OpenApiRouter, routes};
 
 mod generate_204;
 
+pub const TAG: &str = "hatsu";
+
 #[derive(OpenApi)]
+#[openapi(tags((name = TAG, description = "Hatsu API (/api/v0/)")))]
 pub struct HatsuApi;
 
 pub fn routes() -> OpenApiRouter {

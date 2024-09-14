@@ -5,14 +5,14 @@ use hatsu_db_schema::prelude::{Post, ReceivedAnnounce};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{EntityTrait, ModelTrait};
 
-use crate::entities::Account;
+use crate::{entities::Account, TAG};
 
 /// See who boosted a status
 ///
 /// <https://docs.joinmastodon.org/methods/statuses/#reblogged_by>
 #[utoipa::path(
     get,
-    tag = "mastodon",
+    tag = TAG,
     path = "/api/v1/statuses/{id}/reblogged_by",
     responses(
         (status = OK, description = "A list of accounts that boosted the status", body = Vec<Account>),

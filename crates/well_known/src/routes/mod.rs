@@ -14,15 +14,20 @@ mod host_meta;
 mod nodeinfo;
 mod webfinger;
 
+pub const TAG: &str = "well_known";
+
 #[derive(OpenApi)]
-#[openapi(components(schemas(
-    HostMeta,
-    HostMetaLink,
-    NodeInfoWellKnown,
-    NodeInfoWellKnownLink,
-    WebfingerSchema,
-    WebfingerSchemaLink,
-)))]
+#[openapi(
+    components(schemas(
+        HostMeta,
+        HostMetaLink,
+        NodeInfoWellKnown,
+        NodeInfoWellKnownLink,
+        WebfingerSchema,
+        WebfingerSchemaLink,
+    )),
+    tags((name = TAG, description = "Well Known (/.well-known/)"))
+)]
 pub struct WellKnownApi;
 
 pub fn routes() -> OpenApiRouter {

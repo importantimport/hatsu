@@ -12,10 +12,12 @@ use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 use serde_json::{json, Value};
 
+use crate::TAG;
+
 /// Get user
 #[utoipa::path(
     get,
-    tag = "apub",
+    tag = TAG,
     path = "/users/{user}",
     responses(
         (status = OK, description = "User", body = User),

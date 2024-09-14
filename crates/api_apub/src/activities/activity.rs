@@ -10,10 +10,12 @@ use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 use serde_json::Value;
 
+use crate::TAG;
+
 /// Get activity
 #[utoipa::path(
     get,
-    tag = "apub",
+    tag = TAG,
     path = "/activities/{activity}",
     responses(
         (status = OK, description = "Activity", body = Value),

@@ -2,14 +2,14 @@ use activitypub_federation::config::Data;
 use axum::{debug_handler, Json};
 use hatsu_utils::AppData;
 
-use crate::entities::NodeInfoWellKnown;
+use crate::{entities::NodeInfoWellKnown, TAG};
 
 /// NodeInfo discovery.
 ///
 /// <https://nodeinfo.diaspora.software/protocol.html>
 #[utoipa::path(
     get,
-    tag = "well_known",
+    tag = TAG,
     path = "/.well-known/nodeinfo",
     responses(
         (status = OK, description = "", body = NodeInfoWellKnown),
