@@ -9,7 +9,7 @@ However, it may exist as a built-in preset (in the source code) or an example pr
 ## HATSU_LOG
 
 - default: `info`
-- example: `info,tokio::net=debug`
+- example: `info,tokio::net=debug,sqlx::query=warn`
 
 The format is the same as the [`RUST_LOG`](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#example-syntax).
 
