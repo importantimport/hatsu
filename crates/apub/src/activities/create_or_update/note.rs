@@ -53,7 +53,7 @@ impl CreateOrUpdateNote {
             kind: activity.kind.to_string(),
             published: Some(activity.published.clone()),
             actor: activity.actor().to_string(),
-            activity: serde_json::to_string(&activity)?,
+            activity: serde_json::to_value(&activity)?,
         }
         .into_active_model()
         .insert(&data.conn)

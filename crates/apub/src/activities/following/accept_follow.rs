@@ -48,7 +48,7 @@ impl AcceptFollow {
 
         let _insert_activity = DbActivity {
             id: activity.id().to_string(),
-            activity: serde_json::to_string(&activity)?,
+            activity: serde_json::to_value(&activity)?,
             actor: activity.actor().to_string(),
             kind: activity.kind.to_string(),
             published: Some(hatsu_utils::date::now()),
