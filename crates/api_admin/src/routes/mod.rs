@@ -63,9 +63,12 @@ async fn auth(
 ) -> Result<Response, StatusCode> {
     match &data.env.hatsu_access_token {
         Some(token) => match request.uri().query() {
-            Some(query) if query == format!("token={token}") => Ok(next.run(request).await),
-            Some(query) if query != format!("token={token}") => Err(StatusCode::UNAUTHORIZED),
-            _ => Err(StatusCode::BAD_REQUEST),
+            Some(queries)
+                if queries
+                    .split('&')
+                    .any(|query| query.eq(&format!("token={token}"))) =>
+                Ok(next.run(request).await),
+            _ => Err(StatusCode::UNAUTHORIZED),
         },
         None => Err(StatusCode::UNAUTHORIZED),
     }
