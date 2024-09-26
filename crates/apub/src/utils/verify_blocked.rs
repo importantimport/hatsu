@@ -9,8 +9,7 @@ pub async fn verify_blocked(url: &Url, data: &Data<AppData>) -> Result<(), AppEr
     let blocked_url = BlockedUrl::find().all(&data.conn).await?;
 
     if blocked_url
-        .clone()
-        .into_iter()
+        .iter()
         .filter(|url| url.is_instance)
         .filter_map(|url| Url::parse(&url.id).ok())
         .map(|url| url.origin())
@@ -22,7 +21,7 @@ pub async fn verify_blocked(url: &Url, data: &Data<AppData>) -> Result<(), AppEr
             Some(StatusCode::BAD_REQUEST),
         ))
     } else if blocked_url
-        .into_iter()
+        .iter()
         .filter(|url| !url.is_instance)
         .filter_map(|url| Url::parse(&url.id).ok())
         .any(|actor| url.eq(&actor))
