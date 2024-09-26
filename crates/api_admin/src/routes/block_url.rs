@@ -26,33 +26,43 @@ pub async fn block_url(
     data: Data<AppData>,
     query: Query<BlockUrlQuery>,
 ) -> Result<(StatusCode, Json<BlockUrlResult>), AppError> {
-    match BlockedUrl::find_by_id(&query.url.to_string())
-        .one(&data.conn)
-        .await?
-    {
-        Some(url) => Err(AppError::new(
-            format!("The url already blocked: {}", url.id),
+    match &query.url {
+        url if url.query().is_some() => Err(AppError::new(
+            format!(
+                "wrong url: {} (can't contain search params)",
+                url.to_string()
+            ),
             None,
             Some(StatusCode::BAD_REQUEST),
         )),
-        None => {
-            blocked_url::ActiveModel {
-                id: Set(query.url.to_string()),
-                is_instance: Set(query.url.path().eq("/")),
-            }
-            .insert(&data.conn)
-            .await?;
+        _ => match BlockedUrl::find_by_id(&query.url.to_string())
+            .one(&data.conn)
+            .await?
+        {
+            Some(url) => Err(AppError::new(
+                format!("The url already blocked: {}", url.id),
+                None,
+                Some(StatusCode::BAD_REQUEST),
+            )),
+            None => {
+                blocked_url::ActiveModel {
+                    id: Set(query.url.to_string()),
+                    is_instance: Set(query.url.path().eq("/")),
+                }
+                .insert(&data.conn)
+                .await?;
 
-            Ok((
-                StatusCode::CREATED,
-                Json(BlockUrlResult {
-                    url: query.url.clone(),
-                    message: format!(
-                        "The url was successfully blocked: {}",
-                        &query.url.to_string()
-                    ),
-                }),
-            ))
+                Ok((
+                    StatusCode::CREATED,
+                    Json(BlockUrlResult {
+                        url: query.url.clone(),
+                        message: format!(
+                            "The url was successfully blocked: {}",
+                            &query.url.to_string()
+                        ),
+                    }),
+                ))
+            },
         },
     }
 }
