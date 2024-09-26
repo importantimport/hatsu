@@ -53,7 +53,7 @@ pub async fn block_url(
                 .await?;
 
                 Ok((
-                    StatusCode::CREATED,
+                    StatusCode::OK,
                     Json(BlockUrlResult {
                         url: query.url.clone(),
                         message: format!(
