@@ -1,14 +1,14 @@
 use std::ops::Deref;
 
 use activitypub_federation::config::Data;
-use axum::{debug_handler, http::StatusCode, Json};
+use axum::{debug_handler, extract::Query, http::StatusCode, Json};
 use hatsu_apub::actors::ApubUser;
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ActiveModelTrait, EntityTrait, IntoActiveModel};
 
 use crate::{
-    entities::{CreateRemoveAccount, CreateRemoveAccountResult},
+    entities::{CreateRemoveAccountQuery, CreateRemoveAccountResult},
     TAG,
 };
 
@@ -17,6 +17,7 @@ use crate::{
     post,
     tag = TAG,
     path = "/api/v0/admin/create-account",
+    params(CreateRemoveAccountQuery),
     responses(
         (status = CREATED, description = "create successfully", body = CreateRemoveAccountResult),
         (status = BAD_REQUEST, description = "error", body = AppError)
@@ -26,10 +27,10 @@ use crate::{
 #[debug_handler]
 pub async fn create_account(
     data: Data<AppData>,
-    Json(payload): Json<CreateRemoveAccount>,
+    query: Query<CreateRemoveAccountQuery>,
 ) -> Result<(StatusCode, Json<CreateRemoveAccountResult>), AppError> {
     if let Some(account) = User::find_by_id(
-        hatsu_utils::url::generate_user_url(data.domain(), &payload.name)?.to_string(),
+        hatsu_utils::url::generate_user_url(data.domain(), &query.name)?.to_string(),
     )
     .one(&data.conn)
     .await?
@@ -40,7 +41,7 @@ pub async fn create_account(
             Some(StatusCode::BAD_REQUEST),
         ))
     } else {
-        let account = ApubUser::new(data.domain(), &payload.name)
+        let account = ApubUser::new(data.domain(), &query.name)
             .await?
             .deref()
             .clone()

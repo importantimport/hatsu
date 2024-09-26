@@ -13,7 +13,7 @@ use utoipa::{
 };
 use utoipa_axum::{router::OpenApiRouter, routes};
 
-use crate::entities::{BlockUrlResult, CreateRemoveAccount, CreateRemoveAccountResult};
+use crate::entities::{BlockUrlResult, CreateRemoveAccountResult};
 
 mod block_url;
 mod create_account;
@@ -26,7 +26,6 @@ pub const TAG: &str = "hatsu::admin";
 #[openapi(
     components(schemas(
         BlockUrlResult,
-        CreateRemoveAccount,
         CreateRemoveAccountResult
     )),
     modifiers(&SecurityAddon),
