@@ -193,9 +193,7 @@
 </code></pre>
 <h2 id="curl"><a class="header" href="#curl">curl</a></h2>
 <p>You can also access the API via curl, as <code>Justfile</code> does.</p>
-<pre><code class="language-bash">curl -X POST "http://localhost:$(echo $HATSU_LISTEN_PORT)/api/v0/admin/create-account?token=$(echo $HATSU_ACCESS_TOKEN)" \
-  -H "Content-Type: application/json" \
-  -d "{\"name\": \"example.com\"}"
+<pre><code class="language-bash">NAME="example.com" curl -X POST "http://localhost:$(echo $HATSU_LISTEN_PORT)/api/v0/admin/create-account?name=$(echo $NAME)&amp;token=$(echo $HATSU_ACCESS_TOKEN)"
 </code></pre>
 
                     </main>
