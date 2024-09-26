@@ -18,6 +18,7 @@ use crate::entities::{BlockUrlResult, CreateRemoveAccount, CreateRemoveAccountRe
 mod block_url;
 mod create_account;
 mod remove_account;
+mod unblock_url;
 
 pub const TAG: &str = "hatsu::admin";
 
@@ -53,6 +54,7 @@ pub fn routes() -> OpenApiRouter {
         .routes(routes!(block_url::block_url))
         .routes(routes!(create_account::create_account))
         .routes(routes!(remove_account::remove_account))
+        .routes(routes!(unblock_url::unblock_url))
         .layer(middleware::from_fn(auth))
 }
 
