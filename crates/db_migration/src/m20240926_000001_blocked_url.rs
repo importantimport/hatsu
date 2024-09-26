@@ -9,10 +9,10 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(BlockedActor::Table)
+                    .table(BlockedUrl::Table)
                     .if_not_exists()
-                    .col(uuid(BlockedActor::Id).primary_key())
-                    .col(string(BlockedActor::Actor))
+                    .col(string(BlockedUrl::Id).primary_key())
+                    .col(boolean(BlockedUrl::IsInstance))
                     .to_owned(),
             )
             .await?;
@@ -22,7 +22,7 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(BlockedActor::Table).to_owned())
+            .drop_table(Table::drop().table(BlockedUrl::Table).to_owned())
             .await?;
 
         Ok(())
@@ -30,10 +30,10 @@ impl MigrationTrait for Migration {
 }
 
 #[derive(Iden)]
-enum BlockedActor {
+enum BlockedUrl {
     Table,
-    // UUID v7
+    // Url
     Id,
-    // Actor URL
-    Actor,
+    // is instance (if false, then this is actor)
+    IsInstance,
 }

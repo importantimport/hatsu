@@ -9,8 +9,7 @@ mod m20240501_000001_received_like;
 mod m20240501_000002_received_announce;
 mod m20240515_000001_user_feed_hatsu_extension;
 mod m20240515_000002_user_feed;
-mod m20240922_000001_blocked_instance;
-mod m20240922_000002_blocked_actor;
+mod m20240926_000001_blocked_url;
 
 pub struct Migrator;
 
@@ -27,8 +26,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20240501_000002_received_announce::Migration),
             Box::new(m20240515_000001_user_feed_hatsu_extension::Migration),
             Box::new(m20240515_000002_user_feed::Migration),
-            Box::new(m20240922_000001_blocked_instance::Migration),
-            Box::new(m20240922_000002_blocked_actor::Migration),
+            Box::new(m20240926_000001_blocked_url::Migration),
         ]
     }
 }
