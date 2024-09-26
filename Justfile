@@ -76,6 +76,14 @@ _account method name:
   -H "Content-Type: application/json" \
   -d "{\"name\": \"{{name}}\"}"
 
+# /api/v0/admin/block-url
+block-url url:
+  curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/v0/admin/block-url?url={{url}}&token=${HATSU_ACCESS_TOKEN}"
+
+# /api/v0/admin/unblock-url
+unblock-url url:
+  curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/v0/admin/unblock-url?url={{url}}&token=${HATSU_ACCESS_TOKEN}"
+
 # use db_* without underscores.
 db *args='migration up':
   just db_{{args}}
