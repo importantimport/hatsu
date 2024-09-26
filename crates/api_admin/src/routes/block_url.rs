@@ -9,7 +9,7 @@ use crate::{
     TAG,
 };
 
-/// Remove Account
+/// Block URL
 #[utoipa::path(
     post,
     tag = TAG,
