@@ -13,8 +13,9 @@ use utoipa::{
 };
 use utoipa_axum::{router::OpenApiRouter, routes};
 
-use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
+use crate::entities::{BlockUrlResult, CreateRemoveAccount, CreateRemoveAccountResult};
 
+mod block_url;
 mod create_account;
 mod remove_account;
 
@@ -22,7 +23,11 @@ pub const TAG: &str = "hatsu::admin";
 
 #[derive(OpenApi)]
 #[openapi(
-    components(schemas(CreateRemoveAccount, CreateRemoveAccountResult)),
+    components(schemas(
+        BlockUrlResult,
+        CreateRemoveAccount,
+        CreateRemoveAccountResult
+    )),
     modifiers(&SecurityAddon),
     tags(
         (name = TAG, description = "Hatsu Admin API (/api/v0/admin/)"),
@@ -45,6 +50,7 @@ impl Modify for SecurityAddon {
 
 pub fn routes() -> OpenApiRouter {
     OpenApiRouter::with_openapi(HatsuAdminApi::openapi())
+        .routes(routes!(block_url::block_url))
         .routes(routes!(create_account::create_account))
         .routes(routes!(remove_account::remove_account))
         .layer(middleware::from_fn(auth))
