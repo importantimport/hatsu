@@ -3,8 +3,7 @@
 pub mod prelude;
 
 pub mod activity;
-pub mod blocked_actor;
-pub mod blocked_instance;
+pub mod blocked_url;
 pub mod post;
 pub mod received_announce;
 pub mod received_follow;

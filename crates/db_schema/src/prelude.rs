@@ -2,8 +2,7 @@
 
 pub use super::{
     activity::Entity as Activity,
-    blocked_actor::Entity as BlockedActor,
-    blocked_instance::Entity as BlockedInstance,
+    blocked_url::Entity as BlockedUrl,
     post::Entity as Post,
     received_announce::Entity as ReceivedAnnounce,
     received_follow::Entity as ReceivedFollow,
