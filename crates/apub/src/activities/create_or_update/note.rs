@@ -15,6 +15,7 @@ use crate::{
     activities::CreateOrUpdateType,
     actors::ApubUser,
     objects::{ApubPost, Note},
+    utils::verify_blocked,
 };
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -97,6 +98,7 @@ impl ActivityHandler for CreateOrUpdateNote {
     async fn verify(&self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // TODO
         ApubPost::verify(&self.object, &self.id, data).await?;
+        verify_blocked(&self.id, data).await?;
         Ok(())
     }
 

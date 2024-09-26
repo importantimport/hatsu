@@ -22,6 +22,7 @@ use crate::{
     activities::{ApubReceivedAnnounce, ApubReceivedLike, LikeOrAnnounceType},
     actors::ApubUser,
     objects::ApubPost,
+    utils::verify_blocked,
 };
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -48,8 +49,9 @@ impl ActivityHandler for LikeOrAnnounce {
         self.actor.inner()
     }
 
-    async fn verify(&self, _data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+    async fn verify(&self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // TODO
+        verify_blocked(&self.id, data).await?;
         Ok(())
     }
 
