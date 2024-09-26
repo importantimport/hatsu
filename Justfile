@@ -72,9 +72,7 @@ account method name:
   fi
 
 _account method name:
-  curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/v0/admin/{{method}}-account?token=${HATSU_ACCESS_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d "{\"name\": \"{{name}}\"}"
+  curl -X POST "http://localhost:${HATSU_LISTEN_PORT}/api/v0/admin/{{method}}-account?name={{name}}&token=${HATSU_ACCESS_TOKEN}"
 
 # /api/v0/admin/block-url
 block-url url:
