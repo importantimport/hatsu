@@ -1,11 +1,11 @@
 use activitypub_federation::config::Data;
-use axum::{debug_handler, http::StatusCode, Json};
+use axum::{debug_handler, extract::Query, http::StatusCode, Json};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 
 use crate::{
-    entities::{CreateRemoveAccount, CreateRemoveAccountResult},
+    entities::{CreateRemoveAccountQuery, CreateRemoveAccountResult},
     TAG,
 };
 
@@ -14,6 +14,7 @@ use crate::{
     post,
     tag = TAG,
     path = "/api/v0/admin/remove-account",
+    params(CreateRemoveAccountQuery),
     responses(
         // (status = OK, description = "remove successfully", body = CreateRemoveAccountResult),
         (status = METHOD_NOT_ALLOWED, description = "not implemented", body = CreateRemoveAccountResult),
@@ -24,10 +25,10 @@ use crate::{
 #[debug_handler]
 pub async fn remove_account(
     data: Data<AppData>,
-    Json(payload): Json<CreateRemoveAccount>,
+    query: Query<CreateRemoveAccountQuery>,
 ) -> Result<(StatusCode, Json<CreateRemoveAccountResult>), AppError> {
     match User::find_by_id(
-        hatsu_utils::url::generate_user_url(data.domain(), &payload.name)?.to_string(),
+        hatsu_utils::url::generate_user_url(data.domain(), &query.name)?.to_string(),
     )
     .one(&data.conn)
     .await?
@@ -47,18 +48,15 @@ pub async fn remove_account(
                 Ok((
                     StatusCode::METHOD_NOT_ALLOWED,
                     Json(CreateRemoveAccountResult {
-                        name: payload.name.clone(),
+                        name: query.name.clone(),
                         // message: format!("Successfully removed account: {}", payload.name),
-                        message: format!(
-                            "Remove account API not yet implemented: {}",
-                            payload.name
-                        ),
+                        message: format!("Remove account API not yet implemented: {}", query.name),
                     }),
                 ))
             }
         },
         None => Err(AppError::new(
-            format!("The account does not exist: {}", payload.name),
+            format!("The account does not exist: {}", query.name),
             None,
             Some(StatusCode::BAD_REQUEST),
         )),

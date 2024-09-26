@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
-use utoipa::ToSchema;
+use utoipa::{IntoParams, ToSchema};
 
-#[derive(Deserialize, ToSchema)]
-pub struct CreateRemoveAccount {
+#[derive(Deserialize, IntoParams)]
+pub struct CreateRemoveAccountQuery {
     pub name: String,
 }
 
