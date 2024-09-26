@@ -25,6 +25,7 @@
   - [Nix/NixOS Installation](./admins/install-nix.md)
 - [Environments](./admins/environments.md)
 - [Create Account](./admins/create-account.md)
+- [Block Instances or Actors](./admins/block-instances-or-actors.md)
 
 # for Developers
 

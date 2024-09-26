@@ -1,6 +1,6 @@
 # Create Account
 
-Ensure you set `HATSU_ACCESS_TOKEN` correctly in the [previous section](./environments.md#hatsu_access_token-optional) first, otherwise you will not be able to use the Hatsu Admin API.
+> Ensure you set `HATSU_ACCESS_TOKEN` correctly in the [previous section](./environments.md#hatsu_access_token-optional) first, otherwise you will not be able to use the Hatsu Admin API.
 
 ## just
 
