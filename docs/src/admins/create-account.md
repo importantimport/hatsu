@@ -21,7 +21,5 @@ docker exec -it hatsu /bin/bash
 You can also access the API via curl, as `Justfile` does.
 
 ```bash
-curl -X POST "http://localhost:$(echo $HATSU_LISTEN_PORT)/api/v0/admin/create-account?token=$(echo $HATSU_ACCESS_TOKEN)" \
-  -H "Content-Type: application/json" \
-  -d "{\"name\": \"example.com\"}"
+NAME="example.com" curl -X POST "http://localhost:$(echo $HATSU_LISTEN_PORT)/api/v0/admin/create-account?name=$(echo $NAME)&token=$(echo $HATSU_ACCESS_TOKEN)"
 ```
