@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use url::Url;
 
 use super::LikeOrAnnounceType;
-use crate::{activities::LikeOrAnnounce, actors::ApubUser};
+use crate::{activities::LikeOrAnnounce, actors::ApubUser, utils::verify_blocked};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -37,8 +37,9 @@ impl ActivityHandler for UndoLikeOrAnnounce {
         self.actor.inner()
     }
 
-    async fn verify(&self, _data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+    async fn verify(&self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // TODO
+        verify_blocked(&self.id, data).await?;
         Ok(())
     }
 

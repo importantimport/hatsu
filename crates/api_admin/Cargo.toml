@@ -23,5 +23,6 @@ activitypub_federation = { workspace = true }
 axum = { workspace = true }
 sea-orm = { workspace = true }
 serde = { workspace = true }
+url = { workspace = true }
 utoipa = { workspace = true }
 utoipa-axum = { workspace = true }

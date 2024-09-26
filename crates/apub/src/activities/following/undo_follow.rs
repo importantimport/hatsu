@@ -11,7 +11,7 @@ use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{activities::Follow, actors::ApubUser};
+use crate::{activities::Follow, actors::ApubUser, utils::verify_blocked};
 
 // https://github.com/LemmyNet/lemmy/blob/963d04b3526f8a5e9ff762960bfb5215e353bb27/crates/apub/src/protocol/activities/following/undo_follow.rs
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -44,8 +44,9 @@ impl ActivityHandler for UndoFollow {
         self.actor.inner()
     }
 
-    async fn verify(&self, _data: &Data<Self::DataType>) -> Result<(), Self::Error> {
+    async fn verify(&self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // TODO
+        verify_blocked(&self.id, data).await?;
         Ok(())
     }
 

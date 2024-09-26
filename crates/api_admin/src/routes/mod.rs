@@ -13,16 +13,22 @@ use utoipa::{
 };
 use utoipa_axum::{router::OpenApiRouter, routes};
 
-use crate::entities::{CreateRemoveAccount, CreateRemoveAccountResult};
+use crate::entities::{BlockUrlResult, CreateRemoveAccount, CreateRemoveAccountResult};
 
+mod block_url;
 mod create_account;
 mod remove_account;
+mod unblock_url;
 
 pub const TAG: &str = "hatsu::admin";
 
 #[derive(OpenApi)]
 #[openapi(
-    components(schemas(CreateRemoveAccount, CreateRemoveAccountResult)),
+    components(schemas(
+        BlockUrlResult,
+        CreateRemoveAccount,
+        CreateRemoveAccountResult
+    )),
     modifiers(&SecurityAddon),
     tags(
         (name = TAG, description = "Hatsu Admin API (/api/v0/admin/)"),
@@ -45,8 +51,10 @@ impl Modify for SecurityAddon {
 
 pub fn routes() -> OpenApiRouter {
     OpenApiRouter::with_openapi(HatsuAdminApi::openapi())
+        .routes(routes!(block_url::block_url))
         .routes(routes!(create_account::create_account))
         .routes(routes!(remove_account::remove_account))
+        .routes(routes!(unblock_url::unblock_url))
         .layer(middleware::from_fn(auth))
 }
 
@@ -57,9 +65,12 @@ async fn auth(
 ) -> Result<Response, StatusCode> {
     match &data.env.hatsu_access_token {
         Some(token) => match request.uri().query() {
-            Some(query) if query == format!("token={token}") => Ok(next.run(request).await),
-            Some(query) if query != format!("token={token}") => Err(StatusCode::UNAUTHORIZED),
-            _ => Err(StatusCode::BAD_REQUEST),
+            Some(queries)
+                if queries
+                    .split('&')
+                    .any(|query| query.eq(&format!("token={token}"))) =>
+                Ok(next.run(request).await),
+            _ => Err(StatusCode::UNAUTHORIZED),
         },
         None => Err(StatusCode::UNAUTHORIZED),
     }

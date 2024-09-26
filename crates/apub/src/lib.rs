@@ -3,6 +3,7 @@ pub mod actors;
 pub mod collections;
 pub mod links;
 pub mod objects;
+mod utils;
 
 // #[cfg(test)]
 pub mod tests {

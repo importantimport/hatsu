@@ -11,7 +11,7 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Activity::Table)
                     .if_not_exists()
-                    .col(uuid(Activity::Id).primary_key())
+                    .col(string(Activity::Id).primary_key())
                     .col(json(Activity::Activity))
                     .col(string(Activity::Actor))
                     .col(string(Activity::Kind))
@@ -35,7 +35,7 @@ impl MigrationTrait for Migration {
 #[derive(Iden)]
 enum Activity {
     Table,
-    // Activity UUID
+    // Activity URL
     Id,
     // Activity JSON
     /// <https://www.w3.org/TR/activitystreams-vocabulary/#activity-types>

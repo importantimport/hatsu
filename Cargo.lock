@@ -1389,6 +1389,7 @@ dependencies = [
  "hatsu_utils",
  "sea-orm",
  "serde",
+ "url",
  "utoipa",
  "utoipa-axum",
 ]
