@@ -98,7 +98,7 @@ impl ActivityHandler for CreateOrUpdateNote {
     async fn verify(&self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // TODO
         ApubPost::verify(&self.object, &self.id, data).await?;
-        verify_blocked(&self.id, data).await?;
+        verify_blocked(&self.actor(), data).await?;
         Ok(())
     }
 
