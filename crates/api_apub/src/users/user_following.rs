@@ -40,7 +40,7 @@ pub async fn handler(
                 &hatsu_utils::url::generate_user_url(data.domain(), &name)?
                     .join(&format!("{name}/following"))?,
                 0,
-                Some(0),
+                0,
             )?),
         ))),
         Some(page) => Ok(FederationJson(WithContext::new_default(
