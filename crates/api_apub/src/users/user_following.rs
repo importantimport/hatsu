@@ -8,9 +8,8 @@ use axum::{
     extract::{Path, Query},
     response::Redirect,
 };
-use hatsu_apub::collections::{Collection, CollectionPage};
+use hatsu_apub::collections::{Collection, CollectionOrPage, CollectionPage};
 use hatsu_utils::{AppData, AppError};
-use serde_json::Value;
 use url::Url;
 
 use crate::{users::Pagination, TAG};
@@ -21,8 +20,7 @@ use crate::{users::Pagination, TAG};
     tag = TAG,
     path = "/users/{user}/following",
     responses(
-        // TODO: strict types
-        (status = OK, description = "Following", body = Value),
+        (status = OK, description = "Following", body = CollectionOrPage),
         (status = NOT_FOUND, description = "User does not exist", body = AppError)
     ),
     params(
@@ -35,26 +33,25 @@ pub async fn handler(
     Path(name): Path<String>,
     pagination: Query<Pagination>,
     data: Data<AppData>,
-    // TODO: strict types
-) -> Result<FederationJson<WithContext<Value>>, AppError> {
+) -> Result<FederationJson<WithContext<CollectionOrPage>>, AppError> {
     match pagination.page {
         None => Ok(FederationJson(WithContext::new_default(
-            serde_json::to_value(Collection::new(
+            CollectionOrPage::Collection(Collection::new(
                 &hatsu_utils::url::generate_user_url(data.domain(), &name)?
                     .join(&format!("{name}/following"))?,
                 0,
                 Some(0),
-            )?)?,
+            )?),
         ))),
         Some(page) => Ok(FederationJson(WithContext::new_default(
-            serde_json::to_value(CollectionPage::<Url>::new(
+            CollectionOrPage::CollectionPageUrl(CollectionPage::<Url>::new(
                 hatsu_utils::url::generate_user_url(data.domain(), &name)?
                     .join(&format!("{name}/following"))?,
                 0,
                 vec![],
                 0,
                 page,
-            )?)?,
+            )?),
         ))),
     }
 }

@@ -2,10 +2,11 @@ use activitypub_federation::kinds::collection::OrderedCollectionPageType;
 use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
 use url::Url;
+use utoipa::ToSchema;
 
 use crate::collections::generate_collection_page_url;
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct CollectionPage<T> {
     #[serde(rename = "type")]

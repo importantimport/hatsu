@@ -12,7 +12,7 @@ use axum::{
 use hatsu_apub::{
     activities::ApubActivity,
     actors::ApubUser,
-    collections::{Collection, CollectionPage},
+    collections::{Collection, CollectionOrPage, CollectionPage},
 };
 use hatsu_db_schema::{activity, prelude::Activity};
 use hatsu_utils::{AppData, AppError};
@@ -27,8 +27,7 @@ use crate::{users::Pagination, TAG};
     tag = TAG,
     path = "/users/{user}/outbox",
     responses(
-        // TODO: strict types
-        (status = OK, description = "Outbox", body = Value),
+        (status = OK, description = "Outbox", body = CollectionOrPage),
         (status = NOT_FOUND, description = "User does not exist", body = AppError)
     ),
     params(
@@ -41,8 +40,7 @@ pub async fn handler(
     Path(name): Path<String>,
     pagination: Query<Pagination>,
     data: Data<AppData>,
-    // TODO: strict types
-) -> Result<FederationJson<WithContext<Value>>, AppError> {
+) -> Result<FederationJson<WithContext<CollectionOrPage>>, AppError> {
     let user_id: ObjectId<ApubUser> =
         hatsu_utils::url::generate_user_url(data.domain(), &name)?.into();
     let user = user_id.dereference_local(&data).await?;
@@ -60,12 +58,12 @@ pub async fn handler(
 
     match pagination.page {
         None => Ok(FederationJson(WithContext::new_default(
-            serde_json::to_value(Collection::new(
+            CollectionOrPage::Collection(Collection::new(
                 &hatsu_utils::url::generate_user_url(data.domain(), &name)?
                     .join(&format!("{name}/outbox"))?,
                 total.number_of_items,
                 Some(total.number_of_pages),
-            )?)?,
+            )?),
         ))),
         Some(page) =>
             if page > 1 && page > total.number_of_pages {
@@ -75,7 +73,7 @@ pub async fn handler(
                 ))
             } else {
                 Ok(FederationJson(WithContext::new_default(
-                    serde_json::to_value(CollectionPage::<Value>::new(
+                    CollectionOrPage::CollectionPageValue(CollectionPage::<Value>::new(
                         hatsu_utils::url::generate_user_url(data.domain(), &name)?
                             .join(&format!("{name}/outbox"))?,
                         total.number_of_items,
@@ -91,7 +89,7 @@ pub async fn handler(
                             .collect(),
                         total.number_of_pages,
                         page,
-                    )?)?,
+                    )?),
                 )))
             },
     }
