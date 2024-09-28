@@ -32,7 +32,7 @@ impl AppError {
         Self {
             error,
             error_details,
-            error_id: Uuid::new_v4(),
+            error_id: Uuid::now_v7(),
             status: status.unwrap_or(StatusCode::INTERNAL_SERVER_ERROR),
             context: SpanTrace::capture(),
         }
@@ -43,7 +43,7 @@ impl AppError {
         Self {
             error: format!("Unable to find {kind} named {name}"),
             error_details: None,
-            error_id: Uuid::new_v4(),
+            error_id: Uuid::now_v7(),
             status: StatusCode::NOT_FOUND,
             context: SpanTrace::capture(),
         }
