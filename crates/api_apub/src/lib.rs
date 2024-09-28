@@ -14,6 +14,10 @@ pub const TAG: &str = "apub";
 
 #[derive(OpenApi)]
 #[openapi(
+    paths(
+        posts::notice::notice,
+        posts::post::post,
+    ),
     components(schemas(
         PublicKeySchema,
         User,
