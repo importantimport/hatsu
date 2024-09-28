@@ -16,23 +16,33 @@ use hatsu_apub::{
 use hatsu_db_schema::{prelude::ReceivedFollow, received_follow};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ModelTrait, PaginatorTrait, QueryOrder};
-use serde::Deserialize;
 use serde_json::Value;
 use url::Url;
 
-#[derive(Default, Deserialize)]
-pub struct Pagination {
-    page: Option<u64>,
-}
+use crate::{users::Pagination, TAG};
 
+/// Get user followers
+#[utoipa::path(
+    get,
+    tag = TAG,
+    path = "/users/{user}/followers",
+    responses(
+        // TODO: strict types
+        (status = OK, description = "Followers", body = Value),
+        (status = NOT_FOUND, description = "User does not exist", body = AppError)
+    ),
+    params(
+        ("user" = String, Path, description = "The Domain of the User in the database."),
+        Pagination
+    )
+)]
 #[debug_handler]
 pub async fn handler(
     Path(name): Path<String>,
-    pagination: Option<Query<Pagination>>,
+    pagination: Query<Pagination>,
     data: Data<AppData>,
+    // TODO: strict types
 ) -> Result<FederationJson<WithContext<Value>>, AppError> {
-    let Query(pagination) = pagination.unwrap_or_default();
-
     let user_id: ObjectId<ApubUser> =
         hatsu_utils::url::generate_user_url(data.domain(), &name)?.into();
     let user = user_id.dereference_local(&data).await?;

@@ -1,5 +1,6 @@
 use axum::routing::{get, post};
-use utoipa::OpenApi;
+use serde::Deserialize;
+use utoipa::{IntoParams, OpenApi};
 use utoipa_axum::{router::OpenApiRouter, routes};
 
 use crate::ApubApi;
@@ -9,14 +10,18 @@ mod user_following;
 mod user_inbox;
 mod user_outbox;
 
+#[derive(Deserialize, IntoParams)]
+pub struct Pagination {
+    page: Option<u64>,
+}
+
 pub fn routes() -> OpenApiRouter {
     OpenApiRouter::with_openapi(ApubApi::openapi())
         .routes(routes!(user::handler))
-        // TODO: writing utoipa docs
-        .route("/users/:user/followers", get(user_followers::handler))
-        .route("/users/:user/following", get(user_following::handler))
-        .route("/users/:user/outbox", get(user_outbox::handler))
-        .route("/users/:user/inbox", post(user_inbox::handler))
+        .routes(routes!(user_followers::handler))
+        .routes(routes!(user_following::handler))
+        .routes(routes!(user_inbox::handler))
+        .routes(routes!(user_outbox::handler))
         // fallback routes
         .route("/u/:user", get(user::redirect))
         .route("/u/:user/followers", get(user_followers::redirect))
