@@ -11,28 +11,35 @@ use axum::{
 };
 use hatsu_apub::{
     actors::ApubUser,
-    collections::{Collection, CollectionPage},
+    collections::{Collection, CollectionOrPage, CollectionPage},
 };
 use hatsu_db_schema::{prelude::ReceivedFollow, received_follow};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ModelTrait, PaginatorTrait, QueryOrder};
-use serde::Deserialize;
-use serde_json::Value;
 use url::Url;
 
-#[derive(Default, Deserialize)]
-pub struct Pagination {
-    page: Option<u64>,
-}
+use crate::{users::Pagination, TAG};
 
+/// Get user followers
+#[utoipa::path(
+    get,
+    tag = TAG,
+    path = "/users/{user}/followers",
+    responses(
+        (status = OK, description = "Followers", body = CollectionOrPage),
+        (status = NOT_FOUND, description = "User does not exist", body = AppError)
+    ),
+    params(
+        ("user" = String, Path, description = "The Domain of the User in the database."),
+        Pagination
+    )
+)]
 #[debug_handler]
 pub async fn handler(
     Path(name): Path<String>,
-    pagination: Option<Query<Pagination>>,
+    pagination: Query<Pagination>,
     data: Data<AppData>,
-) -> Result<FederationJson<WithContext<Value>>, AppError> {
-    let Query(pagination) = pagination.unwrap_or_default();
-
+) -> Result<FederationJson<WithContext<CollectionOrPage>>, AppError> {
     let user_id: ObjectId<ApubUser> =
         hatsu_utils::url::generate_user_url(data.domain(), &name)?.into();
     let user = user_id.dereference_local(&data).await?;
@@ -48,12 +55,12 @@ pub async fn handler(
 
     match pagination.page {
         None => Ok(FederationJson(WithContext::new_default(
-            serde_json::to_value(Collection::new(
+            CollectionOrPage::Collection(Collection::new(
                 &hatsu_utils::url::generate_user_url(data.domain(), &name)?
                     .join(&format!("{name}/followers"))?,
                 total.number_of_items,
-                Some(total.number_of_pages),
-            )?)?,
+                total.number_of_pages,
+            )?),
         ))),
         Some(page) =>
             if page > 1 && page > total.number_of_pages {
@@ -63,7 +70,7 @@ pub async fn handler(
                 ))
             } else {
                 Ok(FederationJson(WithContext::new_default(
-                    serde_json::to_value(CollectionPage::<Url>::new(
+                    CollectionOrPage::CollectionPageUrl(CollectionPage::<Url>::new(
                         hatsu_utils::url::generate_user_url(data.domain(), &name)?
                             .join(&format!("{name}/followers"))?,
                         total.number_of_items,
@@ -76,7 +83,7 @@ pub async fn handler(
                             .collect(),
                         total.number_of_pages,
                         page,
-                    )?)?,
+                    )?),
                 )))
             },
     }
