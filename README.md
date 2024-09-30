@@ -1,6 +1,6 @@
 # Hatsu「初」
 
-[![MSRV](https://img.shields.io/badge/rust-1.75%2B-red)](.clippy.toml)
+[![MSRV](https://img.shields.io/badge/rust-1.80%2B-red)](.clippy.toml)
 [![License](https://img.shields.io/github/license/importantimport/hatsu)](LICENSE)
 [![Matrix](https://img.shields.io/matrix/importantimport%3Amatrix.org)](https://matrix.to/#/#importantimport:matrix.org)
 

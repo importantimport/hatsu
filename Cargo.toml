@@ -2,7 +2,7 @@
 version = "0.3.0-beta.6"
 authors = ["藍+85CD"]
 edition = "2021"
-rust-version = "1.75"
+rust-version = "1.80"
 description = "Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
 documentation = "https://hatsu.cli.rs"
 readme = "README.md"
