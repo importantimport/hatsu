@@ -20,8 +20,6 @@ default = []
 console = ["dep:console-subscriber"]
 json = ["tracing-subscriber/json"]
 pretty = []
-# TODO: opentelemetry
-
 
 [dependencies]
 hatsu_utils = { workspace = true }

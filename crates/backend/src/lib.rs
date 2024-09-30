@@ -39,7 +39,6 @@ pub async fn run(federation_config: FederationConfig<AppData>) -> Result<(), App
         );
 
     let http = async {
-        // TODO: env HATSU_LISTEN (localhost:3939)
         let listener = TcpListener::bind(format!(
             "{}:{}",
             data.env.hatsu_listen_host, data.env.hatsu_listen_port

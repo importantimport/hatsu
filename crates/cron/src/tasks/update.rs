@@ -95,7 +95,6 @@ pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Resu
         .eq(&UserFeedTopLevel {
             // TODO: use language
             language: Option::default(),
-            // Default::default()
             feed_url: Url::parse("https://hatsu.local").unwrap(),
             next_url: Option::default(),
             items: Vec::default(),

@@ -109,9 +109,7 @@ impl Note {
 
             content.push_str(&format!(
                 "\n\n{}",
-                tags
-                    .iter()
-                    // TODO: test urlencoding::encode()
+                tags.iter()
                     .map(|tag| format!(
                         "<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>",
                         data.domain(),
