@@ -57,7 +57,7 @@ impl ApubUser {
         Ok(user.into())
     }
 
-    /// For `hatsu_scheduler::update::full_update`
+    /// For `hatsu_cron::tasks::update::full_update`
     #[must_use]
     pub fn to_user_feed_top_level(self) -> UserFeedTopLevel {
         UserFeedTopLevel {
@@ -65,9 +65,8 @@ impl ApubUser {
             title: self.name.clone(),
             description: self.summary.clone(),
             icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),
-            // TOOD: use language
+            // TODO: use language
             language: Option::default(),
-            // Default::default()
             feed_url: Url::parse("https://hatsu.local").unwrap(),
             next_url: Option::default(),
             items: Vec::default(),
