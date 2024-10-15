@@ -14,7 +14,7 @@ impl MigrationTrait for Migration {
                     .table(User::Table)
                     .if_not_exists()
                     .col(string(User::Id).primary_key())
-                    .col(string_uniq(User::Name))
+                    .col(string(User::Name))
                     .col(string(User::PreferredUsername))
                     .col(string_null(User::Summary))
                     .col(string_null(User::Icon))
