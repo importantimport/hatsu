@@ -9,6 +9,7 @@ use crate::collections::generate_collection_page_url;
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct Collection {
+    #[schema(value_type = String)]
     #[serde(rename = "type")]
     pub kind: OrderedCollectionType,
     // example: https://hatsu.local/users/example.com/collection

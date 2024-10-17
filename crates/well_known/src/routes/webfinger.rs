@@ -9,7 +9,7 @@ use sea_orm::EntityTrait;
 use serde::Deserialize;
 use url::Url;
 
-use crate::TAG;
+use crate::{entities::WebfingerSchema, TAG};
 
 #[derive(Deserialize)]
 pub struct WebfingerQuery {

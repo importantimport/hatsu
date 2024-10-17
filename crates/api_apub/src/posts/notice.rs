@@ -1,4 +1,5 @@
 use axum::{debug_handler, extract::Path, response::Redirect};
+use hatsu_apub::objects::Note;
 use hatsu_utils::AppError;
 
 use crate::TAG;

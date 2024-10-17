@@ -5,7 +5,7 @@ use activitypub_federation::{
 };
 use axum::{debug_handler, response::IntoResponse};
 use hatsu_apub::{activities::UserInboxActivities, actors::ApubUser};
-use hatsu_utils::AppData;
+use hatsu_utils::{AppData, AppError};
 
 use crate::TAG;
 
