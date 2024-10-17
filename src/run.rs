@@ -24,9 +24,7 @@ pub async fn run() -> Result<(), AppError> {
     let env = AppEnv::init()?;
 
     tracing::info!("connecting database: {}", &env.hatsu_database_url);
-    let conn = Database::connect(&env.hatsu_database_url)
-        .await
-        .expect("database connection failed");
+    let conn = Database::connect(&env.hatsu_database_url).await?;
 
     tracing::info!("running database migration");
     Migrator::up(&conn, None).await?;
