@@ -96,6 +96,7 @@ axum = { version = "0.7", features = ["tokio", "macros"] }
 # axum-extra = { version = "0.8", features = ["query", "typed-routing"] }
 base64-simd = "0.8"
 chrono = "0.4"
+clap = "4.5"
 enum_delegate = "0.2"
 feed-rs = "2.1"
 futures = "0.3"
@@ -150,6 +151,7 @@ hatsu_tracing = { workspace = true }
 hatsu_utils = { workspace = true }
 human-panic = "2"
 activitypub_federation = { workspace = true }
+clap = { workspace = true }
 dotenvy = "0.15"
 sea-orm = { workspace = true }
 tokio = { workspace = true }
