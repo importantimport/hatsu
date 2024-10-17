@@ -2,10 +2,6 @@
 
 [![nixpkgs unstable package](https://repology.org/badge/version-for-repo/nix_unstable/hatsu.svg)](https://repology.org/project/hatsu/versions)
 
-> Hatsu uses the `x86-64-v3` target architecture for optimal performance.
->
-> If you are using an older processor, you currently need to build locally and change the corresponding values in `.cargo/config.toml`.
-
 Hatsu is available in Nixpkgs, NUR and Flakes.
 
 macOS (Darwin) is not supported.
