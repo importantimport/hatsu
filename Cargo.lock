@@ -1324,6 +1324,7 @@ name = "hatsu"
 version = "0.3.0-beta.7"
 dependencies = [
  "activitypub_federation",
+ "clap",
  "dotenvy",
  "hatsu_api_apub",
  "hatsu_apub",
