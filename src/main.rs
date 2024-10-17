@@ -11,13 +11,12 @@ mod run;
 #[derive(Debug, Parser)]
 #[command(
     name = "hatsu",
-    bin_name = "hatsu",
     version = hatsu_utils::VERSION,
     about,
 )]
 struct Args {
     #[command(subcommand)]
-    command: Commands,
+    command: Option<Commands>,
 }
 
 #[derive(Debug, Subcommand)]
@@ -29,10 +28,13 @@ enum Commands {
 pub async fn main() -> Result<(), AppError> {
     setup_panic!(metadata!().homepage("https://github.com/importantimport/hatsu/issues"));
 
-    match Args::try_parse() {
-        Ok(args) => match args.command {
+    let args = Args::parse();
+
+    if let Some(command) = args.command {
+        match command {
             Commands::Run => run::run().await,
-        },
-        Err(_) => run::run().await,
+        }
+    } else {
+        run::run().await
     }
 }
