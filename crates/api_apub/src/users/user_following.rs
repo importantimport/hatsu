@@ -10,7 +10,6 @@ use axum::{
 };
 use hatsu_apub::collections::{Collection, CollectionOrPage, CollectionPage};
 use hatsu_utils::{AppData, AppError};
-use url::Url;
 
 use crate::{users::Pagination, TAG};
 
@@ -44,7 +43,7 @@ pub async fn handler(
             )?),
         ))),
         Some(page) => Ok(FederationJson(WithContext::new_default(
-            CollectionOrPage::CollectionPageUrl(CollectionPage::<Url>::new(
+            CollectionOrPage::CollectionPage(CollectionPage::new(
                 hatsu_utils::url::generate_user_url(data.domain(), &name)?
                     .join(&format!("{name}/following"))?,
                 0,

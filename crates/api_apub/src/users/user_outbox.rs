@@ -17,7 +17,6 @@ use hatsu_apub::{
 use hatsu_db_schema::{activity, prelude::Activity};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ColumnTrait, ModelTrait, PaginatorTrait, QueryFilter, QueryOrder};
-use serde_json::Value;
 
 use crate::{users::Pagination, TAG};
 
@@ -73,7 +72,7 @@ pub async fn handler(
                 ))
             } else {
                 Ok(FederationJson(WithContext::new_default(
-                    CollectionOrPage::CollectionPageValue(CollectionPage::<Value>::new(
+                    CollectionOrPage::CollectionPage(CollectionPage::new(
                         hatsu_utils::url::generate_user_url(data.domain(), &name)?
                             .join(&format!("{name}/outbox"))?,
                         total.number_of_items,

@@ -4,8 +4,6 @@ use hatsu_apub::{
     links::{Emoji, EmojiIcon, Hashtag, Mention, Tag},
     objects::Note,
 };
-use serde_json::Value;
-use url::Url;
 use utoipa::OpenApi;
 use utoipa_axum::router::OpenApiRouter;
 
@@ -28,8 +26,7 @@ pub const TAG: &str = "apub";
         UserImage,
         Collection,
         CollectionOrPage,
-        CollectionPage<Url>,
-        CollectionPage<Value>,
+        CollectionPage,
         Emoji,
         EmojiIcon,
         Hashtag,

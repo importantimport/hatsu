@@ -70,7 +70,7 @@ pub async fn handler(
                 ))
             } else {
                 Ok(FederationJson(WithContext::new_default(
-                    CollectionOrPage::CollectionPageUrl(CollectionPage::<Url>::new(
+                    CollectionOrPage::CollectionPage(CollectionPage::new(
                         hatsu_utils::url::generate_user_url(data.domain(), &name)?
                             .join(&format!("{name}/followers"))?,
                         total.number_of_items,
@@ -79,6 +79,8 @@ pub async fn handler(
                             .await?
                             .into_iter()
                             .map(|follow| Url::parse(&follow.id))
+                            .filter_map(Result::ok)
+                            .map(|url| serde_json::to_value(url))
                             .filter_map(Result::ok)
                             .collect(),
                         total.number_of_pages,

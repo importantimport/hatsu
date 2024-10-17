@@ -1,6 +1,5 @@
 use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
 use url::Url;
 use utoipa::ToSchema;
 
@@ -21,6 +20,5 @@ pub fn generate_collection_page_url(collection_id: &Url, page: u64) -> Result<Ur
 #[serde(untagged)]
 pub enum CollectionOrPage {
     Collection(Collection),
-    CollectionPageUrl(CollectionPage<Url>),
-    CollectionPageValue(CollectionPage<Value>),
+    CollectionPage(CollectionPage),
 }

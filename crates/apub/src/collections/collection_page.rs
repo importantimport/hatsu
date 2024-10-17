@@ -1,6 +1,7 @@
 use activitypub_federation::kinds::collection::OrderedCollectionPageType;
 use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use url::Url;
 use utoipa::ToSchema;
 
@@ -8,7 +9,8 @@ use crate::collections::generate_collection_page_url;
 
 #[derive(Clone, Debug, Deserialize, Serialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
-pub struct CollectionPage<T> {
+pub struct CollectionPage {
+    #[schema(value_type = String)]
     #[serde(rename = "type")]
     kind: OrderedCollectionPageType,
     // example: https://hatsu.local/users/example.com/collection?page=2
@@ -22,16 +24,16 @@ pub struct CollectionPage<T> {
     // example: https://hatsu.local/users/example.com/collection
     part_of: Url,
     // collection item list
-    ordered_items: Vec<T>,
+    ordered_items: Vec<Value>,
     // collection count
     total_items: u64,
 }
 
-impl<T> CollectionPage<T> {
+impl CollectionPage {
     pub fn new(
         collection_id: Url,
         total_items: u64,
-        ordered_items: Vec<T>,
+        ordered_items: Vec<Value>,
         total_pages: u64,
         page: u64,
     ) -> Result<Self, AppError> {
