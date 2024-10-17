@@ -161,3 +161,4 @@ tracing = { workspace = true }
 snmalloc-rs = { version = "0.3", default-features = false, features = [
     "build_cc",
 ], optional = true }
+anstyle = "1.0.8"
