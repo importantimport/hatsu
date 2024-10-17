@@ -25,7 +25,7 @@ enum Commands {
 }
 
 #[tokio::main]
-pub async fn main() -> Result<(), AppError> {
+async fn main() -> Result<(), AppError> {
     setup_panic!(metadata!().homepage("https://github.com/importantimport/hatsu/issues"));
 
     let args = Args::parse();
