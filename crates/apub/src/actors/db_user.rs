@@ -92,6 +92,7 @@ impl Object for ApubUser {
             private_key: None,
             hatsu: None,
             feed: None,
+            language: None,
             last_refreshed_at: hatsu_utils::date::now(),
         };
 

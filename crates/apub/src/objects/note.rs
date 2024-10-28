@@ -9,7 +9,7 @@ use activitypub_federation::{
     traits::{Actor, Object},
 };
 use hatsu_db_schema::prelude::Post;
-use hatsu_feed::UserFeedItem;
+use hatsu_feed::{UserFeedItem, UserFeedTopLevel};
 use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
 use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
@@ -21,6 +21,7 @@ use crate::{
     actors::ApubUser,
     links::{Hashtag, Tag},
     objects::ApubPost,
+    utils::generate_map,
 };
 
 /// <https://www.w3.org/ns/activitystreams#Note>
@@ -45,6 +46,7 @@ pub struct Note {
     #[serde(deserialize_with = "deserialize_one_or_many")]
     pub cc: Vec<Url>,
     pub content: String,
+    pub content_map: Option<Value>,
     /// TODO: customization via item._hatsu.source
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<Value>,
@@ -79,6 +81,7 @@ impl Note {
     pub fn new(
         actor: &ApubUser,
         json: UserFeedItem,
+        top_level: &UserFeedTopLevel,
         published: Option<String>,
         updated: Option<String>,
         data: &Data<AppData>,
@@ -135,6 +138,7 @@ impl Note {
             to: vec![public()],
             // Leaving a CC here to retain compatibility, figured I should CC followers instead of public twice
             cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
+            content_map: generate_map(&content, json.language.or(top_level.language.clone())),
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             tag: json.tags.map_or_else(Vec::new, |tags| {
@@ -180,20 +184,30 @@ impl Note {
     pub fn create(
         actor: &ApubUser,
         json: UserFeedItem,
+        top_level: &UserFeedTopLevel,
         data: &Data<AppData>,
     ) -> Result<Self, AppError> {
-        Self::new(actor, json, Some(hatsu_utils::date::now()), None, data)
+        Self::new(
+            actor,
+            json,
+            top_level,
+            Some(hatsu_utils::date::now()),
+            None,
+            data,
+        )
     }
 
     pub fn update(
         actor: &ApubUser,
         json: UserFeedItem,
+        top_level: &UserFeedTopLevel,
         published: String,
         data: &Data<AppData>,
     ) -> Result<Self, AppError> {
         Self::new(
             actor,
             json,
+            top_level,
             Some(published),
             Some(hatsu_utils::date::now()),
             data,

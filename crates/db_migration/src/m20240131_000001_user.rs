@@ -71,6 +71,8 @@ pub enum User {
     Hatsu,
     /// User Feed
     Feed,
+    /// language (`m20241028_000001`)
+    Language,
     /// will be remove in v1.0.0
     // #[deprecated(since = "0.2.0-beta.5", note = "replaced by feed")]
     FeedJson,

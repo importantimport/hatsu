@@ -51,6 +51,7 @@ impl ApubUser {
             private_key: Some(keypair.private_key),
             hatsu: user_feed_top_level.hatsu.map(UserFeedHatsu::into_db),
             feed: Some(user_feed.into_db()),
+            language: user_feed_top_level.language,
             last_refreshed_at: hatsu_utils::date::now(),
         };
 
@@ -65,8 +66,7 @@ impl ApubUser {
             title: self.name.clone(),
             description: self.summary.clone(),
             icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),
-            // TODO: use language
-            language: Option::default(),
+            language: self.language.clone(),
             feed_url: Url::parse("https://hatsu.local").unwrap(),
             next_url: Option::default(),
             items: Vec::default(),

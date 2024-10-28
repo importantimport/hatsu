@@ -22,6 +22,7 @@ pub struct Model {
     pub last_refreshed_at: String,
     pub hatsu: Option<UserHatsu>,
     pub feed: Option<UserFeed>,
+    pub language: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize, FromJsonQueryResult)]

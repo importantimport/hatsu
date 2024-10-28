@@ -10,6 +10,7 @@ mod m20240501_000002_received_announce;
 mod m20240515_000001_user_feed_hatsu_extension;
 mod m20240515_000002_user_feed;
 mod m20240926_000001_blocked_url;
+mod m20241028_000001_user_language;
 
 pub struct Migrator;
 
@@ -27,6 +28,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20240515_000001_user_feed_hatsu_extension::Migration),
             Box::new(m20240515_000002_user_feed::Migration),
             Box::new(m20240926_000001_blocked_url::Migration),
+            Box::new(m20241028_000001_user_language::Migration),
         ]
     }
 }

@@ -5,7 +5,7 @@ use hatsu_db_schema::{
     prelude::*,
     user_feed_item::Model as DbUserFeedItem,
 };
-use hatsu_feed::{UserFeedItem as JsonUserFeedItem, WrappedUserFeedItem};
+use hatsu_feed::{UserFeedItem as JsonUserFeedItem, UserFeedTopLevel, WrappedUserFeedItem};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, IntoActiveModel};
 
@@ -13,6 +13,7 @@ pub async fn check_feed_item(
     data: &Data<AppData>,
     user: &ApubUser,
     item: DbUserFeedItem,
+    top_level: &UserFeedTopLevel,
 ) -> Result<(), AppError> {
     match UserFeedItem::find_by_id(&item.id).one(&data.conn).await? {
         Some(prev_item) => {
@@ -20,15 +21,15 @@ pub async fn check_feed_item(
             if let Some(date_modified) = item.date_modified.clone() {
                 match prev_item.date_modified {
                     Some(prev_date_modified) if prev_date_modified != date_modified =>
-                        update_feed_item(item, user, data).await?,
-                    None => update_feed_item(item, user, data).await?,
+                        update_feed_item(item, user, data, top_level).await?,
+                    None => update_feed_item(item, user, data, top_level).await?,
                     _ => (),
                 };
             }
 
             Ok(())
         },
-        None => Ok(create_feed_item(item, user, data).await?),
+        None => Ok(create_feed_item(item, user, data, top_level).await?),
     }
 }
 
@@ -36,13 +37,14 @@ async fn create_feed_item(
     item: DbUserFeedItem,
     user: &ApubUser,
     data: &Data<AppData>,
+    top_level: &UserFeedTopLevel,
 ) -> Result<(), AppError> {
     // 将 Item 保存到数据库
     let item = item.into_active_model().insert(&data.conn).await?;
     let item: WrappedUserFeedItem = item.into();
 
     // 创建 Note
-    let note = Note::create(user, item.into_json()?, data)?;
+    let note = Note::create(user, item.into_json()?, top_level, data)?;
 
     // 创建 Post 并保存到数据库
     let _post = DbPost {
@@ -71,6 +73,7 @@ async fn update_feed_item(
     item: DbUserFeedItem,
     user: &ApubUser,
     data: &Data<AppData>,
+    top_level: &UserFeedTopLevel,
 ) -> Result<(), AppError> {
     // 更新 Item
     let item = item
@@ -86,7 +89,7 @@ async fn update_feed_item(
         .one(&data.conn)
         .await?
     {
-        let note = Note::update(user, item, post.published.clone(), data)?;
+        let note = Note::update(user, item, top_level, post.published.clone(), data)?;
 
         post::ActiveModel {
             object: Set(serde_json::to_string(&note)?),
