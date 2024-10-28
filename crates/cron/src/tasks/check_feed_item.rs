@@ -23,7 +23,7 @@ pub async fn check_feed_item(
                     Some(prev_date_modified) if prev_date_modified != date_modified =>
                         update_feed_item(item, user, data, top_level).await?,
                     None => update_feed_item(item, user, data, top_level).await?,
-                    _ => (),
+                    _ => todo!(),
                 };
             }
 

@@ -31,15 +31,17 @@ impl Instance {
             title: data
                 .env
                 .hatsu_node_name
-                .clone()
-                .unwrap_or_else(|| String::from("Hatsu")),
+                .as_deref()
+                .unwrap_or_else(|| "Hatsu")
+                .to_string(),
             version: String::from(VERSION),
             source_url: Url::parse("https://github.com/importantimport/hatsu")?,
             description: data
                 .env
                 .hatsu_node_description
-                .clone()
-                .unwrap_or_else(|| String::from(env!("CARGO_PKG_DESCRIPTION"))),
+                .as_deref()
+                .unwrap_or_else(|| env!("CARGO_PKG_DESCRIPTION"))
+                .to_string(),
             usage: json!({
                 "users": {
                     "active_month": 0
@@ -101,7 +103,6 @@ pub struct InstanceV1 {
 impl InstanceV1 {
     pub fn from_instance(instance: Instance) -> Result<Self, AppError> {
         Ok(Self {
-            uri: instance.domain.clone(),
             title: instance.title,
             short_description: instance.description.clone(),
             description: instance.description,
@@ -110,7 +111,8 @@ impl InstanceV1 {
             version: instance.version,
             urls: json!({}),
             stats: json!({}),
-            thumbnail: Url::parse(&format!("https://{}", instance.domain))?.join("/favicon.svg")?,
+            thumbnail: Url::parse(&format!("https://{}", &instance.domain))?
+                .join("/favicon.svg")?,
             languages: instance.languages,
             registrations: false,
             approval_required: false,
@@ -118,6 +120,7 @@ impl InstanceV1 {
             configuration: instance.configuration,
             contact_account: instance.contact.account,
             rules: instance.rules,
+            uri: instance.domain,
         })
     }
 }

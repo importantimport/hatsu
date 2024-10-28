@@ -69,8 +69,8 @@ impl WrappedUserFeedItem {
             language: self.language.clone(),
             tags: self
                 .tags
-                .clone()
-                .and_then(|tags| serde_json::from_str(&tags).ok()),
+                .as_deref()
+                .and_then(|tags| serde_json::from_str(tags).ok()),
             date_published: self.date_published.clone(),
             date_modified: self.date_modified.clone(),
         })

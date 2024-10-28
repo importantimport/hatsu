@@ -101,15 +101,15 @@ impl UserFeed {
         )
     }
 
-    pub async fn get_top_level(self, name: &str) -> Result<UserFeedTopLevel, AppError> {
+    pub async fn get_top_level(&self, name: &str) -> Result<UserFeedTopLevel, AppError> {
         match self {
             Self {
                 json: Some(url), ..
-            } => Ok(UserFeedTopLevel::parse_json_feed(url).await?),
+            } => Ok(UserFeedTopLevel::parse_json_feed(url.clone()).await?),
             Self {
                 atom: Some(url), ..
-            } => Ok(UserFeedTopLevel::parse_xml_feed(url).await?),
-            Self { rss: Some(url), .. } => Ok(UserFeedTopLevel::parse_xml_feed(url).await?),
+            } => Ok(UserFeedTopLevel::parse_xml_feed(url.clone()).await?),
+            Self { rss: Some(url), .. } => Ok(UserFeedTopLevel::parse_xml_feed(url.clone()).await?),
             Self {
                 json: None,
                 atom: None,

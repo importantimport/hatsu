@@ -40,7 +40,7 @@ impl Status {
             // TODO: replace
             uri: note.id.clone().into(),
             // TODO: replace
-            url: note.id.clone().into(),
+            url: note.id.into(),
             account: Account::from_json(user)?,
             created_at: note.published,
             content: note.content,

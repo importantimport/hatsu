@@ -128,7 +128,7 @@ impl Object for ApubUser {
             summary: self.summary.clone(),
             icon: self
                 .icon
-                .clone()
+                .as_deref()
                 .and_then(|icon| Url::parse(&icon).map_or(None, |url| Some(UserImage::new(url)))),
             image: self.hatsu.clone().and_then(|hatsu| {
                 hatsu.banner_image.and_then(|image| {

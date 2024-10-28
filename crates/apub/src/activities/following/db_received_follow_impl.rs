@@ -13,8 +13,8 @@ impl ApubReceivedFollow {
             actor: Url::parse(&self.actor)?.into(),
             to: self
                 .to
-                .clone()
-                .and_then(|to| serde_json::from_str(&to).ok()),
+                .as_deref()
+                .and_then(|to| serde_json::from_str(to).ok()),
             object: Url::parse(&self.object)?.into(),
         })
     }

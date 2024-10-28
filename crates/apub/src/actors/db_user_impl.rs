@@ -23,8 +23,7 @@ impl ApubUser {
 
         let user_feed = UserFeed::get(preferred_username.to_string()).await?;
 
-        let user_feed_top_level =
-            UserFeed::get_top_level(user_feed.clone(), preferred_username).await?;
+        let user_feed_top_level = UserFeed::get_top_level(&user_feed, preferred_username).await?;
 
         let user_url = hatsu_utils::url::generate_user_url(domain, preferred_username)?;
 
@@ -65,7 +64,7 @@ impl ApubUser {
             hatsu: self.hatsu.clone().map(UserFeedHatsu::from_db),
             title: self.name.clone(),
             description: self.summary.clone(),
-            icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),
+            icon: self.icon.as_deref().and_then(|url| Url::parse(&url).ok()),
             language: self.language.clone(),
             feed_url: Url::parse("https://hatsu.local").unwrap(),
             next_url: Option::default(),

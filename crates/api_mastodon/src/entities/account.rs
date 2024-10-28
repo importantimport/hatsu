@@ -35,7 +35,7 @@ impl Account {
         Ok(Self {
             id: user.id.clone().into(),
             username: user.preferred_username,
-            url: user.id.clone().into(),
+            url: user.id.into(),
             display_name: user.name,
             avatar: avatar.clone(),
             avatar_static: avatar,
