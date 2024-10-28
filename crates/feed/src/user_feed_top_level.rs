@@ -46,7 +46,7 @@ impl UserFeedTopLevel {
                     ..self
                 };
 
-                Ok(Self::get_full(feed).await?)
+                Self::get_full(feed).await
             },
             None => Ok(self),
         }

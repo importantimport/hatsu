@@ -29,7 +29,7 @@ pub async fn check_feed_item(
 
             Ok(())
         },
-        None => Ok(create_feed_item(item, user, data, top_level).await?),
+        None => create_feed_item(item, user, data, top_level).await,
     }
 }
 

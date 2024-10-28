@@ -105,11 +105,11 @@ impl UserFeed {
         match self {
             Self {
                 json: Some(url), ..
-            } => Ok(UserFeedTopLevel::parse_json_feed(url.clone()).await?),
+            } => UserFeedTopLevel::parse_json_feed(url.clone()).await,
             Self {
                 atom: Some(url), ..
-            } => Ok(UserFeedTopLevel::parse_xml_feed(url.clone()).await?),
-            Self { rss: Some(url), .. } => Ok(UserFeedTopLevel::parse_xml_feed(url.clone()).await?),
+            } => UserFeedTopLevel::parse_xml_feed(url.clone()).await,
+            Self { rss: Some(url), .. } => UserFeedTopLevel::parse_xml_feed(url.clone()).await,
             Self {
                 json: None,
                 atom: None,
