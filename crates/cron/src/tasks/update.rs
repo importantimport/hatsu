@@ -108,6 +108,7 @@ pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Resu
             name: Set(user_feed_top_level.title.clone()),
             summary: Set(user_feed_top_level.description.clone()),
             icon: Set(user_feed_top_level.icon.clone().map(|url| url.to_string())),
+            language: Set(user_feed_top_level.language.clone()),
             ..db_user.clone().into_active_model()
         }
         .update(&data.conn)
