@@ -41,13 +41,14 @@ pub async fn partial_update_per_user(
     let feed = UserFeedTopLevel::get(db_user.clone()).await?;
     let user: ApubUser = db_user.into();
 
-    for item in feed.items {
+    for item in feed.items.clone() {
         check_feed_item(
             data,
             &user,
             WrappedUserFeedItem::from_json(item, &user, data)?
                 .deref()
                 .clone(),
+            &feed,
         )
         .await?;
     }
@@ -100,10 +101,13 @@ pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Resu
         })
     {
         db_user = hatsu_db_schema::user::ActiveModel {
-            hatsu: Set(user_feed_top_level.hatsu.map(UserFeedHatsu::into_db)),
-            name: Set(user_feed_top_level.title),
-            summary: Set(user_feed_top_level.description),
-            icon: Set(user_feed_top_level.icon.map(|url| url.to_string())),
+            hatsu: Set(user_feed_top_level
+                .hatsu
+                .clone()
+                .map(UserFeedHatsu::into_db)),
+            name: Set(user_feed_top_level.title.clone()),
+            summary: Set(user_feed_top_level.description.clone()),
+            icon: Set(user_feed_top_level.icon.clone().map(|url| url.to_string())),
             ..db_user.clone().into_active_model()
         }
         .update(&data.conn)
@@ -112,13 +116,14 @@ pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Resu
 
     let user: ApubUser = db_user.into();
 
-    for item in user_feed_top_level.items {
+    for item in user_feed_top_level.items.clone() {
         check_feed_item(
             data,
             &user,
             WrappedUserFeedItem::from_json(item, &user, data)?
                 .deref()
                 .clone(),
+            &user_feed_top_level,
         )
         .await?;
     }
