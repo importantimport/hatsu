@@ -28,23 +28,21 @@ pub async fn block_url(
 ) -> Result<(StatusCode, Json<BlockUrlResult>), AppError> {
     match &query.url {
         url if url.query().is_some() => Err(AppError::new(
-            format!(
-                "wrong url: {} (can't contain search params)",
-                url.to_string()
-            ),
+            format!("wrong url: {} (can't contain search params)", url),
             None,
             Some(StatusCode::BAD_REQUEST),
         )),
-        _ => match BlockedUrl::find_by_id(&query.url.to_string())
-            .one(&data.conn)
-            .await?
-        {
-            Some(url) => Err(AppError::new(
-                format!("The url already blocked: {}", url.id),
-                None,
-                Some(StatusCode::BAD_REQUEST),
-            )),
-            None => {
+        _ =>
+            if let Some(url) = BlockedUrl::find_by_id(query.url.to_string())
+                .one(&data.conn)
+                .await?
+            {
+                Err(AppError::new(
+                    format!("The url already blocked: {}", url.id),
+                    None,
+                    Some(StatusCode::BAD_REQUEST),
+                ))
+            } else {
                 blocked_url::ActiveModel {
                     id: Set(query.url.to_string()),
                     is_instance: Set(query.url.path().eq("/")),
@@ -56,13 +54,9 @@ pub async fn block_url(
                     StatusCode::OK,
                     Json(BlockUrlResult {
                         url: query.url.clone(),
-                        message: format!(
-                            "The url was successfully blocked: {}",
-                            &query.url.to_string()
-                        ),
+                        message: format!("The url was successfully blocked: {}", &query.url),
                     }),
                 ))
             },
-        },
     }
 }

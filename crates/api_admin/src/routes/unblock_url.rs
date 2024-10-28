@@ -26,7 +26,7 @@ pub async fn unblock_url(
     data: Data<AppData>,
     query: Query<BlockUrlQuery>,
 ) -> Result<(StatusCode, Json<BlockUrlResult>), AppError> {
-    match BlockedUrl::find_by_id(&query.url.to_string())
+    match BlockedUrl::find_by_id(query.url.to_string())
         .one(&data.conn)
         .await?
     {
@@ -37,15 +37,12 @@ pub async fn unblock_url(
                 StatusCode::OK,
                 Json(BlockUrlResult {
                     url: query.url.clone(),
-                    message: format!(
-                        "The url was successfully unblocked: {}",
-                        &query.url.to_string()
-                    ),
+                    message: format!("The url was successfully unblocked: {}", &query.url),
                 }),
             ))
         },
         None => Err(AppError::new(
-            format!("The url doesn't exist: {}", query.url.to_string()),
+            format!("The url doesn't exist: {}", query.url),
             None,
             Some(StatusCode::BAD_REQUEST),
         )),

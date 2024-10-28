@@ -31,6 +31,7 @@ pub const TAG: &str = "mastodon";
 )]
 pub struct MastodonApi;
 
+#[must_use]
 pub fn routes() -> OpenApiRouter {
     OpenApiRouter::with_openapi(MastodonApi::openapi())
         .merge(instance::routes())

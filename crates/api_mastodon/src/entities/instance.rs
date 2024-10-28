@@ -32,7 +32,7 @@ impl Instance {
                 .env
                 .hatsu_node_name
                 .as_deref()
-                .unwrap_or_else(|| "Hatsu")
+                .unwrap_or("Hatsu")
                 .to_string(),
             version: String::from(VERSION),
             source_url: Url::parse("https://github.com/importantimport/hatsu")?,
@@ -40,7 +40,7 @@ impl Instance {
                 .env
                 .hatsu_node_description
                 .as_deref()
-                .unwrap_or_else(|| env!("CARGO_PKG_DESCRIPTION"))
+                .unwrap_or(env!("CARGO_PKG_DESCRIPTION"))
                 .to_string(),
             usage: json!({
                 "users": {

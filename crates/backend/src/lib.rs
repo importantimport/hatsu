@@ -49,7 +49,7 @@ pub async fn run(federation_config: FederationConfig<AppData>) -> Result<(), App
             .with_graceful_shutdown(async {
                 hatsu_utils::shutdown_signal()
                     .await
-                    .expect("failed to install graceful shutdown handler")
+                    .expect("failed to install graceful shutdown handler");
             })
             .await?;
 

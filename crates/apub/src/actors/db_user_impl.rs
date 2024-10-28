@@ -64,7 +64,7 @@ impl ApubUser {
             hatsu: self.hatsu.clone().map(UserFeedHatsu::from_db),
             title: self.name.clone(),
             description: self.summary.clone(),
-            icon: self.icon.as_deref().and_then(|url| Url::parse(&url).ok()),
+            icon: self.icon.as_deref().and_then(|url| Url::parse(url).ok()),
             language: self.language.clone(),
             feed_url: Url::parse("https://hatsu.local").unwrap(),
             next_url: Option::default(),

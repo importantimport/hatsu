@@ -61,7 +61,7 @@ impl ActivityHandler for Follow {
 
     async fn verify(&self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
         // TODO
-        verify_blocked(&self.actor(), data).await?;
+        verify_blocked(self.actor(), data).await?;
         Ok(())
     }
 

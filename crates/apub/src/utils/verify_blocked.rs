@@ -27,7 +27,7 @@ pub async fn verify_blocked(url: &Url, data: &Data<AppData>) -> Result<(), AppEr
         .any(|actor| url.eq(&actor))
     {
         Err(AppError::new(
-            format!("blocked actor: {}", url),
+            format!("blocked actor: {url}"),
             None,
             Some(StatusCode::BAD_REQUEST),
         ))

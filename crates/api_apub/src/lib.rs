@@ -38,6 +38,7 @@ pub const TAG: &str = "apub";
 )]
 pub struct ApubApi;
 
+#[must_use]
 pub fn routes() -> OpenApiRouter {
     OpenApiRouter::with_openapi(ApubApi::openapi())
         .merge(activities::routes())

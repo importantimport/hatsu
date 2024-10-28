@@ -138,7 +138,10 @@ impl Note {
             to: vec![public()],
             // Leaving a CC here to retain compatibility, figured I should CC followers instead of public twice
             cc: vec![Url::parse(&format!("{}/followers", actor.id()))?],
-            content_map: generate_map(&content, json.language.or(top_level.language.clone())),
+            content_map: generate_map(
+                &content,
+                json.language.or_else(|| top_level.language.clone()),
+            ),
             content,
             source: Some(serde_json::to_value(NoteSource::new(source))?),
             tag: json.tags.map_or_else(Vec::new, |tags| {

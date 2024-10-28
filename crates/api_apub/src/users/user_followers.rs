@@ -80,7 +80,7 @@ pub async fn handler(
                             .into_iter()
                             .map(|follow| Url::parse(&follow.id))
                             .filter_map(Result::ok)
-                            .map(|url| serde_json::to_value(url))
+                            .map(serde_json::to_value)
                             .filter_map(Result::ok)
                             .collect(),
                         total.number_of_pages,

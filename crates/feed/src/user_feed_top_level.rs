@@ -76,8 +76,8 @@ impl UserFeedTopLevel {
                 None => String::from("untitled"),
             },
             description: feed.description.map(|text| text.content),
-            icon: feed.icon.map_or(
-                feed.logo.and_then(|image| Url::parse(&image.uri).ok()),
+            icon: feed.icon.map_or_else(
+                || feed.logo.and_then(|image| Url::parse(&image.uri).ok()),
                 |image| Url::parse(&image.uri).ok(),
             ),
             language: feed.language,

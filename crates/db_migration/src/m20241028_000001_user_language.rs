@@ -1,4 +1,4 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use sea_orm_migration::{prelude::*, schema::string_null};
 
 use crate::m20240131_000001_user::User;
 
