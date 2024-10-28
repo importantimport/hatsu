@@ -6,23 +6,24 @@ use url::Url;
 use crate::activities::{ApubReceivedFollow, Follow};
 
 impl ApubReceivedFollow {
-    // 转换为ActivityStreams JSON
     pub fn into_json(self) -> Result<Follow, AppError> {
         Ok(Follow {
             kind: FollowType::Follow,
             id: Url::parse(&self.id)?,
             actor: Url::parse(&self.actor)?.into(),
-            to: self.to.clone().map(|to| serde_json::from_str(&to).unwrap()),
+            to: self
+                .to
+                .clone()
+                .and_then(|to| serde_json::from_str(&to).ok()),
             object: Url::parse(&self.object)?.into(),
         })
     }
 
-    // 转换为本地格式
     pub fn from_json(json: Follow) -> Result<Self, AppError> {
         let received_follow = DbReceivedFollow {
             id: json.id.to_string(),
             actor: json.actor.to_string(),
-            to: json.to.map(|to| serde_json::to_string(&to).unwrap()),
+            to: json.to.and_then(|to| serde_json::to_string(&to).ok()),
             object: json.object.to_string(),
         };
 
