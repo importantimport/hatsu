@@ -51,6 +51,7 @@ impl ApubUser {
             private_key: Some(keypair.private_key),
             hatsu: user_feed_top_level.hatsu.map(UserFeedHatsu::into_db),
             feed: Some(user_feed.into_db()),
+            language: user_feed_top_level.language,
             last_refreshed_at: hatsu_utils::date::now(),
         };
 
