@@ -93,8 +93,6 @@ pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Resu
     if !Into::<ApubUser>::into(db_user.clone())
         .to_user_feed_top_level()
         .eq(&UserFeedTopLevel {
-            // TODO: use language
-            language: Option::default(),
             feed_url: Url::parse("https://hatsu.local").unwrap(),
             next_url: Option::default(),
             items: Vec::default(),

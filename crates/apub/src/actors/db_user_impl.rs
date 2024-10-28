@@ -66,8 +66,7 @@ impl ApubUser {
             title: self.name.clone(),
             description: self.summary.clone(),
             icon: self.icon.clone().and_then(|url| Url::parse(&url).ok()),
-            // TODO: use language
-            language: Option::default(),
+            language: self.language.clone(),
             feed_url: Url::parse("https://hatsu.local").unwrap(),
             next_url: Option::default(),
             items: Vec::default(),
