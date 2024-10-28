@@ -6,49 +6,12 @@ use clap::{Parser, Subcommand};
 use hatsu_utils::AppError;
 use human_panic::{metadata, setup_panic};
 
-mod run;
-
-pub const fn get_styles() -> clap::builder::Styles {
-    clap::builder::Styles::styled()
-        .usage(
-            anstyle::Style::new()
-                .bold()
-                .underline()
-                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::BrightCyan))),
-        )
-        .header(
-            anstyle::Style::new()
-                .bold()
-                .underline()
-                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::BrightCyan))),
-        )
-        .literal(
-            anstyle::Style::new().fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Magenta))),
-        )
-        .invalid(
-            anstyle::Style::new()
-                .bold()
-                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Red))),
-        )
-        .error(
-            anstyle::Style::new()
-                .bold()
-                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Red))),
-        )
-        .valid(
-            anstyle::Style::new()
-                .bold()
-                .underline()
-                .fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::Magenta))),
-        )
-        .placeholder(
-            anstyle::Style::new().fg_color(Some(anstyle::Color::Ansi(anstyle::AnsiColor::White))),
-        )
-}
+mod commands;
+mod utils;
 
 #[derive(Debug, Parser)]
 #[command(
-    styles = get_styles(),
+    styles = utils::styles(),
     name = "hatsu",
     version = hatsu_utils::VERSION,
     about,
@@ -71,9 +34,9 @@ async fn main() -> Result<(), AppError> {
 
     if let Some(command) = args.command {
         match command {
-            Commands::Run => run::run().await,
+            Commands::Run => commands::run().await,
         }
     } else {
-        run::run().await
+        commands::run().await
     }
 }
