@@ -14,4 +14,4 @@ However, your site will need to make some changes accordingly to take advantage 
 
 After Hatsu supports public instances, there may be a list of instances here.
 
-Until then, you'll need to [self-host the instance](../admins/install-with-docker.md) or find an person running a Hatsu instance and have them create an account.
+Until then, you'll need to [self-host the instance](../admins/install-docker.md) or find an person running a Hatsu instance and have them create an account.
