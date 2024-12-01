@@ -1321,7 +1321,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "anstyle",
@@ -1343,7 +1343,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_api"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "axum",
  "utoipa",
@@ -1352,7 +1352,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_api_admin"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1368,7 +1368,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_api_apub"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1387,7 +1387,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_api_mastodon"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1409,7 +1409,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_apub"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "anyhow",
@@ -1433,7 +1433,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_backend"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1456,7 +1456,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_cron"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "anyhow",
@@ -1476,7 +1476,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_db_migration"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "sea-orm-migration",
  "tokio",
@@ -1484,7 +1484,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_db_schema"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "sea-orm",
  "serde",
@@ -1493,7 +1493,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_feed"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "async-recursion",
@@ -1511,7 +1511,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_frontend"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1522,7 +1522,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_nodeinfo"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "axum",
@@ -1537,7 +1537,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_tracing"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "console-subscriber",
  "hatsu_utils",
@@ -1548,7 +1548,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_utils"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "axum",
@@ -1566,7 +1566,7 @@ dependencies = [
 
 [[package]]
 name = "hatsu_well_known"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "activitypub_federation",
  "axum",
