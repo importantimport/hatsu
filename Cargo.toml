@@ -60,6 +60,7 @@ members = [
     "crates/db_migration",
     "crates/db_schema",
     "crates/feed",
+    "crates/frontend",
     "crates/nodeinfo",
     "crates/tracing",
     "crates/utils",
@@ -77,6 +78,7 @@ hatsu_cron = { path = "./crates/cron" }
 hatsu_db_migration = { path = "./crates/db_migration" }
 hatsu_db_schema = { path = "./crates/db_schema" }
 hatsu_feed = { path = "./crates/feed" }
+hatsu_frontend = { path = "./crates/frontend" }
 hatsu_nodeinfo = { path = "./crates/nodeinfo" }
 hatsu_tracing = { path = "./crates/tracing" }
 hatsu_utils = { path = "./crates/utils" }
@@ -101,6 +103,7 @@ enum_delegate = "0.2"
 feed-rs = "2.1"
 futures = "0.3"
 markdown = "1.0.0-alpha"
+maud = { version = "0.26", features = ["axum"] }
 # https://github.com/LemmyNet/activitypub-federation-rust/blob/a0e0c54b571a8c9f11e5646c4117fb7ff2cf1d70/Cargo.toml#L40-L44
 reqwest = { version = "0.12", default-features = false, features = [
     "json",

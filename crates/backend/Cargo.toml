@@ -21,6 +21,7 @@ hatsu_api_admin = { workspace = true }
 hatsu_api_apub = { workspace = true }
 hatsu_api_mastodon = { workspace = true }
 hatsu_cron = { workspace = true }
+hatsu_frontend = { workspace = true }
 hatsu_nodeinfo = { workspace = true }
 hatsu_well_known = { workspace = true }
 hatsu_utils = { workspace = true }
