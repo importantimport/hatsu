@@ -18,8 +18,10 @@ pub async fn home(data: Data<AppData>) -> Markup {
                 p style="margin: 0" { (description) }
                 br;
                 md-divider {}
+                h2 class="md-typescale-title-large" { "What is this?" }
+            } @else {
+                h2 class="md-typescale-title-large" style="margin-top: 0"  { "What is this?" }
             }
-            h2 class="md-typescale-title-large" { "What is this?" }
             p style="margin: 0" { r#"
                 The web page you're reading right now is served by an instance of Hatsu,
                 a self-hosted bridge that interacts with Fediverse on behalf of static site.
