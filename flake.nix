@@ -12,20 +12,41 @@
     fenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ crane, fenix, flake-parts, nixpkgs, ... }:
+  outputs =
+    inputs@{
+      crane,
+      fenix,
+      flake-parts,
+      nixpkgs,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ ];
-      systems = [ "x86_64-linux" "aarch64-linux" ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
-      perSystem = { config, self', inputs', lib, pkgs, system, ... }:
+      perSystem =
+        {
+          config,
+          self',
+          inputs',
+          lib,
+          pkgs,
+          system,
+          ...
+        }:
         let
-          toolchain = with fenix.packages.${system}; combine [
-            complete.toolchain
-            targets.aarch64-unknown-linux-gnu.latest.rust-std
-            targets.aarch64-unknown-linux-musl.latest.rust-std
-            targets.x86_64-unknown-linux-gnu.latest.rust-std
-            targets.x86_64-unknown-linux-musl.latest.rust-std
-          ];
+          toolchain =
+            with fenix.packages.${system};
+            combine [
+              complete.toolchain
+              targets.aarch64-unknown-linux-gnu.latest.rust-std
+              targets.aarch64-unknown-linux-musl.latest.rust-std
+              targets.x86_64-unknown-linux-gnu.latest.rust-std
+              targets.x86_64-unknown-linux-musl.latest.rust-std
+            ];
 
           craneLib = (crane.mkLib pkgs).overrideToolchain toolchain;
 
@@ -33,9 +54,11 @@
           src = lib.cleanSourceWith {
             name = "source";
             src = ./.;
-            filter = path: type:
+            filter =
+              path: type:
               (lib.hasInfix "/contrib/" path)
               || (lib.hasInfix "/crates/backend/assets/" path)
+              || (lib.hasInfix "/crates/frontend/assets/" path)
               || (craneLib.filterCargoSources path type);
           };
 
@@ -50,38 +73,59 @@
             inherit src;
           };
 
-          cargoClippy = craneLib.cargoClippy (commonArgs // {
-            inherit cargoArtifacts;
-            cargoClippyExtraArgs = "--all-targets -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions";
-          });
+          cargoClippy = craneLib.cargoClippy (
+            commonArgs
+            // {
+              inherit cargoArtifacts;
+              cargoClippyExtraArgs = "--all-targets -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions";
+            }
+          );
 
-          cargoNextest = craneLib.cargoNextest (commonArgs // {
-            inherit cargoArtifacts;
-            partitions = 1;
-            partitionType = "count";
-          });
+          cargoNextest = craneLib.cargoNextest (
+            commonArgs
+            // {
+              inherit cargoArtifacts;
+              partitions = 1;
+              partitionType = "count";
+            }
+          );
 
           # TODO: cargoHakari = craneLib.mkCargoDerivation
           # https://crane.dev/examples/quick-start-workspace.html
 
-          buildHatsu = args:
-            craneLib.buildPackage (commonArgs // {
-              inherit cargoArtifacts;
-            } // lib.optionalAttrs (!isNull args) args);
+          buildHatsu =
+            args:
+            craneLib.buildPackage (
+              commonArgs
+              // {
+                inherit cargoArtifacts;
+              }
+              // lib.optionalAttrs (!isNull args) args
+            );
 
           hatsu = buildHatsu { };
         in
         {
           checks = {
-            inherit cargoFmt cargoClippy cargoNextest hatsu;
+            inherit
+              cargoFmt
+              cargoClippy
+              cargoNextest
+              hatsu
+              ;
           };
 
           packages =
             let
               aarch64Args =
-                let inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
-                in {
-                  depsBuildBuild = [ cc pkgs.qemu ];
+                let
+                  inherit (pkgs.pkgsCross.aarch64-multiplatform.stdenv) cc;
+                in
+                {
+                  depsBuildBuild = [
+                    cc
+                    pkgs.qemu
+                  ];
 
                   HOST_CC = "${cc.nativePrefix}cc";
                   TARGET_CC = "${cc.targetPrefix}cc";
@@ -91,8 +135,10 @@
                   CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_LINKER = "${cc}/bin/${cc.targetPrefix}cc";
                 };
               x86_64Args =
-                let inherit (pkgs.stdenv) cc;
-                in {
+                let
+                  inherit (pkgs.stdenv) cc;
+                in
+                {
                   depsBuildBuild = [ cc ];
                   HOST_CC = "${cc.nativePrefix}cc";
                   TARGET_CC = "${cc.targetPrefix}cc";
@@ -105,39 +151,55 @@
             in
             {
               default = hatsu;
-              aarch64-unknown-linux-gnu = buildHatsu ({
-                CARGO_BUILD_TARGET = "aarch64-unknown-linux-gnu";
-              } // aarch64Args);
-              aarch64-unknown-linux-musl = buildHatsu ({
-                CARGO_BUILD_TARGET = "aarch64-unknown-linux-musl";
-              } // aarch64Args // muslArgs);
-              x86_64-unknown-linux-gnu = buildHatsu ({
-                CARGO_BUILD_TARGET = "x86_64-unknown-linux-gnu";
-              } // x86_64Args);
-              x86_64-unknown-linux-musl = buildHatsu ({
-                CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
-              } // x86_64Args // muslArgs);
+              aarch64-unknown-linux-gnu = buildHatsu (
+                {
+                  CARGO_BUILD_TARGET = "aarch64-unknown-linux-gnu";
+                }
+                // aarch64Args
+              );
+              aarch64-unknown-linux-musl = buildHatsu (
+                {
+                  CARGO_BUILD_TARGET = "aarch64-unknown-linux-musl";
+                }
+                // aarch64Args
+                // muslArgs
+              );
+              x86_64-unknown-linux-gnu = buildHatsu (
+                {
+                  CARGO_BUILD_TARGET = "x86_64-unknown-linux-gnu";
+                }
+                // x86_64Args
+              );
+              x86_64-unknown-linux-musl = buildHatsu (
+                {
+                  CARGO_BUILD_TARGET = "x86_64-unknown-linux-musl";
+                }
+                // x86_64Args
+                // muslArgs
+              );
             };
           devShells.default = craneLib.devShell {
             # checks = self'.checks.${system};
             inputsFrom = [ hatsu ];
-            packages = (with pkgs; [
-              mdbook # ./docs/
+            packages =
+              (with pkgs; [
+                mdbook # ./docs/
 
-              # cargo-*
-              cargo-hakari
-              cargo-nextest
-              cargo-watch
+                # cargo-*
+                cargo-hakari
+                cargo-nextest
+                cargo-watch
 
-              # sea-orm
-              sea-orm-cli
+                # sea-orm
+                sea-orm-cli
 
-              just
-              # mold
-              # sccache
-            ]) ++ (with fenix.packages.${system}; [
-              rust-analyzer
-            ]);
+                just
+                # mold
+                # sccache
+              ])
+              ++ (with fenix.packages.${system}; [
+                rust-analyzer
+              ]);
           };
         };
       flake = {
