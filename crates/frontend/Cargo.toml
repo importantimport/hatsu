@@ -19,3 +19,4 @@ path = "src/lib.rs"
 axum = { workspace = true }
 hatsu_utils = { workspace = true }
 maud = { workspace = true }
+serde_json = { workspace = true }
