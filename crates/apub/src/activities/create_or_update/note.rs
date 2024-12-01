@@ -103,10 +103,9 @@ impl ActivityHandler for CreateOrUpdateNote {
     }
 
     async fn receive(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        match self.kind {
-            CreateOrUpdateType::CreateType(_) => ApubPost::from_json(self.object, data).await?,
-            CreateOrUpdateType::UpdateType(_) => todo!(), // TODO
-        };
+        if let CreateOrUpdateType::CreateType(_) = self.kind {
+            ApubPost::from_json(self.object, data).await?;
+        } // TODO: match update note (CreateOrUpdateType::UpdateType(_))
 
         Ok(())
     }
