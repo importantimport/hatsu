@@ -31,6 +31,7 @@ pub async fn home(data: Data<AppData>) -> Markup {
             h2 class="md-typescale-title-large" { "Register an Account on " (title) }
             p style="margin: 0" {
                 "New account registration is currently "
+                // TODO: add registration status
                 b { "closed" }
                 "."
             }
