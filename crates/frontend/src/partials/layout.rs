@@ -37,12 +37,12 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     }
 }
 
-pub fn layout(body: Markup, data: &Data<AppData>) -> Markup {
+pub fn layout(body: &Markup, data: &Data<AppData>) -> Markup {
     let title = data
         .env
         .hatsu_node_name
         .clone()
-        .unwrap_or(String::from("Hatsu"));
+        .unwrap_or_else(|| String::from("Hatsu"));
 
     html! {
         (DOCTYPE)

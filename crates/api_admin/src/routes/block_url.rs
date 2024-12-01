@@ -28,7 +28,7 @@ pub async fn block_url(
 ) -> Result<(StatusCode, Json<BlockUrlResult>), AppError> {
     match &query.url {
         url if url.query().is_some() => Err(AppError::new(
-            format!("wrong url: {} (can't contain search params)", url),
+            format!("wrong url: {url} (can't contain search params)"),
             None,
             Some(StatusCode::BAD_REQUEST),
         )),

@@ -9,10 +9,10 @@ pub async fn home(data: Data<AppData>) -> Markup {
         .env
         .hatsu_node_name
         .clone()
-        .unwrap_or(String::from("Hatsu"));
+        .unwrap_or_else(|| String::from("Hatsu"));
 
     layout(
-        html! {
+        &html! {
             @if let Some(description) = &data.env.hatsu_node_description {
                 h2 class="md-typescale-title-large" style="margin-top: 0" { "About this instance" }
                 p style="margin: 0" { (description) }

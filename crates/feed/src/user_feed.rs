@@ -105,8 +105,8 @@ impl UserFeed {
         match self {
             Self {
                 json: Some(url), ..
-            } => UserFeedTopLevel::parse_json_feed(url.clone()).await,
-            Self {
+            }
+            | Self {
                 atom: Some(url), ..
             } => UserFeedTopLevel::parse_xml_feed(url.clone()).await,
             Self { rss: Some(url), .. } => UserFeedTopLevel::parse_xml_feed(url.clone()).await,
