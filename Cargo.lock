@@ -1513,6 +1513,7 @@ dependencies = [
 name = "hatsu_frontend"
 version = "0.3.0"
 dependencies = [
+ "activitypub_federation",
  "axum",
  "hatsu_utils",
  "maud",

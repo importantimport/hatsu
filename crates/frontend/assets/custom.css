@@ -1,4 +1,24 @@
 body {
     background-color: var(--md-sys-color-surface);
     color: var(--md-sys-color-on-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header,
+main,
+footer {
+    width: 100%;
+    max-width: 48rem;
+}
+
+a {
+    color: var(--md-sys-color-primary, #6750A4);
+    text-decoration: none;
+}
+
+a:focus-visible,
+a:hover {
+    text-decoration: underline;
 }

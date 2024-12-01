@@ -16,6 +16,7 @@ name = "hatsu_frontend"
 path = "src/lib.rs"
 
 [dependencies]
+activitypub_federation = { workspace = true }
 axum = { workspace = true }
 hatsu_utils = { workspace = true }
 maud = { workspace = true }
