@@ -78,7 +78,7 @@ pub async fn handler(
                             .fetch_page(page - 1)
                             .await?
                             .into_iter()
-                            .map(|follow| Url::parse(&follow.id))
+                            .map(|follow| Url::parse(&follow.actor))
                             .filter_map(Result::ok)
                             .map(serde_json::to_value)
                             .filter_map(Result::ok)
