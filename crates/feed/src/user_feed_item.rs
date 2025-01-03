@@ -119,7 +119,7 @@ impl UserFeedItem {
                 .and_then(|link| Url::parse(&link.href).ok()),
             title: entry.title.clone().map(|text| text.content),
             summary: entry.summary.clone().map(|text| text.content),
-            language: None,
+            language: entry.language.clone(),
             tags: entry
                 .categories
                 .iter()
