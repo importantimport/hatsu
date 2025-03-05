@@ -53,9 +53,8 @@
                 mdbook # ./docs/
 
                 # cargo-*
-                # cargo-hakari
-                # cargo-nextest
                 cargo-watch
+                cargo-zigbuild
 
                 # sea-orm
                 sea-orm-cli
