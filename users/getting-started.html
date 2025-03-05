@@ -1,48 +1,51 @@
 <!DOCTYPE HTML>
-<html lang="en" class="latte" dir="ltr">
-    <head>
-        <!-- Book generated using mdBook -->
-        <meta charset="UTF-8">
-        <title>Getting Started - Hatsu Documentation</title>
+<html lang="en" class="latte sidebar-visible" dir="ltr">
+
+<head>
+    <!-- Book generated using mdBook -->
+    <meta charset="UTF-8">
+    <title>Getting Started - Hatsu Documentation</title>
 
 
-        <!-- Custom HTML head -->
-        <meta property="og:image" content="https://repository-images.githubusercontent.com/668140281/99a7c144-a4cb-4df9-afee-6b2ada11deab" />
-        <meta property="twitter:image" content="https://repository-images.githubusercontent.com/668140281/99a7c144-a4cb-4df9-afee-6b2ada11deab" />
-        <meta name="twitter:card" content="summary_large_image" />
+    <!-- Custom HTML head -->
+    <meta property="og:image" content="https://repository-images.githubusercontent.com/668140281/99a7c144-a4cb-4df9-afee-6b2ada11deab" />
+    <meta property="twitter:image" content="https://repository-images.githubusercontent.com/668140281/99a7c144-a4cb-4df9-afee-6b2ada11deab" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
-        <link rel="stylesheet" href="../css/print.css" media="print">
+    <link rel="icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/chrome.css">
+    <link rel="stylesheet" href="../css/print.css" media="print">
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../fonts/fonts.css">
 
-        <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+    <!-- Highlight.js Stylesheets -->
+    <link rel="stylesheet" href="../highlight.css">
+    <link rel="stylesheet" href="../tomorrow-night.css">
+    <link rel="stylesheet" href="../ayu-highlight.css">
 
-        <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href=".././theme/catppuccin.css">
-        <link rel="stylesheet" href=".././theme/catppuccin-admonish.css">
+    <!-- Custom theme stylesheets -->
+    <link rel="stylesheet" href=".././theme/catppuccin.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
+
+    <!-- Provide site root to javascript -->
+    <script>
+        var path_to_root = "../";
+        var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "frappe" : "latte";
+    </script>
+    <!-- Start loading toc.js asap -->
+    <script src="../toc.js"></script>
+</head>
+
+<body>
     <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "frappe" : "latte";
-        </script>
-
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -62,62 +65,41 @@
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
             var theme;
-            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            try { theme = localStorage.getItem('mdbook-theme'); } catch (e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('latte')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
-                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch (e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">for Users</li><li class="chapter-item expanded "><a href="users/getting-started.html"><strong aria-hidden="true">2.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="users/feed.html"><strong aria-hidden="true">3.</strong> Feed</a></li><li class="chapter-item expanded "><a href="users/redirecting.html"><strong aria-hidden="true">4.</strong> Redirecting</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/redirecting-with-static-files-and-markup.html"><strong aria-hidden="true">4.1.</strong> with Static files and Markup</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-redirects-file.html"><strong aria-hidden="true">4.2.</strong> with Redirects file</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-platform-specific-config.html"><strong aria-hidden="true">4.3.</strong> with Platform-Specific Configuration</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-aoba.html"><strong aria-hidden="true">4.4.</strong> with Aoba (Lume &amp; Hono)</a></li><li class="chapter-item expanded "><a href="users/redirecting-with-fep-612d.html"><strong aria-hidden="true">4.5.</strong> with FEP-612d</a></li></ol></li><li class="chapter-item expanded "><a href="users/backfeed.html"><strong aria-hidden="true">5.</strong> Backfeed</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="users/backfeed-based-on-kkna.html"><strong aria-hidden="true">5.1.</strong> based on KKna</a></li><li class="chapter-item expanded "><a href="users/backfeed-based-on-mastodon-comments.html"><strong aria-hidden="true">5.2.</strong> based on Mastodon Comments</a></li><li class="chapter-item expanded "><a href="users/backfeed-based-on-webmention.html"><strong aria-hidden="true">5.3.</strong> based on Webmention (TODO)</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">for Admins</li><li class="chapter-item expanded "><a href="admins/install.html"><strong aria-hidden="true">6.</strong> Install</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="admins/install-docker.html"><strong aria-hidden="true">6.1.</strong> Docker Installation</a></li><li class="chapter-item expanded "><a href="admins/install-binary.html"><strong aria-hidden="true">6.2.</strong> Binary Installation</a></li><li class="chapter-item expanded "><a href="admins/install-nix.html"><strong aria-hidden="true">6.3.</strong> Nix/NixOS Installation</a></li></ol></li><li class="chapter-item expanded "><a href="admins/environments.html"><strong aria-hidden="true">7.</strong> Environments</a></li><li class="chapter-item expanded "><a href="admins/create-account.html"><strong aria-hidden="true">8.</strong> Create Account</a></li><li class="chapter-item expanded "><a href="admins/block-instances-or-actors.html"><strong aria-hidden="true">9.</strong> Block Instances or Actors</a></li><li class="chapter-item expanded affix "><li class="part-title">for Developers</li><li class="chapter-item expanded "><a href="developers/prepare.html"><strong aria-hidden="true">10.</strong> Prepare</a></li><li class="chapter-item expanded "><a href="developers/development-local.html"><strong aria-hidden="true">11.</strong> Local Development</a></li><li class="chapter-item expanded "><a href="developers/development-docker.html"><strong aria-hidden="true">12.</strong> Docker Development</a></li><li class="chapter-item expanded affix "><li class="part-title">Others</li><li class="chapter-item expanded "><a href="others/compatibility-chart.html"><strong aria-hidden="true">13.</strong> Compatibility Chart</a></li><li class="chapter-item expanded "><a href="others/federation.html"><strong aria-hidden="true">14.</strong> Federation</a></li><li class="chapter-item expanded "><a href="others/json-feed-extension.html"><strong aria-hidden="true">15.</strong> JSON Feed Extension</a></li><li class="chapter-item expanded "><a href="others/packaging-status.html"><strong aria-hidden="true">16.</strong> Packaging Status</a></li></ol>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
-
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
 
         <div id="page-wrapper" class="page-wrapper">
 
@@ -125,10 +107,14 @@
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor"
+                            title="Toggle Table of Contents" aria-label="Toggle Table of Contents"
+                            aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme"
+                            aria-label="Change theme" aria-haspopup="true" aria-expanded="false"
+                            aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
@@ -137,7 +123,9 @@
                             <li role="none"><button role="menuitem" class="theme" id="macchiato">Macchiato</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="mocha">Mocha</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)"
+                            aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S"
+                            aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -160,7 +148,8 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..."
+                            aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -173,7 +162,7 @@
                 <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function (link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
@@ -197,13 +186,15 @@
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
+                        <a rel="prev" href="../intro.html" class="mobile-nav-chapters previous"
+                            title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
 
-                            <a rel="next prefetch" href="../users/feed.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
+                        <a rel="next prefetch" href="../users/feed.html" class="mobile-nav-chapters next"
+                            title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -211,13 +202,15 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
+                <a rel="prev" href="../intro.html" class="nav-chapters previous" title="Previous chapter"
+                    aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <i class="fa fa-angle-left"></i>
+                </a>
 
-                    <a rel="next prefetch" href="../users/feed.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
+                <a rel="next prefetch" href="../users/feed.html" class="nav-chapters next" title="Next chapter"
+                    aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <i class="fa fa-angle-right"></i>
+                </a>
             </nav>
 
         </div>
@@ -242,5 +235,6 @@
 
 
     </div>
-    </body>
+</body>
+
 </html>
