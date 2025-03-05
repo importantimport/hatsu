@@ -1,0 +1,40 @@
+version: "0.2"
+ignorePaths: []
+dictionaryDefinitions: []
+dictionaries: []
+words:
+  - activitypub
+  - anstyle
+  - apalis
+  - apub
+  - buildx
+  - chrono
+  - codegen
+  - dotenv
+  - dotenvy
+  - dtolnay
+  - fenix
+  - hatsu
+  - importantimport
+  - mdbook
+  - mlugg
+  - nixpkgs
+  - nodeinfo
+  - opencontainers
+  - pkgs
+  - pleroma
+  - pname
+  - reqwest
+  - rustc
+  - rustls
+  - sccache
+  - serde
+  - snmalloc
+  - softprops
+  - sqlx
+  - taiki
+  - urlencoding
+  - utoipa
+  - zigbuild
+ignoreWords: []
+import: []
