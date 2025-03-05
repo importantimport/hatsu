@@ -50,12 +50,8 @@ check *args='':
 lint *args='':
   cargo clippy {{args}} -- -W clippy::pedantic -W clippy::nursery -A clippy::missing-errors-doc -A clippy::module_name_repetitions
 
-# running tests via cargo-nextest.
-test *args='':
-  cargo nextest run --all {{args}}
-
 # running tests.
-test-cargo *args='':
+test *args='':
   cargo test --all {{args}}
 
 # update dependencies.
