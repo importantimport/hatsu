@@ -28,6 +28,6 @@ jobs:
       - uses: taiki-e/install-action@just
       - uses: mozilla-actions/sccache-action@v0.0.3
       - run: just fmt --check
-      - run: just check
       - run: just lint
+      - run: just check
       - run: just test
