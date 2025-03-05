@@ -43,7 +43,7 @@ strip = "symbols"
 default = ["hatsu_tracing/pretty"]
 snmalloc = ["dep:snmalloc-rs"]
 # hatsu_tracing
-tracing_conosle = ["hatsu_tracing/console"]
+tracing_console = ["hatsu_tracing/console"]
 tracing_json = ["hatsu_tracing/json"]
 tracing_pretty = ["hatsu_tracing/pretty"]
 
