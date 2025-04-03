@@ -1,12 +1,12 @@
 use activitypub_federation::config::Data;
-use axum::{debug_handler, extract::Query, http::StatusCode, Json};
+use axum::{Json, debug_handler, extract::Query, http::StatusCode};
 use hatsu_db_schema::prelude::BlockedUrl;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{EntityTrait, ModelTrait};
 
 use crate::{
-    entities::{BlockUrlQuery, BlockUrlResult},
     TAG,
+    entities::{BlockUrlQuery, BlockUrlResult},
 };
 
 /// Unblock URL

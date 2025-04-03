@@ -1,12 +1,12 @@
 use activitypub_federation::config::Data;
-use axum::{debug_handler, extract::Query, http::StatusCode, Json};
+use axum::{Json, debug_handler, extract::Query, http::StatusCode};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 
 use crate::{
-    entities::{CreateRemoveAccountQuery, CreateRemoveAccountResult},
     TAG,
+    entities::{CreateRemoveAccountQuery, CreateRemoveAccountResult},
 };
 
 /// Remove Account

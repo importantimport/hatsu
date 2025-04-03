@@ -1,4 +1,4 @@
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 
 pub fn generate_map(content: &str, language: Option<String>) -> Option<Value> {
     match language {

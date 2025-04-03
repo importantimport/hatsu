@@ -1,11 +1,11 @@
 use hatsu_utils::AppError;
 use tracing::level_filters::LevelFilter;
 use tracing_subscriber::{
+    EnvFilter,
+    Registry,
     fmt::Layer,
     layer::{Layered, SubscriberExt},
     util::SubscriberInitExt,
-    EnvFilter,
-    Registry,
 };
 
 pub fn init() -> Result<(), AppError> {

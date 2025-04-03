@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use hatsu_db_schema::user::UserFeed as DbUserFeed;
-use hatsu_utils::{url::absolutize_relative_url, AppError};
+use hatsu_utils::{AppError, url::absolutize_relative_url};
 use scraper::{ElementRef, Html, Selector};
 use serde::{Deserialize, Serialize};
 use url::Url;

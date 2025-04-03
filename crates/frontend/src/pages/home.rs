@@ -1,6 +1,6 @@
 use activitypub_federation::config::Data;
 use hatsu_utils::AppData;
-use maud::{html, Markup};
+use maud::{Markup, html};
 
 use crate::partials::layout;
 

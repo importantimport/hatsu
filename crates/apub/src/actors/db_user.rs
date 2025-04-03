@@ -12,7 +12,7 @@ use hatsu_db_schema::{
     user::{self, Model as DbUser},
 };
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{sea_query, EntityTrait, IntoActiveModel};
+use sea_orm::{EntityTrait, IntoActiveModel, sea_query};
 use url::Url;
 
 use crate::actors::{User, UserAttachment, UserImage, UserType};

@@ -7,9 +7,9 @@ use axum::{
 };
 use hatsu_utils::AppData;
 use utoipa::{
-    openapi::security::{ApiKey, ApiKeyValue, SecurityScheme},
     Modify,
     OpenApi,
+    openapi::security::{ApiKey, ApiKeyValue, SecurityScheme},
 };
 use utoipa_axum::{router::OpenApiRouter, routes};
 

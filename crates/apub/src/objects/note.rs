@@ -10,7 +10,7 @@ use activitypub_federation::{
 };
 use hatsu_db_schema::prelude::Post;
 use hatsu_feed::{UserFeedItem, UserFeedTopLevel};
-use hatsu_utils::{markdown::markdown_to_html, AppData, AppError};
+use hatsu_utils::{AppData, AppError, markdown::markdown_to_html};
 use sea_orm::EntityTrait;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;

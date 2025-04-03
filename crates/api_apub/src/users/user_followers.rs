@@ -18,7 +18,7 @@ use hatsu_utils::{AppData, AppError};
 use sea_orm::{ModelTrait, PaginatorTrait, QueryOrder};
 use url::Url;
 
-use crate::{users::Pagination, TAG};
+use crate::{TAG, users::Pagination};
 
 /// Get user followers
 #[utoipa::path(

@@ -18,7 +18,7 @@ use hatsu_db_schema::{activity, prelude::Activity};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{ColumnTrait, ModelTrait, PaginatorTrait, QueryFilter, QueryOrder};
 
-use crate::{users::Pagination, TAG};
+use crate::{TAG, users::Pagination};
 
 /// Get user outbox
 #[utoipa::path(

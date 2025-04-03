@@ -1,7 +1,7 @@
 [workspace.package]
 version = "0.3.2"
 authors = ["藍+85CD"]
-edition = "2021"
+edition = "2024"
 rust-version = "1.80"
 description = "Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
 documentation = "https://hatsu.cli.rs"

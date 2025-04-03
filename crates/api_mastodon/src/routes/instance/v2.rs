@@ -1,8 +1,8 @@
 use activitypub_federation::config::Data;
-use axum::{debug_handler, Json};
+use axum::{Json, debug_handler};
 use hatsu_utils::{AppData, AppError};
 
-use crate::{entities::Instance, TAG};
+use crate::{TAG, entities::Instance};
 
 /// View server information
 ///
