@@ -1,10 +1,7 @@
 use std::str::FromStr;
 
 use activitypub_federation::config::FederationConfig;
-use apalis::{
-    prelude::{Monitor, WorkerBuilder, WorkerFactoryFn},
-    utils::TokioExecutor,
-};
+use apalis::prelude::{Monitor, WorkerBuilder, WorkerFactoryFn};
 use apalis_cron::{CronStream, Schedule};
 use hatsu_utils::{AppData, AppError};
 
@@ -26,7 +23,7 @@ pub async fn run(federation_config: &FederationConfig<AppData>) -> Result<(), Ap
         .backend(CronStream::new(full_update_schedule))
         .build_fn(jobs::full_update);
 
-    Monitor::<TokioExecutor>::new()
+    Monitor::new()
         .register(partial_update_worker)
         .register(full_update_worker)
         .run_with_signal(hatsu_utils::shutdown_signal())

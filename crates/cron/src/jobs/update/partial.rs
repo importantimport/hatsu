@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::tasks;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Default, Deserialize, Serialize)]
 pub struct PartialUpdate(DateTime<Utc>);
 
 impl From<DateTime<Utc>> for PartialUpdate {
