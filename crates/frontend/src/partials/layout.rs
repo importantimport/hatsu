@@ -1,6 +1,6 @@
 use activitypub_federation::config::Data;
 use hatsu_utils::{AppData, AppEnv};
-use maud::{html, Markup, PreEscaped, DOCTYPE};
+use maud::{DOCTYPE, Markup, PreEscaped, html};
 use serde_json::json;
 
 static CSS_CUSTOM: &str = include_str!("../../assets/custom.css");

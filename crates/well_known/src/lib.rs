@@ -1,4 +1,4 @@
 pub mod entities;
 pub mod routes;
 
-pub use routes::{routes, TAG};
+pub use routes::{TAG, routes};

@@ -1,9 +1,9 @@
 use std::fmt::{Display, Formatter};
 
 use axum::{
+    Json,
     http::StatusCode,
     response::{IntoResponse, Response},
-    Json,
 };
 use serde::Serialize;
 use serde_json::Value;

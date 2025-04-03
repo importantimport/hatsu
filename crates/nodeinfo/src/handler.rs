@@ -1,8 +1,8 @@
 use activitypub_federation::config::Data;
-use axum::{debug_handler, Json};
+use axum::{Json, debug_handler};
 use hatsu_utils::{AppData, AppError};
 
-use crate::{schema::NodeInfo, TAG};
+use crate::{TAG, schema::NodeInfo};
 
 /// NodeInfo schema version 2.0.
 ///

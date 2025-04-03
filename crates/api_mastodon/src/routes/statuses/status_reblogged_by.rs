@@ -1,11 +1,11 @@
 use activitypub_federation::config::Data;
-use axum::{debug_handler, extract::Path, Json};
+use axum::{Json, debug_handler, extract::Path};
 use futures::future::TryJoinAll;
 use hatsu_db_schema::prelude::{Post, ReceivedAnnounce};
 use hatsu_utils::{AppData, AppError};
 use sea_orm::{EntityTrait, ModelTrait};
 
-use crate::{entities::Account, TAG};
+use crate::{TAG, entities::Account};
 
 /// See who boosted a status
 ///

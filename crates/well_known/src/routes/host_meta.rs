@@ -2,14 +2,14 @@
 
 use activitypub_federation::config::Data;
 use axum::{
+    Json,
     debug_handler,
     http::header::{self, HeaderMap, HeaderValue},
     response::Redirect,
-    Json,
 };
 use hatsu_utils::AppData;
 
-use crate::{entities::HostMeta, TAG};
+use crate::{TAG, entities::HostMeta};
 
 /// The host-meta Redirect.
 #[utoipa::path(

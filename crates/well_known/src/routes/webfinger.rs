@@ -1,15 +1,15 @@
 use activitypub_federation::{
     config::Data,
-    fetch::webfinger::{build_webfinger_response, extract_webfinger_name, Webfinger},
+    fetch::webfinger::{Webfinger, build_webfinger_response, extract_webfinger_name},
 };
-use axum::{debug_handler, extract::Query, Json};
+use axum::{Json, debug_handler, extract::Query};
 use hatsu_db_schema::prelude::User;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
 use serde::Deserialize;
 use url::Url;
 
-use crate::{entities::WebfingerSchema, TAG};
+use crate::{TAG, entities::WebfingerSchema};
 
 #[derive(Deserialize)]
 pub struct WebfingerQuery {

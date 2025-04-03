@@ -1,7 +1,7 @@
 use activitypub_federation::config::Data;
 use hatsu_utils::{AppData, AppError, VERSION};
 use serde::{Deserialize, Serialize};
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 use url::Url;
 use utoipa::ToSchema;
 

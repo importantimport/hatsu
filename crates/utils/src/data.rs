@@ -2,7 +2,7 @@ use std::env;
 
 use sea_orm::DatabaseConnection;
 
-use crate::{codename, AppError, VERSION};
+use crate::{AppError, VERSION, codename};
 
 #[derive(Clone, Debug)]
 pub struct AppData {

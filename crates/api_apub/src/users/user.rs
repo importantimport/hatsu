@@ -10,7 +10,7 @@ use hatsu_apub::actors::{ApubUser, User};
 use hatsu_db_schema::prelude::User as PreludeUser;
 use hatsu_utils::{AppData, AppError};
 use sea_orm::EntityTrait;
-use serde_json::{json, Value};
+use serde_json::{Value, json};
 
 use crate::TAG;
 

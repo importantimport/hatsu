@@ -11,7 +11,7 @@ use axum::{
 use hatsu_apub::collections::{Collection, CollectionOrPage, CollectionPage};
 use hatsu_utils::{AppData, AppError};
 
-use crate::{users::Pagination, TAG};
+use crate::{TAG, users::Pagination};
 
 /// Get user following
 #[utoipa::path(

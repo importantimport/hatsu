@@ -1,5 +1,5 @@
 use activitypub_federation::{
-    axum::inbox::{receive_activity, ActivityData},
+    axum::inbox::{ActivityData, receive_activity},
     config::Data,
     protocol::context::WithContext,
 };

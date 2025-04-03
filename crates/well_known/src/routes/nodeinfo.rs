@@ -1,8 +1,8 @@
 use activitypub_federation::config::Data;
-use axum::{debug_handler, Json};
+use axum::{Json, debug_handler};
 use hatsu_utils::AppData;
 
-use crate::{entities::NodeInfoWellKnown, TAG};
+use crate::{TAG, entities::NodeInfoWellKnown};
 
 /// NodeInfo discovery.
 ///

@@ -30,9 +30,12 @@ impl UserAttachment {
 
     #[must_use]
     pub fn generate(domain: &Url, feed: DbUserFeed) -> Vec<Self> {
-        let mut attachment = vec![
-            Self::new("Website", format!("<a href=\"{domain}\" rel=\"nofollow noreferrer noopener me\" target=\"_blank\" translate=\"no\">{domain}</a>"))
-        ];
+        let mut attachment = vec![Self::new(
+            "Website",
+            format!(
+                "<a href=\"{domain}\" rel=\"nofollow noreferrer noopener me\" target=\"_blank\" translate=\"no\">{domain}</a>"
+            ),
+        )];
 
         if let Some(json) = feed.json {
             attachment.push(Self::new("JSON Feed", format!("<a href=\"{json}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{json}</a>")));
