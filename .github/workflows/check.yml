@@ -15,6 +15,8 @@ env:
   # https://github.com/Mozilla-Actions/sccache-action#rust-code
   RUSTC_WRAPPER: "sccache"
   SCCACHE_GHA_ENABLED: "true"
+  # https://github.com/mozilla/sccache/issues/2069#issuecomment-1919281510
+  SCCACHE_IDLE_TIMEOUT: 0
 
 jobs:
   check:
