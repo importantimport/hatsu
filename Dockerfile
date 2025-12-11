@@ -1,4 +1,4 @@
-FROM bitnami/minideb:bookworm
+FROM bitnami/minideb:trixie
 
 ARG TARGETARCH
 
