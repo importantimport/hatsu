@@ -13,10 +13,8 @@ on:
 env:
   CARGO_TERM_COLOR: always
   # https://github.com/Mozilla-Actions/sccache-action#rust-code
-  RUSTC_WRAPPER: "sccache"
-  SCCACHE_GHA_ENABLED: "true"
-  # https://github.com/mozilla/sccache/issues/2069#issuecomment-1919281510
-  SCCACHE_IDLE_TIMEOUT: 0
+#   RUSTC_WRAPPER: "sccache"
+#   SCCACHE_GHA_ENABLED: "true"
 
 jobs:
   check:
@@ -28,7 +26,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@nightly
       - uses: rui314/setup-mold@v1
       - uses: taiki-e/install-action@just
-      - uses: mozilla-actions/sccache-action@v0.0.3
+    #   - uses: mozilla-actions/sccache-action@v0.0.3
       - run: just fmt --check
       - run: just lint
       - run: just check
