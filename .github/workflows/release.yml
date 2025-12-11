@@ -44,7 +44,7 @@ jobs:
       - uses: taiki-e/install-action@just
     #   - uses: mozilla-actions/sccache-action@v0.0.3
       - if: matrix.command == '_zigbuild'
-        uses: mlugg/setup-zig@v1
+        uses: mlugg/setup-zig@v2
       - if: matrix.musl == true
         run: sudo apt update && sudo apt install -y musl-tools && sudo ln -s /bin/g++ /bin/musl-g++
       - run: just ${{ matrix.command }} ${{ matrix.target }}
