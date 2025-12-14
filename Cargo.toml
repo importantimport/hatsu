@@ -1,5 +1,5 @@
 [workspace.package]
-version = "0.3.3"
+version = "0.3.4"
 authors = ["藍+85CD"]
 edition = "2024"
 rust-version = "1.80"
