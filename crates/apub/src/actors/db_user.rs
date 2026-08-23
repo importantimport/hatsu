@@ -12,7 +12,7 @@ use hatsu_db_schema::{
     user::{self, Model as DbUser},
 };
 use hatsu_utils::{AppData, AppError};
-use sea_orm::{EntityTrait, IntoActiveModel, sea_query};
+use sea_orm::{EntityTrait, IntoActiveModel};
 use url::Url;
 
 use crate::actors::{User, UserAttachment, UserImage, UserType};
@@ -99,12 +99,7 @@ impl Object for ApubUser {
         // 写入数据库
         // TODO: on_conflict 时执行更新
         PreludeUser::insert(user.clone().into_active_model())
-            .on_conflict(
-                sea_query::OnConflict::column(user::Column::Id)
-                    .do_nothing()
-                    .to_owned(),
-            )
-            .do_nothing()
+            .on_conflict_do_nothing_on([user::Column::Id])
             .exec(&data.conn)
             .await?;
 

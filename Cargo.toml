@@ -2,7 +2,7 @@
 version = "0.3.4"
 authors = ["藍+85CD"]
 edition = "2024"
-rust-version = "1.80"
+rust-version = "1.85"
 description = "Self-hosted & Fully-automated ActivityPub Bridge for Static Sites."
 documentation = "https://hatsu.cli.rs"
 readme = "README.md"
@@ -109,7 +109,7 @@ reqwest = { version = "0.12", default-features = false, features = [
     "rustls-tls",
 ] }
 scraper = "0.23"
-sea-orm = { version = "1.1", features = [
+sea-orm = { version = "2.0", features = [
     # https://www.sea-ql.org/SeaORM/docs/install-and-config/database-and-async-runtime
     "runtime-tokio-rustls",
     "sqlx-postgres",
@@ -119,7 +119,7 @@ sea-orm = { version = "1.1", features = [
     "with-json",
     "with-uuid",
 ] }
-sea-orm-migration = { version = "1.1", features = [
+sea-orm-migration = { version = "2.0", features = [
     # https://www.sea-ql.org/SeaORM/docs/install-and-config/database-and-async-runtime
     "runtime-tokio-rustls",
     "sqlx-postgres",
