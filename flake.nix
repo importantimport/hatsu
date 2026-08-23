@@ -26,10 +26,6 @@
 
       perSystem =
         {
-          config,
-          self',
-          inputs',
-          lib,
           pkgs,
           system,
           ...
@@ -70,7 +66,7 @@
 
           packages.default =
             let
-              version = (builtins.fromTOML (builtins.readFile ./Cargo.toml)).workspace.package.version;
+              version = (fromTOML (builtins.readFile ./Cargo.toml)).workspace.package.version;
               rustPlatform = pkgs.makeRustPlatform {
                 cargo = toolchain;
                 rustc = toolchain;
