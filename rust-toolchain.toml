@@ -1,7 +1,8 @@
 # https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file
 
 [toolchain]
-channel = "nightly"
+# rustc 1.99.0-nightly (ad3d0bc14 2026-07-31)
+channel = "nightly-2026-07-31"
 # https://rust-lang.github.io/rustup/concepts/components.html
 components = ["rustc", "cargo", "rustfmt", "rust-analyzer", "clippy"]
 profile = "minimal"
