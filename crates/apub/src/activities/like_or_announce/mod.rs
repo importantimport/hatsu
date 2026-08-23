@@ -8,6 +8,7 @@ mod db_received_announce_impl;
 mod db_received_like;
 mod db_received_like_impl;
 
+#[allow(clippy::module_inception)]
 mod like_or_announce;
 mod undo_like_or_announce;
 

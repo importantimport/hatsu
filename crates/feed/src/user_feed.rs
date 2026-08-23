@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use hatsu_db_schema::user::UserFeed as DbUserFeed;
 use hatsu_utils::{AppError, url::absolutize_relative_url};
 use scraper::{ElementRef, Html, Selector};
@@ -16,29 +14,6 @@ pub struct UserFeed {
     pub atom: Option<Url>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub rss: Option<Url>,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct WrappedUserFeed(pub(crate) DbUserFeed);
-
-impl AsRef<DbUserFeed> for WrappedUserFeed {
-    fn as_ref(&self) -> &DbUserFeed {
-        &self.0
-    }
-}
-
-impl Deref for WrappedUserFeed {
-    type Target = DbUserFeed;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl From<DbUserFeed> for WrappedUserFeed {
-    fn from(u: DbUserFeed) -> Self {
-        Self(u)
-    }
 }
 
 impl UserFeed {
@@ -78,7 +53,7 @@ impl UserFeed {
             })
         }
 
-        let response = reqwest::get(format!("https://{}", &domain)).await?;
+        let response = reqwest::get(format!("https://{domain}")).await?;
         let text = response.text().await?;
         let document = Html::parse_document(&text);
         let head = Selector::parse("head").expect("valid selector");

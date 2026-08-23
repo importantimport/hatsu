@@ -81,17 +81,15 @@ impl WrappedUserFeedItem {
         user: &DbUser,
         data: &Data<AppData>,
     ) -> Result<Self, AppError> {
-        let id = json
-            .url
-            .unwrap_or_else(|| {
-                hatsu_utils::url::absolutize_relative_url(&json.id, &user.name).unwrap()
-            })
-            .to_string();
+        let id = match json.url {
+            Some(url) => url.to_string(),
+            None => hatsu_utils::url::absolutize_relative_url(&json.id, &user.name)?.to_string(),
+        };
 
         let user_feed_item = DbUserFeedItem {
             hatsu: json.hatsu.map(UserFeedItemHatsu::into_db),
             id: id.clone(),
-            user_id: user.id.to_string(),
+            user_id: user.id.clone(),
             post_id: Some(hatsu_utils::url::generate_post_url(data.domain(), id)?.to_string()),
             title: json.title,
             summary: json.summary,

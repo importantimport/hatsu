@@ -4,7 +4,7 @@ use hatsu_utils::AppData;
 
 use crate::{TAG, entities::NodeInfoWellKnown};
 
-/// NodeInfo discovery.
+/// `NodeInfo` discovery.
 ///
 /// <https://nodeinfo.diaspora.software/protocol.html>
 #[utoipa::path(

@@ -78,6 +78,11 @@ impl Note {
         }
     }
 
+    /// Builds an `ActivityPub` note from a JSON Feed item.
+    ///
+    /// # Panics
+    ///
+    /// Panics if a tag URL built from the configured domain cannot be parsed.
     pub fn new(
         actor: &ApubUser,
         json: UserFeedItem,
@@ -102,26 +107,30 @@ impl Note {
 
         // TODO: json._hatsu.tags (Option<false>)
         if let Some(ref tags) = json.tags {
-            source.push_str(&format!(
-                "\n\n{}",
-                tags.iter()
+            source.push_str("\n\n");
+            source.push_str(
+                &tags
+                    .iter()
                     .map(|tag| "#".to_owned() + tag)
                     .collect::<Vec<String>>()
-                    .join(" ")
-            ));
+                    .join(" "),
+            );
 
-            content.push_str(&format!(
-                "\n\n{}",
-                tags.iter()
-                    .map(|tag| format!(
-                        "<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>",
-                        data.domain(),
-                        urlencoding::encode(tag),
-                        tag
-                    ))
+            content.push_str("\n\n");
+            content.push_str(
+                &tags
+                    .iter()
+                    .map(|tag| {
+                        format!(
+                            "<a href=\"https://{}/t/{}\" rel=\"tag\">#<span>{}</span></a>",
+                            data.domain(),
+                            urlencoding::encode(tag),
+                            tag
+                        )
+                    })
                     .collect::<Vec<String>>()
-                    .join(" ")
-            ));
+                    .join(" "),
+            );
         }
 
         let id = hatsu_utils::url::generate_post_url(data.domain(), json.id)?.into();

@@ -1,4 +1,8 @@
 /// from <https://github.com/tokio-rs/axum/blob/37e4574012e4692931b53e22d44ce4a3a760002f/examples/graceful-shutdown/src/main.rs#L51-L73>
+///
+/// # Panics
+///
+/// Panics if a signal handler cannot be installed.
 pub async fn shutdown_signal() -> std::io::Result<()> {
     let ctrl_c = async {
         tokio::signal::ctrl_c()

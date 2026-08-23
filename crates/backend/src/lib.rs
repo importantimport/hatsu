@@ -24,6 +24,9 @@ impl Server {
     }
 }
 
+/// # Panics
+///
+/// Panics if a graceful-shutdown signal handler cannot be installed.
 pub async fn run(federation_config: FederationConfig<AppData>) -> Result<(), AppError> {
     let data = federation_config.to_request_data();
 

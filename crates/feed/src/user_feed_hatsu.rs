@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use hatsu_db_schema::user::UserHatsu as DbUserHatsu;
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -14,29 +12,6 @@ pub struct UserFeedHatsu {
     pub about: Option<Url>,
     pub aliases: Option<String>,
     pub banner_image: Option<Url>,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct WrappedUserHatsu(pub(crate) DbUserHatsu);
-
-impl AsRef<DbUserHatsu> for WrappedUserHatsu {
-    fn as_ref(&self) -> &DbUserHatsu {
-        &self.0
-    }
-}
-
-impl Deref for WrappedUserHatsu {
-    type Target = DbUserHatsu;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl From<DbUserHatsu> for WrappedUserHatsu {
-    fn from(u: DbUserHatsu) -> Self {
-        Self(u)
-    }
 }
 
 impl UserFeedHatsu {

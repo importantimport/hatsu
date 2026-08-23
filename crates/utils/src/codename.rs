@@ -2,7 +2,8 @@ use std::collections::HashMap;
 
 use crate::VERSION;
 
-/// https://github.com/importantimport/hatsu/milestones
+/// <https://github.com/importantimport/hatsu/milestones>
+#[must_use]
 pub fn codename() -> &'static str {
     let version = String::from(VERSION);
     let hashmap: HashMap<&str, &str> = HashMap::from([

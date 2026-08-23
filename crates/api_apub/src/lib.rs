@@ -1,3 +1,5 @@
+#![allow(clippy::needless_for_each)]
+
 use hatsu_apub::{
     actors::{PublicKeySchema, User, UserAttachment, UserImage},
     collections::{Collection, CollectionOrPage, CollectionPage},

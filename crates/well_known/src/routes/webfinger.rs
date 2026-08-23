@@ -16,7 +16,7 @@ pub struct WebfingerQuery {
     resource: String,
 }
 
-/// WebFinger.
+/// `WebFinger`.
 #[utoipa::path(
     get,
     tag = TAG,

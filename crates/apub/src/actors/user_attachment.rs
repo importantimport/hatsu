@@ -39,15 +39,15 @@ impl UserAttachment {
 
         if let Some(json) = feed.json {
             attachment.push(Self::new("JSON Feed", format!("<a href=\"{json}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{json}</a>")));
-        };
+        }
 
         if let Some(atom) = feed.atom {
             attachment.push(Self::new("Atom Feed", format!("<a href=\"{atom}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{atom}</a>")));
-        };
+        }
 
         if let Some(rss) = feed.rss {
             attachment.push(Self::new("RSS Feed", format!("<a href=\"{rss}\" rel=\"nofollow noreferrer noopener\" target=\"_blank\" translate=\"no\">{rss}</a>")));
-        };
+        }
 
         attachment
     }

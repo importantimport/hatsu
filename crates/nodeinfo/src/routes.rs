@@ -1,3 +1,5 @@
+#![allow(clippy::needless_for_each)]
+
 use axum::routing::get;
 use utoipa::OpenApi;
 use utoipa_axum::{router::OpenApiRouter, routes};

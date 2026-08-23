@@ -54,7 +54,7 @@ pub async fn block_url(
                     StatusCode::OK,
                     Json(BlockUrlResult {
                         url: query.url.clone(),
-                        message: format!("The url was successfully blocked: {}", &query.url),
+                        message: format!("The url was successfully blocked: {}", query.url),
                     }),
                 ))
             },

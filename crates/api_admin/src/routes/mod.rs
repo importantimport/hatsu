@@ -1,3 +1,5 @@
+#![allow(clippy::needless_for_each)]
+
 use activitypub_federation::config::Data;
 use axum::{
     body::Body,

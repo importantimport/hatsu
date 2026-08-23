@@ -15,7 +15,7 @@ use crate::activities::{
 #[serde(untagged)]
 #[enum_delegate::implement(ActivityHandler)]
 pub enum UserInboxActivities {
-    CreateOrUpdateNote(CreateOrUpdateNote),
+    CreateOrUpdateNote(Box<CreateOrUpdateNote>),
     Follow(Follow),
     AcceptFollow(AcceptFollow),
     UndoFollow(UndoFollow),

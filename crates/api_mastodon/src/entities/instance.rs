@@ -111,8 +111,7 @@ impl InstanceV1 {
             version: instance.version,
             urls: json!({}),
             stats: json!({}),
-            thumbnail: Url::parse(&format!("https://{}", &instance.domain))?
-                .join("/favicon.svg")?,
+            thumbnail: Url::parse(&format!("https://{}", instance.domain))?.join("/favicon.svg")?,
             languages: instance.languages,
             registrations: false,
             approval_required: false,

@@ -61,7 +61,7 @@ impl Object for ApubUser {
     }
 
     async fn delete(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        let _delete_user = PreludeUser::delete_by_id(self.id.to_string())
+        let _delete_user = PreludeUser::delete_by_id(self.id.clone())
             .exec(&data.conn)
             .await?;
         Ok(())
@@ -113,7 +113,7 @@ impl Object for ApubUser {
             .and_then(|hatsu| hatsu.aliases)
             .unwrap_or_else(|| self.preferred_username.clone());
 
-        let domain = Url::parse(&format!("https://{}", &self.preferred_username))?;
+        let domain = Url::parse(&format!("https://{}", self.preferred_username))?;
 
         Ok(User {
             kind: UserType::ServiceType(ServiceType::Service),
@@ -145,7 +145,7 @@ impl Object for ApubUser {
                 format!("acct:{}@{}", &self.preferred_username, data.domain()),
             ]),
             // FEP-2c59
-            webfinger: Some(format!("acct:{}@{}", &aliases, &self.preferred_username)),
+            webfinger: Some(format!("acct:{}@{}", aliases, self.preferred_username)),
             public_key: self.public_key(),
         })
     }

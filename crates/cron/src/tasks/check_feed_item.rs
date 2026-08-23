@@ -24,7 +24,7 @@ pub async fn check_feed_item(
                         update_feed_item(item, user, data, top_level).await?,
                     None => update_feed_item(item, user, data, top_level).await?,
                     _ => {}, // there is nothing to do
-                };
+                }
             }
 
             Ok(())

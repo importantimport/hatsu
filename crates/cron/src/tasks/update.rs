@@ -72,7 +72,7 @@ pub async fn full_update(data: &Data<AppData>) -> Result<(), AppError> {
 pub async fn full_update_per_user(data: &Data<AppData>, db_user: DbUser) -> Result<(), AppError> {
     let mut db_user = db_user;
 
-    let user_feed = UserFeed::get(db_user.preferred_username.to_string()).await?;
+    let user_feed = UserFeed::get(db_user.preferred_username.clone()).await?;
 
     let db_user_feed = Some(user_feed.clone().into_db());
 

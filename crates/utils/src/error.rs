@@ -19,11 +19,11 @@ pub struct AppError {
     pub error_id: Uuid,
     /// Optional Additional error details.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub error_details: Option<Value>,
+    pub error_details: Option<Box<Value>>,
     #[serde(skip)]
     pub status: StatusCode,
     #[serde(skip)]
-    pub context: SpanTrace,
+    pub context: Box<SpanTrace>,
 }
 
 impl AppError {
@@ -31,10 +31,10 @@ impl AppError {
     pub fn new(error: String, error_details: Option<Value>, status: Option<StatusCode>) -> Self {
         Self {
             error,
-            error_details,
+            error_details: error_details.map(Box::new),
             error_id: Uuid::now_v7(),
             status: status.unwrap_or(StatusCode::INTERNAL_SERVER_ERROR),
-            context: SpanTrace::capture(),
+            context: Box::new(SpanTrace::capture()),
         }
     }
 
@@ -45,7 +45,7 @@ impl AppError {
             error_details: None,
             error_id: Uuid::now_v7(),
             status: StatusCode::NOT_FOUND,
-            context: SpanTrace::capture(),
+            context: Box::new(SpanTrace::capture()),
         }
     }
 

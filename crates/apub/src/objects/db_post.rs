@@ -118,9 +118,7 @@ impl Object for ApubPost {
 
     // 删除帖文
     async fn delete(self, data: &Data<Self::DataType>) -> Result<(), Self::Error> {
-        let _delete_post = Post::delete_by_id(self.id.to_string())
-            .exec(&data.conn)
-            .await?;
+        let _delete_post = Post::delete_by_id(self.id.clone()).exec(&data.conn).await?;
         Ok(())
     }
 

@@ -58,6 +58,10 @@ impl ApubUser {
     }
 
     /// For `hatsu_cron::tasks::update::full_update`
+    ///
+    /// # Panics
+    ///
+    /// Panics if the built-in local feed URL cannot be parsed.
     #[must_use]
     pub fn to_user_feed_top_level(self) -> UserFeedTopLevel {
         UserFeedTopLevel {
@@ -86,7 +90,7 @@ impl ApubUser {
         data: &Data<AppData>,
     ) -> Result<(), AppError>
     where
-        Activity: ActivityHandler + Serialize + Debug,
+        Activity: ActivityHandler + Serialize + Debug + Send + Sync,
     {
         let inboxes = if let Some(inboxes) = inboxes {
             inboxes

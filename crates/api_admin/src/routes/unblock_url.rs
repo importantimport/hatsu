@@ -37,7 +37,7 @@ pub async fn unblock_url(
                 StatusCode::OK,
                 Json(BlockUrlResult {
                     url: query.url.clone(),
-                    message: format!("The url was successfully unblocked: {}", &query.url),
+                    message: format!("The url was successfully unblocked: {}", query.url),
                 }),
             ))
         },
