@@ -4,7 +4,7 @@ use scraper::{ElementRef, Html, Selector};
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::UserFeedTopLevel;
+use crate::{UserFeedTopLevel, reqwest_utils};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct UserFeed {
@@ -53,7 +53,7 @@ impl UserFeed {
             })
         }
 
-        let response = reqwest::get(format!("https://{domain}")).await?;
+        let response = reqwest_utils::get(format!("https://{domain}")).await?;
         let text = response.text().await?;
         let document = Html::parse_document(&text);
         let head = Selector::parse("head").expect("valid selector");

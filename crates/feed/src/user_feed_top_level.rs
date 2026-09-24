@@ -3,7 +3,7 @@ use hatsu_utils::AppError;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{UserFeed, UserFeedHatsu, UserFeedItem};
+use crate::{UserFeed, UserFeedHatsu, UserFeedItem, reqwest_utils};
 
 /// JSON Feed 1.1
 ///
@@ -53,12 +53,12 @@ impl UserFeedTopLevel {
     }
 
     pub async fn parse_json_feed(feed_url: Url) -> Result<Self, AppError> {
-        Ok(reqwest::get(feed_url).await?.json::<Self>().await?)
+        Ok(reqwest_utils::get(feed_url).await?.json::<Self>().await?)
     }
 
     pub async fn parse_xml_feed(feed_url: Url) -> Result<Self, AppError> {
         let feed = feed_rs::parser::parse(
-            reqwest::get(feed_url.clone())
+            reqwest_utils::get(feed_url.clone())
                 .await?
                 .text()
                 .await?
