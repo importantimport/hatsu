@@ -1,3 +1,4 @@
+mod reqwest_utils;
 mod user_feed;
 mod user_feed_hatsu;
 mod user_feed_item;
