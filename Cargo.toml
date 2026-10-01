@@ -83,7 +83,7 @@ hatsu_nodeinfo = { path = "./crates/nodeinfo" }
 hatsu_tracing = { path = "./crates/tracing" }
 hatsu_utils = { path = "./crates/utils" }
 hatsu_well_known = { path = "./crates/well_known" }
-activitypub_federation = { version = "0.6.0-alpha", default-features = false, features = [
+activitypub_federation = { version = "0.6.6", default-features = false, features = [
     "axum",
 ] }
 anyhow = "1.0"
