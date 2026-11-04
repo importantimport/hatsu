@@ -86,10 +86,7 @@ async fn update_feed_item(
 
     // 更新 Post
     let post_url = hatsu_utils::url::generate_post_url(data.domain(), item.id.clone())?;
-    if let Some(post) = Post::find_by_id(post_url)
-        .one(&data.conn)
-        .await?
-    {
+    if let Some(post) = Post::find_by_id(post_url).one(&data.conn).await? {
         let note = Note::update(user, item, top_level, post.published.clone(), data)?;
 
         post::ActiveModel {
