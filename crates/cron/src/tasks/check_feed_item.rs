@@ -85,7 +85,8 @@ async fn update_feed_item(
     let item: JsonUserFeedItem = item.into_json()?;
 
     // 更新 Post
-    if let Some(post) = Post::find_by_id(Note::parse_id(user, &item)?)
+    let post_url = hatsu_utils::url::generate_post_url(data.domain(), item.id.clone())?;
+    if let Some(post) = Post::find_by_id(post_url)
         .one(&data.conn)
         .await?
     {
